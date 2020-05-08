@@ -1,0 +1,65 @@
+.morph {
+
+    &-item{
+        margin-bottom: 5px;
+    }
+
+    &-title {
+        font-family: Roboto, sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 19px;
+
+        color: #000;
+
+        &:hover {
+            color: #000;
+            text-decoration: none;
+        }
+    }
+
+    &-counts {
+        display: flex;
+
+        a{
+            text-decoration: none;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+
+        & > * {
+            margin-right: 5px;
+        }
+    }
+}
+
+.subcategories {
+    &-item {
+        margin-bottom: 10px;
+
+        a {
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        .localities {
+            &-item {
+                margin-bottom: 2px;
+                a {
+                    color: #000 !important;
+                }
+            }
+        }
+    }
+
+    &-title {
+        margin-bottom: 5px;
+        a {
+            color: #000 !important;
+        }
+    }
+}

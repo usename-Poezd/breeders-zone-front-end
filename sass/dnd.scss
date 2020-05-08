@@ -1,0 +1,14 @@
+.drag-and-drop {
+    margin-bottom: 10px;
+    &-container {
+        padding: 10px;
+        margin-bottom: 10px;
+
+        .outline {
+            padding: 5px;
+            min-height: 100px;
+            border: 1px dashed $main-color;
+            border-radius: 10px;
+        }
+    }
+}

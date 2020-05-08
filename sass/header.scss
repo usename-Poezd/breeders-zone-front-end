@@ -1,0 +1,228 @@
+header{
+    background: #fff;
+
+    .morph-box{
+        margin-bottom: 10px;
+    }
+
+    .advance-search{
+        overflow: hidden;
+        transition: 0.5s;
+        border-bottom: 1px solid #D3D9DE;
+        max-height: 2000px;
+
+        &.hidden{
+            max-height: 0 !important;
+        }
+    }
+}
+
+.navbar{
+    padding: 8px 95px;
+    background: #fff !important;
+
+    @media (max-width: 768px) {
+        padding: 8px 0;
+    }
+
+    .chat-icon {
+        display: none;
+        position: relative;
+        color: #000;
+
+        .message-count {
+            top: -2px;
+            right: -4px;
+            font-size: 10px;
+            padding: 0 4px;
+        }
+
+        @media (max-width: 992px) {
+            display: block;
+            width: 30px;
+        }
+    }
+
+    &-brand {
+        padding: 0 !important;
+        margin-right: 10px !important;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 28px;
+
+        color: #000000;
+
+        .logo{
+            max-width: 70px;
+        }
+    }
+
+    &-toggler{
+        border: none !important;
+        padding-right: 0;
+    }
+
+    &-collapse{
+
+        @media (max-width: 992px) {
+            margin-top: 10px;
+        }
+
+        .form-group {
+            width: 221px;
+            height: 100%;
+            position: relative;
+
+            input{
+                display: block;
+                min-width: 100%;
+
+                padding: 10px;
+                padding-right: 55px;
+                border: 1px solid #BFB6B6;
+                box-sizing: border-box;
+                border-radius: 5px;
+
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 14px;
+            }
+
+            .controls{
+                height: 100%;
+                position: absolute;
+                top: 0;
+                right: 10px;
+
+                span{
+                    height: 100%;
+                    margin: auto 0;
+                    margin-right: 5px;
+
+                    &:last-child{
+                        margin-right: 0;
+                    }
+                }
+            }
+
+            @media (max-width: 992px){
+                min-width: 100%;
+                margin: 0 auto;
+                margin-bottom: 15px !important;
+            }
+        }
+    }
+}
+
+.nav{
+
+    &-item{
+        padding: 0;
+        margin: auto 0;
+
+        & .dropdown {
+
+            &-menu {
+                right: 0;
+                left: auto;
+            }
+
+            &-item {
+                cursor: pointer;
+            }
+        }
+    }
+
+    &-link {
+        &:not(.btn){
+            padding: 0;
+            color: #000000 !important;
+
+            &:hover {
+                color: #707070 !important;
+                transition: 0.5s ease;
+            }
+
+            @media (max-width: 992px){
+                display: flex;
+
+                .icon {
+                    width: 32px;
+                }
+
+                svg {
+                    font-size: 26px;
+                }
+
+
+                &:hover {
+                    color: $main-color !important;
+                    transition: 0.5s ease;
+                }
+            }
+        }
+
+
+        margin-right: 12px;
+        font-family: Roboto, sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 16px;
+
+        &.chat-link {
+            position: relative;
+            width: 24px;
+            margin: 0;
+            margin-right: 5px;
+            padding: 0 !important;
+
+            cursor: pointer;
+
+            .message-count {
+                position: absolute;
+                top: -3px;
+                right: -8px;
+            }
+        }
+
+
+        &.btn {
+            padding: 9px 18px !important;
+
+            @media (max-width: 992px) {
+                width: 50%;
+            }
+
+            @media (max-width: 768px) {
+                width: 100%;
+            }
+        }
+
+        &.dropdown-toggle {
+            margin-right: 0 !important;
+            min-width: 20px;
+        }
+
+        @media (max-width: 991px) {
+            margin-right: 0;
+            margin-bottom: 10px;
+            font-size: 20px;
+            line-height: 23px;
+            text-align: center;
+
+            &.chat-link {
+                display: none;
+            }
+        }
+
+        &:last-child {
+            margin-right: 0 !important;
+        }
+    }
+}

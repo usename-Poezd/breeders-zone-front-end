@@ -1,0 +1,210 @@
+@mixin shadow-radius {
+    border-radius: $border-radius;
+    box-shadow: $feather-shadow;
+    background: #fff;
+}
+
+.shop{
+    margin-top: 10px;
+    &-container{
+        @include shadow-radius();
+        padding: 20px;
+
+        font-family: Roboto, sans-serif;
+        font-style: normal;
+    }
+
+    &-title{
+        font-weight: bold;
+        font-size: 27px;
+        text-align: center;
+
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    &-name{
+        font-weight: bold;
+        font-size: 34px;
+        line-height: 40px;
+
+        margin-bottom: 15px;
+    }
+
+    &-info {
+        &-list {
+            &-item {
+                display: flex;
+                margin-bottom: 10px;
+
+                .title {
+                    min-width: 100px;
+
+                    font-weight: bold;
+
+                    color: #343434;
+
+                }
+
+                .info {
+                    margin-left: 20px;
+
+                    &-text {
+                        font-weight: normal;
+                    }
+
+                    @media (max-width: 768px) {
+                        margin-left: 10px;
+                    }
+                }
+
+                .dilivery{
+                    &-item{
+                        display: flex;
+                        margin-bottom: 5px;
+
+                        svg{
+                            margin-right: 5px;
+                        }
+
+                        &:last-child{
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    &-brand-and-contact{
+        max-width: 200px;
+    }
+
+    &-contact{
+        width: 100%;
+
+        &-title{
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+
+        &-social{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+
+            .social-item {
+                display: flex;
+                width: 41px;
+                height: 40px;
+
+                box-shadow: $feather-shadow;
+                border-radius: $border-radius;
+
+                &
+
+                svg{
+                    margin: auto;
+                }
+            }
+        }
+    }
+
+    &-website {
+        display: block;
+        @include shadow-radius();
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+
+        text-align: center;
+
+        padding: 5px;
+    }
+
+    &-morphs{
+        display: flex;
+        padding: 0 !important;
+
+        &-nav{
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .morphs{
+            flex-grow: 1;
+            padding: 20px 20px;
+            border-left: 1px solid #D3D9DE;
+            align-items: flex-start;
+            position: relative;
+
+            .load {
+                border-radius: 0 5px 5px 0;
+            }
+        }
+
+        .morph-list{
+            padding: 20px 0;
+            padding-right: 35px;
+
+            &-item{
+                margin-bottom: 20px;
+                cursor: pointer;
+
+                &.active {
+                    color: $main-color;
+                }
+
+                &:last-child{
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+.category {
+
+    a{
+        color: #000;
+        &:hover{
+            text-decoration: none;
+            color: mix(#000, #444);
+        }
+    }
+
+    .slick{
+        &-slide{
+            padding: 0 15px;
+        }
+
+        &-arrow{
+            width: 38px;
+            height: 38px;
+
+            &::before{
+                opacity: 1;
+                font-size: 38px;
+            }
+
+            &:hover{
+                opacity: 0.9;
+            }
+        }
+    }
+
+    &-card{
+        overflow: hidden;
+        @include shadow-radius();
+
+        &-body{
+            text-align: center;
+            padding: 15px 0;
+        }
+    }
+}

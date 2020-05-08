@@ -1,0 +1,13 @@
+.locality {
+    &-item {
+        margin-bottom: 10px;
+
+        .btn {
+            width: 35px;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

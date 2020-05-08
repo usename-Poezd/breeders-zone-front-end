@@ -1,0 +1,23 @@
+.change {
+    &-password {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &-btn {
+        cursor: pointer;
+    }
+}
+
+.shop-logo-preview {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-height: 100px;
+
+    span {
+        padding: 5px;
+        margin: auto;
+        font-size: 14px;
+    }
+}

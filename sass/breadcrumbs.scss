@@ -1,0 +1,24 @@
+.breadcrumbs {
+    display: flex;
+    padding: 20px;
+    margin-top: 20px;
+
+    &-item {
+        font-size: 18px;
+        line-height: 21px;
+        color: #007bff;
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        &::after {
+            content: ' > ';
+            white-space: pre;
+        }
+
+        &:last-child::after {
+            content: none;
+        }
+    }
+}

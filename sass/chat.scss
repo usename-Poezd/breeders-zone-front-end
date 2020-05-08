@@ -1,0 +1,162 @@
+.chat {
+    height: calc(100vh - 62px - 35px);
+
+    &-bubble {
+        position: relative;
+        background-color: #0084ff;
+        border-radius: 20px;
+        margin: 1px auto;
+        max-width: 425px;
+        padding: 8px 14px;
+        float: right;
+        font-weight: 300;
+
+        .message-status {
+            position: absolute;
+            font-size: 10px;
+            color: #0084ff;
+            left: -20px;
+            bottom: 12px;
+        }
+
+        a {
+            color: #fff;
+            border-bottom: 1px dotted #fff;
+            &:hover {
+                text-decoration: none;
+                border-bottom: none;
+            }
+        }
+
+        p {
+            color: #fff;
+        }
+
+        &-wrap {
+            overflow: auto;
+        }
+    }
+
+    &-back {
+        position: absolute;
+        color: $main-color;
+        left: 10px;
+    }
+
+    &-rooms {
+        width: 30%;
+        padding: 10px 0;
+
+        &-item {
+
+            cursor: pointer;
+            padding: 5px 0;
+            border-bottom: 1px solid #D3D9DE;
+
+            &.selected {
+                background: $main-color !important;
+                .profile-info, .profile-title {
+                    color: #fff !important;
+                }
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .profile {
+                position: relative;
+                margin: 0;
+
+                &-img {
+                    position: relative;
+                    margin-right: 5px;
+                    background: #fff;
+                }
+
+                &-info {
+                    width: calc(100% - 40px);
+                    overflow: hidden;
+
+                    p {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+
+                &-title {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+
+    #chat-panel {
+        height: 100%;
+        justify-content: flex-end;
+    }
+
+    &-history {
+        padding: 0 10px;
+    }
+
+    &-messages p {
+        white-space: pre-line;
+    }
+
+    &-profile {
+        .profile {
+            position: relative;
+            padding: 10px;
+            margin: 0;
+            border-bottom: 1px solid #D3D9DE;
+            justify-content: space-between;
+
+            @media (max-width: 576px) {
+                justify-content: center;
+            }
+
+            &-info {
+
+                @media (max-width: 576px) {
+                    order: 1;
+                    &-title {
+                        font-size: 24px;
+                    }
+                }
+            }
+
+            &-img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    }
+
+    &-body {
+        width: 70%;
+        border-left: 1px solid #D3D9DE;
+
+        form {
+            position: relative;
+            width: 100%;
+            padding: 10px 10px;
+            border-top: 1px solid #D3D9DE;
+
+            .btn {
+                padding: 0;
+                margin-left: 10px;
+                margin-bottom: 7px;
+
+                &:focus {
+                    border: none;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}

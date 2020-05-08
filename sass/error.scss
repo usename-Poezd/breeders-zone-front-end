@@ -1,0 +1,30 @@
+.error {
+    margin-top: 176px;
+    text-align: center;
+
+    &-title {
+        font-size: 34px !important;
+    }
+
+    &-text {
+        font-size: 24px;
+    }
+
+    &-list {
+        .list-group-item {
+            background: none;
+        }
+    }
+}
+
+.home-link {
+    margin-top: 20px;
+    margin-left: 30px;
+
+    color: $main-color;
+
+    &:hover {
+        text-decoration: none;
+        color: mix($main-color, #333);
+    }
+}

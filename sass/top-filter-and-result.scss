@@ -1,0 +1,74 @@
+.top-filter-and-result{
+    .result {
+        margin: 20px 0;
+
+        &-morphs {
+            &.morphs {
+                .morph-indicator:first-child {
+                    margin-left: 0;
+                }
+            }
+
+            .slick-slide div {
+                margin: 0;
+                outline: none;
+            }
+        }
+    }
+
+
+    .filter{
+
+        &-container {
+            @media (max-width: 768px) {
+                margin-bottom: 20px;
+            }
+        }
+
+        img{
+            margin-right: 15px;
+        }
+
+        .rotated{
+            transform: rotate(180deg) scale(-1, 1);
+        }
+
+        &.dropdown {
+            user-select: none;
+            cursor: pointer;
+
+            @media (max-width: 768px) {
+                width: 100%;
+            }
+        }
+
+        .dropdown{
+
+            &-toggle{
+                position: relative;
+                padding: 10px 25px 10px 10px;
+                border-radius: $border-radius;
+                box-shadow: $feather-shadow;
+
+                @media (max-width: 768px) {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                &::after{
+                    content: url('/images/arrow-little.svg');
+                    color: #000;
+                    border: none;
+                    position: absolute;
+                    top: 8px;
+                    right: 5px;
+                }
+            }
+
+            &-item{
+                padding: 10px;
+            }
+        }
+    }
+}
