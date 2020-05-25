@@ -13,6 +13,7 @@ import {withRouter} from "next/router";
 import Link from "next/link";
 import {connect} from "react-redux";
 import Head from "next/head";
+import comparer from "../../../utils/comparer-by-id";
 
 class ProductPage extends Component  {
 
@@ -48,18 +49,6 @@ class ProductPage extends Component  {
         this.setState({mainImg: this.props.product.product_images[0]});
     }
 
-    // upgradeProduct = (id) => {
-    //     const { getProduct } = this.props;
-    //
-    //     this.setState({productRequest: true});
-    //     getProduct(id)
-    //         .then(data => this.setState({
-    //             product: data,
-    //             productRequest: false,
-    //             mainImg: data.product_images[0]
-    //         }));
-    // };
-
     sendMessage = (user) => {
         const { router, pathname, search } = this.props;
 
@@ -88,13 +77,14 @@ class ProductPage extends Component  {
             sex,
             cb,
             morphs,
+            guards,
             user: {
                 company_name,
                 location,
                 logo_img_url
             },
             age,
-            kind: {title_rus, title_eng},
+            kind: {title_rus, title_eng, guards: kindGuards},
             localities,
             description,
             product_images,
@@ -241,13 +231,14 @@ class ProductPage extends Component  {
                                     <h3 className="title">Рейтинг у ведущих террариумистов:</h3>
                                     <div className="info rate d-flex align-items-center">
                                         <div className="rating">
-                                            <div className="rating-star"></div>
-                                            <div className="rating-star"></div>
-                                            <div className="rating-star"></div>
-                                            <div className="rating-star"></div>
-                                            <div className="rating-star"></div>
+                                            {
+                                                guards.map( () => <div className="rating-star"></div>)
+                                            }
+                                            {
+                                                comparer(kindGuards, guards).map( () => <div className="rating-star empty"></div>)
+                                            }
                                         </div>
-                                        <span className="rating-count">(5/5)</span>
+                                        <span className="rating-count">({guards.length}/{kindGuards.length})</span>
                                     </div>
                                 </li>
                                 <li className="product-card-info-item shop flex-column">
@@ -315,11 +306,16 @@ class ProductPage extends Component  {
                             </Slider>
                         </div>
 
-                        <div className="product-card-description feather-shadow">
-                            <p>
-                                <span className="desc">Описание:</span> {description}
-                            </p>
-                        </div>
+                        {
+                            description ?
+                                (
+                                    <div className="product-card-description feather-shadow">
+                                        <p>
+                                            <span className="desc">Описание:</span> {description}
+                                        </p>
+                                    </div>
+                                ) : null
+                        }
                     </Col>
                 </Row>
             </Container>
@@ -329,7 +325,7 @@ class ProductPage extends Component  {
 
 export const getServerSideProps = async (ctx) => {
     const dataService = await new DataService();
-    const product = await dataService.getProduct(ctx.query.id);
+    const product = await dataService.getProduct(ctx.query.id, true);
 
     return {
         props: {

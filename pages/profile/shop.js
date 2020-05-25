@@ -5,9 +5,9 @@ import ShopProfile from "../../components/shop-profile";
 
 const ShopProfilePage = (props) => {
     return (
-            <Container>
-                <ShopProfile/>
-            </Container>
+        <Container>
+            <ShopProfile/>
+        </Container>
     )
 };
 

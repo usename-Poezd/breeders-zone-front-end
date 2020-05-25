@@ -1,5 +1,5 @@
 import {Container} from "react-bootstrap";
-import TraitItems from "../../../components/trait-item";
+import TraitItems from "../../../components/traits-list";
 import {DataService} from "../../../services";
 import React from "react";
 
