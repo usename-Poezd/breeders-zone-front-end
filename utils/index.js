@@ -4,6 +4,7 @@ import toFormData from "./to-form-data";
 import UpgradedMassage from "./upgraded-message";
 import randomString from "./random-string";
 import num2str from "./num2string";
+import comparer from "./comparer-by-id";
 
 export {
     compose,
@@ -11,5 +12,6 @@ export {
     toFormData,
     UpgradedMassage,
     randomString,
-    num2str
+    num2str,
+    comparer
 };
