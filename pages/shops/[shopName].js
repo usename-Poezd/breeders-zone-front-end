@@ -15,20 +15,12 @@ import ShopMorphs from "../../components/shop-morphs";
 import {setActiveKind} from "../../actions";
 import {connect} from "react-redux";
 import Head from "next/head";
+import TraitItem from "../../components/trait-item/trait-item";
 
 class ShopPage extends Component {
     state = {
-        shop: {
-            info: {},
-            kinds: [],
-            divorces: []
-        },
-
         morphs: [],
         loadingMorphs: false,
-
-        reptiles: [],
-
         activeTab: 0
     };
 
@@ -36,19 +28,8 @@ class ShopPage extends Component {
 
     componentDidMount(){
         const {  router } = this.props;
-        const { shopName } = router.query;
         this.updateTabContent();
         this.upgradeGroupAndKindUrl();
-        // console.log( shopName );
-        //
-        //
-        //     .then( data => this.setState({ shop: data}))
-        // // .then( () => this.updateTabContent() )
-        // // .then( () => this.upgradeGroupAndKindUrl() );
-        //
-        // // getShopReptiles(shopName)
-        // // getShopReptiles(shopName)
-        // //     .then( data => this.setState({ reptiles: data }));
     }
 
     onTab = (idx) => {
@@ -123,8 +104,8 @@ class ShopPage extends Component {
 
 
 
-        const { morphs, activeTab, groupAndKindUrl, reptiles, loadingMorphs } = this.state;
-        const {shop, setActiveKind} = this.props;
+        const { morphs, activeTab, groupAndKindUrl, loadingMorphs } = this.state;
+        const { shop, setActiveKind } = this.props;
         const { kinds, divorces } = shop;
 
         const {
@@ -141,7 +122,7 @@ class ShopPage extends Component {
             local_delivery,
             regional_delivery,
             countrywide_delivery,
-            logo_img_url
+            logo_img_url,
         } = shop.info;
 
         return (
@@ -168,11 +149,11 @@ class ShopPage extends Component {
                                         (
                                             <li className="shop-info-list-item">
                                                 <h3 className="title">Доставка:</h3>
-                                                <div className="dilivery info">
+                                                <div className="delivery info">
                                                     {
                                                         local_delivery ?
                                                             (
-                                                                <div className="dilivery-item">
+                                                                <div className="delivery-item">
                                                                     <FontAwesomeIcon icon={faCar} size="lg"/>
                                                                     <h3 className="info-text">Локальная</h3>
                                                                 </div>
@@ -182,7 +163,7 @@ class ShopPage extends Component {
                                                     {
                                                         regional_delivery ?
                                                             (
-                                                                <div className="dilivery-item">
+                                                                <div className="delivery-item">
                                                                     <FontAwesomeIcon icon={faTruck} size="lg"/>
                                                                     <h3 className="info-text">Региональная</h3>
                                                                 </div>
@@ -192,7 +173,7 @@ class ShopPage extends Component {
                                                     {
                                                         countrywide_delivery ?
                                                             (
-                                                                <div className="dilivery-item">
+                                                                <div className="delivery-item">
                                                                     <FontAwesomeIcon icon={faHelicopter} size="lg"/>
                                                                     <h3 className="info-text">По всей стране</h3>
                                                                 </div>
@@ -274,57 +255,71 @@ class ShopPage extends Component {
                     <ShopTextContainer text={description} title="Описание"/>
                     <ShopTextContainer text={policity} title="Политика магазина"/>
 
-                    <h2 className="shop-title">Разводы:</h2>
-                    <div className="divorces">
-                        {
-                            divorces.map( (item) => <ShopDivorcesItem key={`divorce-${item.id}`} {...item}/>)
-                        }
-                    </div>
-
-                    <h2 className="shop-title category-title">Категории:</h2>
+                    {
+                        divorces.length > 0 ?
+                            (
+                                <React.Fragment>
+                                    <h2 className="shop-title">Разводы:</h2>
+                                    <div className="divorces">
+                                        {
+                                            divorces.map( (item) => <ShopDivorcesItem key={`divorce-${item.id}`} {...item}/>)
+                                        }
+                                    </div>
+                                </React.Fragment>
+                            ) : null
+                    }
 
                     {
-                        kinds > 4 ?
+                        kinds.length > 0 ?
                             (
-                                <Slider {...sliderOptions} className="category">
+                                <React.Fragment>
+                                    <h2 className="shop-title category-title">Категории:</h2>
+
                                     {
-                                        kinds.map((item) => (
-                                            <Link href="/[group]/[kind]" as={`/${this.pipes.toUrl(item.group + '/' + item.title_eng)}?shop=${this.pipes.toUrl(company_name)}`}>
-                                                <a
-                                                    className="category-card"
-                                                    onClick={() => setActiveKind(item)}
-                                                >
-                                                    <img src="https://sun9-66.userapi.com/c855228/v855228689/1965b2/tHxS30gqRqI.jpg" className="img-fluid" alt="main"/>
-                                                    <div className="category-card-body">
-                                                        <h3>{item.title_rus}</h3>
-                                                    </div>
-                                                </a>
-                                            </Link>
-                                        ))
+                                        kinds.length > 4 ?
+                                            (
+                                                <Slider {...sliderOptions} className="category">
+                                                    {
+                                                        kinds.map((item) => (
+                                                            <Link href="/[group]/[kind]" as={`/${this.pipes.toUrl(item.group + '/' + item.title_eng)}?shop=${this.pipes.toUrl(company_name)}`}>
+                                                                <a
+                                                                    className="category-card"
+                                                                    onClick={() => setActiveKind(item)}
+                                                                >
+                                                                    <img src="https://sun9-66.userapi.com/c855228/v855228689/1965b2/tHxS30gqRqI.jpg" className="img-fluid" alt="main"/>
+                                                                    <div className="category-card-body">
+                                                                        <h3>{item.title_rus}</h3>
+                                                                    </div>
+                                                                </a>
+                                                            </Link>
+                                                        ))
+                                                    }
+                                                </Slider>
+                                            ) :
+                                            (
+                                                <Row className="justify-content-center category">
+                                                    {
+                                                        kinds.map((item) => (
+                                                            <Link href="/[group]/[kind]" as={`/${this.pipes.toUrl(item.group + '/' + item.title_eng)}?shop=${this.pipes.toUrl(company_name)}`}>
+                                                                <a
+                                                                    className="col-12 col-sm-6 col-md-4 col-lg-3"
+                                                                    onClick={() => setActiveKind(item)}
+                                                                >
+                                                                    <div className="category-card">
+                                                                        <img src="https://sun9-66.userapi.com/c855228/v855228689/1965b2/tHxS30gqRqI.jpg" className="img-fluid" alt="main"/>
+                                                                        <div className="category-card-body">
+                                                                            <h3>{item.title_rus}</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </Link>
+                                                        ))
+                                                    }
+                                                </Row>
+                                            )
                                     }
-                                </Slider>
-                            ) :
-                            (
-                                <Row className="justify-content-center category">
-                                    {
-                                        kinds.map((item) => (
-                                            <Link href="/[group]/[kind]" as={`/${this.pipes.toUrl(item.group + '/' + item.title_eng)}?shop=${this.pipes.toUrl(company_name)}`}>
-                                                <a
-                                                    className="col-12 col-sm-6 col-md-4 col-lg-3"
-                                                    onClick={() => setActiveKind(item)}
-                                                >
-                                                    <div className="category-card">
-                                                        <img src="https://sun9-66.userapi.com/c855228/v855228689/1965b2/tHxS30gqRqI.jpg" className="img-fluid" alt="main"/>
-                                                        <div className="category-card-body">
-                                                            <h3>{item.title_rus}</h3>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </Link>
-                                        ))
-                                    }
-                                </Row>
-                            )
+                                </React.Fragment>
+                            ) : null
                     }
 
                     <ShopMorphs
@@ -337,14 +332,21 @@ class ShopPage extends Component {
                         loadingMorphs={loadingMorphs}
                     />
 
-                    {/*<h2 className="shop-title">Все товары:</h2>*/}
-                    {/*<Row className="shop-items justify-content-center">*/}
-                    {/*    {*/}
-                    {/*        reptiles.map( ({ id, title, price, sex, cb, shop }) => (*/}
-                    {/*            <ListItem id={id} title={title} price={price} sex={sex} cb={cb} shop={shop}/>*/}
-                    {/*        ))*/}
-                    {/*    }*/}
-                    {/*</Row>*/}
+                    <h2 className="shop-title">Все товары:</h2>
+                    <Row className="shop-items justify-content-center">
+                        {
+                            shop.products.map( (item) => (
+                                <TraitItem key={item.id} {...item}/>
+                            ))
+                        }
+                        <Col xs={12}>
+                            <Link href={"/reptiles?shop=" + company_name}>
+                                <a>
+                                    <h3 className="my-3 p-3 feather-shadow text-center">Показать всех животный от {company_name}</h3>
+                                </a>
+                            </Link>
+                        </Col>
+                    </Row>
                 </div>
             </Container>
         );
