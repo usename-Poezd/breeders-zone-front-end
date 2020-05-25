@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import ShopProductsItem from "../shop-products-item";
 import Link from "next/link";
-import Router from "next/router";
+import Router, {withRouter} from "next/router";
 import {Col, Dropdown, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import withGetData from "../hoc-helpers/with-get-data";
 import {connect} from "react-redux";
@@ -16,6 +16,7 @@ class ShopProducts extends Component {
     state = {
         isMobile: false,
         options: {
+            q: '',
             kindId: null
         },
         selectStyle: {
@@ -23,12 +24,20 @@ class ShopProducts extends Component {
         }
     };
 
+    searchInput = React.createRef();
+
     componentDidMount() {
         if (window.innerWidth <= 576) {
             this.setState({isMobile: true})
         }
         window.addEventListener('resize', this.onResize);
-        this.updateProducts();
+        this.updateProducts({...this.state.options, ...this.props.router.query});
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.router.query !== this.props.router.query) {
+            this.updateProducts({...this.state.options, ...this.props.router.query});
+        }
     }
 
     componentWillUnmount() {
@@ -116,8 +125,28 @@ class ShopProducts extends Component {
         });
     };
 
+    onSubmit = (e) => {
+        e.preventDefault();
+        const {router, search: routerSearch} = this.props;
+        const {options} = this.state;
+        const query = qs.parse(routerSearch.replace('?', ''));
+        query.q = options.q;
+
+        router.push('/products?' + qs.stringify(query));
+        this.searchInput.current.value = '';
+    };
+
+
+    setSearch = (e) => {
+        this.setState({
+            options: {
+                q: e.target.value
+            }
+        });
+    };
+
     render() {
-        const { products, allKinds, user,  loginRequest, productsRequest } = this.props;
+        const { products, allKinds, user,  loginRequest, productsRequest, router } = this.props;
         const { selectStyle, isMobile } = this.state;
 
         if(loginRequest && isMobile){
@@ -141,7 +170,7 @@ class ShopProducts extends Component {
         }
 
         if (!(user.is_breeder || isLogin()) && typeof window !== 'undefined'){
-            Router.push('/');
+            router.push('/');
         }
 
         return (
@@ -163,7 +192,16 @@ class ShopProducts extends Component {
                                     : 'Вы пока не добавили ни одного товара'
                             }
                         </h2>
-                        <Form className="justify-content-end">
+                        <Form onSubmit={this.onSubmit} className="d-flex justify-content-end w-75">
+                            <div className="dashboard-search-container">
+                                <Form.Control
+                                    className="dashboard-search feather-shadow"
+                                    placeholder="Поиск..."
+                                    onChange={this.setSearch}
+                                    ref={this.searchInput}
+                                />
+                                <img src="/images/search_alt.svg" alt="" className="search-btn" onClick={this.onSubmit}/>
+                            </div>
                             <div className="select-wrap" ref={this.select}>
                                 <Form.Control as="select" onChange={this.onChangeKinds} style={selectStyle}>
                                     <option value="all">Все</option>
@@ -211,13 +249,15 @@ const mapMethodsToProps = ({getShopProducts}) => ({
     getShopProducts
 });
 
-const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, shop: {products, productsRequest}, kinds: {all: allKinds}}) => ({
+const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, shop: {products, productsRequest}, kinds: {all: allKinds}, router: {location: {search, pathname}}}) => ({
     isLogin,
     loginRequest,
     user,
     products,
     productsRequest,
-    allKinds
+    allKinds,
+    search,
+    pathname
 });
 
-export default connect(mapStateToProps, {setShopProducts, setShopProductsRequest, clearShopProducts})(withGetData(ShopProducts, mapMethodsToProps));
+export default connect(mapStateToProps, {setShopProducts, setShopProductsRequest, clearShopProducts})(withRouter(withGetData(ShopProducts, mapMethodsToProps)));
