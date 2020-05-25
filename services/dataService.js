@@ -31,13 +31,24 @@ export default class  DataService {
 
     qs = require('qs');
 
-    getProduct = (productId) => {
-        return Axios.get(`http://breeders-zone.com/api/get/product/${productId}`)
+    getProduct = (productId, isServer = false) => {
+        return Axios.get(`${isServer ? 'http://nginx-web' : ''}/api/products/${productId}`)
             .then( (resp) => resp.data);
     };
 
+    getShops = (data) => {
+        const query = this.qs.stringify(data);
+        return Axios.get(`http://nginx-web/api/shops?${query}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            }
+        })
+            .then((resp)=> resp.data);
+    };
+
     getShop = (shopName) => {
-        return Axios.get('http://breeders-zone.com/api/get/shop?shopName=' + shopName, {
+        return Axios.get(`http://nginx-web/api/shop/${shopName}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -51,7 +62,7 @@ export default class  DataService {
         options = this.qs.stringify(options);
         const token = cookies.get('token');
 
-        return Axios.get('/api/get/shop-products?' + options,
+        return Axios.get('/api/shop-products?' + options,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,7 +77,7 @@ export default class  DataService {
 
         options = this.qs.stringify(options);
 
-        return Axios.get('/api/get/shop-morphs?' + options,
+        return Axios.get('/api/shop-morphs?' + options,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -76,8 +87,13 @@ export default class  DataService {
             .then(resp => resp.data);
     };
 
+    /*|========================
+    * |DIVORCES
+    * |========================
+    * */
+
     getDivorce = (divorceId) => {
-        return Axios.get(`http://breeders-zone.com/api/get/divorce?divorceId=${divorceId}`,
+        return Axios.get(`http://nginx-web/api/divorces/${divorceId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,11 +103,12 @@ export default class  DataService {
             .then((resp) => resp.data);
     };
 
-    updateDivorce = (data) => {
+    updateDivorce = (data, divorceId) => {
         const token = cookies.get('token');
         const formData = toFormData(data);
+        formData.append('_method', 'PUT');
         return Axios.post(
-            '/api/update/divorce',
+            `/api/divorces/${divorceId}`,
             formData,
             {
                 headers: {
@@ -108,8 +125,9 @@ export default class  DataService {
     setDivorce = (data) => {
         const token = cookies.get('token');
         const formData = toFormData(data);
+        formData.append('_method', 'PUT');
         return Axios.post(
-            '/api/set/divorce',
+            '/api/divorces',
             formData,
             {
                 headers: {
@@ -125,11 +143,8 @@ export default class  DataService {
 
     deleteDivorce = (divorceId) => {
         const token = cookies.get('token');
-        return Axios.post(
-            '/api/delete/divorce',
-            {
-                divorceId
-            },
+        return Axios.delete(
+            `/api/divorces/${divorceId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -149,7 +164,7 @@ export default class  DataService {
         if (prevCancelToken)
             prevCancelToken.cancel();
 
-        return Axios.get(`/api/get/divorces?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
+        return Axios.get(`/api/divorces?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
             {
                 cancelToken,
                 headers: {
@@ -165,7 +180,7 @@ export default class  DataService {
         const token = cookies.get('token');
 
         return Axios.post(
-            '/api/set/verify-divorce',
+            '/api/verify-divorce',
             {
                 divorceId
             },
@@ -180,8 +195,22 @@ export default class  DataService {
             .then((resp) => resp.data)
     };
 
+    searchRoom = (userId) => {
+        const token = cookies.get('token');
+        return Axios.post('/api/search/room',
+        {userId},
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((res) => res.data);
+    }
+
     countRoom = () => {
-        return Axios.get('/api/get/rooms-count')
+        return Axios.get('/api/rooms-count')
             .then((resp) => resp.data);
     };
 
@@ -192,7 +221,7 @@ export default class  DataService {
             prevCancelToken.cancel();
 
         const params = this.qs.stringify(options);
-        return Axios.get(`http://breeders-zone.com/api/get/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
+        return Axios.get(`http://nginx-web/api/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
             {
                 cancelToken,
                 headers: {
@@ -221,14 +250,14 @@ export default class  DataService {
     };
 
     getUserData = (token) => {
-            return Axios.post('http://breeders-zone.com/api/auth/me',{},{
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-                .then((resp)=> resp.data);
+        return Axios.post('http://localhost/api/auth/me',{},{
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((resp)=> resp.data);
     };
 
     postLogin = (user) => {
@@ -246,6 +275,7 @@ export default class  DataService {
             .then(data => {
                 if (!data.error && data.access_token) {
                     cookies.set('token', data.access_token, {
+                        path: '/',
                         sameSite: true
                     });
                 }
@@ -256,9 +286,10 @@ export default class  DataService {
         const token = cookies.get('token');
 
         const formData = toFormData(data);
+        formData.append('_method', 'PUT');
 
         return Axios.post(
-            '/api/update/user',
+            '/api/user',
             formData,
             {
                 headers: {
@@ -276,9 +307,9 @@ export default class  DataService {
         const token = cookies.get('token');
 
         const formData = toFormData(data);
-
+        formData.append('_method', 'PUT');
         return Axios.post(
-            `/api/update/shop`,
+            `/api/shop`,
             formData,
             {
                 headers: {
@@ -325,7 +356,7 @@ export default class  DataService {
         const token = cookies.get('token');
         const formData = toFormData(data);
         return Axios.post(
-            '/api/set/product',
+            '/api/products',
             formData,
             {
                 headers: {
@@ -339,11 +370,12 @@ export default class  DataService {
             .then((resp) => resp.data)
     };
 
-    updateProduct = (data) => {
+    updateProduct = (data, productId) => {
         const token = cookies.get('token');
         const formData = toFormData(data);
+        formData.append('_method', 'PUT');
         return Axios.post(
-            '/api/update/product',
+            `/api/products/${productId}`,
             formData,
             {
                 headers: {
@@ -357,43 +389,10 @@ export default class  DataService {
             .then((resp) => resp.data)
     };
 
-    deleteProduct = (data) => {
+    deleteProduct = (productId) => {
         const token = cookies.get('token');
-        return Axios.post(
-            '/api/delete/product',
-            data,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            }
-        )
-            .then((resp) => resp.data)
-    };
-
-    deleteProductImg = (data) => {
-        const token = cookies.get('token');
-        return Axios.post(
-            '/api/delete/product-img',
-            data,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            }
-        )
-            .then((resp) => resp.data)
-    };
-
-    deleteProductMorph = (data) => {
-        const token = cookies.get('token');
-        return Axios.post(
-            '/api/delete/product-morph',
-            data,
+        return Axios.delete(
+            `/api/products/${productId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -438,7 +437,7 @@ export default class  DataService {
 
     getActiveGenes = (options) => {
         const params = this.qs.stringify(options);
-        return Axios.get(`http://breeders-zone.com/api/get/active-genes-subcategories?${params}`)
+        return Axios.get(`http://nginx-web/api/active-genes-subcategories?${params}`)
             .then( (resp) => resp.data);
     };
 
@@ -447,7 +446,7 @@ export default class  DataService {
         const token = cookies.get('token');
 
         return Axios.post(
-            '/api/set/new-room',
+            '/api/room',
             data,
             {
                 headers: {
@@ -464,7 +463,7 @@ export default class  DataService {
         const token = cookies.get('token');
 
         return Axios.post(
-            '/api/set/message',
+            '/api/message',
             data,
             {
                 headers: {
@@ -481,7 +480,7 @@ export default class  DataService {
     checkMessages = (roomId) =>  {
         const token = cookies.get('token');
         Axios.post(
-            '/api/update/check-messages',
+            '/api/check-messages',
             {
                 roomId
             },
@@ -496,8 +495,7 @@ export default class  DataService {
 
     getKinds = (data = {withMorps: false}) => {
         return Axios.get(
-            '/api/get/kinds',
-            // data,
+            '/api/kinds',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -510,7 +508,7 @@ export default class  DataService {
 
     getGuardLevel = (level) => {
         return Axios.get(
-            `/api/get/level?guard-level=${level}`,
+            `/api/guard-level/${level}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -524,7 +522,7 @@ export default class  DataService {
         const token = cookies.get('token');
 
         return Axios.post(
-            '/api/set/verify-product',
+            '/api/verify-product',
             {
                 productId
             },
@@ -553,7 +551,7 @@ export default class  DataService {
     };
 
     verifyMail = (verifyCode) => {
-        return Axios.get('http://breeders-zone.com/api/auth/verify-email/' + verifyCode, {
+        return Axios.get('http://nginx-web/api/auth/verify-email/' + verifyCode, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'

@@ -21,12 +21,11 @@ import {withRouter} from "next/router";
 import Header from "../../../components/header/header";
 import {DataService} from "../../../services";
 import Head from "next/head";
-
+import Axios from "axios";
 
 class ProductEditPage extends Component{
     componentWillMount() {
         const {productSSR, setProductInfo} = this.props;
-        console.log(productSSR);
         const cb = new Date(productSSR.cb);
 
         setProductInfo({
@@ -41,6 +40,13 @@ class ProductEditPage extends Component{
             selectedMorphs: productSSR.morphs,
             localities: productSSR.localities
         });
+    }
+
+    componentWillUnmount() {
+        const { productUpdateClear, productUpdateClearError, productUpdateClearSuccess } = this.props;
+        productUpdateClear();
+        productUpdateClearError();
+        productUpdateClearSuccess();
     }
 
     getStateProduct = () => {
@@ -80,14 +86,13 @@ class ProductEditPage extends Component{
         } = this.props;
         setProductUpdateRequest();
         updateProduct({
-            id: router.query.id,
             ...data,
             cb,
             product_images: acceptedFiles,
             deletedImages: deletedImages,
             morphs: selectedMorphs,
             localities
-        })
+        }, router.query.id)
             .then( async (data) => {
                 setProductUpdateSuccess(data.success);
                 getKinds();
@@ -150,7 +155,7 @@ class ProductEditPage extends Component{
 
 export const getServerSideProps = async (ctx) => {
     const dataService = await new DataService();
-    const productSSR = await dataService.getProduct(ctx.query.id);
+    const productSSR = await dataService.getProduct(ctx.query.id, true);
 
     return {
         props: {

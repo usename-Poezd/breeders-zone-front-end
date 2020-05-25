@@ -66,7 +66,6 @@ class DivorceEditPage extends Component{
 
         setDivorceUpdateRequest();
         updateDivorce({
-            id: router.query.id,
             ...data,
             male: divorce.male,
             female: divorce.female,
@@ -77,7 +76,7 @@ class DivorceEditPage extends Component{
             sexPhotos: divorce.sexPhotos,
             masonryPhotos: divorce.masonryPhotos,
             exitPhotos: divorce.exitPhotos,
-        })
+        }, router.query.id)
             .then((data) => {
                 setDivorceSuccess(data.message);
                 clearDivorceAcceptedFiles();

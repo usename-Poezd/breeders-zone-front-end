@@ -22,6 +22,13 @@ import Header from "../../components/header/header";
 
 class ProductSettingsPage extends Component{
 
+    componentWillUnmount() {
+        const { productUpdateClear, productUpdateClearError, productUpdateClearSuccess } = this.props;
+        productUpdateClear();
+        productUpdateClearError();
+        productUpdateClearSuccess();
+    }
+
     submit = (data) => {
         const {
             setProductUpdateRequest,
