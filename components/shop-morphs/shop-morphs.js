@@ -29,8 +29,13 @@ const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab,
                 </nav>
                 <div className="morphs">
                     {
-                        morphs.length === 0 ?
+                        morphs.length === 0 && loadingMorphs ?
                             <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
+                            : null
+                    }
+                    {
+                        morphs.length === 0 && !loadingMorphs ?
+                            <p className="m-auto">Похоже отдельный морф нет, <Link href="/[group]/[kind]" as={`/${kinds[activeTab].group}/${pipes.toUrl(kinds[activeTab].title_eng)}?shop=${shopName}`}><a>но вы можете посмотреть всех животный с данной категорией у данного заводчика</a></Link></p>
                             : null
                     }
                     {
