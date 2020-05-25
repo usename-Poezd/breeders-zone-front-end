@@ -39,11 +39,8 @@ export const getMessages = (payload) => (dispatch, getState) => {
     }
 
     dispatch(getMessagesRequest(source));
-    Axios.post(
-        '/api/get/messages',
-        {
-            roomId: payload,
-        },
+    Axios.get(
+        '/api/messages?roomId=' + payload,
         {
             cancelToken: source.token,
             headers: {
@@ -114,7 +111,6 @@ export const newRoom = (payload) => (dispatch) => {
 export const selectRoom = (payload) => (dispatch, getState) => {
     const token = cookies.get('token');
     const state = getState();
-    console.log(state)
     if(state.chat.selected_room_id !== null) {
         window.Echo.leaveChannel(`private-room.${state.chat.selected_room_id}`);
     }
@@ -124,10 +120,7 @@ export const selectRoom = (payload) => (dispatch, getState) => {
     }
 
     if(state.chat.selected_room_id !== payload && !state.chat.rooms.find((item) => item.room.id === payload)) {
-        Axios.post('/api/get/room',
-                {
-                    roomId: payload
-                },
+        Axios.get(`/api/room/${payload}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -184,9 +177,8 @@ export const clearSelectedRoom = () => {
 export const getRooms = (payload) => (dispatch, getState) => {
     const token = cookies.get('token');
     const store = getState();
-    return Axios.post(
-        '/api/get/rooms',
-        {},
+    return Axios.get(
+        '/api/rooms',
         {
             headers: {
                 'Content-Type': 'application/json',
@@ -218,9 +210,8 @@ export const receivedMessage = (payload) => (dispatch, getState) => {
 
 export const getRoomsCountWithNewMessages = () => (dispatch) => {
     const token = cookies.get('token');
-    return Axios.post(
-        '/api/get/rooms-with-new-message',
-        {},
+    return Axios.get(
+        '/api/rooms-with-new-message',
         {
             headers: {
                 'Content-Type': 'application/json',

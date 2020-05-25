@@ -21,15 +21,18 @@ export const loginSuccess = () => {
     }
 };
 
-export const logout = () => (dispatch, getState) => {
+export const logout = (tokenNotWork= false) => (dispatch, getState) => {
     const state = getState();
     dispatch({ type: 'LOGOUT' });
-    dataService.postLogout();
+    if (!tokenNotWork)
+        dataService.postLogout();
+    const cookies = new Cookies();
+    const expires = new Date(Date.now() + 100).toUTCString();
+    cookies.set('token', '', {maxAge: 100});
     window.Echo.leaveChannel(`private-room.${state.chat.selected_room_id}`);
     window.Echo.leaveChannel(`private-App.User.${state.profile.user.id}`);
     window.Echo.disconnect();
     dispatch({ type: 'USER_CLEAR'});
-    cookies.remove("token");
 };
 
 export const getUserData = (payload) => {
@@ -48,11 +51,9 @@ export const getUser = (tokenServer = '') => (dispatch) => {
             .then((data) => {
 
                 if (!tokenServer) {
-                    window.Pusher = require('pusher-js');
+                    window.io = require('socket.io-client');
                     window.Echo = new Echo({
-                        broadcaster: 'pusher',
-                        key: process.env.MIX_PUSHER_APP_KEY,
-                        cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+                        broadcaster: 'socket.io',
                         wsHost: window.location.hostname,
                         wsPort: 6001,
                         disableStats: false,
@@ -85,11 +86,7 @@ export const getUser = (tokenServer = '') => (dispatch) => {
                 return true;
             })
             .catch((error) => {
-                dispatch({ type: 'LOGOUT' });
-                if (!tokenServer) {
-                    cookies.remove("token");
-                }
-
+                dispatch(logout(true));
                 return false;
             });
     }
