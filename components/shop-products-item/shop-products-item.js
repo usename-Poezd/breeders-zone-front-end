@@ -12,7 +12,7 @@ const ShopProductsItem = ({id, idx, name, sex, cb, morphs, price, kind, subcateg
     const delProduct = () => {
         deleteShopProduct({idx});
         getKinds();
-        deleteProduct({productId: id});
+        deleteProduct(id);
     };
 
     const { toTraitClass } = new Pipes();
