@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faCircle, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 import {ChatBubble, ChatFeed, Message} from 'react-chat-ui';
 import {
-    addMessage,
+    addMessage, addRooms,
     clearChat, clearSelectedRoom,
     getMessages,
     getRooms,
@@ -90,7 +90,7 @@ class Chat extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.router.query !== this.props.router.query) {
+        if (prevProps.router.query.room !== this.props.router.query.room || prevProps.search !== this.props.search) {
             this.updateSelectRoom();
         }
     }
@@ -106,7 +106,7 @@ class Chat extends Component {
         }
 
         if (router.query.act || router.query.room) {
-            router.push(pathname + '?' + qs.stringify(newQuery));
+            router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
         }
 
         clearChat();
@@ -126,16 +126,26 @@ class Chat extends Component {
     };
 
     selectNewRoom = () => {
-        const {countRoom, newUser, newRoom, rooms, selectRoom, router, pathname} = this.props;
-        const act = router.query.act;
-        const newQuery = router.query;
+        const {countRoom, newUser, newRoom, rooms, selectRoom, router, search, pathname, act, searchRoom, addRooms} = this.props;
+        const newQuery = qs.parse(search.replace('?', ''));
         const room = rooms.find((item) => item.users[0].id === newUser.id);
-
         if (room) {
             delete newQuery.act;
             newQuery.room = room.room.id;
-            router.push(pathname + '?' + qs.stringify(newQuery));
+            router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
             return;
+        }
+
+        if (!room) {
+            const roomId = searchRoom(newUser.id)
+                .then((data) => {
+                    addRooms([data]);
+                    return data.room.id;
+                });
+            if (roomId) {
+                router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
+                return;
+            }
         }
 
         if (act === 'new' && newUser && !room) {
@@ -144,25 +154,32 @@ class Chat extends Component {
                     newRoom({id: count + 1, user: newUser});
                     return count + 1
                 })
-                .then((roomId) => router.push(pathname + (qs.stringify(router.query) ? '?' + qs.stringify(router.query) + `&room=${roomId}` : `?room=${roomId}`)))
+                .then((roomId) => {
+                    newQuery.room = roomId;
+                    router.push(pathname +  '?' + qs.stringify(newQuery));
+                })
         }
     };
 
     updateSelectRoom = () => {
-        const {selectRoom, addMessage, clearSelectedRoom, router, setSelectedRoomMessage, newUser = {id: null}, user} = this.props;
-        const roomId = Number(router.query.room);
-        const act = router.query.act;
+        const {selectRoom, addMessage, clearSelectedRoom, router, setSelectedRoomMessage, newUser = {id: null}, user, act, search, selectedRoom} = this.props;
+        let roomId = Number(router.query.room);
+
+        if (act) {
+            const query = qs.parse(search.replace('?', ''));
+            roomId = Number(query.room);
+        }
 
         if (!roomId) {
             clearSelectedRoom();
         }
 
-        if(user.id !== newUser.id && newUser.id !== null && act === 'new') {
+        if(user.id !== newUser.id && newUser.id !== null && act === 'new' && !roomId) {
             this.selectNewRoom();
             return;
         }
 
-        if(roomId && act !== 'new') {
+        if(roomId) {
             selectRoom(roomId);
             checkMessages(roomId);
 
@@ -172,8 +189,6 @@ class Chat extends Component {
                     addMessage({...data, id: 1});
                     checkMessages(roomId);
                 })
-                .listenForWhisper('check-message', (e) => console.log(e));
-
         }
     };
 
@@ -232,9 +247,15 @@ class Chat extends Component {
     };
 
     onSelectRoom = (roomId) => {
-        const { selectRoom, router, pathname, search } = this.props;
-        router.push( pathname + (search ? search + `&room=${roomId}`: `?room=${roomId}`));
-        selectRoom(roomId);
+        const {selectRoom, router, pathname, search} = this.props;
+        const query = qs.parse(search.replace('?', ''));
+        query.room = roomId;
+
+        if (router.pathname === '/chat') {
+            router.push(pathname + '?' + qs.stringify(query));
+            return;
+        }
+        router.push(router.pathname, pathname + '?' + qs.stringify(query));
     };
 
     render() {
@@ -417,11 +438,12 @@ const mapStateToProps = ({profile: {user}, auth: {loginRequest}, chat: {messages
     search
 });
 
-const mapMethodsToProps = ({setMessage, checkMessages, countRoom, setNewRoom}) => ({
+const mapMethodsToProps = ({setMessage, checkMessages, countRoom, setNewRoom, searchRoom}) => ({
     setMessage,
     checkMessages,
     countRoom,
-    setNewRoom
+    setNewRoom,
+    searchRoom
 });
 
-export default connect(mapStateToProps, { getRooms, addMessage, selectRoom, receivedMessage, clearChat, newRoom, clearSelectedRoom, updateLoadMessage, updateCheckMessage, setSelectedRoomMessage })(withHookForm(withGetData(withRouter(Chat), mapMethodsToProps)));
+export default connect(mapStateToProps, { getRooms, addMessage, selectRoom, receivedMessage, clearChat, newRoom, clearSelectedRoom, updateLoadMessage, updateCheckMessage, setSelectedRoomMessage, addRooms })(withHookForm(withGetData(withRouter(Chat), mapMethodsToProps)));
