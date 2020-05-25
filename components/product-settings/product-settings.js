@@ -136,7 +136,8 @@ const ProductSettings = ({
     const { register, handleSubmit, watch, setValue, errors } = useForm({
         defaultValues: {
             ...info,
-            kindId: allKinds[0].id,
+            kindId: info.kind_id ? info.kind_id : allKinds[0].id,
+            subcategoryId: info.subcategory_id,
             morph: ''
         }
     });
@@ -284,65 +285,70 @@ const ProductSettings = ({
                                 </Form.Group>
                             ) : null
                     }
-                    <Form.Group>
-                        <Form.Label>Морфы:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="morph"
-                            value={values.morph}
-                            onChange={onSearchMorphs}
-                            onKeyDown={onSelectMorph}
-                            ref={register}
-                            onFocus={() => setMorphsShow(true)}
-                            onBlur={() => setTimeout(() => {
-                                setMorphsShow(false);
-                                clearSearchResult()
-                            }, 200)}
-                            placeholder="Начните вводить название морфы..."
-                        />
-                        {
-                            searchResult.length > 0 && morphsShow ?
-                                (
-                                    <ul className="morphs d-inline-flex flex-column search-morphs" ref={searchList}>
+                    {
+                        selectedKind.genes_count > 0 ?
+                            (
+                                <Form.Group>
+                                    <Form.Label>Морфы:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="morph"
+                                        value={values.morph}
+                                        onChange={onSearchMorphs}
+                                        onKeyDown={onSelectMorph}
+                                        ref={register}
+                                        onFocus={() => setMorphsShow(true)}
+                                        onBlur={() => setTimeout(() => {
+                                            setMorphsShow(false);
+                                            clearSearchResult()
+                                        }, 200)}
+                                        placeholder="Начните вводить название морфы..."
+                                    />
+                                    {
+                                        searchResult.length > 0 && morphsShow ?
+                                            (
+                                                <ul className="morphs d-inline-flex flex-column search-morphs" ref={searchList}>
+                                                    {
+                                                        searchResult.map( (gene, idx) => (
+                                                            <li
+                                                                key={`${gene.title}-${gene.trait.title}-${gene.id}`}
+                                                                className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
+                                                                onClick={() => {
+                                                                    setSelectedMorph(idx);
+                                                                    clearSearchInput();
+                                                                }}
+                                                            >
+                                                                <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
+                                                                    {gene.trait.title} {gene.title}
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                            )
+                                            : null
+                                    }
+
+                                    <div className="morphs selected-morphs" ref={searchList}>
                                         {
-                                            searchResult.map( (gene, idx) => (
-                                                <li
-                                                    key={`${gene.title}-${gene.trait.title}-${gene.id}`}
-                                                    className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
-                                                    onClick={() => {
-                                                        setSelectedMorph(idx);
-                                                        clearSearchInput();
-                                                    }}
+                                            selectedMorphs.map( ({gene, trait}, idx) => (
+                                                <div
+                                                    key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
+                                                    className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
                                                 >
-                                                    <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
-                                                        {gene.trait.title} {gene.title}
-                                                    </div>
-                                                </li>
+                                                    {trait.title} {gene.title}
+                                                    <FontAwesomeIcon
+                                                        icon={faTimes}
+                                                        size="lg"
+                                                        onClick={() => deleteSelectedMorph(idx)}
+                                                        className="delete pl-1"/>
+                                                </div>
                                             ))
                                         }
-                                    </ul>
-                                )
-                                : null
-                        }
-
-                        <div className="morphs selected-morphs" ref={searchList}>
-                            {
-                                selectedMorphs.map( ({gene, trait}, idx) => (
-                                    <div
-                                        key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
-                                        className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
-                                    >
-                                        {trait.title} {gene.title}
-                                        <FontAwesomeIcon
-                                            icon={faTimes}
-                                            size="lg"
-                                            onClick={() => deleteSelectedMorph(idx)}
-                                            className="delete pl-1"/>
                                     </div>
-                                ))
-                            }
-                        </div>
-                    </Form.Group>
+                                </Form.Group>
+                            ) : null
+                    }
                     <Form.Group>
                         <Form.Label>Пол:</Form.Label>
                         <Form.Check
@@ -451,9 +457,9 @@ const ProductSettings = ({
                                             required: true
                                         })}
                                     >
-                                        <option value="baby">Baby</option>
-                                        <option value="subadult">Subadult</option>
-                                        <option value="adult">Adult</option>
+                                        <option value="Baby">Baby</option>
+                                        <option value="Subadult">Subadult</option>
+                                        <option value="Adult">Adult</option>
                                     </Form.Control>
                                 </div>
                             </Form.Group>
