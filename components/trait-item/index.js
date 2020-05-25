@@ -1,3 +1,3 @@
-import TraitItems from "./trait-item";
+import TraitItem from "./trait-item";
 
-export default TraitItems;
+export default TraitItem;

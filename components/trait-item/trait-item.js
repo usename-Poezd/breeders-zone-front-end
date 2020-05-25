@@ -1,112 +1,91 @@
- import React, { Component } from 'react';
-import ListItem from '../list-item';
-import {Col, Modal, Row, Spinner as BootstrapSpinner} from 'react-bootstrap';
-import { withGetData } from '../hoc-helpers';
-import Chat from "../chat";
-import Spinner from "../spinner";
-import TopFilterAndResult from "../top-filter-and-result";
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMars, faRubleSign, faVenus } from "@fortawesome/free-solid-svg-icons";
+import { Col } from 'react-bootstrap';
+import { Pipes } from '../../services';
+import Link from "next/link";
 import {withRouter} from "next/router";
-import {connect} from "react-redux";
- import Head from "next/head";
-const qs = require('qs');
 
-class TraitItems extends Component {
-    state = {
-        sendMessageModal: false,
-        modalUser: null,
-        request: false,
-    };
-
-    componentDidMount() {
-        this.setState({request: false});
-    }
-
-    componentDidUpdate(prevProps) {
-        if(prevProps.product !== this.props.product || prevProps.router.query !== this.props.router.query)
-            this.setState({request: false});
-    }
-
-    changeRequest = () => this.setState({request: true});
-
-
-    sendMessage = (user) => {
-        const { router, pathname, search } = this.props;
-
-        this.setState({
-            sendMessageModal: true,
-            modalUser: user
-        });
-        router.push(router.pathname, pathname + (search ? search + '&act=new' : '?act=new'));
-    };
-
-    modalClose = () => {
-        const { router, pathname, search } = this.props;
-        const newQuery = qs.parse(search.replace('?', ''));
-        if (newQuery.act)
-            delete newQuery.act;
-        if (newQuery.room)
-            delete newQuery.room;
-        router.push(router.pathname, pathname + (qs.stringify(newQuery) ? '?' + qs.stringify(newQuery) : ''));
-        this.setState({sendMessageModal: false});
-    };
-
-    render() {
-        const { sendMessageModal, modalUser, request } = this.state;
-        const {products: {data: items, total}, selectedMorphs, localities} = this.props;
-
-        if (request && items.length === 0) {
-            return <Spinner/>;
-        }
-
+ const TraitItem = ({ id, product_images, name, price, sex, cb, user, kind: {group, title_eng: kindTitle}, sendMessage }) => {
+        const { toUrl, transformCb } = new Pipes();
+        const {company_name, logo_img_url} = user;
         return (
-            <React.Fragment>
-                <Head>
-                    <title>
-                        Животные с морофой
-                        {
-                            selectedMorphs.map( ({geneTitle, traitTitle, type}) => ` ${traitTitle} ${geneTitle}`)
-                        }
-                    </title>
-                </Head>
-                <TopFilterAndResult total={total} morphs={selectedMorphs} localities={localities} changeRequest={this.changeRequest}/>
-                <Row className="position-relative">
-                    <Modal show={sendMessageModal} onHide={this.modalClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Сообщения</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Chat newUser={modalUser}/>
-                        </Modal.Body>
-                    </Modal>
-                    {
-                        request && items.length > 0 ?
-                            (
-                                <div className="load">
-                                    <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
+            <Col xs={12} sm={6} ms={4} lg={3} className="item">
+                <div className="list-item">
+                    <Link href="/shops/[shopName]" as={'/shops/' + toUrl(company_name)} >
+                        <a className="profile">
+                            <div className="profile-img">
+                                {
+                                    logo_img_url ?
+                                        <img
+                                            src={logo_img_url}
+                                            alt="asd"
+                                            className="img-fluid"
+                                        />
+                                        : <img
+                                            src={'/images/icons/error-snake.svg'}
+                                            alt="asd"
+                                            className="img-fluid"
+                                        />
+
+                                }
+                            </div>
+                            <div className="profile-info">
+                                <h3>{company_name}</h3>
+                            </div>
+                        </a>
+                    </Link>
+                    <div className="item-body">
+                        <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${id}`}>
+                            <a className="item-img">
+                                {
+                                    product_images[0] ?
+                                        <img
+                                            src={product_images[0].img_src}
+                                            alt="asd"
+                                            className="img-fluid item-img"
+                                        />
+                                        : <img
+                                            src={'/images/icons/error-snake.svg'}
+                                            alt="asd"
+                                            className="img-fluid item-img"
+                                        />
+
+                                }
+                            </a>
+                        </Link>
+                        <div className="item-info">
+                            <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${id}`}>
+                                <a className="item-title h3">
+                                    {name}
+                                </a>
+                            </Link>
+                            <div className="item-info-container d-flex justify-content-between align-items-center">
+                                <div className="cb-and-raiting">
+                                    <div className="cb">
+                                        <div className="sex">
+                                            <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
+                                            <span>'{transformCb(cb)}</span>
+                                        </div>
+                                    </div>
+                                    <div className="rating"></div>
                                 </div>
-                            )
-                            : null
-                    }
-                    {
-                        items.map( (item) => (
-                            <ListItem key={item.id} {...item} sendMessage={this.sendMessage}/>
-                        ))
-                    }
-                </Row>
-            </React.Fragment>
+                                <span className="price">
+                                    {price}
+                                    <FontAwesomeIcon icon={faRubleSign} size="sm" />
+                                </span>
+
+                            </div>
+                        </div>
+                        <div className="btn-in-cart-container">
+                            <div className="btn-main btn-in-cart" onClick={() => sendMessage(user)}>
+                                <h3>Написать</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Col>
         );
-    }
-}
+};
 
-const mapStateToProps = ({router: {location: {pathname, search}}}) => ({
-    pathname,
-    search
-});
-
-const mapMethodsToProps = ({getProducts}) => ({
-    getProducts
-});
-
-export default connect(mapStateToProps)(
-    withRouter(withGetData(TraitItems, mapMethodsToProps))
-);
+export default withRouter(TraitItem);
