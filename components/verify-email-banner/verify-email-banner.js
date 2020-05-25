@@ -82,7 +82,7 @@ class VerifyEmailBanner extends Component{
                                             {
                                                 success ?
                                                     (
-                                                        "Вше письмо отправленно"
+                                                        "Ваше письмо отправленно"
                                                     )
                                                     : (
                                                         <React.Fragment>
