@@ -43,10 +43,6 @@ import {
     faTimes,
     faUserCircle
 } from "@fortawesome/free-solid-svg-icons";
-// import {DataService, Pipes} from "../../services";
-// import AwesomeDebouncePromise from "awesome-debounce-promise";
-// import {Redirect} from "react-router";
-// import Search from "../search/search";
 import Pipes from "../../services/pipes";
 import Search from "../search/search";
 
@@ -187,13 +183,13 @@ class Header extends Component {
                                             <span className="text">Профиль магазина</span>
                                         </Nav.Link>
                                     </Link>
-                                    <Link href="/profile/products">
+                                    <Link href="/products">
                                         <Nav.Link as="a">
                                             <span className="icon"><FontAwesomeIcon icon={faBoxOpen} size="lg"/></span>
                                             <span className="text">Мои товары</span>
                                         </Nav.Link>
                                     </Link>
-                                    <Link href="/profile/divorces">
+                                    <Link href="/divorces">
                                         <Nav.Link as="a">
                                             <span className="icon"><FontAwesomeIcon icon={faEgg} size="lg"/></span>
                                             <span className="text">Мои разводы</span>
@@ -221,7 +217,7 @@ class Header extends Component {
             )
         }
 
-        if (!isLogin && !isLoginToken()) {
+        if (!isLoginToken()) {
             return (
                 <React.Fragment>
                     <Link href="/faq">
