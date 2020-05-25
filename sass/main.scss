@@ -184,10 +184,17 @@ $border-radius: 5px;
         height: 20px;
         margin-right: 2px;
 
-        //background: url('../images/rating-star.svg');
-        //background-position: center center;
-        //background-size: cover;
-        //background-repeat: no-repeat;
+        background: url('/images/reating-star.svg');
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+
+        &.empty {
+            background: url('/images/reating-star-empty.svg');
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
 
         &:last-child{
             margin-right: 0;
@@ -269,10 +276,10 @@ ul{
     box-shadow: $country-shadow;
 
     &-russia{
-        //background: url('/images/flags/russia.svg');
-        //background-position: center center;
-        //background-size: cover;
-        //background-repeat: no-repeat;
+        background: url('/images/flags/russia.svg');
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 }
 
@@ -510,7 +517,12 @@ ul{
         border-radius: 50%;
         overflow: hidden;
         object-fit: cover;
+        display: flex;
         box-shadow: $feather-shadow;
+
+        img {
+            margin: auto;
+        }
     }
 
     &-info{
