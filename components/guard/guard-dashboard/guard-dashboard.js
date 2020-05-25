@@ -115,7 +115,7 @@ class GuardDashboard extends Component {
         if (!!search.kindTitle) {
             return router.push('/guard/dashboard' + '?' + qs.stringify(search))
         }
-        history.push('?q=' + search.q);
+        router.push('/guard/dashboard?q=' + search.q);
         this.searchInput.current.value = '';
     };
 
@@ -163,8 +163,6 @@ class GuardDashboard extends Component {
                     kindTitle: filteredValue
                 }
         });
-
-
 
         router.push('/guard/dashboard' + '?' + qs.stringify({...this.state.search, kindTitle: filteredValue}));
     };
