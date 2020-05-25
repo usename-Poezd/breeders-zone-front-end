@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import {Pipes} from "../../services";
 import {withRouter} from "next/router";
 import {setActiveKind} from "../../actions";
-import {route} from "next/dist/next-server/server/router";
 
 class SecondHeader extends Component {
 
@@ -34,6 +33,8 @@ class SecondHeader extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.router.query !== prevProps.router.query) {
+            const {setActiveKind, allKinds, router} = this.props;
+
             this.setState({
                 location: {
                     home: false,
@@ -42,6 +43,13 @@ class SecondHeader extends Component {
                 }
             });
             this.isTab();
+
+            if(router.query.kind) {
+                const regExp = new RegExp(router.query.kind.replace('-', ' '), 'gi');
+                const activeKind = allKinds.find((item) => item.title_eng.match(regExp));
+                if (activeKind)
+                    setActiveKind(activeKind);
+            }
         }
 
         if (prevProps.activeKinds !== this.props.activeKinds) {
@@ -79,6 +87,18 @@ class SecondHeader extends Component {
                 break;
 
             case "/shops/[shopName]":
+                this.setState( ()=> {
+                    const { shops } = this.state.location;
+
+                    return {
+                        location: {
+                            shops: !shops
+                        }
+                    }
+                });
+                break;
+
+            case "/shops":
                 this.setState( ()=> {
                     const { shops } = this.state.location;
 
@@ -188,7 +208,9 @@ class SecondHeader extends Component {
                                         </Col>
                                         <Col xs={4}>
                                             <div className={"nav-main-item " + (shops ? "actived" : "")}>
-                                                <a className="h3">Магазины</a>
+                                                <Link href={"/shops?kind=" + this.pipes.toUrl(activeKind.title_eng)}>
+                                                    <a className="h3">Магазины</a>
+                                                </Link>
                                             </div>
                                         </Col>
                                     </Col>
@@ -199,17 +221,20 @@ class SecondHeader extends Component {
                 </Container>
 
                 <div className="bg">
-                    <div className="bg-img"></div>
+                    <div className="bg-img">
+                        <img src={activeKind.logo ? activeKind.logo : '/images/img.jpg'} alt=""/>
+                    </div>
                 </div>
             </nav>
         );
     }
 }
 
-const mapStateToProps = ({kinds: {active: activeKinds, activeKind}, router: {location: {pathname}}}) => ({
+const mapStateToProps = ({kinds: {all: allKinds, active: activeKinds, activeKind}, router: {location: {pathname}}}) => ({
     activeKinds,
     pathname,
-    activeKind
+    activeKind,
+    allKinds
 });
 
 export default connect(mapStateToProps, {setActiveKind})( withRouter(SecondHeader) );
