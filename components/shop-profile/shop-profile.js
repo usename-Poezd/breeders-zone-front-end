@@ -119,7 +119,6 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         countrywide_delivery,
         phone,
         description,
-        policity,
         vk,
         facebook,
         instagram,
@@ -282,8 +281,6 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                         controls={{
                             type: "text",
                             name: "policity",
-                            value: policity,
-                            onChange: handleChange,
                             min: 1,
                             ref: register({
                                 minLenght: 1
