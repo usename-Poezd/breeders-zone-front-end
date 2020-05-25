@@ -61,16 +61,13 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, l
 
     if (registerRequest) {
         return (
-            <React.Fragment>
-                <Header/>
-                <Container>
-                    <Row>
-                        <Col xs={12} md={8} className="m-auto">
-                            <Spinner/>
-                        </Col>
-                    </Row>
-                </Container>
-            </React.Fragment>
+            <Container>
+                <Row>
+                    <Col xs={12} md={8} className="m-auto">
+                        <Spinner/>
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 

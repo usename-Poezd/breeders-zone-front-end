@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import withRedux from 'next-redux-wrapper'
 import {Provider} from "react-redux";
-import {initStore} from "../store";
+import {initStore} from "../public/images/store";
 import "../sass/app.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -39,12 +39,11 @@ class MyApp extends Component {
     };
 
     static async getInitialProps({Component, ctx}) {
-
         const state = await ctx.store.getState();
 
-        if (state.kinds.all.length === 0 || state.kinds.active.length === 0) {
+        if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
             const kinds = await Axios.get(
-                'http://breeders-zone.com/api/get/kinds',
+                'http://nginx-web/api/kinds',
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -57,10 +56,11 @@ class MyApp extends Component {
             ctx.store.dispatch(setKinds(kinds));
         }
 
+
         if (ctx.query.kind) {
             const state = await ctx.store.getState();
             const regExp = await new RegExp(ctx.query.kind.replace('-', ' '), 'gi');
-            const activeKind = await state.kinds.active.find((item) => item.title_eng.match(regExp));
+            const activeKind = await state.kinds.all.find((item) => item.title_eng.match(regExp));
             if (activeKind)
                 ctx.store.dispatch(setActiveKind(activeKind));
         } else {
@@ -73,7 +73,7 @@ class MyApp extends Component {
 
 
         //Anything returned here can be accessed by the client
-        return {sore: ctx.store};
+        return {store: ctx.store};
     }
 
     componentDidMount() {
@@ -86,12 +86,10 @@ class MyApp extends Component {
             this.setState({isSecondHeader: false});
 
         window.qs = require('qs');
-        window.Pusher = require('pusher-js');
+        window.io = require('socket.io-client');
         window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: process.env.MIX_PUSHER_APP_KEY,
-            cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-            wsHost: window.location.hostname,
+            broadcaster: 'socket.io',
+            wsHost:  window.location.hostname,
             wsPort: 6001,
             disableStats: false,
             auth: {
@@ -132,7 +130,6 @@ class MyApp extends Component {
         Router.events.on('routeChangeComplete', () => this.setState({changeRoute: false}));
     }
 
-
     render() {
         const { changeRoute, isSecondHeader } = this.state;
         const { Component, pageProps, store } = this.props;
@@ -157,7 +154,6 @@ class MyApp extends Component {
 
                         <CookiesBanner/>
                         <VerifyEmailBanner/>
-
                         <Header/>
                         {
                             isSecondHeader ?

@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../components/header";
 import SecondHeader from "../components/second-header";
 import {Container} from "react-bootstrap";
-import TraitItems from "../components/trait-item";
+import TraitItems from "../components/traits-list";
 import {DataService} from "../services";
 const qs = require('qs');
 

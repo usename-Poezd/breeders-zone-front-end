@@ -13,7 +13,10 @@ const Index = ({activeKinds, setActiveKind}) => {
             <Row className="justify-content-center">
                 {
                     activeKinds.length === 0 ?
-                        <Spinner/>
+                        <Col xs={12} className="d-flex flex-column justify-content-center m-auto" style={{height: '75vh'}}>
+                            <img src="/images/icons/error-snake.svg" alt="Пока что нет активных категорий"/>
+                            <h1 className="text-center">Пока что нет активных категорий</h1>
+                        </Col>
                         : null
                 }
                 {
@@ -30,7 +33,7 @@ const Index = ({activeKinds, setActiveKind}) => {
                                 <a className="home-card">
                                     <div className="home-card-img">
                                         <div className="img-container">
-                                            <img src="https://sun9-66.userapi.com/c855228/v855228689/1965b2/tHxS30gqRqI.jpg" alt="snake" className="img-fluid"/>
+                                            <img src={item.logo} alt="snake" className="img-fluid"/>
                                         </div>
                                     </div>
                                     <div className="home-card-info">
