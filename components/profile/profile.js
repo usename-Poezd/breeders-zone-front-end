@@ -1,6 +1,6 @@
 import React, {Component, useCallback} from "react";
 import {Alert, Col, Form, Row} from "react-bootstrap";
-import GroupFormConrol from "../group-form-control";
+import GroupFormControl from "../group-form-control";
 import {withGetData, withHookForm} from "../hoc-helpers";
 import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
@@ -19,6 +19,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {useRouter} from "next/router";
 import {isLogin} from "../../utils";
+import LazyImg from "../lazy-img";
 
 const Profile = ({
      updateProfile,
@@ -75,18 +76,13 @@ const Profile = ({
     };
 
     const submitUpdate = (data) => {
-        const { id, email } = user;
+        const { id } = user;
         const { changePassword } = profile;
-
-        if(data.email === email){
-            data.email = '';
-        }
 
         profileUpdateRequest();
 
 
-        updateProfile({
-                id,
+        updateProfile(id, {
                 ...data,
                 changePassword,
                 profile_img: acceptedFiles[0]
@@ -141,7 +137,7 @@ const Profile = ({
                 <Form className="form-container" onSubmit={handleSubmit(submitUpdate)}>
                     <HandelSuccess success={update.success}/>
                     <HandelError error={update.error}/>
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Имя"
                         errors={errors}
                         controls={{
@@ -155,7 +151,7 @@ const Profile = ({
                             })
                         }}
                     />
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Фамилия"
                         errors={errors}
                         controls={{
@@ -169,7 +165,7 @@ const Profile = ({
                             })
                         }}
                     />
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Отчество"
                         errors={errors}
                         controls={{
@@ -183,7 +179,7 @@ const Profile = ({
                             })
                         }}
                     />
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Электронная почта"
                         errors={errors}
                         controls={{
@@ -221,7 +217,7 @@ const Profile = ({
                                                     >
                                                     <FontAwesomeIcon icon={faTimes} size="sm"/>
                                                 </span>
-                                                    <img src={item} alt={`prew-${idx}`} key={`prew-${idx}`} className="img-fluid"/>
+                                                    <LazyImg src={item} alt={`prew-${idx}`} key={`prew-${idx}`} className="img-fluid"/>
                                                 </div>
                                             ))
                                             : <span className="m-auto">Перетащите файлы сюда,<br/>либо кликните для выбора</span>
@@ -233,14 +229,14 @@ const Profile = ({
                             <div className="shop-logo-preview">
                                 {
                                     user.profile_img ?
-                                        <img src={user.profile_img} alt="preview" className="img-fluid"/> :
+                                        <LazyImg src={user.profile_img} alt="preview" className="img-fluid"/> :
                                         <span>Вы пока не загрузили ваш логотип</span>
                                 }
                             </div>
                         </Col>
                     </Row>
 
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="О себе"
                         textArea = {true}
                         errors = {errors}
@@ -256,7 +252,7 @@ const Profile = ({
                             changePassword ?
                                 (
                                     <div>
-                                        <GroupFormConrol
+                                        <GroupFormControl
                                             label="Старый пороль"
                                             errors={errors}
                                             controls={{
@@ -270,7 +266,7 @@ const Profile = ({
                                                 })
                                             }}
                                         />
-                                        <GroupFormConrol
+                                        <GroupFormControl
                                             label="Новый пороль"
                                             errors={errors}
                                             controls={{
@@ -284,7 +280,7 @@ const Profile = ({
                                                 })
                                             }}
                                         />
-                                        <GroupFormConrol
+                                        <GroupFormControl
                                             label="Подтвердите пороль"
                                             errors={errors}
                                             controls={{

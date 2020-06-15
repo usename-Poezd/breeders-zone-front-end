@@ -1,6 +1,6 @@
 import React, {useCallback, useRef, useState} from "react";
 import {Col, Form, Row, Spinner} from "react-bootstrap";
-import GroupFormConrol from "../group-form-control";
+import GroupFormControl from "../group-form-control";
 import {useForm} from "react-hook-form";
 import {useDropzone} from "react-dropzone";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -26,6 +26,7 @@ import {
     setProductUpdateSuccess, setSelectedMorph, updateProductLocality
 } from "../../actions";
 import {connect} from "react-redux";
+import Reports from "../reports";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -44,7 +45,7 @@ const ProductSettings = ({
          selectedMorphs = [],
          searchResult = [],
          deletedMorphsKind = [],
-         localities = []
+         localities = [],
      },
      deleteProductStateImg,
      setProductCb,
@@ -89,7 +90,7 @@ const ProductSettings = ({
             debounceSearch({
                 q: e.target.value,
                 options: [
-                    ['id', values.kindId]
+                    ['id', values.kind_id]
                 ]
             })
                 .then((data) => {
@@ -136,8 +137,8 @@ const ProductSettings = ({
     const { register, handleSubmit, watch, setValue, errors } = useForm({
         defaultValues: {
             ...info,
-            kindId: info.kind_id ? info.kind_id : allKinds[0].id,
-            subcategoryId: info.subcategory_id,
+            kind_id: info.kind_id ? info.kind_id : allKinds[0].id,
+            subcategory_id: info.subcategory_id,
             morph: ''
         }
     });
@@ -150,8 +151,8 @@ const ProductSettings = ({
 
     const values = watch();
 
-    const [prevKindId, setPrevKindId] = useState(values.kindId);
-    const [selectedKind, setSelectKind] = useState(allKinds.find((item) => item.id == values.kindId));
+    const [prevKindId, setPrevKindId] = useState(values.kind_id);
+    const [selectedKind, setSelectKind] = useState(allKinds.find((item) => item.id == values.kind_id));
     const [morphsShow, setMorphsShow] = useState(false);
 
     const value = info.cb
@@ -164,7 +165,7 @@ const ProductSettings = ({
                 <Form className="feather-shadow form-container" onSubmit={handleSubmit(submit)}>
                     <HandelSuccess success={success}/>
                     <HandelError error={error}/>
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Название"
                         errors={errors}
                         controls={{
@@ -182,21 +183,21 @@ const ProductSettings = ({
                         <div className="select-wrap">
                             <Form.Control
                                 as="select"
-                                name="kindId"
+                                name="kind_id"
                                 ref={register({
                                     required: true
                                 })}
                                 onChange={
                                     (e) => {
-                                        if (info.kindId == e.target.value && deletedMorphsKind.length > 0) {
+                                        if (info.kind_id == e.target.value && deletedMorphsKind.length > 0) {
                                             clearDeletedMorphsKind()
                                         }
-                                        if (prevKindId !== e.target.value && info.kindId != e.target.value) {
+                                        if (prevKindId !== e.target.value && info.kind_id != e.target.value) {
                                             deleteMorphsKind();
                                             clearLocalities();
                                         }
-                                        setSelectKind(allKinds.find((item) => item.id == values.kindId));
-                                        setPrevKindId(values.kindId);
+                                        setSelectKind(allKinds.find((item) => item.id == values.kind_id));
+                                        setPrevKindId(values.kind_id);
                                     }
                                 }
                             >
@@ -207,14 +208,14 @@ const ProductSettings = ({
                         </div>
                     </Form.Group>
                     {
-                        selectedKind && selectedKind.has_subcategories ?
+                        selectedKind && selectedKind.has_subcategories && selectedKind.subcategories.length > 0 ?
                             (
                                 <Form.Group>
                                     <Form.Label>Выберите категорию:</Form.Label>
                                     <div className="select-wrap">
                                         <Form.Control
                                             as="select"
-                                            name="subcategoryId"
+                                            name="subcategory_id"
                                             ref={register({
                                                 required: true
                                             })}
@@ -238,7 +239,7 @@ const ProductSettings = ({
                                                 <div className="select-wrap w-100">
                                                     <Form.Control
                                                         as="select"
-                                                        name="subcategoryId"
+                                                        name="subcategory_id"
                                                         ref={register}
                                                         value={item.id}
                                                         onChange={(e) => updateProductLocality({localityId: Number(e.target.value), idx, selectedKind})}
@@ -313,7 +314,7 @@ const ProductSettings = ({
                                                             <li
                                                                 key={`${gene.title}-${gene.trait.title}-${gene.id}`}
                                                                 className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
-                                                                onClick={() => {
+                                                                onMouseDown={() => {
                                                                     setSelectedMorph(idx);
                                                                     clearSearchInput();
                                                                 }}
@@ -465,7 +466,7 @@ const ProductSettings = ({
                             </Form.Group>
                         </Col>
                     </Row>
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Описание"
                         textArea = {true}
                         errors = {errors}
@@ -480,7 +481,7 @@ const ProductSettings = ({
                     <div className="price">
                         <Form.Label>Цена:</Form.Label>
                         <div className="d-flex align-items-center">
-                            <GroupFormConrol
+                            <GroupFormControl
                                 errors={errors}
                                 className="w-25 m-0"
                                 controls={{
@@ -500,6 +501,9 @@ const ProductSettings = ({
 
                     <input type="submit" value="Сохранить" className="btn btn-main"/>
                 </Form>
+            </Col>
+            <Col xs={12} md={9}>
+                <Reports reports={info.reports} isProduct/>
             </Col>
         </Row>
     )

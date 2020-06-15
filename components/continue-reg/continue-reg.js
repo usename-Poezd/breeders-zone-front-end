@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
 import { withHookForm } from '../hoc-helpers';
-import GroupFormConrol from "../group-form-control";
+import GroupFormControl from "../group-form-control";
 import Router from 'next/router'
 
 class ContinueRegistration extends Component {
@@ -16,8 +16,9 @@ class ContinueRegistration extends Component {
 
 
     checkRedirect = () => {
+        const {regName, regSurname, regEmail} = this.state;
         if(this.state.isReg){
-            Router.push('/registration')
+            Router.push(`/registration?name=${regName}&surname=${regSurname}&email=${regEmail}`)
         }
     };
 
@@ -37,7 +38,7 @@ class ContinueRegistration extends Component {
             <div className="reg form-container">
                 <h2 className="form-container-title">Впервые на Breeders Zone?</h2>
                 <Form onSubmit={handleSubmit(this.registerContinue)} className="form login-form">
-                    <GroupFormConrol
+                    <GroupFormControl
                         errors={errors}
                         controls={{
                             type: "text",
@@ -48,7 +49,7 @@ class ContinueRegistration extends Component {
                             })
                         }}
                     />
-                    <GroupFormConrol
+                    <GroupFormControl
                         errors={errors}
                         controls={{
                             type: "text",
@@ -59,7 +60,7 @@ class ContinueRegistration extends Component {
                             })
                         }}
                     />
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Электронная почта"
                         errors={errors}
                         controls={{

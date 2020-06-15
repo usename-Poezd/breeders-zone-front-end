@@ -1,13 +1,13 @@
 import React from "react";
 import {Col, Row} from "react-bootstrap";
-import GroupFormConrol from "../group-form-control";
+import GroupFormControl from "../group-form-control";
 
 const BreederRegOptions = ({register, errors}) => {
 
 
     return (
         <React.Fragment>
-            <GroupFormConrol
+            <GroupFormControl
                 label="Назание вашей компании"
                 nec={true}
                 errors = {errors}
@@ -21,7 +21,7 @@ const BreederRegOptions = ({register, errors}) => {
                         }),
                 }}
             />
-            <GroupFormConrol
+            <GroupFormControl
                 label="Телефон"
                 nec={true}
                 errors = {errors}
@@ -36,7 +36,7 @@ const BreederRegOptions = ({register, errors}) => {
                         }),
                 }}
             />
-            <GroupFormConrol
+            <GroupFormControl
                 label="Локация"
                 nec={true}
                 errors = {errors}
@@ -47,7 +47,7 @@ const BreederRegOptions = ({register, errors}) => {
                     ref: register({ required: true })
                 }}
             />
-            <GroupFormConrol
+            <GroupFormControl
                 label="Сайт"
                 errors = {errors}
                 controls={{
@@ -58,7 +58,7 @@ const BreederRegOptions = ({register, errors}) => {
             />
             <Row>
                 <Col xs={12} md={3}>
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Вконтакте"
                         errors = {errors}
                         controls={{
@@ -69,7 +69,7 @@ const BreederRegOptions = ({register, errors}) => {
                     />
                 </Col>
                 <Col xs={12} md={3}>
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Instagram"
                         errors = {errors}
                         controls={{
@@ -81,7 +81,7 @@ const BreederRegOptions = ({register, errors}) => {
                 </Col>
 
                 <Col xs={12} md={3}>
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Facebook"
                         errors = {errors}
                         controls={{
@@ -92,7 +92,7 @@ const BreederRegOptions = ({register, errors}) => {
                     />
                 </Col>
                 <Col xs={12} md={3}>
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Youtube канал"
                         errors = {errors}
                         controls={{
@@ -103,7 +103,7 @@ const BreederRegOptions = ({register, errors}) => {
                     />
                 </Col>
             </Row>
-            <GroupFormConrol
+            <GroupFormControl
                 label="О себе"
                 textArea = {true}
                 errors = {errors}
@@ -113,7 +113,7 @@ const BreederRegOptions = ({register, errors}) => {
                     ref: register
                 }}
             />
-            <GroupFormConrol
+            <GroupFormControl
                 label="Политика магазина"
                 nec={true}
                 info={{

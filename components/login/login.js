@@ -5,7 +5,7 @@ import {withHookForm, withGetData} from '../hoc-helpers';
 import { useForm } from "react-hook-form";
 import {connect} from "react-redux";
 import {getUser} from "../../actions";
-import GroupFormConrol from "../group-form-control";
+import GroupFormControl from "../group-form-control";
 import Router from 'next/router'
 
 class Login extends Component {
@@ -40,7 +40,7 @@ class Login extends Component {
                     ) : null
                 }
                 <Form onSubmit={handleSubmit(this.login)} className="form login-form">
-                    <GroupFormConrol
+                    <GroupFormControl
                         errors={errors}
                         controls={{
                             type: "text",
@@ -53,7 +53,7 @@ class Login extends Component {
                         }}
                     />
 
-                    <GroupFormConrol
+                    <GroupFormControl
                         errors={errors}
                         controls={{
                             type: "password",

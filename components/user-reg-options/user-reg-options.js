@@ -1,5 +1,5 @@
 import React from "react";
-import GroupFormConrol from "../group-form-control";
+import GroupFormControl from "../group-form-control";
 
 
 const UserRegOptions = ({ register, errors, onChange, ...params}) => {
@@ -9,7 +9,7 @@ const UserRegOptions = ({ register, errors, onChange, ...params}) => {
 
     return (
         <React.Fragment>
-            <GroupFormConrol
+            <GroupFormControl
                 label="Имя"
                 nec = {true}
                 errors={errors}
@@ -22,7 +22,7 @@ const UserRegOptions = ({ register, errors, onChange, ...params}) => {
                     })
                 }}
             />
-            <GroupFormConrol
+            <GroupFormControl
                 label="Фамилия"
                 nec = {true}
                 errors={errors}
@@ -35,7 +35,7 @@ const UserRegOptions = ({ register, errors, onChange, ...params}) => {
                     })
                 }}
             />
-            <GroupFormConrol
+            <GroupFormControl
                 label="Отчество"
                 nec = {true}
                 errors={errors}
@@ -48,7 +48,7 @@ const UserRegOptions = ({ register, errors, onChange, ...params}) => {
                     })
                 }}
             />
-            <GroupFormConrol
+            <GroupFormControl
                 label="Электронная почта"
                 nec = {true}
                 errors={errors}
@@ -62,7 +62,7 @@ const UserRegOptions = ({ register, errors, onChange, ...params}) => {
                     })
                 }}
             />
-            <GroupFormConrol
+            <GroupFormControl
                 label="Пароль"
                 nec = {true}
                 errors={errors}
@@ -77,7 +77,7 @@ const UserRegOptions = ({ register, errors, onChange, ...params}) => {
                     })
                 }}
             />
-            <GroupFormConrol
+            <GroupFormControl
                 label="Подтвердите пароль"
                 nec = {true}
                 errors={errors}

@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import {Col, Form, Row} from "react-bootstrap";
-import GroupFormConrol from "../group-form-control";
+import GroupFormControl from "../group-form-control";
 import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
 import Spinner from "../spinner";
@@ -20,6 +20,7 @@ import {HandelSuccess} from "../handels";
 import HandelError from "../handels/handel-error";
 import {useRouter} from "next/router";
 import {isLogin} from "../../utils";
+import LazyImg from "../lazy-img";
 
 const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdateClear, setShopUpdateSuccess, setShopUpdateError, shop, setShopPreview}) => {
 
@@ -47,13 +48,13 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
             regional_delivery: user.regional_delivery,
             countrywide_delivery: user.countrywide_delivery,
             phone: user.phone,
-            description: user.description,
-            policity: user.policity,
-            vk: user.vk,
-            facebook: user.facebook,
-            instagram: user.instagram,
-            youtube: user.youtube,
-            website: user.website
+            description: user.description ? user.description : '',
+            policity: user.policity ? user.policity : '',
+            vk: user.vk ? user.vk : '',
+            facebook: user.facebook ? user.facebook : '',
+            instagram: user.instagram ? user.instagram : '',
+            youtube: user.youtube ? user.youtube : '',
+            website: user.website ? user.website : ''
         }
     });
 
@@ -74,10 +75,10 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
 
 
     const submitUpdate = (data) => {
-        const { id } = user;
+        const { company_name } = user;
 
         setShopUpdateRequest();
-        updateShop({id, ...data, logo: acceptedFiles[0]})
+        updateShop(company_name, { ...data, logo: acceptedFiles[0]})
             .then( data => {
                 getUser()
                     .then( () => {
@@ -128,7 +129,6 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
 
     const { update } = shop;
 
-
     return (
         <Row className="justify-content-center">
             <Col xs={12} md={9}>
@@ -136,7 +136,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                     <HandelSuccess success={update.success}/>
                     <HandelError error={update.error}/>
 
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Название компании"
                         errors={errors}
                         controls={{
@@ -146,11 +146,11 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             value: company_name,
                             min: 1,
                             ref: register({
-                                minLenght: 1
+                                minLength: 1
                             })
                         }}
                     />
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Владелец"
                         errors={errors}
                         controls={{
@@ -158,11 +158,11 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             name: "owner",
                             onChange: handleChange,
                             value: owner,
-                            ref: register
+                            ref: register()
                         }}
                     />
 
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Телефон"
                         errors={errors}
                         controls={{
@@ -236,8 +236,8 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                     {
                                         acceptedFiles[0] ?
                                             update.previews.map( (item, idx) => (
-                                                <div className="preview">
-                                                    <img src={item} alt={`prew-${idx}`} key={`prew-${idx}`} className="img-fluid"/>
+                                                <div className="preview" key={`prew-${idx}`}>
+                                                    <LazyImg src={item} alt={`prew-${idx}`} className="img-fluid"/>
                                                 </div>
                                             ))
                                             : <span className="m-auto">Перетащите файлы сюда,<br/>либо кликните для выбора</span>
@@ -249,14 +249,14 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             <div className="shop-logo-preview">
                                 {
                                     logo_img_url ?
-                                        <img src={logo_img_url} alt="preview" className="img-fluid"/> :
+                                        <LazyImg src={logo_img_url} alt="preview" className="img-fluid"/> :
                                         <span>Вы пока не загрузили ваш логотип</span>
                                 }
                             </div>
                         </Col>
                     </Row>
 
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Описание магазина"
                         textArea = {true}
                         errors = {errors}
@@ -265,11 +265,11 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             name: "description",
                             value: description,
                             onChange: handleChange,
-                            ref: register
+                            ref: register()
                         }}
                     />
 
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Политика магазина"
                         info={{
                             isInfo: true,
@@ -283,12 +283,12 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             name: "policity",
                             min: 1,
                             ref: register({
-                                minLenght: 1
+                                minLength: 1
                             })
                         }}
                     />
 
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Сайт"
                         errors = {errors}
                         controls={{
@@ -297,12 +297,12 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             value: website,
                             onChange: handleChange,
                             ref: register,
-                            patern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                            pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
                         }}
                     />
                     <Row>
                         <Col xs={12} md={3}>
-                            <GroupFormConrol
+                            <GroupFormControl
                                 label="Вконтакте"
                                 errors = {errors}
                                 controls={{
@@ -311,12 +311,12 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                     value: vk,
                                     onChange: handleChange,
                                     ref: register,
-                                    patern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
                                 }}
                             />
                         </Col>
                         <Col xs={12} md={3}>
-                            <GroupFormConrol
+                            <GroupFormControl
                                 label="Instagram"
                                 errors = {errors}
                                 controls={{
@@ -325,13 +325,13 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                     value: instagram,
                                     onChange: handleChange,
                                     ref: register,
-                                    patern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
                                 }}
                             />
                         </Col>
 
                         <Col xs={12} md={3}>
-                            <GroupFormConrol
+                            <GroupFormControl
                                 label="Facebook"
                                 errors = {errors}
                                 controls={{
@@ -340,12 +340,12 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                     value: facebook,
                                     onChange: handleChange,
                                     ref: register,
-                                    patern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
                                 }}
                             />
                         </Col>
                         <Col xs={12} md={3}>
-                            <GroupFormConrol
+                            <GroupFormControl
                                 label="Youtube канал"
                                 errors = {errors}
                                 controls={{
@@ -354,7 +354,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                     value: youtube,
                                     onChange: handleChange,
                                     ref: register,
-                                    patern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
                                 }}
                             />
                         </Col>

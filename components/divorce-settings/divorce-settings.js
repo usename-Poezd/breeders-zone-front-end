@@ -3,7 +3,7 @@ import {DataService, Pipes} from "../../services";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import {Col, Form, Row} from "react-bootstrap";
 import {HandelError, HandelSuccess} from "../handels";
-import GroupFormConrol from "../group-form-control";
+import GroupFormControl from "../group-form-control";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {useForm} from "react-hook-form";
@@ -34,6 +34,7 @@ import {
     setSelectedMorphMale
 } from "../../actions";
 import {useDropzone} from "react-dropzone";
+import Reports from "../reports";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -76,88 +77,28 @@ const DivorceSettings = ({
  }) => {
     const { toTraitClass } = new Pipes();
 
+    const defaultValues = {
+        ...divorce,
+        kind_id: divorce.kind_id ? divorce.kind_id : allKinds[0].id,
+        male: '',
+        female: ''
+    };
+
+    if (allKinds[0].subcategories.length > 0) {
+        defaultValues.subcategory_id = allKinds[0].subcategories[0].id;
+    }
+
     const onDropSex = useCallback(acceptedFiles => setAcceptedFilesSex(acceptedFiles), []);
     const onDropMasonry= useCallback(acceptedFiles => setAcceptedFilesMasonry(acceptedFiles), []);
     const onDropExit = useCallback(acceptedFiles => setAcceptedFilesExit(acceptedFiles), []);
 
     const { register, handleSubmit, watch, setValue, errors } = useForm({
-        defaultValues: {
-            ...divorce,
-            male: '',
-            female: ''
-        }
+        defaultValues
     });
 
     const handleChange = (e) => {
         setValue(e.target.name, e.target.value);
     };
-
-    // const submit = (data) => {
-    //     setDivorceUpdateRequest();
-    //     if (match.params.divorceId) {
-    //         dataService.updateDivorce({
-    //             id: match.params.divorceId,
-    //             ...data,
-    //             male: divorce.male,
-    //             female: divorce.female,
-    //             cb: divorce.cb,
-    //             acceptedFilesSex: divorce.acceptedFilesSex,
-    //             acceptedFilesMasonry: divorce.acceptedFilesMasonry,
-    //             acceptedFilesExit: divorce.acceptedFilesExit,
-    //             sexPhotos: divorce.sexPhotos,
-    //             masonryPhotos: divorce.masonryPhotos,
-    //             exitPhotos: divorce.exitPhotos,
-    //         })
-    //             .then((data) => {
-    //                 setDivorceUpdateRequest();
-    //                 setDivorceSuccess(data.message);
-    //                 clearDivorceAcceptedFiles();
-    //                 getDivorce();
-    //                 setTimeout(() => clearDivorceSuccess(), 5000);
-    //             })
-    //             .catch( (error) => {
-    //                 setDivorceUpdateRequest();
-    //                 setDivorceError({
-    //                     errors: error.response.data.errors,
-    //                     status: error.status
-    //                 });
-    //                 setTimeout(() => clearDivorceError(), 5000);
-    //             });
-    //
-    //     } else {
-    //         dataService.setDivorce({
-    //             ...data,
-    //             male: divorce.male,
-    //             female: divorce.female,
-    //             cb: divorce.cb,
-    //             acceptedFilesSex: divorce.acceptedFilesSex,
-    //             acceptedFilesMasonry: divorce.acceptedFilesMasonry,
-    //             acceptedFilesExit: divorce.acceptedFilesExit
-    //         })
-    //             .then((data) => {
-    //                 setDivorceSuccess(data.message);
-    //                 setDivorceUpdateRequest();
-    //                 clearDivorce();
-    //                 setTimeout(() => clearDivorceSuccess(), 5000);
-    //             })
-    //             .catch( (error) => {
-    //                 setDivorceError({
-    //                     errors: error.response.data.errors,
-    //                     status: error.status
-    //                 });
-    //                 setDivorceUpdateRequest();
-    //                 setDivorce({
-    //                     ...data,
-    //                     male: divorce.male,
-    //                     female: divorce.female,
-    //                     cb: divorce.cb,
-    //                 });
-    //
-    //                 setTimeout(() => clearDivorceError(), 5000)
-    //             });
-    //
-    //     }
-    // };
 
     const values = watch();
 
@@ -170,7 +111,7 @@ const DivorceSettings = ({
             debounceSearch({
                 q: e.target.value,
                 options: [
-                    ['id', values.kindId]
+                    ['id', values.kind_id]
                 ]
             })
                 .then((data) => {
@@ -237,7 +178,7 @@ const DivorceSettings = ({
 
     const [morphsShowMale, setMorphsShowMale] = useState(false);
     const [morphsShowFemale, setMorphsShowFemale] = useState(false);
-    const [selectedKind, setSelectKind] = useState(allKinds.find((item) => item.id == values.kindId));
+    const [selectedKind, setSelectKind] = useState(allKinds.find((item) => item.id == values.kind_id));
     const [selectMorphIdx, setSelectMorphIdx] = useState(0);
 
     const {getRootProps: getRootPropsSex, getInputProps: getInputPropsSex} = useDropzone({
@@ -268,7 +209,7 @@ const DivorceSettings = ({
                 <Form className="feather-shadow form-container" onSubmit={handleSubmit(submit)}>
                     <HandelSuccess success={divorce.success}/>
                     <HandelError error={divorce.error}/>
-                    <GroupFormConrol
+                    <GroupFormControl
                         label="Название"
                         errors={errors}
                         controls={{
@@ -286,16 +227,16 @@ const DivorceSettings = ({
                         <div className="select-wrap">
                             <Form.Control
                                 as="select"
-                                name="kindId"
+                                name="kind_id"
                                 ref={register({
                                     required: true
                                 })}
                                 onChange={
                                     (e) => {
-                                        if (divorce.kindId !== e.target.value) {
+                                        if (divorce.kind_id !== e.target.value) {
                                             deleteMaleAndFemaleMorphs();
                                         }
-                                        setSelectKind(allKinds.find((item) => item.id == values.kindId));
+                                        setSelectKind(allKinds.find((item) => item.id == values.kind_id));
                                     }
                                 }
                             >
@@ -306,14 +247,14 @@ const DivorceSettings = ({
                         </div>
                     </Form.Group>
                     {
-                        selectedKind && selectedKind.has_subcategories ?
+                        selectedKind && selectedKind.subcategories.length > 0 ?
                             (
                                 <Form.Group>
                                     <Form.Label>Выберите подкатегорию:</Form.Label>
                                     <div className="select-wrap">
                                         <Form.Control
                                             as="select"
-                                            name="subcategoryId"
+                                            name="subcategory_id"
                                             placeholder="Выберите подкатегорию..."
                                             ref={register({
                                                 required: true
@@ -590,6 +531,10 @@ const DivorceSettings = ({
                     </Form.Group>
                     <input type="submit" value="Сохранить" className="btn btn-main"/>
                 </Form>
+            </Col>
+
+            <Col xs={12} md={9}>
+                <Reports reports={divorce.reports}/>
             </Col>
         </Row>
     )

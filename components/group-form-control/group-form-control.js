@@ -30,7 +30,7 @@ const HandelError = ({errors, name, controls}) => (
     </React.Fragment>
 );
 
-const GroupFormConrol = ({
+const GroupFormControl = ({
     label = '',
     nec = false,
     errors,
@@ -86,4 +86,4 @@ const GroupFormConrol = ({
     )
 };
 
-export default GroupFormConrol;
+export default GroupFormControl;

@@ -1,3 +1,3 @@
-import GroupFormConrol from "./group-form-control";
+import GroupFormControl from "./group-form-control";
 
-export default GroupFormConrol;
+export default GroupFormControl;
