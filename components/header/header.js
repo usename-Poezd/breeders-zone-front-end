@@ -5,7 +5,7 @@ import search from './search.svg';
 import burger from './burger.svg';
 import logo from '../../public/images/logo.svg';
 
-import {Navbar, Nav, Form, Row, Col, Container, NavDropdown} from 'react-bootstrap';
+import {Navbar, Nav, Form, Row, Col, Container, NavDropdown, Dropdown} from 'react-bootstrap';
 
 import Link from 'next/link';
 import {connect} from "react-redux";
@@ -28,23 +28,25 @@ import {
     setSelectedMorphIn,
     setSelectedMorphOut,
     updateSearchLocality,
-    search as searchState, logout
+    search as searchState, logout, clearUserNotificationsCount
 } from "../../actions";
 import Spinner from "../spinner";
 import {isLogin as isLoginToken} from "../../utils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faComments} from "@fortawesome/free-regular-svg-icons";
+import {faBell, faComments} from "@fortawesome/free-regular-svg-icons";
 import {
     faBoxOpen,
     faDesktop,
     faEgg,
-    faQuestionCircle, faSignOutAlt,
+    faQuestionCircle, faShieldAlt, faSignOutAlt,
     faStore,
     faTimes,
     faUserCircle
 } from "@fortawesome/free-solid-svg-icons";
 import Pipes from "../../services/pipes";
 import Search from "../search/search";
+import LazyImg from "../lazy-img";
+import Notifications from "../notifications/notifications";
 
 class Header extends Component {
 
@@ -57,7 +59,8 @@ class Header extends Component {
         morphsOutShow: false,
         searchOptions: '',
         isMobile: false,
-        isSearch: false
+        isSearch: false,
+        isNotifications: false
     };
 
     searchList = React.createRef();
@@ -95,13 +98,39 @@ class Header extends Component {
     };
 
     renderNav = () => {
-        const {isLogin, user, loginRequest, roomsWithNewMessages, logout} = this.props;
-        const {isMobile} = this.state;
+        const {isLogin, user, loginRequest, roomsWithNewMessages, logout, clearUserNotificationsCount} = this.props;
+        const {isMobile, isNotifications} = this.state;
 
         if (isLogin && isLoginToken()  && !isMobile) {
             return  (
                <React.Fragment>
-                   <Nav.Link>FAQ</Nav.Link>
+                   <Link href="/faq">
+                       <Nav.Link as="a">FAQ</Nav.Link>
+                   </Link>
+                   <Link href="/guards">
+                       <Nav.Link as="a">Хранители</Nav.Link>
+                   </Link>
+                   <Nav.Link
+                       as={NavDropdown}
+                       className="chat-link notifications"
+                       style={{fontSize: 15}}
+                       onClick={() => {
+                           this.setState({isNotifications: true});
+                           clearUserNotificationsCount()
+                       }}
+                       title={(
+                           <React.Fragment>
+                               {
+                                   user.unread_notifications_count > 0 ?
+                                       <span className="message-count" style={{right: -3}}>{user.unread_notifications_count}</span>
+                                       : null
+                               }
+                               <FontAwesomeIcon icon={faBell} size="lg"/>
+                           </React.Fragment>
+                       )}
+                   >
+                       <Notifications show={isNotifications}/>
+                   </Nav.Link>
                    <Link href="/chat">
                        <Nav.Link as="a" className="chat-link">
                            {
@@ -158,13 +187,19 @@ class Header extends Component {
             )
         }
 
-        if (isLogin && isLoginToken() && isMobile) {
+        if (isLoginToken() && isMobile) {
             return (
                 <React.Fragment>
                     <Link href="/faq" >
                         <a className="nav-link">
                             <span className="icon"><FontAwesomeIcon icon={faQuestionCircle} size="lg"/></span>
                             <span className="text">FAQ</span>
+                        </a>
+                    </Link>
+                    <Link href="/guards" >
+                        <a className="nav-link">
+                            <span className="icon"><FontAwesomeIcon icon={faShieldAlt} size="lg"/></span>
+                            <span className="text">Хранители</span>
                         </a>
                     </Link>
                     <Link href="/profile">
@@ -223,6 +258,9 @@ class Header extends Component {
                     <Link href="/faq">
                         <Nav.Link as="a">FAQ</Nav.Link>
                     </Link>
+                    <Link href="/guards">
+                        <Nav.Link as="a">Хранители</Nav.Link>
+                    </Link>
                     <Link href="/login">
                         <Nav.Link as="a"  className="btn btn-second">
                             Войти
@@ -240,20 +278,22 @@ class Header extends Component {
     };
 
     render(){
-        const { isToggle } = this.state;
+        const { isToggle, isNotifications } = this.state;
         const {
             roomsWithNewMessages,
             setSearchQuery,
             query,
-            searchState
+            searchState,
+            user
         } = this.props;
+
 
         return (
             <Container fluid as="header">
                 <Navbar bg="light" expand="lg">
                     <Link href="/">
                         <Navbar.Brand as="a" >
-                            <img src={logo} alt="Breeders Zone" className="logo"/>
+                            <LazyImg src={logo} alt="Breeders Zone" className="logo"/>
                         </Navbar.Brand>
                     </Link>
 
@@ -268,8 +308,29 @@ class Header extends Component {
                                 <FontAwesomeIcon icon={faComments} size="lg"/>
                             </a>
                         </Link>
+                        <Nav.Link
+                            as={NavDropdown}
+                            className="chat-icon notifications m-0"
+                            style={{fontSize: 13}}
+                            onClick={() => {
+                                this.setState({isNotifications: true});
+                                clearUserNotificationsCount()
+                            }}
+                            title={(
+                                <React.Fragment>
+                                    {
+                                        user.unread_notifications_count > 0 ?
+                                            <span className="message-count"></span>
+                                            : null
+                                    }
+                                    <FontAwesomeIcon icon={faBell}/>
+                                </React.Fragment>
+                            )}
+                        >
+                            <Notifications show={isNotifications}/>
+                        </Nav.Link>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" className="btn shadow-none" onClick={this.onToggleBurger}>
-                            <img src={burger} alt="Меню" className="img-fluid" />
+                            <LazyImg src={burger} alt="Меню" className="img-fluid" />
                         </Navbar.Toggle>
                     </div>
 
@@ -290,7 +351,7 @@ class Header extends Component {
                                 />
                                 <div className="controls d-flex">
                                     <span className="more-icon d-flex" onClick={this.onToggle}>
-                                        <img src={more} alt="Опции" className="img-fluid"/>
+                                        <LazyImg src={more} alt="Опции" className="img-fluid"/>
                                     </span>
                                     <span
                                         className="search-icon d-flex"
@@ -298,7 +359,7 @@ class Header extends Component {
                                             searchState()
                                         }}
                                     >
-                                        <img src={search} alt="Поиск" className="img-fluid" />
+                                        <LazyImg src={search} alt="Поиск" className="img-fluid" />
                                     </span>
                                 </div>
                             </Form.Group>
@@ -308,12 +369,10 @@ class Header extends Component {
                             {
                                 this.renderNav()
                             }
-
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                    <Search isToggle={isToggle} onToggleBurger={this.onToggleBurger}/>
-
+                <Search isToggle={isToggle} onToggleBurger={this.onToggleBurger}/>
             </Container>
         );
     }
@@ -387,5 +446,6 @@ export default connect(mapStateToProps, {
     setSearchSubcategoryId,
     clearSearch,
     searchState,
-    logout
+    logout,
+    clearUserNotificationsCount
 })(Header);
