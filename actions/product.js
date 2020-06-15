@@ -1,3 +1,7 @@
+import {DataService} from "../services";
+
+const dataService = new DataService();
+
 export const setProductUpdateRequest = () => {
     return {
         type: 'PRODUCT_UPDATE_REQUEST'
@@ -168,5 +172,18 @@ export const clearLocalities = () => {
     return {
         type: 'CLEAR_LOCALITIES'
     }
+};
+
+export const deleteProductReport = (payload) => (dispatch, getState) => {
+    const productReports = getState().product.info.reports;
+    const reportIdx = productReports.findIndex((item) => item.id === payload);
+    productReports.splice(reportIdx, 1);
+
+    dataService.checkReport(payload);
+
+    dispatch({
+        type: 'DELETE_PRODUCT_REPORT',
+        payload: productReports
+    })
 };
 

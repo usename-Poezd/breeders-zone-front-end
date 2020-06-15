@@ -7,3 +7,4 @@ export * from './chat';
 export * from './kinds';
 export * from './search';
 export * from './divorce';
+export * from './modals';

@@ -5,6 +5,7 @@ import {receivedMessage, setRoomsCountWithNewMessages, updateCheckMessage} from 
 const dataService = new DataService();
 
 import { Cookies } from 'react-cookie';
+import {addNotification} from "./profile";
 // set up cookies
 const cookies = new Cookies();
 
@@ -74,6 +75,8 @@ export const getUser = (tokenServer = '') => (dispatch) => {
                                 case 'App\\Notifications\\CheckMessagesNotification':
                                     dispatch(updateCheckMessage(notification[0]));
                                     break;
+                                default:
+                                    dispatch(addNotification(notification));
                             }
 
                         });

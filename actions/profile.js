@@ -67,3 +67,24 @@ export const setUserGuardXP = () => (dispatch, getState) => {
             });
     }
 };
+
+export const clearUserNotificationsCount = () => {
+    dataService.checkNotifications();
+
+    return {
+        type: 'CLEAR_USER_NOTIFICATIONS_COUNT'
+    }
+};
+
+export const addNotification = (payload) => {
+     return {
+         type: 'ADD_NOTIFICATION',
+         payload: {
+             id: payload.id,
+             type: payload.type,
+             data: {
+                 ...payload
+             }
+         }
+     }
+};

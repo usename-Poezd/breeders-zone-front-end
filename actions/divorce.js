@@ -1,3 +1,7 @@
+import {DataService} from "../services";
+
+const dataService = new DataService();
+
 export const setDivorce = (payload) =>  {
     return {
         type: 'SET_DIVORCE',
@@ -74,7 +78,7 @@ export const setDivorceSearchResultFemale = (payload) => {
 
 export const setSelectedMorphFemale = (payload) => (dispatch, getState) => {
     const state = getState();
-    const selectedMorphs = state.divorce.male;
+    const selectedMorphs = state.divorce.female;
     const searchResult = state.divorce.searchResultFemale;
     const filteredArray = selectedMorphs.filter((gene) => gene.id === searchResult[payload].id);
     const femaleMorph = state.divorce.searchResultFemale[payload];
@@ -238,4 +242,17 @@ export const clearDivorceAcceptedFiles = () => {
     return {
         type: 'CLEAR_DIVORCE_ACCEPTED_FILES'
     }
+};
+
+export const deleteDivorceReport = (payload) => (dispatch, getState) => {
+    const divorceReports = getState().divorce.reports;
+    const reportIdx = divorceReports.findIndex((item) => item.id === payload);
+    divorceReports.splice(reportIdx, 1);
+
+    dataService.checkReport(payload);
+
+    dispatch({
+        type: 'DELETE_DIVORCE_REPORT',
+        payload: divorceReports
+    })
 };
