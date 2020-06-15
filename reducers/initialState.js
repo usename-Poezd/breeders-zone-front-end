@@ -1,4 +1,14 @@
 const initialState = {
+    modals: {
+        report: {
+            show: false,
+            productId: null,
+            divorceId: null,
+            request: false,
+            success: null,
+            error: null
+        }
+    },
     kinds: {
         all: [],
         active: [],
@@ -29,10 +39,12 @@ const initialState = {
             is_breeder: false,
             is_guard: false,
             guard_level: {
-                level: null,
+                level: 1,
                 title: ''
             },
-            guardians_kinds: []
+            guardians_kinds: [],
+            notifications : [],
+            unread_notifications_count: 0
         },
         changePassword: false,
         update: {
@@ -68,7 +80,8 @@ const initialState = {
             price: '',
             sex: 1,
             cb: undefined,
-            kindId: ''
+            kindId: '',
+            reports: []
         },
         product_images: [],
         deletedImages: [],
@@ -88,10 +101,11 @@ const initialState = {
     },
     divorce: {
         id: null,
-        kindId: null,
-        subcategoryId: null,
+        kind_id: null,
+        subcategory_id: null,
         cb: '',
         title: '',
+        reports: [],
 
         male: [],
         searchResultMale: [],

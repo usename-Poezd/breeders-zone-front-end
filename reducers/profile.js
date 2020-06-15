@@ -107,6 +107,23 @@ const profile = (state, action) => {
                     XP: 0
                 }
             };
+        case 'CLEAR_USER_NOTIFICATIONS_COUNT':
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    unread_notifications_count: 0
+                }
+            };
+        case 'ADD_NOTIFICATION':
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    notifications: [payload, ...state.user.notifications],
+                    unread_notifications_count: ++state.user.unread_notifications_count
+                }
+            };
         default:
             return state;
     }

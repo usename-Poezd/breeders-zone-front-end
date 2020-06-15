@@ -172,6 +172,14 @@ const product = (state, action) => {
                 ...state,
                 localities: []
             };
+        case 'DELETE_PRODUCT_REPORT':
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    reports: [...payload]
+                }
+            };
         default:
             return state;
     }

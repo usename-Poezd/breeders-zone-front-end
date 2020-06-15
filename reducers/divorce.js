@@ -171,6 +171,11 @@ const divorce = (state, action) => {
                 acceptedFilesExit: [],
                 previewsExit: []
             };
+        case 'DELETE_DIVORCE_REPORT':
+            return {
+                ...state,
+                reports: [...payload]
+            };
         default:
             return state;
     }

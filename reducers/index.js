@@ -10,17 +10,19 @@ import search from "./search";
 import divorce from "./divorce";
 import {combineReducers} from "redux";
 import {routerReducer} from "connected-next-router";
+import modals from "./modals";
 
 const createRootReducer = () => combineReducers({
-    auth: auth,
-    resetPassword: resetPassword,
-    profile: profile,
-    shop: shop,
-    product: product,
-    divorce: divorce,
-    chat: chat,
-    kinds: kinds,
-    search: search,
+    modals,
+    auth,
+    resetPassword,
+    profile,
+    shop,
+    product,
+    divorce,
+    chat,
+    kinds,
+    search,
     router: routerReducer
 });
 
