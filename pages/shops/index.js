@@ -190,7 +190,7 @@ class ShopsPage extends Component {
                             <Col xs={12} sm={6} ms={4} lg={3} className="item">
                                 <div className="list-item">
                                     <div className="item-body">
-                                        <Link href="/shops/[shopName]" as={`/shops/reptomix`}>
+                                        <Link href="/shops/[shopName]" as={`/shops/${item.company_name}`}>
                                             <a className="item-img">
                                                 <img src={item.logo_img_url ? item.logo_img_url : '/images/icons/error-snake.svg'} alt={item.company_name} className="img-fluid"/>
                                             </a>

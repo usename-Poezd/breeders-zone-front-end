@@ -16,6 +16,7 @@ import {setActiveKind} from "../../actions";
 import {connect} from "react-redux";
 import Head from "next/head";
 import TraitItem from "../../components/trait-item/trait-item";
+import LazyImg from "../../components/lazy-img";
 
 class ShopPage extends Component {
     state = {
@@ -27,7 +28,6 @@ class ShopPage extends Component {
     pipes = new Pipes();
 
     componentDidMount(){
-        const {  router } = this.props;
         this.updateTabContent();
         this.upgradeGroupAndKindUrl();
     }
@@ -191,7 +191,7 @@ class ShopPage extends Component {
                                 logo_img_url ?
                                     (
                                         <div className="shop-brand mb-1">
-                                            <img src={logo_img_url} alt="shop logo" className="img-fluid"/>
+                                            <LazyImg src={logo_img_url} alt="shop logo" className="img-fluid"/>
                                         </div>
                                     )
                                     : null
@@ -213,7 +213,7 @@ class ShopPage extends Component {
                                                 {
                                                     instagram ? (
                                                         <a className="social-item" href={instagram}>
-                                                            <img src="/images/logos/inst_logo.svf" alt="instagram"/>
+                                                            <LazyImg src="/images/logos/inst_logo.svf" alt="instagram"/>
                                                         </a>
                                                     ) : null
                                                 }
@@ -286,7 +286,7 @@ class ShopPage extends Component {
                                                                     className="category-card"
                                                                     onClick={() => setActiveKind(item)}
                                                                 >
-                                                                    <img src="https://sun9-66.userapi.com/c855228/v855228689/1965b2/tHxS30gqRqI.jpg" className="img-fluid" alt="main"/>
+                                                                    <LazyImg src={item.logo_square} className="img-fluid" alt="main"/>
                                                                     <div className="category-card-body">
                                                                         <h3>{item.title_rus}</h3>
                                                                     </div>
@@ -306,7 +306,7 @@ class ShopPage extends Component {
                                                                     onClick={() => setActiveKind(item)}
                                                                 >
                                                                     <div className="category-card">
-                                                                        <img src="https://sun9-66.userapi.com/c855228/v855228689/1965b2/tHxS30gqRqI.jpg" className="img-fluid" alt="main"/>
+                                                                        <LazyImg src={item.logo_square} className="img-fluid" alt="main"/>
                                                                         <div className="category-card-body">
                                                                             <h3>{item.title_rus}</h3>
                                                                         </div>
