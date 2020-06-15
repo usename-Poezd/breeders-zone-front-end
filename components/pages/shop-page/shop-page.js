@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 // import withGetData from '../../hoc-helpers/with-get-data';
 // import { Pipes } from '../../../services';
 // import {Col, Row} from 'react-bootstrap';
-// import ListItem from '../../list-item';
+// import ListItem from '../../trait-item';
 // import ShopTextContainer from '../../shop-text-container';
 // import ShopMorphs from '../../shop-morphs';
 // import {formatDate} from "react-day-picker/moment";
