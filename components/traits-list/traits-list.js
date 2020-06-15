@@ -9,6 +9,7 @@ import {withRouter} from "next/router";
 import {connect} from "react-redux";
  import Head from "next/head";
  import Link from "next/link";
+ import ReportModal from "../report-modal/report-modal";
 const qs = require('qs');
 
 class TraitsList extends Component {
@@ -180,14 +181,7 @@ class TraitsList extends Component {
 
         return (
             <React.Fragment>
-                <Head>
-                    <title>
-                        Животные с морофой
-                        {
-                            selectedMorphs.map( ({geneTitle, traitTitle, type}) => ` ${traitTitle} ${geneTitle}`)
-                        }
-                    </title>
-                </Head>
+                <ReportModal/>
                 <TopFilterAndResult total={total} morphs={selectedMorphs} localities={localities} changeRequest={this.changeRequest}/>
                 <Row className="position-relative">
                     <Modal show={sendMessageModal} onHide={this.modalClose}>
