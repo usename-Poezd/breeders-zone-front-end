@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Alert, Col, Form, Row} from "react-bootstrap";
-import GroupFormConrol from "../group-form-control";
+import GroupFormControl from "../group-form-control";
 import {withGetData, withHookForm} from "../hoc-helpers";
 import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
@@ -11,7 +11,7 @@ import {withRouter} from "next/router";
 
 const ResetPasswordForm = ({password, passwordRegExp, onChange, errors, register }) => (
     <React.Fragment>
-        <GroupFormConrol
+        <GroupFormControl
             label="Электронная почта"
             errors={errors}
             controls={{
@@ -24,7 +24,7 @@ const ResetPasswordForm = ({password, passwordRegExp, onChange, errors, register
                 })
             }}
         />
-        <GroupFormConrol
+        <GroupFormControl
             label="Пароль"
             errors={errors}
             controls={{
@@ -40,7 +40,7 @@ const ResetPasswordForm = ({password, passwordRegExp, onChange, errors, register
                 })
             }}
         />
-        <GroupFormConrol
+        <GroupFormControl
             label="Подтвердите пароль"
             errors={errors}
             controls={{
@@ -147,7 +147,7 @@ const ResetPassword = ({
                                 errors={errors}
                             />
                             :
-                            <GroupFormConrol
+                            <GroupFormControl
                                 label="Электронная почта"
                                 errors={errors}
                                 controls={{

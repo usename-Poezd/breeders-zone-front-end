@@ -450,7 +450,7 @@ const Search = ({
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Цена:</Form.Label>
-                            <div className="d-flex justify-content-between align-items-center w-50">
+                            <div className="d-flex justify-content-between align-items-center w-100 w-md-50">
                                 <Form.Control
                                     type="number"
                                     placeholder="0"
