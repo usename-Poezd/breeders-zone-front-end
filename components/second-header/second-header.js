@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import {Pipes} from "../../services";
 import {withRouter} from "next/router";
 import {setActiveKind} from "../../actions";
+import LazyImg from "../lazy-img";
 
 class SecondHeader extends Component {
 
@@ -160,7 +161,7 @@ class SecondHeader extends Component {
                                             : 'Выберите категорию'
                                     }
                                 </span>
-                                <img src="/images/arrow-white.svg" className={'arrow img-fluid ' + isRotate} alt="arrow"/>
+                                <LazyImg src="/images/arrow-white.svg" className={'arrow img-fluid ' + isRotate} alt="arrow"/>
                             </div>
                             <ul className={idDropdown} style={{bottom: `-${dropdownHeight}px`, zIndex: dropdown ? 9999 : -1}} ref={this.dropdownList}>
                                 {
@@ -222,7 +223,7 @@ class SecondHeader extends Component {
 
                 <div className="bg">
                     <div className="bg-img">
-                        <img src={activeKind.logo ? activeKind.logo : '/images/img.jpg'} alt=""/>
+                        <img src={activeKind.logo_header ? activeKind.logo_header : '/images/img.jpg'} alt={activeKind.title_rus}/>
                     </div>
                 </div>
             </nav>
