@@ -1,3 +1,4 @@
+import React, {Component} from "react";
 import Head from 'next/head'
 import withRedux from 'next-redux-wrapper'
 import {Provider} from "react-redux";
@@ -6,7 +7,8 @@ import "../sass/app.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import 'react-day-picker/lib/style.css';
-import React, {Component} from "react";
+import 'lazysizes';
+import 'lazysizes/plugins/attrchange/ls.attrchange';
 import Axios from "axios";
 import {
     getUser, setActiveKind,
@@ -17,9 +19,7 @@ import {DataService} from "../services";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import Echo from "laravel-echo";
-config.autoAddCss = false;
-const dataService = new DataService();
-import { Cookies } from 'react-cookie';
+import {Cookies, CookiesProvider} from 'react-cookie';
 import {ConnectedRouter} from "connected-next-router";
 import Header from "../components/header/header";
 import SecondHeader from "../components/second-header";
@@ -28,6 +28,10 @@ import {Container} from "react-bootstrap";
 import Spinner from "../components/spinner";
 import CookiesBanner from "../components/cookies-banner/cookies-banner";
 import VerifyEmailBanner from "../components/verify-email-banner/verify-email-banner";
+import UserActivityBanner from "../components/user-activity-banner";
+import ReportModal from "../components/report-modal";
+config.autoAddCss = false;
+const dataService = new DataService();
 const cookies = new Cookies();
 
 class MyApp extends Component {
@@ -78,7 +82,7 @@ class MyApp extends Component {
 
     componentDidMount() {
         const {store, router} = this.props;
-        const regExp = /(\/profile|\/guard|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset)/gi;
+        const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset)/gi;
 
         if (router.pathname.match(regExp) === null)
             this.setState({isSecondHeader: true});
@@ -136,51 +140,55 @@ class MyApp extends Component {
 
         return (
             <Provider store={store}>
-                <ConnectedRouter>
-                    <GetDataProvider value={dataService}>
-                        <Head>
-                            <title>Breeders-zone</title>
-                            <meta charSet="utf-8"/>
-                            <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-                            <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                            <link
-                                rel="stylesheet"
-                                href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-                                integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-                                crossOrigin="anonymous"
-                            />
-                            <script src="https://kit.fontawesome.com/438eed2481.js" crossOrigin="anonymous"></script>
-                        </Head>
+                <CookiesProvider>
+                    <ConnectedRouter>
+                        <GetDataProvider value={dataService}>
+                            <Head>
+                                <title>Breeders-zone</title>
+                                <meta charSet="utf-8"/>
+                                <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
+                                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                                <link
+                                    rel="stylesheet"
+                                    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+                                    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+                                    crossOrigin="anonymous"
+                                />
+                                <script src="https://kit.fontawesome.com/438eed2481.js" crossOrigin="anonymous"></script>
+                            </Head>
 
-                        <CookiesBanner/>
-                        <VerifyEmailBanner/>
-                        <Header/>
-                        {
-                            isSecondHeader ?
-                                <SecondHeader/>
-                                : null
-                        }
-                        {
-                            changeRoute ?
-                                (
-                                    <Container>
-                                        <Spinner/>
-                                    </Container>
-                                )
-                                : <Component {...pageProps}/>
-                        }
+                            <CookiesBanner/>
+                            <VerifyEmailBanner/>
+                            <UserActivityBanner/>
 
-                        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-                                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-                                crossOrigin="anonymous"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-                                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-                                crossOrigin="anonymous"></script>
-                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-                                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-                                crossOrigin="anonymous"></script>
-                    </GetDataProvider>
-                </ConnectedRouter>
+                            <Header/>
+                            {
+                                isSecondHeader ?
+                                    <SecondHeader/>
+                                    : null
+                            }
+                            {
+                                changeRoute ?
+                                    (
+                                        <Container>
+                                            <Spinner/>
+                                        </Container>
+                                    )
+                                    : <Component {...pageProps}/>
+                            }
+
+                            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+                                    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                                    crossOrigin="anonymous"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+                                    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                                    crossOrigin="anonymous"></script>
+                            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+                                    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                                    crossOrigin="anonymous"></script>
+                        </GetDataProvider>
+                    </ConnectedRouter>
+                </CookiesProvider>
             </Provider>
         )
     }
