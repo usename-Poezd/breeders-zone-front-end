@@ -26,7 +26,7 @@ class VerifyEmailBanner extends Component{
 
     render() {
         const {isOpen, success} = this.state;
-        const {sendVerifyMail} = this.props;
+        const {sendVerifyMail, user} = this.props;
 
         const variants = {
             success: {
@@ -48,7 +48,7 @@ class VerifyEmailBanner extends Component{
         return (
             <AnimatePresence>
                 {
-                    isOpen ?
+                    isOpen && isLogin() && !user.email_verified_at ?
                         (
                             (
                                 <motion.div
