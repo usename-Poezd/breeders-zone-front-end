@@ -9,6 +9,7 @@ import {Pipes} from "../../services";
 const qs = require('qs');
 import {connect} from "react-redux";
 import {num2str} from "../../utils";
+import LazyImg from "../lazy-img";
 
 class TopFilterAndResult extends Component {
     state = {
@@ -150,14 +151,18 @@ class TopFilterAndResult extends Component {
                                     <h3 className="mb-1">С { morphs.length > 1 ? 'морфами' : 'морфой' }</h3>
                                     <div className="result-morphs morphs morph w-75 align-items-center">
                                         {
-                                            morphs.map( ({geneTitle, traitTitle, type}) => (
+                                            morphs.map( ({geneTitle, traitTitle, type}, idx) => (
                                                 <div
+                                                    key={"morph-exists" + idx}
                                                     className={
                                                         `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
                                                     }
                                                 >
-                                                    {traitTitle ? traitTitle : null}&nbsp;
-                                                    {geneTitle}
+                                                    {
+                                                        traitTitle && geneTitle ?
+                                                            `${traitTitle} ${geneTitle}`
+                                                            : geneTitle
+                                                    }
                                                 </div>
                                             ))
                                         }
@@ -181,14 +186,18 @@ class TopFilterAndResult extends Component {
                                     >
                                         <Slider {...sliderOptions}>
                                             {
-                                                morphs.map( ({geneTitle, traitTitle, type}) => (
+                                                morphs.map( ({geneTitle, traitTitle, type}, idx) => (
                                                     <div
+                                                        key={"morph-dont-exists" + idx}
                                                         className={
                                                             `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
                                                         }
                                                     >
-                                                        {traitTitle ? traitTitle : null}&nbsp;
-                                                        {geneTitle}
+                                                        {
+                                                            traitTitle && geneTitle ?
+                                                                `${traitTitle} ${geneTitle}`
+                                                                : geneTitle
+                                                        }
                                                     </div>
                                                 ))
                                             }
@@ -222,17 +231,17 @@ class TopFilterAndResult extends Component {
                 </Col>
 
                 <Col xs={12} md={6} className="d-flex justify-content-md-end justify-content-start filter-container">
-                    <Dropdown className="filter" alignRight="false">
+                    <Dropdown className="filter" alignRight={false}>
                         <Dropdown.Toggle as="button" id="dropdown-basic" className="btn">
-                            <img src={filterUp} className={`img-fluid ${ activeImg === 'down' ? 'rotated' : '' }`}/>
+                            <LazyImg src={filterUp} className={`img-fluid ${ activeImg === 'down' ? 'rotated' : '' }`}/>
                             {activeText}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => this.setActive(1)}><img src={filterUp} className="img-fluid"/>По цене</Dropdown.Item>
-                            <Dropdown.Item onClick={() => this.setActive(2)}><img src={filterUp} className="img-fluid rotated"/>По цене</Dropdown.Item>
-                            <Dropdown.Item onClick={() => this.setActive(3)}><img src={filterUp} className="img-fluid"/>По новизне</Dropdown.Item>
-                            <Dropdown.Item onClick={() => this.setActive(4)}><img src={filterUp} className="img-fluid rotated"/>По новизне</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setActive(1)}><LazyImg src={filterUp} className="img-fluid"/>По цене</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setActive(2)}><LazyImg src={filterUp} className="img-fluid rotated"/>По цене</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setActive(3)}><LazyImg src={filterUp} className="img-fluid"/>По новизне</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setActive(4)}><LazyImg src={filterUp} className="img-fluid rotated"/>По новизне</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>
