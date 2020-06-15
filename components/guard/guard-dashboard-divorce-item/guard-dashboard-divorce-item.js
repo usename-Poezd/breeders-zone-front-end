@@ -5,9 +5,12 @@ import {formatDate} from "react-day-picker/moment";
 import {Pipes} from "../../../services";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBan, faCheck} from "@fortawesome/free-solid-svg-icons";
+import {setReportModalDivorceId, setReportModalShow} from "../../../actions";
+import {connect} from "react-redux";
 
 const GuardDashboardDivorceItem = (props) => {
     const {toTraitClass} = new Pipes();
+    const {setReportModalDivorceId, setReportModalShow} = props;
 
     const settings = {
         dots: false,
@@ -107,7 +110,13 @@ const GuardDashboardDivorceItem = (props) => {
                     <div className="check" onClick={() => props.onVerify(props.id)}>
                         <FontAwesomeIcon icon={faCheck} size="lg"/>
                     </div>
-                    <div className="report text-danger">
+                    <div
+                        className="report text-danger"
+                        onClick={() => {
+                            setReportModalDivorceId(props.id);
+                            setReportModalShow(true);
+                        }}
+                    >
                         <FontAwesomeIcon icon={faBan} size="lg"/>
                     </div>
                 </div>
@@ -115,4 +124,4 @@ const GuardDashboardDivorceItem = (props) => {
         </div>
     )
 };
-export default GuardDashboardDivorceItem;
+export default connect(null, {setReportModalDivorceId, setReportModalShow})(GuardDashboardDivorceItem);

@@ -4,13 +4,15 @@ import {faBan, faCheck, faEye, faMars, faPen, faRubleSign, faTimes, faVenus} fro
 import {formatDate} from "react-day-picker/moment";
 import {Pipes} from "../../../services";
 import Link from "next/link";
+import {setReportModalProductId, setReportModalShow} from "../../../actions";
+import {connect} from "react-redux";
 
-const GuardDashboardProductItem = ({id, product_images, kind, subcategory, localities, sex, cb, morphs, name, onVerify}) => {
+const GuardDashboardProductItem = ({id, product_images, kind, subcategory, localities, sex, cb, morphs, name, onVerify, setReportModalProductId, setReportModalShow}) => {
     const {toTraitClass, toUrl} = new Pipes();
     return (
         <div className="products-item feather-shadow d-flex">
             <div className="products-item-img">
-                <Link href={toUrl(`/${kind.group}/${kind.title_eng}/${id}`)}>
+                <Link href="/[group]/[kind]/[id]" as={toUrl(`/${kind.group}/${kind.title_eng}/${id}`)}>
                     <a>
                         {
                             product_images[0] ?
@@ -26,7 +28,7 @@ const GuardDashboardProductItem = ({id, product_images, kind, subcategory, local
             </div>
             <div className="products-item-info">
                 <h2 className="product-title font-weight-bold">
-                    <Link href={toUrl(`/${kind.group}/${kind.title_eng}/${id}`)}>
+                    <Link href="/[group]/[kind]/[id]" as={toUrl(`/${kind.group}/${kind.title_eng}/${id}`)}>
                         <a>{name}</a>
                     </Link>
                 </h2>
@@ -86,7 +88,13 @@ const GuardDashboardProductItem = ({id, product_images, kind, subcategory, local
                     <div className="check" onClick={() => onVerify(id)}>
                         <FontAwesomeIcon icon={faCheck} size="lg"/>
                     </div>
-                    <div className="report text-danger">
+                    <div
+                        className="report text-danger"
+                        onClick={() => {
+                            setReportModalProductId(id);
+                            setReportModalShow(true);
+                        }}
+                    >
                         <FontAwesomeIcon icon={faBan} size="lg"/>
                     </div>
                 </div>
@@ -95,4 +103,4 @@ const GuardDashboardProductItem = ({id, product_images, kind, subcategory, local
     )
 };
 
-export default GuardDashboardProductItem;
+export default connect(null, {setReportModalProductId, setReportModalShow})(GuardDashboardProductItem);
