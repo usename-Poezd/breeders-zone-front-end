@@ -11,9 +11,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 import {getUser, setRegError} from "../actions";
 import {connect} from "react-redux";
-import Router from "next/router";
+import Router, {withRouter} from "next/router";
 
-const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, location }) => {
+const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, location, router: {query} }) => {
     // const { state } = location;
 
     const defaultValues = {
@@ -26,11 +26,11 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, l
 
     const [registerRequest, setRegisterRequest] = useState(false);
 
-    // if(state){
-    //     defaultValues.name = state.name;
-    //     defaultValues.surname = state.surname;
-    //     defaultValues.email = state.email;
-    // }
+    if(query){
+        defaultValues.name = query.name;
+        defaultValues.surname = query.surname;
+        defaultValues.email = query.email;
+    }
 
     const { register, handleSubmit, setValue, watch, errors } = useForm({
         defaultValues: defaultValues
@@ -145,8 +145,10 @@ const mapStateToProps = ({auth: {isLogin, regError}}) => ({
 
 
 export default connect(mapStateToProps, {setRegError, getUser})(
-    withGetData(
-        Registration,
-        mapMethodsToProps
+    withRouter(
+        withGetData(
+            Registration,
+            mapMethodsToProps
+        )
     )
 );
