@@ -4,12 +4,19 @@ import {Container} from "react-bootstrap";
 import SecondHeader from "../../../components/second-header";
 import Morphs from "../../../components/morphs";
 import {DataService} from "../../../services";
+import Head from "next/head";
+import {connect} from "react-redux";
 
-const MorphsPage = ({morphs}) => {
+const MorphsPage = ({morphs, activeKind}) => {
     return (
-        <Container>
-            <Morphs morphs={morphs}/>
-        </Container>
+        <React.Fragment>
+            <Head>
+                <title>Морфы {activeKind.title_rus}  ({activeKind.title_eng})</title>
+            </Head>
+            <Container>
+                <Morphs morphs={morphs}/>
+            </Container>
+        </React.Fragment>
     )
 };
 
@@ -25,4 +32,8 @@ export const getServerSideProps = async (ctx) => {
     }
 };
 
-export default MorphsPage;
+const mapStateToProps = ({kinds: {activeKind}}) => ({
+    activeKind
+});
+
+export default  connect(mapStateToProps)(MorphsPage);

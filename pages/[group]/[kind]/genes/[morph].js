@@ -2,13 +2,24 @@ import {Container} from "react-bootstrap";
 import TraitItems from "../../../../components/traits-list";
 import {DataService} from "../../../../services";
 import React from "react";
+import Head from "next/head";
 const qs = require('qs');
 
 export default (props) => {
     return (
-        <Container>
-            <TraitItems {...props}/>
-        </Container>
+        <React.Fragment>
+            <Head>
+                <title>
+                    Животные с морофой
+                    {
+                        props.selectedMorphs.map( ({geneTitle, traitTitle, type}) => ` ${traitTitle} ${geneTitle}`)
+                    }
+                </title>
+            </Head>
+            <Container>
+                <TraitItems {...props}/>
+            </Container>
+        </React.Fragment>
     )
 };
 
@@ -17,7 +28,7 @@ export const getServerSideProps = async (ctx) => {
     const {query} = await ctx;
     const { morph } = await query;
 
-    const regex = /(het|possible-het|visual|normal|super)?\-?([Aa-zZ]+\-?\(?[Aa-zZ]{0,}\)?)/gmi;
+    const regex = /(het|possible-het|visual|normal|super)?\-?([Aa-zZ0-9]+\-?\(?[Aa-zZ]{0,}\)?)/gmi;
     const regExpExecArray = regex.exec(morph);
 
     const options = {
