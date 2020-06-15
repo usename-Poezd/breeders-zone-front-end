@@ -49,6 +49,10 @@ class GuardDashboard extends Component {
         const { getDivorces, getProducts, router, user } = this.props;
         const { prevCancelToken, activeTab } = this.state;
 
+        if (user.guardians_kinds.length === 0) {
+            return;
+        }
+
         this.setState({
             search: {
                 q: router.query.q,
@@ -204,7 +208,7 @@ class GuardDashboard extends Component {
     };
 
     render() {
-        const {router, loginRequest, user: {guardians_kinds = [], is_guard, guard_level: {level, title: levelTitle}, guard_XP}} = this.props;
+        const {router, loginRequest, user: {guardians_kinds = [], is_guard, guard_level: {level, title: levelTitle, logo_src}, guard_XP}} = this.props;
         const {products, search: {kindTitle}, productRequest, divorceRequest, activeTab, divorces} = this.state;
         const params = router.query;
         let XPStyle = {};
@@ -213,13 +217,19 @@ class GuardDashboard extends Component {
             return <Spinner/>
         }
 
-        if ((!is_guard || !isLogin()) && typeof window !== 'undefined'){
+        if (!is_guard && !isLogin() && typeof window !== 'undefined'){
             return router.push('/');
         }
 
         if (guard_XP > 0 && guard_XP > 50) {
             XPStyle = {
-                left: ((100 * guard_XP) / 1000) - 7 + '%'
+                left: ((100 * guard_XP) / 1000) - 4 + '%'
+            }
+        }
+
+        if (((100 * guard_XP) / 1000) - 4  === 96) {
+            XPStyle = {
+                left: 93 + '%'
             }
         }
 
@@ -316,10 +326,10 @@ class GuardDashboard extends Component {
                         }
                     </div>
                 </Col>
-                <Col xs={0} md={4}>
+                <Col xs={0} md={4} className="d-none d-md-block">
                     <div className="feather-shadow reward">
                         <div className="reward-block">
-                            <img src="https://i.dlpng.com/static/png/49182_preview.png" alt="" className="img-fluid"/>
+                            <img src={logo_src} alt="" className="img-fluid"/>
                             <h2 className="text-center">{levelTitle}</h2>
                             <p className="text-center">До следуйщего уровня нужно набрать 1000 XP</p>
                         </div>
