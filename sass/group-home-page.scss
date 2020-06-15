@@ -16,12 +16,12 @@
     &-img {
         overflow: hidden;
         .img-container {
+            display: flex;
             transition: 0.5s ease-in-out;
             border-radius: 5px;
 
             img {
-                width: 255px;
-                height: 233px;
+                margin: auto;
                 object-fit: cover;
                 border-radius: 5px 5px 0 0;
             }

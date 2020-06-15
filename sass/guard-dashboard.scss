@@ -58,41 +58,9 @@
             position: relative;
 
             .rate-block {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-
                 @media (max-width: 756px) {
-                    position: relative;
-                    top: 0;
-                    right: 0;
-                    left: 0;
-                    display: flex;
-                    justify-content: space-between;
-
                     padding-top: 10px;
                     border-top: 1px solid #E5E5E5;
-
-                    & > * {
-                        font-size: 24px;
-                    }
-
-                    .check {
-                        margin-bottom: 0;
-                    }
-                }
-
-                & > *:hover {
-                    cursor: pointer;
-                }
-
-                .check {
-                    margin-bottom: 5px;
-                    color: #B3B3B3;
-
-                    &.active {
-                        color: #3ED04D;
-                    }
                 }
             }
 
@@ -152,7 +120,7 @@
             background: $main-color;
 
             position: absolute;
-            z-index: 9999;
+            z-index: 999;
             left: -1px;
             top: 50%;
             transform: translateY(-50%);

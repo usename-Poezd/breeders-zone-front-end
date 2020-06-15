@@ -480,6 +480,7 @@ ul{
     padding: 0 10px;
     margin-bottom: 10px;
     align-items: center;
+    position: relative;
 
 
     &:hover{
@@ -530,6 +531,14 @@ ul{
         display: flex;
         flex-direction: column;
         color: #212529 !important;
+    }
+
+    &-level {
+        margin-left: auto;
+        img {
+            width: 30px;
+            height: auto;
+        }
     }
 }
 
@@ -628,5 +637,41 @@ ul{
     .btn {
         color: $main-color !important;
         background: #fff !important;
+    }
+}
+
+.rate-block {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    @media (max-width: 756px) {
+        position: relative;
+        top: 0;
+        right: 0;
+        left: 0;
+        display: flex;
+        justify-content: space-between;
+
+        & > * {
+            font-size: 24px;
+        }
+
+        .check {
+            margin-bottom: 0;
+        }
+    }
+
+    & > *:hover {
+        cursor: pointer;
+    }
+
+    .check {
+        margin-bottom: 5px;
+        color: #B3B3B3 !important;
+
+        &.active {
+            color: #3ED04D !important;
+        }
     }
 }
