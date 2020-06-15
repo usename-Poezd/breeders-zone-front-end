@@ -25,8 +25,6 @@ class DivorceEditPage extends Component{
 
         setDivorce({
             ...divorceSSR,
-            kindId: divorceSSR.kind_id,
-            subcategoryId: divorceSSR.subcategory_id,
             sexPhotos: divorceSSR.sex_photos,
             masonryPhotos: divorceSSR.masonry_photos,
             exitPhotos: divorceSSR.exit_photos
@@ -40,8 +38,6 @@ class DivorceEditPage extends Component{
             .then( (data) => {
                 setDivorce({
                     ...data,
-                    kindId: data.kind_id,
-                    subcategoryId: data.subcategory_id,
                     sexPhotos: data.sex_photos,
                     masonryPhotos: data.masonry_photos,
                     exitPhotos: data.exit_photos
@@ -73,14 +69,14 @@ class DivorceEditPage extends Component{
             acceptedFilesSex: divorce.acceptedFilesSex,
             acceptedFilesMasonry: divorce.acceptedFilesMasonry,
             acceptedFilesExit: divorce.acceptedFilesExit,
-            sexPhotos: divorce.sexPhotos,
-            masonryPhotos: divorce.masonryPhotos,
-            exitPhotos: divorce.exitPhotos,
+            sex_photos: divorce.sexPhotos,
+            masonry_photos: divorce.masonryPhotos,
+            exit_photos: divorce.exitPhotos,
         }, router.query.id)
-            .then((data) => {
-                setDivorceSuccess(data.message);
-                clearDivorceAcceptedFiles();
+            .then(async (data) => {
                 this.getDivorce();
+                clearDivorceAcceptedFiles();
+                setDivorceSuccess(data.message);
                 setTimeout(() => clearDivorceSuccess(), 5000);
             })
             .catch( (error) => {
@@ -127,7 +123,7 @@ class DivorceEditPage extends Component{
 
 export const getServerSideProps = async (ctx) => {
     const dataService = await new DataService();
-    const divorceSSR = await dataService.getDivorce(ctx.query.id);
+    const divorceSSR = await dataService.getDivorce(ctx.query.id, true);
 
     return {
         props: {
