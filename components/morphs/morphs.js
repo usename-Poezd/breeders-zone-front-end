@@ -73,9 +73,6 @@ class Morphs extends Component {
 
         return (
             <React.Fragment>
-                <Head>
-                    <title>Морфы {activeKind.title_rus}  ({activeKind.title_eng})</title>
-                </Head>
                 {
                     genes.length > 0 ?
                         (
