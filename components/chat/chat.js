@@ -354,7 +354,7 @@ class Chat extends Component {
                                                 {
                                                     isMobile ?
                                                         (
-                                                            <Link to="/chat">
+                                                            <Link href="/chat">
                                                                 <a className="chat-back">
                                                                     <FontAwesomeIcon icon={faArrowLeft} size="lg"/>
                                                                 </a>
