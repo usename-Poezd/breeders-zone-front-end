@@ -45,6 +45,7 @@ class ProductSettingsPage extends Component{
 
         setProduct({
             ...data,
+            locality_id: data.locality_id !== 'none' ? data.locality_id : null,
             cb,
             product_images: acceptedFiles,
             morphs: selectedMorphs,

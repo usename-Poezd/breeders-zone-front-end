@@ -24,7 +24,7 @@ import Head from "next/head";
 import Axios from "axios";
 
 class ProductEditPage extends Component{
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const {productSSR, setProductInfo} = this.props;
         const cb = new Date(productSSR.cb);
 
@@ -87,6 +87,7 @@ class ProductEditPage extends Component{
         setProductUpdateRequest();
         updateProduct({
             ...data,
+            locality_id: data.locality_id !== 'none' ? data.locality_id : null,
             cb,
             product_images: acceptedFiles,
             deletedImages: deletedImages,
