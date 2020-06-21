@@ -1,5 +1,5 @@
 import React, {useCallback, useRef, useState} from "react";
-import {Col, Form, Row, Spinner} from "react-bootstrap";
+import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
 import {useForm} from "react-hook-form";
 import {useDropzone} from "react-dropzone";
@@ -14,16 +14,16 @@ import MomentLocaleUtils, {
 import {DataService, Pipes} from "../../services";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import {
-    clearDeletedMorphsKind, clearGetProductRequest, clearLocalities, clearSearchResult,
-    deleteAcceptedFile, deleteLocality, deleteMorphsKind,
+    clearDeletedMorphsKind, clearGetProductRequest, clearSearchResult,
+    deleteAcceptedFile, deleteMorphsKind,
     deleteProductStateImg, deleteSelectedMorph, getKinds,
     productUpdateClear, productUpdateClearError, productUpdateClearSuccess,
-    setAcceptedFiles, setGetProductRequest, setLocality,
+    setAcceptedFiles, setGetProductRequest,
     setProductCb,
-    setProductInfo, setProductSearchResult,
+    setProductInfo, setProductSearchRequest, setProductSearchResult,
     setProductUpdateError,
     setProductUpdateRequest,
-    setProductUpdateSuccess, setSelectedMorph, updateProductLocality
+    setProductUpdateSuccess, setSelectedMorph
 } from "../../actions";
 import {connect} from "react-redux";
 import Reports from "../reports";
@@ -43,15 +43,14 @@ const ProductSettings = ({
          previews = [],
          acceptedFiles = [],
          selectedMorphs = [],
+         searchRequest = false,
          searchResult = [],
          deletedMorphsKind = [],
-         localities = [],
      },
      deleteProductStateImg,
      setProductCb,
      deleteAcceptedFile,
      setAcceptedFiles,
-     deleteProductImg,
      setSelectedMorph,
      deleteSelectedMorph,
      clearSearchResult,
@@ -59,10 +58,8 @@ const ProductSettings = ({
      allKinds,
      deleteMorphsKind,
      clearDeletedMorphsKind,
-     setLocality,
      clearLocalities,
-     updateProductLocality,
-     deleteLocality
+     setProductSearchRequest
 }) => {
     const [selectMorphIdx, setSelectMorphIdx] = useState(0);
     const searchList = useRef();
@@ -87,6 +84,7 @@ const ProductSettings = ({
         }
         if (e.target.value) {
             setSelectMorphIdx(0);
+            setProductSearchRequest(true);
             debounceSearch({
                 q: e.target.value,
                 options: [
@@ -103,7 +101,8 @@ const ProductSettings = ({
                             arr.push({...geneCopy, trait});
                         })
                     });
-                    setProductSearchResult(arr)
+                    setProductSearchResult(arr);
+                    setProductSearchRequest(false);
                 });
         }
     };
@@ -138,7 +137,8 @@ const ProductSettings = ({
         defaultValues: {
             ...info,
             kind_id: info.kind_id ? info.kind_id : allKinds[0].id,
-            subcategory_id: info.subcategory_id,
+            subcategory_id: info.subcategory_id ? info.subcategory_id : allKinds[0].subcategories[0].id,
+            locality_id: info.locality_id ? info.locality_id : 'none',
             morph: ''
         }
     });
@@ -211,7 +211,7 @@ const ProductSettings = ({
                         selectedKind && selectedKind.has_subcategories && selectedKind.subcategories.length > 0 ?
                             (
                                 <Form.Group>
-                                    <Form.Label>Выберите категорию:</Form.Label>
+                                    <Form.Label>Выберите подкатегорию:</Form.Label>
                                     <div className="select-wrap">
                                         <Form.Control
                                             as="select"
@@ -232,57 +232,23 @@ const ProductSettings = ({
                         selectedKind && selectedKind.localities.length !== 0 ?
                             (
                                 <Form.Group className="d-flex flex-column locality">
-                                    <Form.Label>Добавте локалитеты:</Form.Label>
-                                    {
-                                        localities.map((item, idx) => (
-                                            <div key={`localities-select-${idx}`} className="d-flex locality-item">
-                                                <div className="select-wrap w-100">
-                                                    <Form.Control
-                                                        as="select"
-                                                        name="subcategory_id"
-                                                        ref={register}
-                                                        value={item.id}
-                                                        onChange={(e) => updateProductLocality({localityId: Number(e.target.value), idx, selectedKind})}
-                                                    >
-                                                        {
-                                                            selectedKind.localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
-                                                        }
-                                                    </Form.Control>
-                                                </div>
-                                                {
-                                                    localities.length === idx + 1 && localities.length !== 1 ?
-                                                        (
-                                                            <div className="btn btn-main ml-2" onClick={() => setLocality(selectedKind)}>
-                                                                <h3>+</h3>
-                                                            </div>
-                                                        )
-                                                        : (
-                                                            <div className="btn btn-danger ml-2" onClick={() => deleteLocality(idx)}>
-                                                                <h3>-</h3>
-                                                            </div>
-                                                        )
-                                                }
-
-                                                {
-                                                    localities.length === 1 ?
-                                                        (
-                                                            <div className="btn btn-main ml-2" onClick={() => setLocality(selectedKind)}>
-                                                                <h3>+</h3>
-                                                            </div>
-                                                        ) : null
-                                                }
-                                            </div>
-                                        ))
-                                    }
-                                    {
-                                        localities.length === 0 ?
-                                            (
-                                                <div className="btn btn-main" style={{ width: 40 }} onClick={() => setLocality(selectedKind)}>
-                                                    <h3>+</h3>
-                                                </div>
-                                            ) : null
-                                    }
-
+                                    <Form.Label>Добавте локалитет:</Form.Label>
+                                    <div className="select-wrap w-100">
+                                        <Form.Control
+                                            as="select"
+                                            name="locality_id"
+                                            ref={register}
+                                            onChange={(e) => setValue('locality_id', e.target.value)}
+                                            value={values.locality_id}
+                                        >
+                                            <option value="none">Нет локалитета</option>
+                                            {
+                                                selectedKind.subcategories ?
+                                                    selectedKind.subcategories.find( (item) => item.id === values.subcategory_id).localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
+                                                    : selectedKind.localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
+                                            }
+                                        </Form.Control>
+                                    </div>
                                 </Form.Group>
                             ) : null
                     }
@@ -291,20 +257,27 @@ const ProductSettings = ({
                             (
                                 <Form.Group>
                                     <Form.Label>Морфы:</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        name="morph"
-                                        value={values.morph}
-                                        onChange={onSearchMorphs}
-                                        onKeyDown={onSelectMorph}
-                                        ref={register}
-                                        onFocus={() => setMorphsShow(true)}
-                                        onBlur={() => setTimeout(() => {
-                                            setMorphsShow(false);
-                                            clearSearchResult()
-                                        }, 200)}
-                                        placeholder="Начните вводить название морфы..."
-                                    />
+                                    <div className="morph-search-input">
+                                        <Form.Control
+                                            type="text"
+                                            name="morph"
+                                            value={values.morph}
+                                            onChange={onSearchMorphs}
+                                            onKeyDown={onSelectMorph}
+                                            ref={register}
+                                            onFocus={() => setMorphsShow(true)}
+                                            onBlur={() => setTimeout(() => {
+                                                setMorphsShow(false);
+                                                clearSearchResult()
+                                            }, 200)}
+                                            placeholder="Начните вводить название морфы..."
+                                        />
+                                        {
+                                            searchRequest ?
+                                                <BootstrapSpinner animation="border"/>
+                                                : null
+                                        }
+                                    </div>
                                     {
                                         searchResult.length > 0 && morphsShow ?
                                             (
@@ -536,9 +509,6 @@ export default connect(mapStateToProps, {
     clearSearchResult,
     deleteMorphsKind,
     clearDeletedMorphsKind,
-    setLocality,
-    clearLocalities,
-    deleteLocality,
     getKinds,
-    updateProductLocality
+    setProductSearchRequest
 })(ProductSettings);
