@@ -152,7 +152,7 @@ class ShopDivorces extends Component{
                 <div className="products feather-shadow">
                     <div className="products-title d-flex justify-content-between align-items-start">
                         <h1>Ваши разводы:</h1>
-                        <Link href="divorces/add">
+                        <Link href="/profile/divorces/add">
                             <a className="btn btn-main">
                                 <h3>{!isMobile ? 'Добавить' : '+'}</h3>
                             </a>
