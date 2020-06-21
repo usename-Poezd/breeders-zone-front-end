@@ -21,13 +21,12 @@ export const search = () => (dispatch, getState) => {
         trait: item.trait.id
     }));
 
-    const optionsSelectedLocalities = search.selectedLocalities.map((item) => item.id);
 
     const options = qs.stringify({
         q: search.query,
         kindId: search.selectedKind.id,
         subcategoryId: search.subcategoryId,
-        localities: optionsSelectedLocalities,
+        locality: search.localityId,
         priceFrom: search.priceFrom,
         priceTo: search.priceTo,
         morphsIn: optionsMorphsIn,
@@ -55,20 +54,6 @@ export const setSearchLocality = (payload) => {
         type: 'SET_SEARCH_LOCALITY',
         payload
     }
-};
-
-export const deleteSearchLocality = (payload) => {
-    return {
-        type: 'DELETE_SEARCH_LOCALITY',
-        payload
-    }
-};
-
-export const updateSearchLocality = (payload) => {
-    return {
-        type: 'UPDATE_SEARCH_LOCALITY',
-        payload
-    };
 };
 
 export const setSearchPriceFrom = (payload) => {
@@ -189,5 +174,19 @@ export const setSearchSubcategoryId = (payload) => {
 export const clearSearch = () => {
     return {
         type: 'CLEAR_SEARCH'
+    }
+};
+
+export const setSearchMorphsInRequest = (payload) => {
+    return {
+        type: 'SET_SEARCH_MORPHS_IN_REQUEST',
+        payload
+    }
+};
+
+export const setSearchMorphsOutRequest = (payload) => {
+    return {
+        type: 'SET_SEARCH_MORPHS_OUT_REQUEST',
+        payload
     }
 };

@@ -147,33 +147,6 @@ export const clearDeletedMorphsKind = () => {
     }
 };
 
-export const setLocality = (payload) => {
-    return {
-        type: 'SET_LOCALITY',
-        payload
-    }
-};
-
-export const updateProductLocality = (payload) => {
-    return {
-        type: 'UPDATE_PRODUCT_LOCALITY',
-        payload
-    }
-};
-
-export const deleteLocality = (payload) => {
-    return {
-        type: 'DELETE_LOCALITY',
-        payload
-    }
-};
-
-export const clearLocalities = () => {
-    return {
-        type: 'CLEAR_LOCALITIES'
-    }
-};
-
 export const deleteProductReport = (payload) => (dispatch, getState) => {
     const productReports = getState().product.info.reports;
     const reportIdx = productReports.findIndex((item) => item.id === payload);
@@ -187,3 +160,9 @@ export const deleteProductReport = (payload) => (dispatch, getState) => {
     })
 };
 
+export const setProductSearchRequest = (payload) => {
+    return {
+        type: 'SET_PRODUCT_SEARCH_REQUEST',
+        payload
+    }
+};

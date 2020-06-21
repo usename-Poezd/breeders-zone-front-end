@@ -256,3 +256,17 @@ export const deleteDivorceReport = (payload) => (dispatch, getState) => {
         payload: divorceReports
     })
 };
+
+export const setSearchMaleRequest = (payload) => {
+    return {
+        type: 'SET_SEARCH_MALE_REQUEST',
+        payload
+    };
+};
+
+export const setSearchFemaleRequest = (payload) => {
+    return {
+        type: 'SET_SEARCH_FEMALE_REQUEST',
+        payload
+    };
+};
