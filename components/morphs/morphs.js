@@ -110,13 +110,13 @@ class Morphs extends Component {
                                                             <ul className="pl-4 localities">
                                                                 {
                                                                     item.localities.map( (locality) => {
-                                                                        if (locality.count) {
+                                                                        if (locality.products_count) {
                                                                             return (
                                                                                 <li className="localities-item">
                                                                                     <Link key={locality.title} href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
                                                                                         <a className="d-flex justify-content-between">
                                                                                             <h3>{locality.title}</h3>
-                                                                                            <div className="morph-indicator-count morph-other-normal ml-2">{locality.count}</div>
+                                                                                            <div className="morph-indicator-count morph-other-normal ml-2">{locality.products_count}</div>
                                                                                         </a>
                                                                                     </Link>
                                                                                 </li>
