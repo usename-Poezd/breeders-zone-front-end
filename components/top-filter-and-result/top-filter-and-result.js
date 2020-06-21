@@ -145,7 +145,7 @@ class TopFilterAndResult extends Component {
                     <h3>{num2str(total, ['Найден', 'Найденно', 'Найденно'])} {total} {num2str(total, ['результат', 'результата', 'результатов'])}</h3>
 
                     {
-                        morphs.length <= 2 && morphs.length <= 9 ?
+                        morphs.length <= 2 && morphs.length !== 0?
                             (
                                 <React.Fragment>
                                     <h3 className="mb-1">С { morphs.length > 1 ? 'морфами' : 'морфой' }</h3>
