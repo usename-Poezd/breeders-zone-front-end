@@ -1,4 +1,4 @@
-import {Col, Form, Row} from "react-bootstrap";
+import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import React, {useState} from "react";
@@ -11,7 +11,7 @@ import {
     clearSearchMorphResultOut,
     deleteMorphIn,
     deleteMorphOut,
-    deleteSearchLocality, setSearchAge,
+    setSearchAge,
     setSearchLocality, setSearchMaxMorphs,
     setSearchMinMorphs,
     setSearchMorphResultIn,
@@ -22,8 +22,7 @@ import {
     setSearchSelectedKind, setSearchSex, setSearchSubcategoryId,
     setSelectedMorphIn,
     setSelectedMorphOut,
-    updateSearchLocality,
-    search as searchState
+    search as searchState, setSearchMorphsInRequest, setSearchMorphsOutRequest
 } from "../../actions";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
@@ -32,22 +31,13 @@ const debounceSearch = AwesomeDebouncePromise(
 );
 
 const Search = ({
-    query,
     selectedKind,
-    selectedLocalities,
-    priceFrom,
-    priceTo,
+    localityId,
+    subcategoryId,
     morphsIn,
     morphsOut,
-    minMorphs,
-    maxMorphs,
-    age,
-    sex,
-    subcategoryId,
     allKinds,
     setSearchSelectedKind,
-    deleteSearchLocality,
-    setSearchLocality,
     updateSearchLocality,
     setSearchPriceFrom,
     setSearchPriceTo,
@@ -70,7 +60,11 @@ const Search = ({
     clearSearch,
     onToggleBurger,
     isSearch,
-    searchState
+    searchState,
+    searchMorphsInRequest,
+    searchMorphsOutRequest,
+    setSearchMorphsInRequest,
+    setSearchMorphsOutRequest
 }) => {
 
     const pipes = new Pipes();
@@ -102,11 +96,18 @@ const Search = ({
         if (e.target.value) {
             setSelectMorphIdx(0);
 
+            if (isIn) {
+                setSearchMorphsInRequest(true);
+            } else  {
+                setSearchMorphsOutRequest(true);
+            }
+            const options = [];
+            if (selectedKind.id) {
+                options.push(['kinds.id', selectedKind.id]);
+            }
             debounceSearch({
                 q: e.target.value,
-                options: [
-                    ['kind.id', selectedKind.id]
-                ]
+                options
             })
                 .then((data) => {
                     const arr = [];
@@ -120,9 +121,11 @@ const Search = ({
                     });
 
                     if (isIn) {
-                        setSearchMorphResultIn(arr)
+                        setSearchMorphResultIn(arr);
+                        setSearchMorphsInRequest(false);
                     } else  {
-                        setSearchMorphResultOut(arr)
+                        setSearchMorphResultOut(arr);
+                        setSearchMorphsOutRequest(false);
                     }
 
                 });
@@ -225,56 +228,22 @@ const Search = ({
                             selectedKind !== null && selectedKind.localities.length !== 0 ?
                                 (
                                     <Form.Group className="d-flex flex-column locality">
-                                        <Form.Label>Добавте локалитеты:</Form.Label>
-                                        {
-                                            selectedLocalities.map((item, idx) => (
-                                                <div key={`localities-select-${idx}`} className="d-flex locality-item">
-                                                    <div className="select-wrap w-100">
-                                                        <Form.Control
-                                                            as="select"
-                                                            name="subcategoryId"
-                                                            value={item.id}
-                                                            onChange={(e) => updateSearchLocality({idx, localityId: Number(e.target.value)})}
-                                                        >
-                                                            {
-                                                                selectedKind.localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
-                                                            }
-                                                        </Form.Control>
-                                                    </div>
-                                                    {
-                                                        selectedLocalities.length === idx + 1 && selectedLocalities.length !== 1 ?
-                                                            (
-                                                                <div className="btn btn-main ml-2" onClick={() => setSearchLocality(selectedKind)}>
-                                                                    <h3>+</h3>
-                                                                </div>
-                                                            )
-                                                            : (
-                                                                <div className="btn btn-danger ml-2" onClick={() => deleteSearchLocality(idx)}>
-                                                                    <h3>-</h3>
-                                                                </div>
-                                                            )
-                                                    }
-
-                                                    {
-                                                        selectedLocalities.length === 1 ?
-                                                            (
-                                                                <div className="btn btn-main ml-2" onClick={() => setSearchLocality(selectedKind)}>
-                                                                    <h3>+</h3>
-                                                                </div>
-                                                            ) : null
-                                                    }
-                                                </div>
-                                            ))
-                                        }
-                                        {
-                                            selectedLocalities.length === 0 ?
-                                                (
-                                                    <div className="btn btn-main" style={{ width: 40 }} onClick={() => setSearchLocality(selectedKind)}>
-                                                        <h3>+</h3>
-                                                    </div>
-                                                ) : null
-                                        }
-
+                                        <Form.Label>Выберите локалитет:</Form.Label>
+                                        <div className="select-wrap w-100">
+                                            <Form.Control
+                                                as="select"
+                                                name="subcategoryId"
+                                                value={localityId}
+                                                onChange={(e) => setSearchLocality(Number(e.target.value))}
+                                            >
+                                                <option value="any">Все</option>
+                                                {
+                                                    selectedKind.subcategories ?
+                                                        selectedKind.subcategories.find( (item) => item.id === subcategoryId).localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
+                                                        : selectedKind.localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
+                                                }
+                                            </Form.Control>
+                                        </div>
                                     </Form.Group>
                                 ) : null
                         }
@@ -341,15 +310,22 @@ const Search = ({
 
                         <Form.Group>
                             <Form.Label>Морфы:</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="morphIn"
-                                value={searchMorphInValue}
-                                onChange={onSearchMorphs}
-                                onKeyDown={onSelectMorph}
-                                onFocus={() => setMorphsInShow(true)}
-                                onBlur={() => setTimeout(() => setMorphsInShow(false), 200)}
-                            />
+                            <div className="morph-search-input">
+                                <Form.Control
+                                    type="text"
+                                    name="morphIn"
+                                    value={searchMorphInValue}
+                                    onChange={onSearchMorphs}
+                                    onKeyDown={onSelectMorph}
+                                    onFocus={() => setMorphsInShow(true)}
+                                    onBlur={() => setTimeout(() => setMorphsInShow(false), 200)}
+                                />
+                                {
+                                    searchMorphsInRequest ?
+                                        <BootstrapSpinner animation="border"/>
+                                        : null
+                                }
+                            </div>
                             {
                                 searchMorphResultIn.length && morphsInShow > 0 ?
                                     (
@@ -395,16 +371,23 @@ const Search = ({
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>За исключением::</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="morphIn"
-                                value={searchMorphOutValue}
-                                onChange={(e) => onSearchMorphs(e, false)}
-                                onKeyDown={(e) => onSelectMorph(e, false)}
-                                onFocus={() => setMorphsOutShow(true)}
-                                onBlur={() => setTimeout(() =>setMorphsOutShow(false), 200)}
-                            />
+                            <Form.Label>За исключением:</Form.Label>
+                            <div className="morph-search-input">
+                                <Form.Control
+                                    type="text"
+                                    name="morphOut"
+                                    value={searchMorphOutValue}
+                                    onChange={(e) => onSearchMorphs(e, false)}
+                                    onKeyDown={(e) => onSelectMorph(e, false)}
+                                    onFocus={() => setMorphsOutShow(true)}
+                                    onBlur={() => setTimeout(() =>setMorphsOutShow(false), 200)}
+                                />
+                                {
+                                    searchMorphsOutRequest ?
+                                        <BootstrapSpinner animation="border"/>
+                                        : null
+                                }
+                            </div>
                             {
                                 morphsOutShow && searchMorphResultOut.length > 0 ?
                                     (
@@ -465,12 +448,6 @@ const Search = ({
                                     name="priceTo"
                                     onChange={(e) => setSearchPriceTo(Number(e.target.value))}
                                 />
-
-                                {/*<Form.Control as="select" defaultValue="rub">*/}
-                                {/*    <option value="rub">RUB</option>*/}
-                                {/*    <option value="dol">Dollar</option>*/}
-                                {/*    <option value="eur">EUR</option>*/}
-                                {/*</Form.Control>*/}
                             </div>
                         </Form.Group>
                         <button className="btn btn-main">Поиск</button>
@@ -488,11 +465,14 @@ const mapStateToProps = ({
                              search: {
                                  query,
                                  selectedKind,
-                                 selectedLocalities,
+
+                                 localityId,
                                  priceFrom,
                                  priceTo,
+                                 searchMorphsInRequest,
                                  searchMorphResultIn,
                                  morphsIn,
+                                 searchMorphsOutRequest,
                                  searchMorphResultOut,
                                  morphsOut,
                                  minMorphs,
@@ -508,14 +488,15 @@ const mapStateToProps = ({
     user,
     roomsWithNewMessages,
     allKinds,
-
+    localityId,
     query,
     selectedKind,
-    selectedLocalities,
     priceFrom,
     priceTo,
+    searchMorphsInRequest,
     searchMorphResultIn,
     morphsIn,
+    searchMorphsOutRequest,
     searchMorphResultOut,
     morphsOut,
     minMorphs,
@@ -529,8 +510,6 @@ export default connect(mapStateToProps, {
     setSearchQuery,
     setSearchSelectedKind,
     setSearchLocality,
-    deleteSearchLocality,
-    updateSearchLocality,
     setSearchPriceFrom,
     setSearchPriceTo,
     setSearchMorphResultIn,
@@ -547,5 +526,7 @@ export default connect(mapStateToProps, {
     setSearchAge,
     setSearchSubcategoryId,
     clearSearch,
-    searchState
+    searchState,
+    setSearchMorphsInRequest,
+    setSearchMorphsOutRequest
 })(Search);
