@@ -20,6 +20,7 @@ import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {useRouter} from "next/router";
 import {isLogin} from "../../utils";
 import LazyImg from "../lazy-img";
+import Link from "next/link";
 
 const Profile = ({
      updateProfile,
@@ -247,68 +248,90 @@ const Profile = ({
                         }}
                     />
 
-                    <div className="feather-shadow p-2 mb-3 w-75 change-password">
-                        {
-                            changePassword ?
-                                (
-                                    <div>
-                                        <GroupFormControl
-                                            label="Старый пороль"
-                                            errors={errors}
-                                            controls={{
-                                                type: "password",
-                                                name: "oldPassword",
-                                                placeholder: "",
-                                                value: oldPassword,
-                                                onChange: handleChange,
-                                                ref: register({
-                                                    required: true
-                                                })
-                                            }}
-                                        />
-                                        <GroupFormControl
-                                            label="Новый пороль"
-                                            errors={errors}
-                                            controls={{
-                                                type: "password",
-                                                name: "password",
-                                                placeholder: "",
-                                                value: password,
-                                                onChange: handleChange,
-                                                ref: register({
-                                                    required: true
-                                                })
-                                            }}
-                                        />
-                                        <GroupFormControl
-                                            label="Подтвердите пороль"
-                                            errors={errors}
-                                            controls={{
-                                                type: "password",
-                                                name: "confirmPassword",
-                                                placeholder: "",
-                                                value: confirmPassword,
-                                                onChange: handleChange,
-                                                ref: register({
-                                                    required: true,
-                                                    pattern: regExp
-                                                })
-                                            }}
-                                        />
-                                    </div>
-                                )
-                                :   <span>Пороль</span>
+                    <Row>
+                        <Col xs={12} md={9}>
+                            <div className="feather-shadow p-2 mb-3 change-password">
+                                {
+                                    changePassword ?
+                                        (
+                                            <div>
+                                                <GroupFormControl
+                                                    label="Старый пороль"
+                                                    errors={errors}
+                                                    controls={{
+                                                        type: "password",
+                                                        name: "oldPassword",
+                                                        placeholder: "",
+                                                        value: oldPassword,
+                                                        onChange: handleChange,
+                                                        ref: register({
+                                                            required: true
+                                                        })
+                                                    }}
+                                                />
+                                                <GroupFormControl
+                                                    label="Новый пороль"
+                                                    errors={errors}
+                                                    controls={{
+                                                        type: "password",
+                                                        name: "password",
+                                                        placeholder: "",
+                                                        value: password,
+                                                        onChange: handleChange,
+                                                        ref: register({
+                                                            required: true
+                                                        })
+                                                    }}
+                                                />
+                                                <GroupFormControl
+                                                    label="Подтвердите пороль"
+                                                    errors={errors}
+                                                    controls={{
+                                                        type: "password",
+                                                        name: "confirmPassword",
+                                                        placeholder: "",
+                                                        value: confirmPassword,
+                                                        onChange: handleChange,
+                                                        ref: register({
+                                                            required: true,
+                                                            pattern: regExp
+                                                        })
+                                                    }}
+                                                />
+                                            </div>
+                                        )
+                                        :   <span>Пороль</span>
 
-                        }
+                                }
 
-                        <span onClick={setProfileChangePassword} className="change-btn color-main btn-link">
+                                <span onClick={setProfileChangePassword} className="change-btn color-main btn-link">
+                                {
+                                    changePassword ?
+                                        'Отмена'
+                                        : 'Изменить'
+                                }
+                            </span>
+                            </div>
+                        </Col>
+                        <Col xs={12} md={3}>
                             {
-                                changePassword ?
-                                    'Отмена'
-                                    : 'Изменить'
+                                !user.is_breeder ?
+                                    <Form.Group className="d-flex">
+                                        <Form.Check
+                                            id="is_breeder"
+                                            name="is_breeder"
+                                            ref={register}
+                                        />
+                                        <Form.Label htmlFor="is_breeder" style={{lineHeight: 1}}>Стать разводчиком</Form.Label>
+                                    </Form.Group>
+                                    : <Link href="/profile/shop">
+                                        <a>
+                                            Профиль магазина
+                                        </a>
+                                    </Link>
                             }
-                        </span>
-                    </div>
+                        </Col>
+                    </Row>
 
 
 
