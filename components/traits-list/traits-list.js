@@ -1,6 +1,6 @@
  import React, { Component } from 'react';
 import TraitItem from '../trait-item';
-import {Col, Modal, Pagination, Row, Spinner as BootstrapSpinner} from 'react-bootstrap';
+import {Col, Modal, Row, Spinner as BootstrapSpinner} from 'react-bootstrap';
 import { withGetData } from '../hoc-helpers';
 import Chat from "../chat";
 import Spinner from "../spinner";
@@ -10,6 +10,7 @@ import {connect} from "react-redux";
  import Head from "next/head";
  import Link from "next/link";
  import ReportModal from "../report-modal/report-modal";
+ import Pagination from "../../components/pagination";
 const qs = require('qs');
 
 class TraitsList extends Component {
@@ -22,137 +23,18 @@ class TraitsList extends Component {
 
     componentDidMount() {
         this.setState({request: false});
-        this.updatePagination();
     }
 
     componentDidUpdate(prevProps) {
         if(prevProps.product !== this.props.product || prevProps.router.query !== this.props.router.query) {
             this.setState({request: false});
-            this.updatePagination();
         }
     }
-
-    updatePagination = () => {
-        const {products: {current_page, last_page}, router, pathname, search} = this.props;
-        const query = qs.parse(search.replace("?", ""));
-        const arr = [];
-        arr.push((
-            <React.Fragment key="next">
-                <Pagination.First
-                    onClick={
-                        () => {
-                            delete query.page;
-                            this.changeRequest();
-                            router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                        }
-                    }
-                />
-                <Pagination.Prev
-                    onClick={
-                        () => {
-                            if (current_page !== 1) {
-                                query.page = current_page - 1;
-                                this.changeRequest();
-                                router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                            }
-                        }
-                    }
-                />
-            </React.Fragment>
-        ));
-
-        if ((current_page + 1) === last_page) {
-            arr.push((
-                <Pagination.Item key={current_page - 1}
-                                 active={current_page === current_page - 1}
-                                 onClick={
-                                     () => {
-                                         query.page = current_page - 1;
-                                         this.changeRequest();
-                                         router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                                     }
-                                 }
-                >{current_page - 1}</Pagination.Item>
-            ))
-        }
-
-        if (current_page === last_page) {
-            let arrRePosition = [];
-            for(let i = current_page; i >= (current_page - 2); i--) {
-                arrRePosition = [(
-                    <Pagination.Item key={i}
-                                     active={current_page === i}
-                                     onClick={
-                                         () => {
-                                             query.page = i;
-                                             this.changeRequest();
-                                             router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                                         }
-                                     }
-                    >{i}</Pagination.Item>
-                ), ...arrRePosition]
-            }
-            arr.push(arrRePosition)
-        } else {
-            for(let i = current_page; i <= (current_page + 2) && i <= last_page; i++) {
-                arr.push((
-                    <Pagination.Item key={i}
-                                     active={current_page === i}
-                                     onClick={
-                                         () => {
-                                             query.page = i;
-                                             this.changeRequest();
-                                             router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                                         }
-                                     }
-                    >{i}</Pagination.Item>
-                ))
-            }
-        }
-
-        if ((current_page + 2) < last_page) {
-            arr.push((
-                <React.Fragment key="elepsis">
-                    <Pagination.Ellipsis />
-                    <Pagination.Item>{last_page}</Pagination.Item>
-                </React.Fragment>
-            ))
-        }
-
-        arr.push((
-            <React.Fragment key="prev">
-                <Pagination.Next
-                    onClick={
-                        () => {
-                            if (current_page < last_page) {
-                                query.page = current_page + 1;
-                                this.changeRequest();
-                                router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                            }
-                        }
-                    }
-                />
-                <Pagination.Last
-                    onClick={
-                        () => {
-                            query.page = last_page;
-                            this.changeRequest();
-                            router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                        }
-                    }
-                />
-            </React.Fragment>
-        ));
-
-        this.setState({pagination: arr})
-    };
 
     changeRequest = () => this.setState({request: true});
 
 
     sendMessage = (user) => {
-        const { router, pathname, search } = this.props;
-
         this.setState({
             sendMessageModal: true,
             modalUser: user
@@ -171,7 +53,7 @@ class TraitsList extends Component {
     };
 
     render() {
-        const { sendMessageModal, modalUser, request, pagination } = this.state;
+        const { sendMessageModal, modalUser, request } = this.state;
         const {products: {data: items, total, current_page, last_page}, selectedMorphs, localities} = this.props;
 
 
@@ -208,12 +90,8 @@ class TraitsList extends Component {
                     }
                 </Row>
                 {
-                    current_page !== last_page && current_page !== 1 ?
-                        <Pagination className="mb-2 justify-content-center">
-                            {
-                                pagination.map((item) => item)
-                            }
-                        </Pagination>
+                    last_page !== 1 ?
+                        <Pagination className="d-flex justify-content-center mb-2" totalItems={last_page} pageSize={1} defaultActivePage={current_page} changeRequest={this.changeRequest}/>
                         : null
                 }
             </React.Fragment>
