@@ -42,12 +42,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
 
     const { register, handleSubmit, watch, setValue, errors } = useForm({
         defaultValues: {
-            company_name: user.company_name,
-            owner: user.owner,
-            local_delivery: user.local_delivery,
-            regional_delivery: user.regional_delivery,
-            countrywide_delivery: user.countrywide_delivery,
-            phone: user.phone,
+            ...user,
             description: user.description ? user.description : '',
             policity: user.policity ? user.policity : '',
             vk: user.vk ? user.vk : '',
@@ -124,7 +119,8 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         facebook,
         instagram,
         youtube,
-        website
+        website,
+        location
     } = watch();
 
     const { update } = shop;
@@ -146,6 +142,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             value: company_name,
                             min: 1,
                             ref: register({
+                                required: true,
                                 minLength: 1
                             })
                         }}
@@ -171,7 +168,22 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             onChange: handleChange,
                             value: phone,
                             ref: register({
+                                required: true,
                                 pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+                            })
+                        }}
+                    />
+
+                    <GroupFormControl
+                        label="Локация"
+                        errors = {errors}
+                        controls={{
+                            type: "text",
+                            name: "location",
+                            value: location,
+                            onChange: handleChange,
+                            ref: register({
+                                required: true,
                             })
                         }}
                     />
@@ -283,6 +295,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             name: "policity",
                             min: 1,
                             ref: register({
+                                required: true,
                                 minLength: 1
                             })
                         }}
@@ -296,8 +309,9 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             name:"website",
                             value: website,
                             onChange: handleChange,
-                            ref: register,
-                            pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                            ref: register({
+                                pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                            }),
                         }}
                     />
                     <Row>
@@ -310,8 +324,9 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                     name: "vk",
                                     value: vk,
                                     onChange: handleChange,
-                                    ref: register,
-                                    pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    ref: register({
+                                        pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    }),
                                 }}
                             />
                         </Col>
@@ -339,8 +354,9 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                     name: "facebook",
                                     value: facebook,
                                     onChange: handleChange,
-                                    ref: register,
-                                    pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    ref: register({
+                                        pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    }),
                                 }}
                             />
                         </Col>
@@ -353,8 +369,9 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                     name: "youtube",
                                     value: youtube,
                                     onChange: handleChange,
-                                    ref: register,
-                                    pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    ref: register({
+                                        pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    }),
                                 }}
                             />
                         </Col>
