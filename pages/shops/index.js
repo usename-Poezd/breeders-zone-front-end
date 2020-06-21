@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import {Col, Container, Form, Pagination, Row} from "react-bootstrap";
+import {Col, Container, Form, Row} from "react-bootstrap";
 import {DataService} from "../../services";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCar, faHelicopter, faTruck} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import {withRouter} from "next/router";
 import {connect} from "react-redux";
+import Pagination from "../../components/pagination";
 const qs = require('qs');
 
 class ShopsPage extends Component {
@@ -14,138 +15,20 @@ class ShopsPage extends Component {
         search: {
             q: ''
         },
-        request: false,
-        pagination: []
+        request: false
     };
 
     componentDidMount() {
         this.setState({request: false});
-        this.updatePagination();
     }
 
     componentDidUpdate(prevProps) {
         if(prevProps.shops !== this.props.shops || prevProps.router.query !== this.props.router.query) {
             this.setState({request: false});
-            this.updatePagination();
         }
     }
 
     searchInput = React.createRef();
-
-    updatePagination = () => {
-        const {shops: {current_page, last_page}, router, pathname, search} = this.props;
-        const query = qs.parse(search.replace("?", ""));
-        const arr = [];
-        arr.push((
-            <React.Fragment key="next">
-                <Pagination.First
-                    onClick={
-                        () => {
-                            delete query.page;
-                            this.changeRequest();
-                            router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                        }
-                    }
-                />
-                <Pagination.Prev
-                    onClick={
-                        () => {
-                            if (current_page !== 1) {
-                                query.page = current_page - 1;
-                                this.changeRequest();
-                                router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                            }
-                        }
-                    }
-                />
-            </React.Fragment>
-        ));
-
-        if ((current_page + 1) === last_page) {
-            arr.push((
-                <Pagination.Item key={current_page - 1}
-                                 active={current_page === current_page - 1}
-                                 onClick={
-                                     () => {
-                                         query.page = current_page - 1;
-                                         this.changeRequest();
-                                         router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                                     }
-                                 }
-                >{current_page - 1}</Pagination.Item>
-            ))
-        }
-
-        if (current_page === last_page) {
-            let arrRePosition = [];
-            for(let i = current_page; i >= (current_page - 2); i--) {
-                arrRePosition = [(
-                    <Pagination.Item key={i}
-                                     active={current_page === i}
-                                     onClick={
-                                         () => {
-                                             query.page = i;
-                                             this.changeRequest();
-                                             router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                                         }
-                                     }
-                    >{i}</Pagination.Item>
-                ), ...arrRePosition]
-            }
-            arr.push(arrRePosition)
-        } else {
-            for(let i = current_page; i <= (current_page + 2) && i <= last_page; i++) {
-                arr.push((
-                    <Pagination.Item key={i}
-                                     active={current_page === i}
-                                     onClick={
-                                         () => {
-                                             query.page = i;
-                                             this.changeRequest();
-                                             router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                                         }
-                                     }
-                    >{i}</Pagination.Item>
-                ))
-            }
-        }
-
-        if ((current_page + 2) < last_page) {
-            arr.push((
-                <React.Fragment key="elepsis">
-                    <Pagination.Ellipsis />
-                    <Pagination.Item>{last_page}</Pagination.Item>
-                </React.Fragment>
-            ))
-        }
-
-        arr.push((
-            <React.Fragment key="prev">
-                <Pagination.Next
-                    onClick={
-                        () => {
-                            if (current_page < last_page) {
-                                query.page = current_page + 1;
-                                this.changeRequest();
-                                router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                            }
-                        }
-                    }
-                />
-                <Pagination.Last
-                    onClick={
-                        () => {
-                            query.page = last_page;
-                            this.changeRequest();
-                            router.push(router.pathname, pathname + '?' + qs.stringify(query))
-                        }
-                    }
-                />
-            </React.Fragment>
-        ));
-
-        this.setState({pagination: arr})
-    };
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -196,7 +79,7 @@ class ShopsPage extends Component {
                                             </a>
                                         </Link>
                                         <div className="item-info">
-                                            <Link href="/shops/[shopName]" as={`/shops/reptomix`}>
+                                            <Link href="/shops/[shopName]" as={`/shops/${item.company_name}`}>
                                                 <a className="item-title text-center text-decoration-none mb-2">
                                                     <h3>{item.company_name}</h3>
                                                     <p>{item.owner} ({item.products_count})</p>
@@ -242,12 +125,8 @@ class ShopsPage extends Component {
                     }
                 </Row>
                 {
-                    shops.current_page !== shops.last_page && shops.current_page !== 1 ?
-                        <Pagination className="mb-2 justify-content-center">
-                            {
-                                pagination.map((item) => item)
-                            }
-                        </Pagination>
+                    shops.last_page !== 1 ?
+                        <Pagination className="d-flex justify-content-center mb-2" totalItems={shops.last_page} pageSize={1} defaultActivePage={shops.current_page} changeRequest={() => this.setState({request: true})}/>
                         : null
                 }
             </Container>
