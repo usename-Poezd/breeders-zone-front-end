@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import {formatDate} from 'react-day-picker/moment';
 import {Pipes} from "../../services";
 
-const ShopProductsItem = ({id, idx, name, sex, cb, morphs, price, kind, subcategory, localities, product_images, deleteProduct, deleteShopProduct, getKinds}) => {
+const ShopProductsItem = ({id, idx, name, sex, cb, morphs, price, kind, subcategory, locality, product_images, deleteProduct, deleteShopProduct, getKinds}) => {
     const delProduct = () => {
         deleteShopProduct({idx});
         getKinds();
@@ -48,14 +48,12 @@ const ShopProductsItem = ({id, idx, name, sex, cb, morphs, price, kind, subcateg
                             : null
                     }
                     {
-                        localities.length !== 0 ?
+                        locality !== null ?
                             (
                                 <li className="product-card-info-item flex-row align-items-center">
-                                    <h3 className="title-sex">Локалитеты:</h3>
+                                    <h3 className="title-sex">Локалитет:</h3>
                                     <div className="info morphs d-inline-block">
-                                        {
-                                            localities.map( ({title}) => <div key={title} className="morph-indicator morph-other-normal d-inline-block">{title}</div>)
-                                        }
+                                        <div className="morph-indicator morph-other-normal d-inline-block">{locality.title}</div>
                                     </div>
                                 </li>
                             )
