@@ -49,6 +49,12 @@
     &-item {
         padding: 10px;
         margin-bottom: 10px;
+        color: #212529;
+        
+        &:hover {
+            color: #212529;
+            text-decoration: none;
+        }
         @media (max-width: 768px) {
             flex-direction: column;
         }

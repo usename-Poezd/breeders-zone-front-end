@@ -111,6 +111,20 @@ $border-radius: 5px;
             background: $possible;
         }
     }
+
+    &-search{
+        &-input {
+            position: relative;
+
+            .spinner-border {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
 }
 
 .btn{
@@ -611,6 +625,8 @@ ul{
 
 .slick-track {
     margin: 0 !important;
+    display: flex;
+    align-items: center;
 }
 
 .modal-dialog {
