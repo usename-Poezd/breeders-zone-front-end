@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 
-import more from './more.svg';
-import search from './search.svg';
-import burger from './burger.svg';
-import logo from '../../public/images/logo.svg';
-
-import {Navbar, Nav, Form, Row, Col, Container, NavDropdown, Dropdown} from 'react-bootstrap';
+import {Navbar, Nav, Form, Container, NavDropdown} from 'react-bootstrap';
 
 import Link from 'next/link';
 import {connect} from "react-redux";
@@ -15,7 +10,6 @@ import {
     clearSearchMorphResultOut,
     deleteMorphIn,
     deleteMorphOut,
-    deleteSearchLocality,
     setSearchAge,
     setSearchLocality, setSearchMaxMorphs,
     setSearchMinMorphs,
@@ -27,7 +21,6 @@ import {
     setSearchSelectedKind, setSearchSex, setSearchSubcategoryId,
     setSelectedMorphIn,
     setSelectedMorphOut,
-    updateSearchLocality,
     search as searchState, logout, clearUserNotificationsCount
 } from "../../actions";
 import Spinner from "../spinner";
@@ -40,7 +33,6 @@ import {
     faEgg,
     faQuestionCircle, faShieldAlt, faSignOutAlt,
     faStore,
-    faTimes,
     faUserCircle
 } from "@fortawesome/free-solid-svg-icons";
 import Pipes from "../../services/pipes";
@@ -62,8 +54,6 @@ class Header extends Component {
         isSearch: false,
         isNotifications: false
     };
-
-    searchList = React.createRef();
     pipes = new Pipes();
 
     componentDidMount() {
@@ -163,7 +153,7 @@ class Header extends Component {
                                                             <Link href="/products">
                                                                 <NavDropdown.Item as="a" eventKey="4.3">Мои товары</NavDropdown.Item>
                                                             </Link>
-                                                            <Link href="/divorces">
+                                                            <Link href="/profile/divorces">
                                                                 <NavDropdown.Item as="a" eventKey="4.4">Мои разводы</NavDropdown.Item>
                                                             </Link>
                                                         </React.Fragment>
@@ -224,7 +214,7 @@ class Header extends Component {
                                             <span className="text">Мои товары</span>
                                         </Nav.Link>
                                     </Link>
-                                    <Link href="/divorces">
+                                    <Link href="/profile/divorces">
                                         <Nav.Link as="a">
                                             <span className="icon"><FontAwesomeIcon icon={faEgg} size="lg"/></span>
                                             <span className="text">Мои разводы</span>
@@ -293,7 +283,7 @@ class Header extends Component {
                 <Navbar bg="light" expand="lg">
                     <Link href="/">
                         <Navbar.Brand as="a" >
-                            <LazyImg src={logo} alt="Breeders Zone" className="logo"/>
+                            <LazyImg src="/images/logo.svg" alt="Breeders Zone" className="logo"/>
                         </Navbar.Brand>
                     </Link>
 
@@ -330,7 +320,7 @@ class Header extends Component {
                             <Notifications show={isNotifications}/>
                         </Nav.Link>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" className="btn shadow-none" onClick={this.onToggleBurger}>
-                            <LazyImg src={burger} alt="Меню" className="img-fluid" />
+                            <LazyImg src="/images/burger.svg" alt="Меню" className="img-fluid" />
                         </Navbar.Toggle>
                     </div>
 
@@ -351,7 +341,7 @@ class Header extends Component {
                                 />
                                 <div className="controls d-flex">
                                     <span className="more-icon d-flex" onClick={this.onToggle}>
-                                        <LazyImg src={more} alt="Опции" className="img-fluid"/>
+                                        <LazyImg src="/images/more.svg" alt="Опции" className="img-fluid"/>
                                     </span>
                                     <span
                                         className="search-icon d-flex"
@@ -359,7 +349,7 @@ class Header extends Component {
                                             searchState()
                                         }}
                                     >
-                                        <LazyImg src={search} alt="Поиск" className="img-fluid" />
+                                        <LazyImg src="/images/search.svg" alt="Поиск" className="img-fluid" />
                                     </span>
                                 </div>
                             </Form.Group>
@@ -427,8 +417,6 @@ export default connect(mapStateToProps, {
     setSearchQuery,
     setSearchSelectedKind,
     setSearchLocality,
-    deleteSearchLocality,
-    updateSearchLocality,
     setSearchPriceFrom,
     setSearchPriceTo,
     setSearchMorphResultIn,
