@@ -33,6 +33,11 @@ const divorce = (state, action) => {
                 ...state,
                 searchResultMale: payload
             };
+        case 'SET_SEARCH_MALE_REQUEST':
+            return {
+                ...state,
+                searchMaleRequest: payload
+            };
         case 'SET_MALE_MORPHS':
             return {
                 ...state,
@@ -53,6 +58,11 @@ const divorce = (state, action) => {
             return {
                 ...state,
                 searchResultFemale: payload
+            };
+        case 'SET_SEARCH_FEMALE_REQUEST':
+            return {
+                ...state,
+                searchFemaleRequest: payload
             };
         case 'SET_FEMALE_MORPHS':
             return {

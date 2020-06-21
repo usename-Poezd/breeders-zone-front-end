@@ -15,7 +15,8 @@ const search = (state, action) => {
         case 'SET_SEARCH_SELECTED_KIND':
             return {
                 ...state,
-                selectedKind: payload
+                selectedKind: payload,
+                subcategoryId: payload.subcategories ? payload.subcategories[0].id : null
             };
         case 'SET_SEARCH_PRICE_FROM':
             return {
@@ -55,23 +56,12 @@ const search = (state, action) => {
         case 'SET_SEARCH_LOCALITY':
             return {
                 ...state,
-                selectedLocalities: [...state.selectedLocalities, {...payload.localities[0]}]
+                localityId: payload
             };
-        case 'DELETE_SEARCH_LOCALITY':
-            const selectedLocalities = state.selectedLocalities;
-            selectedLocalities.splice(payload, 1);
+        case 'SET_SEARCH_MORPHS_IN_REQUEST':
             return {
                 ...state,
-                selectedLocalities: [...selectedLocalities]
-            };
-        case 'UPDATE_SEARCH_LOCALITY':
-            const locality = state.selectedKind.localities.find((item) => item.id === payload.localityId);
-            const tmp = state.selectedLocalities;
-            tmp[payload.idx] = locality;
-
-            return {
-                ...state,
-                selectedLocalities: [...tmp]
+                searchMorphsInRequest: payload
             };
         case 'SET_SEARCH_MORPH_RESULT_IN':
             return {
@@ -94,6 +84,11 @@ const search = (state, action) => {
             return {
                 ...state,
                 searchMorphResultIn: []
+            };
+        case 'SET_SEARCH_MORPHS_OUT_REQUEST':
+            return {
+                ...state,
+                searchMorphsOutRequest: payload
             };
         case 'SET_SEARCH_MORPH_RESULT_OUT':
             return {

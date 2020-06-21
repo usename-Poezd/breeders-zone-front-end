@@ -88,6 +88,7 @@ const initialState = {
         acceptedFiles: [],
         previews: [],
         searchResult: [],
+        searchRequest: false,
         selectedMorphs: [],
         deletedMorphsKind: [], //here morphs who deleted where info kindId is changed
         localities: [],
@@ -108,9 +109,11 @@ const initialState = {
         reports: [],
 
         male: [],
+        searchMaleRequest: false,
         searchResultMale: [],
 
         female: [],
+        searchFemaleRequest: false,
         searchResultFemale: [],
 
         sexPhotos: [],
@@ -148,11 +151,13 @@ const initialState = {
             localities: []
         },
         subcategoryId: null,
-        selectedLocalities: [],
+        localityId: null,
         priceFrom: 0,
         priceTo: 100000,
+        searchMorphsInRequest: false,
         searchMorphResultIn: [],
         morphsIn: [],
+        searchMorphsOutRequest: false,
         searchMorphResultOut: [],
         morphsOut: [],
         minMorphs: 0,

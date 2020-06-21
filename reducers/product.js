@@ -117,6 +117,11 @@ const product = (state, action) => {
                 ...state,
                 searchResult: payload
             };
+        case 'SET_PRODUCT_SEARCH_REQUEST':
+            return {
+                ...state,
+                searchRequest: payload
+            };
         case 'CLEAR_SEARCH_RESULT':
             return {
                 ...state,
@@ -146,31 +151,6 @@ const product = (state, action) => {
                 ...state,
                 deletedMorphsKind: [],
                 selectedMorphs: deletedMorphsKind
-            };
-        case 'SET_LOCALITY':
-            return {
-                ...state,
-                localities: [...state.localities, {...payload.localities[0]}]
-            };
-        case 'UPDATE_PRODUCT_LOCALITY':
-            const locality = payload.selectedKind.localities.find((item) => item.id === payload.localityId);
-            const tmp = state.localities;
-            tmp[payload.idx] = locality;
-            return {
-                ...state,
-                localities: [...tmp]
-            };
-        case 'DELETE_LOCALITY':
-            const localities = state.localities;
-            localities.splice(payload, 1);
-            return {
-                ...state,
-                localities: localities
-            };
-        case 'CLEAR_LOCALITIES':
-            return {
-                ...state,
-                localities: []
             };
         case 'DELETE_PRODUCT_REPORT':
             return {
