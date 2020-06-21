@@ -32,14 +32,14 @@ export default class  DataService {
     qs = require('qs');
 
     getProduct = (productId, isServer = false) => {
-        return Axios.get(`${isServer ? 'http://nginx-web' : ''}/api/products/${productId}`)
+        return Axios.get(`${isServer ? 'http://nginx-api' : ''}/api/products/${productId}`)
             .then( (resp) => resp.data);
     };
 
     getGuards = (data = {}) => {
         data.sort = 'guards';
         const query = this.qs.stringify(data);
-        return Axios.get(`http://nginx-web/api/users?${query}`, {
+        return Axios.get(`http://nginx-api/api/users?${query}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -50,7 +50,7 @@ export default class  DataService {
 
     getShops = (data) => {
         const query = this.qs.stringify(data);
-        return Axios.get(`http://nginx-web/api/shops?${query}`, {
+        return Axios.get(`http://nginx-api/api/shops?${query}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -60,7 +60,7 @@ export default class  DataService {
     };
 
     getShop = (shopName) => {
-        return Axios.get(`http://nginx-web/api/shops/${shopName}`, {
+        return Axios.get(`http://nginx-api/api/shops/${shopName}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -104,8 +104,8 @@ export default class  DataService {
     * |========================
     * */
 
-    getDivorce = (divorceId, isServer = false) => {
-        return Axios.get((isServer ? 'http://nginx-web' : '') + `/api/divorces/${divorceId}`,
+    getDivorce = (divorceId) => {
+        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '') + `/api/divorces/${divorceId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ export default class  DataService {
         if (prevCancelToken)
             prevCancelToken.cancel();
 
-        return Axios.get(`/api/divorces?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
+        return Axios.get(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/divorces?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
             {
                 cancelToken,
                 headers: {
@@ -233,7 +233,7 @@ export default class  DataService {
             prevCancelToken.cancel();
 
         const params = this.qs.stringify(options);
-        return Axios.get(`http://${typeof window === 'undefined' ? 'nginx-web' : 'localhost'}/api/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
+        return Axios.get(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
             {
                 cancelToken,
                 headers: {
@@ -315,7 +315,7 @@ export default class  DataService {
 
      };
 
-    updateShop = (shopName, data) => {u
+    updateShop = (shopName, data) => {
         const token = cookies.get('token');
 
         const formData = toFormData(data);
@@ -449,7 +449,7 @@ export default class  DataService {
 
     getActiveGenes = (options) => {
         const params = this.qs.stringify(options);
-        return Axios.get(`http://nginx-web/api/active-genes-subcategories?${params}`)
+        return Axios.get(`http://nginx-api/api/active-genes-subcategories?${params}`)
             .then( (resp) => resp.data);
     };
 
@@ -580,7 +580,7 @@ export default class  DataService {
     };
 
     verifyMail = (verifyCode) => {
-        return Axios.get('http://nginx-web/api/auth/verify-email/' + verifyCode, {
+        return Axios.get('http://nginx-api/api/auth/verify-email/' + verifyCode, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
