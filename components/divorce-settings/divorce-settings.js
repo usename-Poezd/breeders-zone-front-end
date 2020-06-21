@@ -1,7 +1,7 @@
 import React, {useCallback, useRef, useState} from "react";
 import {DataService, Pipes} from "../../services";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
-import {Col, Form, Row} from "react-bootstrap";
+import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import {HandelError, HandelSuccess} from "../handels";
 import GroupFormControl from "../group-form-control";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -15,7 +15,8 @@ import {
     clearDivorce,
     clearDivorceError,
     clearDivorceSearchResultFemale,
-    clearDivorceSearchResultMale, clearDivorceSuccess,
+    clearDivorceSearchResultMale,
+    clearDivorceSuccess,
     deleteAcceptedFileExit,
     deleteAcceptedFileMasonry,
     deleteAcceptedFileSex,
@@ -27,9 +28,16 @@ import {
     deleteSexPhoto,
     setAcceptedFilesExit,
     setAcceptedFilesMasonry,
-    setAcceptedFilesSex, setDivorce, setDivorceCb, setDivorceError,
+    setAcceptedFilesSex,
+    setDivorce,
+    setDivorceCb,
+    setDivorceError,
     setDivorceSearchResultFemale,
-    setDivorceSearchResultMale, setDivorceSuccess, setDivorceUpdateRequest,
+    setDivorceSearchResultMale,
+    setDivorceSuccess,
+    setDivorceUpdateRequest,
+    setSearchFemaleRequest,
+    setSearchMaleRequest,
     setSelectedMorphFemale,
     setSelectedMorphMale
 } from "../../actions";
@@ -63,16 +71,8 @@ const DivorceSettings = ({
      deleteSexPhoto,
      deleteMasonryPhoto,
      deleteExitPhoto,
-     match,
-     setDivorceSuccess,
-     clearDivorceSuccess,
-     setDivorceError,
-     clearDivorceError,
-     setDivorceUpdateRequest,
-     setDivorce,
-     getDivorce,
-     clearDivorce,
-     clearDivorceAcceptedFiles,
+     setSearchMaleRequest,
+     setSearchFemaleRequest,
      submit
  }) => {
     const { toTraitClass } = new Pipes();
@@ -104,9 +104,15 @@ const DivorceSettings = ({
 
     const onSearchMorphs = (e, male = true) => {
         if (!e.target.value) {
-            clearSearchInput();
+            clearSearchInput(male);
         }
         if (e.target.value) {
+            if (male) {
+                setSearchMaleRequest(true);
+            } else {
+                setSearchFemaleRequest(true);
+            }
+
             setSelectMorphIdx(0);
             debounceSearch({
                 q: e.target.value,
@@ -125,9 +131,11 @@ const DivorceSettings = ({
                         })
                     });
                     if (male) {
-                        setDivorceSearchResultMale(arr)
+                        setDivorceSearchResultMale(arr);
+                        setSearchMaleRequest(false);
                     } else {
-                        setDivorceSearchResultFemale(arr)
+                        setDivorceSearchResultFemale(arr);
+                        setSearchFemaleRequest(false);
                     }
                 });
         }
@@ -296,17 +304,24 @@ const DivorceSettings = ({
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Самец:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="male"
-                            value={values.male}
-                            onChange={onSearchMorphs}
-                            onKeyDown={onSelectMorph}
-                            ref={register}
-                            onFocus={() => setMorphsShowMale(true)}
-                            onBlur={() => setTimeout(() => setMorphsShowMale(false), 200)}
-                            placeholder="Начните вводить название морфы..."
-                        />
+                        <div className="morph-search-input">
+                            <Form.Control
+                                type="text"
+                                name="male"
+                                value={values.male}
+                                onChange={onSearchMorphs}
+                                onKeyDown={onSelectMorph}
+                                ref={register}
+                                onFocus={() => setMorphsShowMale(true)}
+                                onBlur={() => setTimeout(() => setMorphsShowMale(false), 200)}
+                                placeholder="Начните вводить название морфы..."
+                            />
+                            {
+                                divorce.searchMaleRequest ?
+                                    <BootstrapSpinner animation="border"/>
+                                    : null
+                            }
+                        </div>
                         {
                             divorce.searchResultMale.length > 0 && morphsShowMale ?
                                 (
@@ -352,17 +367,24 @@ const DivorceSettings = ({
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Самка:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="female"
-                            value={values.female}
-                            onChange={(e) => onSearchMorphs(e, false)}
-                            onKeyDown={(e) => onSelectMorph(e, false)}
-                            ref={register}
-                            onFocus={() => setMorphsShowFemale(true)}
-                            onBlur={() => setTimeout(() => setMorphsShowFemale(false), 200)}
-                            placeholder="Начните вводить название морфы..."
-                        />
+                        <div className="morph-search-input">
+                            <Form.Control
+                                type="text"
+                                name="female"
+                                value={values.female}
+                                onChange={(e) => onSearchMorphs(e, false)}
+                                onKeyDown={(e) => onSelectMorph(e, false)}
+                                ref={register}
+                                onFocus={() => setMorphsShowFemale(true)}
+                                onBlur={() => setTimeout(() => setMorphsShowFemale(false), 200)}
+                                placeholder="Начните вводить название морфы..."
+                            />
+                            {
+                                divorce.searchFemaleRequest ?
+                                    <BootstrapSpinner animation="border"/>
+                                    : null
+                            }
+                        </div>
                         {
                             divorce.searchResultFemale.length > 0 && morphsShowFemale ?
                                 (
@@ -574,5 +596,6 @@ export default connect(mapStateToProps, {
     clearDivorceError,
     setDivorceUpdateRequest,
     setDivorce,
-    clearDivorce
+    setSearchMaleRequest,
+    setSearchFemaleRequest
 })(DivorceSettings);
