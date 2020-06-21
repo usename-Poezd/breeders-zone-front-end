@@ -4,8 +4,6 @@ import withRedux from 'next-redux-wrapper'
 import {Provider} from "react-redux";
 import {initStore} from "../public/images/store";
 import "../sass/app.scss";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import 'react-day-picker/lib/style.css';
 import 'lazysizes';
 import 'lazysizes/plugins/attrchange/ls.attrchange';
@@ -39,11 +37,12 @@ class MyApp extends Component {
     state = {
         changeRoute: false,
         prevUrl: '',
-        isSecondHeader: true
+        isSecondHeader: this.props.isSecondHeader
     };
 
     static async getInitialProps({Component, ctx}) {
         const state = await ctx.store.getState();
+        const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset)/gi;
 
         if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
             const kinds = await Axios.get(
@@ -77,7 +76,7 @@ class MyApp extends Component {
 
 
         //Anything returned here can be accessed by the client
-        return {store: ctx.store};
+        return {store: ctx.store, isSecondHeader: ctx.pathname.match(regExp) === null};
     }
 
     componentDidMount() {
@@ -154,6 +153,8 @@ class MyApp extends Component {
                                     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
                                     crossOrigin="anonymous"
                                 />
+                                <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+                                <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
                                 <script src="https://kit.fontawesome.com/438eed2481.js" crossOrigin="anonymous"></script>
                             </Head>
 
@@ -192,7 +193,7 @@ class MyApp extends Component {
             </Provider>
         )
     }
-};
+}
 
 export default withRedux(initStore, (state) => ({
     kinds: state.kinds
