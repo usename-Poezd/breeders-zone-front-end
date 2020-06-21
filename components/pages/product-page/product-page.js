@@ -23,15 +23,11 @@ class ProductPage extends Component  {
     state = {
         productRequest: false,
         sendMessageModal: false,
-        mainImg: null,
+        mainImg: this.props.product.product_images[0],
         modalImage: false,
         isVerify: false
     };
     pipes = new Pipes();
-
-    componentWillMount(){
-        this.setState({mainImg: this.props.product.product_images[0]});
-    }
 
     componentDidMount() {
         this.checkVerify();
@@ -88,7 +84,7 @@ class ProductPage extends Component  {
             },
             age,
             kind: {title_rus, title_eng, guards: kindGuards, id: kindId},
-            localities,
+            locality,
             description,
             product_images,
             subcategory
@@ -241,20 +237,16 @@ class ProductPage extends Component  {
                                         : null
                                 }
                                 {
-                                    localities.length > 0 ?
+                                    locality ?
                                         (
                                             <li className="product-card-info-item">
-                                                <h3 className="title">Локалитеты:</h3>
+                                                <h3 className="title">Локалитет:</h3>
                                                 <div className="info morphs">
-                                                    {
-                                                        localities.map( (locality) => (
-                                                            <Link href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
-                                                                <a className="morph-indicator morph-other-normal">
-                                                                    {locality.title}
-                                                                </a>
-                                                            </Link>
-                                                        ))
-                                                    }
+                                                    <Link href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
+                                                        <a className="morph-indicator morph-other-normal">
+                                                            {locality.title}
+                                                        </a>
+                                                    </Link>
                                                 </div>
                                             </li>
                                         )
