@@ -11,10 +11,9 @@ import {
 import Spinner from "../spinner";
 import {Pipes} from "../../services";
 import ShopDivorcesItem from "../shop-divorces-item";
-// import BreadCrumbs from "../bread-crumbs";
 import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import {isLogin} from "../../utils";
-import Router from "next/router";
+import {withRouter} from "next/router";
 import Link from "next/link";
 
 class ShopDivorces extends Component{
@@ -130,7 +129,7 @@ class ShopDivorces extends Component{
 
     render() {
         const { selectStyle, isMobile } = this.state;
-        const { divorces, divorcesRequest, allKinds, user } = this.props;
+        const { divorces, divorcesRequest, allKinds, user, router } = this.props;
 
         if (allKinds.length === 0) {
             return (
@@ -143,7 +142,7 @@ class ShopDivorces extends Component{
         }
 
         if (!(user.is_breeder || isLogin()) && typeof window !== 'undefined'){
-            Router.push('/');
+            router.push('/');
         }
 
         return (
@@ -222,4 +221,8 @@ const mapStateToProps = ({shop: {divorces, divorcesRequest}, kinds: { all: allKi
     user
 });
 
-export default connect(mapStateToProps, { setShopDivorcesRequest, setShopDivorces, clearShopDivorces })(withGetData(ShopDivorces, mapMethodsToProps));
+export default connect(mapStateToProps, { setShopDivorcesRequest, setShopDivorces, clearShopDivorces })(
+    withRouter(
+        withGetData(ShopDivorces, mapMethodsToProps)
+    )
+);
