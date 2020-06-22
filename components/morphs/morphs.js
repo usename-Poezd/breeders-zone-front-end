@@ -47,7 +47,7 @@ class Morphs extends Component {
                     <Head>
                         <title>Похоже в категории {activeKind.title_rus} нет активных морф</title>
                     </Head>
-                    <Row>
+                    <Row className="mt-5">
                         <Col xs={12} className="text-center d-flex h-100">
                             <h2 className="m-auto">Похоже в категории {activeKind.title_rus} нет активных морф</h2>
                         </Col>
@@ -62,7 +62,7 @@ class Morphs extends Component {
                     <Head>
                         <title>Похоже в категории {activeKind.title_rus} нет животных</title>
                     </Head>
-                    <Row>
+                    <Row className="mt-5">
                         <Col xs={12} className="text-center d-flex h-100">
                             <h2 className="m-auto">Похоже в категории {activeKind.title_rus} нет животных</h2>
                         </Col>
