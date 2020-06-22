@@ -1,6 +1,7 @@
 import Axios from "axios";
 import {toFormData} from "../utils";
 import { Cookies } from 'react-cookie';
+import nextCookies from "next-cookies"
 // set up cookies
 const cookies = new Cookies();
 
@@ -31,8 +32,28 @@ export default class  DataService {
 
     qs = require('qs');
 
-    getProduct = (productId, isServer = false) => {
-        return Axios.get(`${isServer ? 'http://nginx-api' : ''}/api/products/${productId}`)
+    getProduct = (productId, isBreeder = false, ctx) => {
+        let token = cookies.get('token');
+
+        if (ctx) {
+            token = nextCookies(ctx).token
+        }
+
+        const headers = {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        };
+
+
+        if (isBreeder) {
+            headers.Authorization = `Bearer ${token}`
+        }
+
+        return Axios.get(
+            `${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/products/${productId}`,
+            {
+                headers
+            })
             .then( (resp) => resp.data);
     };
 
@@ -104,13 +125,24 @@ export default class  DataService {
     * |========================
     * */
 
-    getDivorce = (divorceId) => {
+    getDivorce = (divorceId, isBreeder = false, ctx) => {
+        let token = cookies.get('token');
+        if (ctx) {
+            token = nextCookies(ctx).token
+        }
+        const headers = {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        };
+
+
+        if (isBreeder) {
+            headers.Authorization = `Bearer ${token}`
+        }
+
         return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '') + `/api/divorces/${divorceId}`,
             {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                }
+                headers
             })
             .then((resp) => resp.data);
     };

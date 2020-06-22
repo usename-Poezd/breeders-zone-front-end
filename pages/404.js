@@ -6,7 +6,7 @@ export default () => {
         <Container>
             <div className="feather-shadow p-4 mt-4">
                 <h1 className="text-center">404</h1>
-                <h3 className="text-center">Упс... таой страницы не существует</h3>
+                <з className="text-center">Упс... такой страницы не существует</з>
             </div>
         </Container>
     )

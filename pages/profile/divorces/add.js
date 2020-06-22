@@ -1,21 +1,18 @@
 import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
-import Header from "../../../components/header/header";
 import Head from "next/head";
-import ShopDivorces from "../../../components/shop-divorces/shop-divorces";
 import {connect} from "react-redux";
 import {isLogin} from "../../../utils";
 import Spinner from "../../../components/spinner";
 import {
     clearDivorce, clearDivorceError,
-    clearDivorceSuccess,
-    setDivorce, setDivorceError,
-    setDivorceRequest,
+    clearDivorceSuccess, setDivorceError,
     setDivorceSuccess,
     setDivorceUpdateRequest
 } from "../../../actions";
 import DivorceSettings from "../../../components/divorce-settings";
 import {withGetData} from "../../../components/hoc-helpers";
+import {withRouter} from "next/router";
 
 const AddDivorcePage = (props) => {
 
@@ -114,5 +111,5 @@ export default connect(mapStateToProps, {
     setDivorceError,
     clearDivorceError,
 })(
-    withGetData(AddDivorcePage, mapMethodsToProps)
+    withRouter(withGetData(AddDivorcePage, mapMethodsToProps))
 );

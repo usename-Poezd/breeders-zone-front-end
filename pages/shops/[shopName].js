@@ -17,6 +17,7 @@ import {connect} from "react-redux";
 import Head from "next/head";
 import TraitItem from "../../components/trait-item/trait-item";
 import LazyImg from "../../components/lazy-img";
+import Error from "../_error";
 
 class ShopPage extends Component {
     state = {
@@ -28,8 +29,10 @@ class ShopPage extends Component {
     pipes = new Pipes();
 
     componentDidMount(){
-        this.updateTabContent();
-        this.upgradeGroupAndKindUrl();
+        if (typeof this.props.shop !== 'undefined') {
+            this.updateTabContent();
+            this.upgradeGroupAndKindUrl();
+        }
     }
 
     onTab = (idx) => {
@@ -105,7 +108,12 @@ class ShopPage extends Component {
 
 
         const { morphs, activeTab, groupAndKindUrl, loadingMorphs } = this.state;
-        const { shop, setActiveKind } = this.props;
+        const { shop, setActiveKind , statusCode} = this.props;
+
+        if (statusCode && statusCode !== 200) {
+            return <Error statusCode={statusCode}/>
+        }
+
         const { kinds, divorces } = shop;
 
         const {
@@ -354,15 +362,25 @@ class ShopPage extends Component {
 }
 
 export const getServerSideProps = async (ctx) => {
-    const dataService = await new DataService();
-    const {shopName} = await ctx.query;
-    const shop = await dataService.getShop(shopName);
+    try {
+        const dataService = await new DataService();
+        const {shopName} = await ctx.query;
+        const shop = await dataService.getShop(shopName);
 
 
-    return {
-        props: {
-            shop
+        return {
+            props: {
+                statusCode: 200,
+                shop
+            }
         }
+    } catch (error) {
+        ctx.res.statusCode = error.response.status;
+        return {
+            props: {
+                statusCode: error.response.status
+            }
+        };
     }
 };
 

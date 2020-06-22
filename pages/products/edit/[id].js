@@ -1,195 +1,33 @@
-import React, {Component} from "react";
-import ProductSettings from "../../../components/product-settings";
-import {withGetData} from "../../../components/hoc-helpers";
-import {
-    clearGetProductRequest,
-    getKinds,
-    productUpdateClear,
-    productUpdateClearError,
-    productUpdateClearSuccess, setGetProductRequest,
-    setProductInfo,
-    setProductUpdateError,
-    setProductUpdateRequest,
-    setProductUpdateSuccess,
-} from "../../../actions";
-import {connect} from "react-redux";
-import {Col, Container, Row} from "react-bootstrap";
-import Spinner from "../../../components/spinner";
-// import BreadCrumbs from "../../bread-crumbs/bread-crumbs";
-import {isLogin} from "../../../utils";
-import {withRouter} from "next/router";
-import Header from "../../../components/header/header";
 import {DataService} from "../../../services";
-import Head from "next/head";
-import Axios from "axios";
+import Error from "../../_error";
+import {ProductEditPage} from "../../../components/pages";
+import React from "react";
 
-class ProductEditPage extends Component{
-    UNSAFE_componentWillMount() {
-        const {productSSR, setProductInfo} = this.props;
-        const cb = new Date(productSSR.cb);
-
-        setProductInfo({
-            info:{
-                ...productSSR,
-                sex: String(productSSR.sex),
-                kindId: productSSR.kind_id,
-                cb,
-                age: productSSR.age.title
-            },
-            product_images: productSSR.product_images,
-            selectedMorphs: productSSR.morphs,
-            localities: productSSR.localities
-        });
+export default ({productSSR, statusCode}) => {
+    if (statusCode && statusCode !== 200) {
+        return <Error statusCode={statusCode}/>
     }
 
-    componentWillUnmount() {
-        const { productUpdateClear, productUpdateClearError, productUpdateClearSuccess } = this.props;
-        productUpdateClear();
-        productUpdateClearError();
-        productUpdateClearSuccess();
-    }
-
-    getStateProduct = () => {
-        const {router, getProduct, setGetProductRequest, clearGetProductRequest, setProductInfo } = this.props;
-
-        setGetProductRequest();
-        getProduct(router.query.id)
-            .then( data => {
-                const cb = new Date(data.cb);
-                setProductInfo({
-                    info:{
-                        ...data,
-                        sex: String(data.sex),
-                        kindId: data.kind_id,
-                        cb,
-                        age: data.age.title
-                    },
-                    product_images: data.product_images,
-                    selectedMorphs: data.morphs,
-                    localities: data.localities
-                });
-                clearGetProductRequest();
-            });
-    };
-
-    submit = (data) => {
-        const {
-            setProductUpdateRequest,
-            updateProduct,
-            setProductUpdateSuccess,
-            setProductUpdateError,
-            product: {info:{cb}, acceptedFiles, selectedMorphs, deletedImages, localities},
-            router,
-            productUpdateClearSuccess,
-            productUpdateClearError,
-            getKinds,
-        } = this.props;
-        setProductUpdateRequest();
-        updateProduct({
-            ...data,
-            locality_id: data.locality_id !== 'none' ? data.locality_id : null,
-            cb,
-            product_images: acceptedFiles,
-            deletedImages: deletedImages,
-            morphs: selectedMorphs,
-            localities
-        }, router.query.id)
-            .then( async (data) => {
-                setProductUpdateSuccess(data.success);
-                getKinds();
-                this.getStateProduct();
-                setTimeout(()=> productUpdateClearSuccess(), 5000);
-            })
-            .catch( error => {
-                setProductUpdateError({
-                    product: {
-                        info: {
-                            ...data,
-                            cb
-                        },
-                        morphs: selectedMorphs,
-                        localities
-                    },
-                    errors: error.response.data.errors,
-                    status: error.status
-                });
-                setTimeout(()=> productUpdateClearError(), 5000);
-            });
-    };
-
-    render() {
-        const {
-            product,
-            user,
-            allKinds,
-            loginRequest,
-            router
-        } = this.props;
-
-        if(loginRequest || product.updateRequest || product.getRequest || allKinds.length === 0){
-            return (
-                <Container>
-                    <Row className="justify-content-center">
-                        <Col xs={12} md={8} className="feather-shadow mt-3 py-5">
-                            <Spinner/>
-                        </Col>
-                    </Row>
-                </Container>
-            )
-        }
-
-        if (!(user.is_breeder || isLogin()) && typeof window !== 'undefined'){
-            router.push('/');
-        }
-
-        return (
-            <React.Fragment>
-                <Container>
-                    <ProductSettings
-                        submit={this.submit}
-                    />
-                </Container>
-            </React.Fragment>
-        )
-    }
+    return <ProductEditPage productSSR={productSSR}/>
 }
 
 export const getServerSideProps = async (ctx) => {
-    const dataService = await new DataService();
-    const productSSR = await dataService.getProduct(ctx.query.id, true);
+    try {
+        const dataService = await new DataService();
+        const productSSR = await dataService.getProduct(ctx.query.id, true, ctx);
 
-    return {
-        props: {
-            productSSR
+        return {
+            props: {
+                statusCode: 200,
+                productSSR
+            }
         }
+    } catch (error) {
+        ctx.res.statusCode = error.response.status;
+        return {
+            props: {
+                statusCode: error.response.status
+            }
+        };
     }
 };
-
-const mapStateToProps = ({auth: {loginRequest}, product, profile: {user}, kinds: {all: allKinds}}) => ({
-    user,
-    product,
-    allKinds,
-    loginRequest
-});
-
-const mapMethodsToProps = ({updateProduct, getProduct}) => ({
-    updateProduct,
-    getProduct
-});
-
-export default connect(mapStateToProps, {
-    setGetProductRequest,
-    getKinds,
-    setProductInfo,
-    clearGetProductRequest,
-    setProductUpdateRequest,
-    setProductUpdateSuccess,
-    setProductUpdateError,
-    productUpdateClear,
-    productUpdateClearSuccess,
-    productUpdateClearError,
-})(
-    withRouter(
-        withGetData(ProductEditPage, mapMethodsToProps)
-    )
-);
