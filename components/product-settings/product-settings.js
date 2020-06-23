@@ -137,7 +137,7 @@ const ProductSettings = ({
         defaultValues: {
             ...info,
             kind_id: info.kind_id ? info.kind_id : allKinds[0].id,
-            subcategory_id: info.subcategory_id ? info.subcategory_id : allKinds[0].subcategories[0].id,
+            subcategory_id: info.subcategory_id ? info.subcategory_id : (allKinds[0].subcategories !== null && allKinds[0].subcategories.length !== 0 ? allKinds[0].subcategories[0].id : null),
             locality_id: info.locality_id ? info.locality_id : 'none',
             morph: ''
         }
