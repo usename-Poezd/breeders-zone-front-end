@@ -58,7 +58,6 @@ const ProductSettings = ({
      allKinds,
      deleteMorphsKind,
      clearDeletedMorphsKind,
-     clearLocalities,
      setProductSearchRequest
 }) => {
     const [selectMorphIdx, setSelectMorphIdx] = useState(0);
@@ -194,7 +193,6 @@ const ProductSettings = ({
                                         }
                                         if (prevKindId !== e.target.value && info.kind_id != e.target.value) {
                                             deleteMorphsKind();
-                                            clearLocalities();
                                         }
                                         setSelectKind(allKinds.find((item) => item.id == values.kind_id));
                                         setPrevKindId(values.kind_id);
@@ -244,7 +242,7 @@ const ProductSettings = ({
                                             <option value="none">Нет локалитета</option>
                                             {
                                                 selectedKind.subcategories ?
-                                                    selectedKind.subcategories.find( (item) => item.id === values.subcategory_id).localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
+                                                    selectedKind.subcategories.find( (item) => item.id === Number(values.subcategory_id)).localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
                                                     : selectedKind.localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
                                             }
                                         </Form.Control>
@@ -458,7 +456,7 @@ const ProductSettings = ({
                                 errors={errors}
                                 className="w-25 m-0"
                                 controls={{
-                                    type: "text",
+                                    type: "number",
                                     name: "price",
                                     value: values.price,
                                     onChange: handleChange,
