@@ -103,12 +103,12 @@ const TraitItem = (props) => {
                                     <LazyImg
                                         src={product_images[0].img_src}
                                         alt="asd"
-                                        className="img-fluid item-img"
+                                        className="img-fluid"
                                     />
                                     : <LazyImg
                                         src={'/images/icons/error-snake.svg'}
                                         alt="asd"
-                                        className="img-fluid item-img"
+                                        className="img-fluid"
                                     />
 
                             }

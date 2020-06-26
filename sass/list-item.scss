@@ -38,8 +38,21 @@ $border-radius: 5px;
     &-img {
         display: flex;
         justify-content: center;
-        height: 157px;
         object-fit: cover;
+        height: 167px;
+
+        img {
+            object-fit: cover;
+            width: 600px;
+        }
+
+        @media (max-width: 992px) {
+            height: 230px;
+        }
+
+        @media (max-width: 576px) {
+            height: 350px;
+        }
     }
 
     &-body {
