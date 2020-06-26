@@ -238,3 +238,10 @@ export const setSelectedRoomMessage = (payload) => {
         payload
     }
 };
+
+export const setChatAct = (payload) => {
+    return {
+        type: 'SET_CHAT_ACT',
+        payload
+    }
+};

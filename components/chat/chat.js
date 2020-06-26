@@ -10,7 +10,7 @@ import {
     getRooms,
     newRoom,
     receivedMessage,
-    selectRoom,
+    selectRoom, setChatAct,
     setRooms, setSelectedRoomMessage, updateCheckMessage, updateLoadMessage
 } from "../../actions";
 import {withGetData, withHookForm} from "../hoc-helpers";
@@ -126,44 +126,46 @@ class Chat extends Component {
     };
 
     selectNewRoom = () => {
-        const {countRoom, newUser, newRoom, rooms, selectRoom, router, search, pathname, act, searchRoom, addRooms} = this.props;
+        const {countRoom, newUser, newRoom, rooms, setChatAct, router, search, pathname, act, searchRoom, addRooms} = this.props;
         const newQuery = qs.parse(search.replace('?', ''));
-        const room = rooms.find((item) => item.users[0].id === newUser.id);
+        let room = rooms.find((item) => item.users[0].id === newUser.id);
         if (room) {
             delete newQuery.act;
             newQuery.room = room.room.id;
+            setChatAct('');
             router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
             return;
         }
 
         if (!room) {
-            const roomId = searchRoom(newUser.id)
+            let roomId = null;
+            searchRoom(newUser.id)
                 .then((data) => {
                     addRooms([data]);
-                    return data.room.id;
-                });
-            if (roomId) {
-                router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
-                return;
-            }
-        }
-
-        if (act === 'new' && newUser && !room) {
-            countRoom()
-                .then(count => {
-                    newRoom({id: count + 1, user: newUser});
-                    return count + 1
-                })
-                .then((roomId) => {
+                    roomId = data.room.id;
                     newQuery.room = roomId;
-                    router.push(pathname +  '?' + qs.stringify(newQuery));
+                    setChatAct('');
+                    return router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
                 })
+                .catch( () => {
+                    if (act === 'new' && newUser && !room) {
+                        countRoom()
+                            .then(count => {
+                                newRoom({id: count + 1, user: newUser});
+                                return count + 1
+                            })
+                            .then((roomId) => {
+                                newQuery.room = roomId;
+                                router.push(router.pathname, pathname +  '?' + qs.stringify(newQuery));
+                            })
+                    }
+                });
         }
     };
 
     updateSelectRoom = () => {
-        const {selectRoom, addMessage, clearSelectedRoom, router, setSelectedRoomMessage, newUser = {id: null}, user, act, search, selectedRoom} = this.props;
-        let roomId = Number(router.query.room);
+        const {selectRoom, addMessage, clearSelectedRoom, setSelectedRoomMessage, newUser = {id: null}, user, act, search, selectedRoom} = this.props;
+        let roomId = Number(qs.parse(search.replace('?', '')).room);
 
         if (act) {
             const query = qs.parse(search.replace('?', ''));
@@ -220,8 +222,7 @@ class Chat extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        const {addMessage, setMessage, selected_room_id, selected_room, setNewRoom, router, updateLoadMessage, setSelectedRoomMessage, pathname, search} = this.props;
-        const act = router.query.act;
+        const {addMessage, setMessage, selected_room_id, selected_room, setNewRoom, router, updateLoadMessage, setSelectedRoomMessage, pathname, search, act} = this.props;
 
         const {value} = this.state;
         const trimmedValue = value.trimLeft().trimRight().replace(/\n{2,}/g, '\n').replace(/\s{2,}/g);
@@ -229,13 +230,13 @@ class Chat extends Component {
 
         addMessage({message: trimmedValue, id: 0, checked: 0, newMessageKey});
         if (act === 'new') {
-            const newQuery = router.query;
+            const newQuery = qs.parse(search.replace('?', ''));
             delete newQuery.act;
 
             setNewRoom({message: trimmedValue, roomId: selected_room_id, users: selected_room.users})
                 .then((id) => {
                     updateLoadMessage({id, newMessageKey});
-                    router.push(pathname + (qs.stringify(newQuery) ? '?' + qs.stringify(newQuery) : `?room=${selected_room_id}`));
+                    router.push(router.pathname, pathname + (qs.stringify(newQuery) ? '?' + qs.stringify(newQuery) : `?room=${selected_room_id}`));
                 });
             setSelectedRoomMessage(trimmedValue);
             return this.setState({value: ''})
@@ -426,7 +427,7 @@ class Chat extends Component {
     }
 }
 
-const mapStateToProps = ({profile: {user}, auth: {loginRequest}, chat: {messages, rooms, selected_room_id, selected_room, getMessagesRequest}, router: {location: { pathname, search }}}) => ({
+const mapStateToProps = ({profile: {user}, auth: {loginRequest}, chat: {messages, rooms, selected_room_id, selected_room, getMessagesRequest, act}, router: {location: { pathname, search }}}) => ({
     user,
     rooms,
     messages,
@@ -435,7 +436,8 @@ const mapStateToProps = ({profile: {user}, auth: {loginRequest}, chat: {messages
     loginRequest,
     getMessagesRequest,
     pathname,
-    search
+    search,
+    act
 });
 
 const mapMethodsToProps = ({setMessage, checkMessages, countRoom, setNewRoom, searchRoom}) => ({
@@ -446,4 +448,18 @@ const mapMethodsToProps = ({setMessage, checkMessages, countRoom, setNewRoom, se
     searchRoom
 });
 
-export default connect(mapStateToProps, { getRooms, addMessage, selectRoom, receivedMessage, clearChat, newRoom, clearSelectedRoom, updateLoadMessage, updateCheckMessage, setSelectedRoomMessage, addRooms })(withHookForm(withGetData(withRouter(Chat), mapMethodsToProps)));
+export default connect(mapStateToProps, {
+    getRooms,
+    addMessage,
+    selectRoom,
+    receivedMessage,
+    clearChat,
+    newRoom,
+    clearSelectedRoom,
+    updateLoadMessage,
+    updateCheckMessage,
+    setSelectedRoomMessage,
+    addRooms,
+    setChatAct
+})(withHookForm(withGetData(withRouter(Chat), mapMethodsToProps)));
+

@@ -142,7 +142,8 @@ const initialState = {
         rooms: [],
         messages: [],
         getMessagesRequest: false,
-        messagesCancelToken: null
+        messagesCancelToken: null,
+        act: ''
     },
     search: {
         query: '',

@@ -120,6 +120,11 @@ const chat = (state, action) => {
             return {
                 ...initialState.chat
             };
+        case 'SET_CHAT_ACT':
+            return  {
+                ...state,
+                act: payload
+            };
         default:
             return state;
     }
