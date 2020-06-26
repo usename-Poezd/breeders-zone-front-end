@@ -221,7 +221,7 @@ class ShopPage extends Component {
                                                 {
                                                     instagram ? (
                                                         <a className="social-item" href={instagram}>
-                                                            <LazyImg src="/images/logos/inst_logo.svf" alt="instagram"/>
+                                                            <img src="/images/logos/inst_logo.svg" alt="instagram"/>
                                                         </a>
                                                     ) : null
                                                 }
