@@ -320,7 +320,8 @@ export default class  DataService {
                 if (!data.error && data.access_token) {
                     cookies.set('token', data.access_token, {
                         path: '/',
-                        sameSite: true
+                        sameSite: true,
+                        maxAge: data.expires_in
                     });
                 }
             });

@@ -67,7 +67,9 @@ class UserActivityBanner extends Component {
                                         onClick={
                                             () => {
                                                 this.setState({isOpen: false});
-                                                cookies.set('isActivityChecked', true)
+                                                cookies.set('isActivityChecked', true, {
+                                                    expires: new Date('01 January 30 00:00:00 UTC')
+                                                })
                                             }
                                         }
                                     >

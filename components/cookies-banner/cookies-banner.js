@@ -31,7 +31,9 @@ const CookiesBanner = (props) => {
                                             className="btn btn-main text-nowrap"
                                             onClick={
                                                 () => {
-                                                    cookies.set('acceptCookies', true);
+                                                    cookies.set('acceptCookies', true, {
+                                                        expires: new Date('01 January 30 00:00:00 UTC')
+                                                    });
                                                     setOpen(false)
                                                 }
                                             }
