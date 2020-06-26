@@ -11,6 +11,7 @@ import {connect} from "react-redux";
  import Link from "next/link";
  import ReportModal from "../report-modal/report-modal";
  import Pagination from "../../components/pagination";
+ import {setChatAct} from "../../actions";
 const qs = require('qs');
 
 class TraitsList extends Component {
@@ -35,6 +36,8 @@ class TraitsList extends Component {
 
 
     sendMessage = (user) => {
+        const {setChatAct} = this.props;
+        setChatAct('new');
         this.setState({
             sendMessageModal: true,
             modalUser: user
@@ -71,7 +74,7 @@ class TraitsList extends Component {
                             <Modal.Title>Сообщения</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <Chat newUser={modalUser} act='new'/>
+                            <Chat newUser={modalUser}/>
                         </Modal.Body>
                     </Modal>
                     {
@@ -108,6 +111,6 @@ const mapMethodsToProps = ({getProducts}) => ({
     getProducts
 });
 
-export default connect(mapStateToProps)(
+export default connect(mapStateToProps, {setChatAct})(
     withRouter(withGetData(TraitsList, mapMethodsToProps))
 );

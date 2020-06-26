@@ -1,6 +1,6 @@
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEye, faMars, faPen, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
+import {faMars, faPen, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import {withGetData} from "../hoc-helpers";
 import {deleteShopProduct, getKinds} from "../../actions";
 import Link from "next/link";
@@ -91,10 +91,6 @@ const ShopProductsItem = ({id, idx, name, sex, cb, morphs, price, kind, subcateg
                 </ul>
             </div>
             <div className="products-item-controls-container d-flex flex-column flex-sm-row flex-md-column justify-content-center align-items-center">
-                <div className="products-item-views">
-                    <FontAwesomeIcon icon={faEye}/>
-                    <span className="views">123</span>
-                </div>
                 <div className="products-item-controls d-flex align-items-start justify-content-center">
                     <Link href="/products/edit/[id]" as={`/products/edit/${id}`} >
                         <a className="products-item-controls-item">
