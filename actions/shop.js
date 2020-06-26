@@ -24,7 +24,7 @@ export const setShopUpdateError = (payload) => {
 
 export const setShopPreview = (payload) => {
     return {
-        type: 'PUSH_SHOP_PREVIEWS',
+        type: 'PUSH_SHOP_UPDATE_PREVIEWS',
         payload: payload
     }
 };

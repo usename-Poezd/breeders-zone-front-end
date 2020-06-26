@@ -339,8 +339,9 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                     name: "instagram",
                                     value: instagram,
                                     onChange: handleChange,
-                                    ref: register,
-                                    pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    ref: register({
+                                        pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+                                    }),
                                 }}
                             />
                         </Col>
