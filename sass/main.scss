@@ -23,6 +23,7 @@ $border-radius: 5px;
 .morph {
     &s{
         display: flex;
+        flex-wrap: wrap;
         width: 100%;
     }
 
@@ -42,6 +43,7 @@ $border-radius: 5px;
 
     &-indicator{
         margin: 0 5px;
+        margin-bottom: 5px;
         padding: 5px;
         color: #fff !important;
         border-radius: 5px;
