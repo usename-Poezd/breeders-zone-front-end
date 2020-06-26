@@ -283,7 +283,7 @@ class ProductPage extends Component  {
                                 <li className="product-card-info-item shop flex-column">
                                     <div className="shop-title mt-0 d-flex">
                                         <h3 className="title">Производитель:</h3>
-                                        <Link href="/shops/[shopName]" as={'/shops/' + this.pipes.toUrl(company_name)}>
+                                        <Link href="/shops/[shopName]" as={'/shops/' + company_name}>
                                             <a>
                                                 <h3 className="info info-text">{company_name}</h3>
                                             </a>
