@@ -27,7 +27,6 @@ import Spinner from "../components/spinner";
 import CookiesBanner from "../components/cookies-banner/cookies-banner";
 import VerifyEmailBanner from "../components/verify-email-banner/verify-email-banner";
 import UserActivityBanner from "../components/user-activity-banner";
-import ReportModal from "../components/report-modal";
 config.autoAddCss = false;
 const dataService = new DataService();
 const cookies = new Cookies();
@@ -64,6 +63,11 @@ class MyApp extends Component {
             const state = await ctx.store.getState();
             const regExp = await new RegExp(ctx.query.kind.replace('-', ' '), 'gi');
             const activeKind = await state.kinds.all.find((item) => item.title_eng.match(regExp));
+            if (activeKind)
+                ctx.store.dispatch(setActiveKind(activeKind));
+        } else if (ctx.query.kindId) {
+            const state = await ctx.store.getState();
+            const activeKind = await state.kinds.all.find((item) => item.id === Number(ctx.query.kindId));
             if (activeKind)
                 ctx.store.dispatch(setActiveKind(activeKind));
         } else {
@@ -139,28 +143,28 @@ class MyApp extends Component {
 
         return (
             <Provider store={store}>
-                <CookiesProvider>
-                    <ConnectedRouter>
-                        <GetDataProvider value={dataService}>
-                            <Head>
-                                <title>Breeders-zone</title>
-                                <meta charSet="utf-8"/>
-                                <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-                                <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                                <link
-                                    rel="stylesheet"
-                                    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-                                    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-                                    crossOrigin="anonymous"
-                                />
-                                <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-                                <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-                                <script src="https://kit.fontawesome.com/438eed2481.js" crossOrigin="anonymous"></script>
-                            </Head>
+                    <CookiesProvider>
+                        <ConnectedRouter>
+                            <GetDataProvider value={dataService}>
+                                <Head>
+                                    <title>Breeders-zone</title>
+                                    <meta charSet="utf-8"/>
+                                    <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
+                                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                                    <link
+                                        rel="stylesheet"
+                                        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+                                        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+                                        crossOrigin="anonymous"
+                                    />
+                                    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+                                    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+                                    <script src="https://kit.fontawesome.com/438eed2481.js" crossOrigin="anonymous"></script>
+                                </Head>
 
-                            <CookiesBanner/>
-                            <VerifyEmailBanner/>
-                            <UserActivityBanner/>
+                                <CookiesBanner/>
+                                <VerifyEmailBanner/>
+                                <UserActivityBanner/>
 
                             <Header/>
                             {

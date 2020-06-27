@@ -242,6 +242,35 @@ class Header extends Component {
             )
         }
 
+        if (!isLoginToken() && isMobile) {
+            return (
+                <React.Fragment>
+                    <Link href="/faq" >
+                        <a className="nav-link">
+                            <span className="icon"><FontAwesomeIcon icon={faQuestionCircle} size="lg"/></span>
+                            <span className="text">FAQ</span>
+                        </a>
+                    </Link>
+                    <Link href="/guards" >
+                        <a className="nav-link">
+                            <span className="icon"><FontAwesomeIcon icon={faShieldAlt} size="lg"/></span>
+                            <span className="text">Хранители</span>
+                        </a>
+                    </Link>
+                    <Link href="/login">
+                        <Nav.Link as="a"  className="btn btn-second">
+                            Войти
+                        </Nav.Link>
+                    </Link>
+                    <Link href="/registration">
+                        <Nav.Link as="a"  className="btn btn-main">
+                            Зарегестрироваться
+                        </Nav.Link>
+                    </Link>
+                </React.Fragment>
+            )
+        }
+
         if (!isLoginToken()) {
             return (
                 <React.Fragment>
@@ -283,7 +312,7 @@ class Header extends Component {
                 <Navbar bg="light" expand="lg">
                     <Link href="/">
                         <Navbar.Brand as="a" >
-                            <LazyImg src="/images/logo.svg" alt="Breeders Zone" className="logo"/>
+                            <img src="/images/logo.svg" alt="Breeders Zone" className="logo"/>
                         </Navbar.Brand>
                     </Link>
 
@@ -341,7 +370,7 @@ class Header extends Component {
                                 />
                                 <div className="controls d-flex">
                                     <span className="more-icon d-flex" onClick={this.onToggle}>
-                                        <LazyImg src="/images/more.svg" alt="Опции" className="img-fluid"/>
+                                        <img src="/images/more.svg" alt="Опции" className="img-fluid"/>
                                     </span>
                                     <span
                                         className="search-icon d-flex"
@@ -349,7 +378,7 @@ class Header extends Component {
                                             searchState()
                                         }}
                                     >
-                                        <LazyImg src="/images/search.svg" alt="Поиск" className="img-fluid" />
+                                        <img src="/images/search.svg" alt="Поиск" className="img-fluid" />
                                     </span>
                                 </div>
                             </Form.Group>

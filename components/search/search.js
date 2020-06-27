@@ -266,8 +266,8 @@ const Search = ({
                                     <Form.Control as="select" defaultValue="any" onChange={(e) => setSearchAge(e.target.value)}>
                                         <option value="any">Любой возраст</option>
                                         <option value="baby">Baby</option>
-                                        <option value="subadult">subadult</option>
-                                        <option value="adult">adult</option>
+                                        <option value="subadult">Subadult</option>
+                                        <option value="adult">Adult</option>
                                     </Form.Control>
                                 </div>
                             </Form.Group>
