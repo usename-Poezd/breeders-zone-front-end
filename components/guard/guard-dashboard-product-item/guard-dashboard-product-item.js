@@ -7,7 +7,7 @@ import Link from "next/link";
 import {setReportModalProductId, setReportModalShow} from "../../../actions";
 import {connect} from "react-redux";
 
-const GuardDashboardProductItem = ({id, product_images, kind, subcategory, localities, sex, cb, morphs, name, onVerify, setReportModalProductId, setReportModalShow}) => {
+const GuardDashboardProductItem = ({id, product_images, kind, subcategory, locality, sex, cb, morphs, name, onVerify, setReportModalProductId, setReportModalShow}) => {
     const {toTraitClass, toUrl} = new Pipes();
     return (
         <div className="products-item feather-shadow d-flex">
@@ -48,14 +48,12 @@ const GuardDashboardProductItem = ({id, product_images, kind, subcategory, local
                             : null
                     }
                     {
-                        localities.length !== 0 ?
+                        locality ?
                             (
                                 <li className="product-card-info-item flex-row align-items-center">
-                                    <h3 className="title-sex">Локалитеты:</h3>
+                                    <h3 className="title-sex">Локалитет:</h3>
                                     <div className="info morphs d-inline-block">
-                                        {
-                                            localities.map( ({title}) => <div key={title} className="morph-indicator morph-other-normal d-inline-block">{title}</div>)
-                                        }
+                                        <div className="morph-indicator morph-other-normal d-inline-block">{locality.title}</div>
                                     </div>
                                 </li>
                             )

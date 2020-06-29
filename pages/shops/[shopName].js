@@ -313,8 +313,13 @@ class ShopPage extends Component {
                                                                     className="col-12 col-sm-6 col-md-4 col-lg-3"
                                                                     onClick={() => setActiveKind(item)}
                                                                 >
-                                                                    <div className="category-card">
-                                                                        <LazyImg src={item.logo_square} className="img-fluid" alt="main"/>
+                                                                    <div className="d-flex flex-column justify-content-center home-card">
+                                                                        <div className="home-card-img">
+                                                                            <div className="img-container">
+                                                                                <LazyImg src={item.logo_square ? item.logo_square : '/images/error-snake.svg'} alt={item.title_rus} className="img-fluid"/>
+                                                                            </div>
+                                                                        </div>
+
                                                                         <div className="category-card-body">
                                                                             <h3>{item.title_rus}</h3>
                                                                         </div>

@@ -208,7 +208,7 @@ class GuardDashboard extends Component {
     };
 
     render() {
-        const {router, loginRequest, user: {guardians_kinds = [], is_guard, guard_level: {level, title: levelTitle, logo_src}, guard_XP}} = this.props;
+        const {router, loginRequest, user: {guardians_kinds = [], is_guard, guard_level, guard_XP}} = this.props;
         const {products, search: {kindTitle}, productRequest, divorceRequest, activeTab, divorces} = this.state;
         const params = router.query;
         let XPStyle = {};
@@ -326,30 +326,34 @@ class GuardDashboard extends Component {
                         }
                     </div>
                 </Col>
-                <Col xs={0} md={4} className="d-none d-md-block">
-                    <div className="feather-shadow reward">
-                        <div className="reward-block">
-                            <img src={logo_src} alt="" className="img-fluid"/>
-                            <h2 className="text-center">{levelTitle}</h2>
-                            <p className="text-center">До следуйщего уровня нужно набрать 1000 XP</p>
-                        </div>
-                        <div className="progress">
-                            <div
-                                className="progress-start"
-                                style={XPStyle}
-                            ></div>
-                            <div
-                                className="progress-bar"
-                                style={{width: ((100 * guard_XP) / 1000) + '%'}}
-                            ></div>
-                            <div className="progress-end"><span className="h3">{level + 1}</span></div>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <h3>{guard_XP} XP</h3>
-                            <h3>1000 XP</h3>
-                        </div>
-                    </div>
-                </Col>
+                {
+                    guard_level ?
+                        <Col xs={0} md={4} className="d-none d-md-block">
+                            <div className="feather-shadow reward">
+                                <div className="reward-block">
+                                    <img src={guard_level.logo_src} alt="" className="img-fluid"/>
+                                    <h2 className="text-center">{guard_level.title}</h2>
+                                    <p className="text-center">До следуйщего уровня нужно набрать 1000 XP</p>
+                                </div>
+                                <div className="progress">
+                                    <div
+                                        className="progress-start"
+                                        style={XPStyle}
+                                    ></div>
+                                    <div
+                                        className="progress-bar"
+                                        style={{width: ((100 * guard_XP) / 1000) + '%'}}
+                                    ></div>
+                                    <div className="progress-end"><span className="h3">{guard_level.level + 1}</span></div>
+                                </div>
+                                <div className="d-flex justify-content-between">
+                                    <h3>{guard_XP} XP</h3>
+                                    <h3>1000 XP</h3>
+                                </div>
+                            </div>
+                        </Col>
+                        : null
+                }
             </Row>
         );
     }
