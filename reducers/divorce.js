@@ -1,4 +1,5 @@
 import initialState from "./initialState";
+import {HYDRATE} from "next-redux-wrapper";
 
 const divorce = (state, action) => {
     const payload = action.payload;
@@ -7,6 +8,8 @@ const divorce = (state, action) => {
     }
 
     switch (action.type) {
+        case HYDRATE:
+            return {...state, ...action.payload.divorce};
         case 'SET_DIVORCE':
             return {
                 ...state,

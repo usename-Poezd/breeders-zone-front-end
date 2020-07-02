@@ -1,16 +1,14 @@
 import React, {Component} from "react";
 import Head from 'next/head'
-import withRedux from 'next-redux-wrapper'
-import {Provider} from "react-redux";
-import {initStore} from "../public/images/store";
+import {connect, Provider} from "react-redux";
 import "../sass/app.scss";
 import 'react-day-picker/lib/style.css';
 import 'lazysizes';
 import 'lazysizes/plugins/attrchange/ls.attrchange';
 import Axios from "axios";
 import {
-    getUser, setActiveKind,
-    setKinds,
+    getUser, getUserData, loginSuccess, setActiveKind,
+    setKinds, setRoomsCountWithNewMessages,
 } from "../actions";
 import {GetDataProvider} from "../components/data-service-context";
 import {DataService} from "../services";
@@ -23,10 +21,12 @@ import Header from "../components/header/header";
 import SecondHeader from "../components/second-header";
 import {Router} from "next/router";
 import {Container} from "react-bootstrap";
+import nextCookies from "next-cookies";
 import Spinner from "../components/spinner";
 import CookiesBanner from "../components/cookies-banner/cookies-banner";
 import VerifyEmailBanner from "../components/verify-email-banner/verify-email-banner";
 import UserActivityBanner from "../components/user-activity-banner";
+import wrapper from "../store";
 config.autoAddCss = false;
 const dataService = new DataService();
 const cookies = new Cookies();
@@ -42,6 +42,7 @@ class MyApp extends Component {
     static async getInitialProps({Component, ctx}) {
         const state = await ctx.store.getState();
         const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset)/gi;
+        let deleteToken = false;
 
         if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
             const kinds = await Axios.get(
@@ -77,20 +78,28 @@ class MyApp extends Component {
                 title_eng: ''
             }));
         }
+        if (nextCookies(ctx).token && !state.profile.user.id) {
+            try {
+                const data = await dataService.getUserData(nextCookies(ctx).token);
+                ctx.store.dispatch(getUserData(data));
 
+                ctx.store.dispatch(setRoomsCountWithNewMessages(data.roomsWithNewMessages));
+                ctx.store.dispatch(loginSuccess());
+            } catch (e) {
+                deleteToken = true
+            }
+        }
 
-        //Anything returned here can be accessed by the client
-        return {store: ctx.store, isSecondHeader: ctx.pathname.match(regExp) === null};
+        return {deleteToken, isSecondHeader: ctx.pathname.match(regExp) === null};
     }
 
     componentDidMount() {
-        const {store, router} = this.props;
+        const {deleteToken} = this.props
         const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset)/gi;
 
-        if (router.pathname.match(regExp) === null)
-            this.setState({isSecondHeader: true});
-        else
-            this.setState({isSecondHeader: false});
+        if (deleteToken) {
+            cookies.set('token', '');
+        }
 
         window.qs = require('qs');
         window.io = require('socket.io-client');
@@ -106,16 +115,15 @@ class MyApp extends Component {
             }
         });
 
-        this.setState({prevUrl: router.asPath});
-
-        store.dispatch(getUser());
-
+        this.setState({prevUrl: Router.asPath});
 
         Router.events.on('routeChangeStart', (url) => {
             const {prevUrl} = this.state;
+            let regPrevUrl = null;
 
             const regUrl = url.match(/(((\/\w+)*\/)([\w\-\.]+[^#?\s]+))(.+)?(#[\w\-]+)?$/);
-            const regPrevUrl = prevUrl.match(/(((\/\w+)*\/)([\w\-\.]+[^#?\s]+))(.+)?(#[\w\-]+)?$/);
+            if (prevUrl)
+                regPrevUrl = prevUrl.match(/(((\/\w+)*\/)([\w\-\.]+[^#?\s]+))(.+)?(#[\w\-]+)?$/);
 
             if (url.match(/\/(divorces|products)\/edit\/\d$/) === null) { //TODO:refactor that
                 if (regUrl !== null && regPrevUrl !== null ) {
@@ -139,10 +147,9 @@ class MyApp extends Component {
 
     render() {
         const { changeRoute, isSecondHeader } = this.state;
-        const { Component, pageProps, store } = this.props;
+        const { Component, pageProps, deleteToken } = this.props;
 
         return (
-            <Provider store={store}>
                     <CookiesProvider>
                         <ConnectedRouter>
                             <GetDataProvider value={dataService}>
@@ -166,7 +173,7 @@ class MyApp extends Component {
                                 <VerifyEmailBanner/>
                                 <UserActivityBanner/>
 
-                            <Header/>
+                            <Header deleteToken={deleteToken}/>
                             {
                                 isSecondHeader ?
                                     <SecondHeader/>
@@ -194,11 +201,8 @@ class MyApp extends Component {
                         </GetDataProvider>
                     </ConnectedRouter>
                 </CookiesProvider>
-            </Provider>
         )
     }
 }
 
-export default withRedux(initStore, (state) => ({
-    kinds: state.kinds
-}) )(MyApp);
+export default wrapper.withRedux(MyApp);

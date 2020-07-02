@@ -1,4 +1,5 @@
 import initialState from "./initialState";
+import {HYDRATE} from "next-redux-wrapper";
 
 const auth = (state, action) => {
 
@@ -9,6 +10,11 @@ const auth = (state, action) => {
     }
 
     switch (action.type) {
+        case HYDRATE:
+            return {
+                ...state,
+                ...action.payload.auth
+            };
         case 'LOGIN_REQUEST':
             return {
                 ...state,

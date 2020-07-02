@@ -1,4 +1,5 @@
 import initialState from "./initialState";
+import {HYDRATE} from "next-redux-wrapper";
 
 const profile = (state, action) => {
     const payload = action.payload;
@@ -7,6 +8,11 @@ const profile = (state, action) => {
     }
 
     switch (action.type) {
+        case HYDRATE:
+            return {
+                ...state,
+                ...action.payload.profile
+            };
         case 'GET_USER':
             return  {
                 ...state,

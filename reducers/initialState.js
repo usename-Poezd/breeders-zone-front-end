@@ -79,7 +79,7 @@ const initialState = {
             name: '',
             price: '',
             sex: 1,
-            cb: undefined,
+            cb: null,
             kindId: '',
             reports: []
         },

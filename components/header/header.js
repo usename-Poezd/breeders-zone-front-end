@@ -88,10 +88,10 @@ class Header extends Component {
     };
 
     renderNav = () => {
-        const {isLogin, user, loginRequest, roomsWithNewMessages, logout, clearUserNotificationsCount} = this.props;
+        const {isLogin, user, loginRequest, roomsWithNewMessages, logout, clearUserNotificationsCount, deleteToken} = this.props;
         const {isMobile, isNotifications} = this.state;
 
-        if (isLogin && isLoginToken()  && !isMobile) {
+        if (isLogin && !isMobile) {
             return  (
                <React.Fragment>
                    <Link href="/faq">
@@ -122,14 +122,14 @@ class Header extends Component {
                        <Notifications show={isNotifications}/>
                    </Nav.Link>
                    <Link href="/chat">
-                       <Nav.Link as="a" className="chat-link">
+                       <a className="chat-link nav-link">
                            {
                                roomsWithNewMessages > 0 ?
                                    <span className="message-count">{roomsWithNewMessages}</span>
                                    : null
                            }
                            <FontAwesomeIcon icon={faComments} size="lg"/>
-                       </Nav.Link>
+                       </a>
                    </Link>
                    <NavDropdown title={user.name ? user.name : 'Вы'} id="nav-dropdown">
                        {
@@ -177,7 +177,7 @@ class Header extends Component {
             )
         }
 
-        if (isLoginToken() && isMobile) {
+        if (isLogin && isMobile) {
             return (
                 <React.Fragment>
                     <Link href="/faq" >
@@ -242,7 +242,7 @@ class Header extends Component {
             )
         }
 
-        if (!isLoginToken() && isMobile) {
+        if (!deleteToken && isMobile) {
             return (
                 <React.Fragment>
                     <Link href="/faq" >
@@ -271,7 +271,7 @@ class Header extends Component {
             )
         }
 
-        if (!isLoginToken()) {
+        if (deleteToken || !isLogin) {
             return (
                 <React.Fragment>
                     <Link href="/faq">
@@ -290,7 +290,6 @@ class Header extends Component {
                             Зарегестрироваться
                         </Nav.Link>
                     </Link>
-
                 </React.Fragment>
             );
         }

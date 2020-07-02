@@ -81,9 +81,9 @@ export const getUser = (tokenServer = '') => (dispatch) => {
 
                         });
                 }
+                dispatch(getUserData(data));
 
                 dispatch(setRoomsCountWithNewMessages(data.roomsWithNewMessages));
-                dispatch(getUserData(data));
                 dispatch(loginSuccess());
 
                 return true;

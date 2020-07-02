@@ -294,7 +294,7 @@ export default class  DataService {
     };
 
     getUserData = (token) => {
-        return Axios.post('http://localhost/api/auth/me',{},{
+        return Axios.post(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/auth/me`,{},{
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

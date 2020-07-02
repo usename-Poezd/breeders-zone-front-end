@@ -1,4 +1,5 @@
 import initialState from "./initialState";
+import {HYDRATE} from "next-redux-wrapper";
 
 const kinds = (state, action) => {
     const payload = action.payload;
@@ -7,6 +8,8 @@ const kinds = (state, action) => {
     }
 
     switch (action.type) {
+        case HYDRATE:
+            return {...state, ...action.payload.kinds};
         case 'SET_KINDS':
             return {
                 ...state,

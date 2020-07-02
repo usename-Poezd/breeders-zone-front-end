@@ -4,8 +4,10 @@ import Spinner from "../components/spinner";
 import {connect} from "react-redux";
 import React from "react";
 import {Pipes} from "../services";
-import {setActiveKind} from "../actions";
+import {setActiveKind, setKinds} from "../actions";
 import LazyImg from "../components/lazy-img";
+import wrapper from "../store";
+import Axios from "axios";
 const Index = ({activeKinds, setActiveKind}) => {
     const pipes = new Pipes();
 
@@ -53,5 +55,25 @@ const Index = ({activeKinds, setActiveKind}) => {
 const mapStateToProps = ({kinds: {active: activeKinds}}) => ({
     activeKinds
 });
+
+// export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
+//     const state = await ctx.store.getState();
+//     if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
+//         const kinds = await Axios.get(
+//             'http://nginx-web/api/kinds',
+//             {
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     Accept: 'application/json'
+//                 }
+//             }
+//         )
+//             .then((resp) => resp.data);
+//
+//         console.log(kinds);
+//         const a = await setKinds(kinds);
+//         ctx.store.dispatch(a);
+//     }
+// });
 
 export default connect(mapStateToProps, {setActiveKind})(Index);
