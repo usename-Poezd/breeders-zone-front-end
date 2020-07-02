@@ -67,7 +67,6 @@ export const getUser = (tokenServer = '') => (dispatch) => {
 
                     window.Echo.private(`App.User.${data.id}`)
                         .notification((notification) => {
-                            console.log(notification);
                             switch (notification.type) {
                                 case 'App\\Notifications\\NewMessageNotification':
                                     dispatch(receivedMessage(notification[0]));

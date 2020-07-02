@@ -90,11 +90,11 @@ class MyApp extends Component {
             }
         }
 
-        return {deleteToken, isSecondHeader: ctx.pathname.match(regExp) === null};
+        return {store: ctx.store, deleteToken, isLogin: ctx.store.getState().auth.isLogin, user: ctx.store.getState().profile.user, isSecondHeader: ctx.pathname.match(regExp) === null};
     }
 
     componentDidMount() {
-        const {deleteToken} = this.props
+        const {deleteToken, isLogin, user, store} = this.props
         const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset)/gi;
 
         if (deleteToken) {
@@ -114,6 +114,22 @@ class MyApp extends Component {
                 }
             }
         });
+
+        if(isLogin) {
+            window.Echo.private(`App.User.${user.id}`)
+                .notification((notification) => {
+                    switch (notification.type) {
+                        case 'App\\Notifications\\NewMessageNotification':
+                            store.dispatch(receivedMessage(notification[0]));
+                            break;
+                        case 'App\\Notifications\\CheckMessagesNotification':
+                            store.dispatch(updateCheckMessage(notification[0]));
+                            break;
+                        default:
+                            store.dispatch(addNotification(notification));
+                    }
+                });
+        }
 
         this.setState({prevUrl: Router.asPath});
 
