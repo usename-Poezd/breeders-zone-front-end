@@ -130,7 +130,7 @@ class SecondHeader extends Component {
     };
 
     render() {
-        const { activeKinds, router: {route}, pathname, setActiveKind, activeKind} = this.props;
+        const { activeKinds, router: {pathname}, setActiveKind, activeKind} = this.props;
         const { dropdown, location, dropdownHeight } = this.state;
         const { home, morphs, shops} = location;
 
