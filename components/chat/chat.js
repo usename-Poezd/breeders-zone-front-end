@@ -76,7 +76,7 @@ class Chat extends Component {
 
     state = {
         value: '',
-        isMobile: false
+        isMobile: false,
     };
 
     componentDidMount() {
@@ -96,8 +96,8 @@ class Chat extends Component {
     }
 
     componentWillUnmount() {
-        const {clearChat, selected_room_id, router, pathname} = this.props;
-        const newQuery = router.query;
+        const {clearChat, selected_room_id, router, pathname, search} = this.props;
+        const newQuery = qs.parse(search.replace('?', ''));
         if (newQuery.act) {
             delete newQuery.act;
         }
@@ -164,7 +164,7 @@ class Chat extends Component {
     };
 
     updateSelectRoom = () => {
-        const {selectRoom, addMessage, clearSelectedRoom, setSelectedRoomMessage, newUser = {id: null}, user, act, search, selectedRoom} = this.props;
+        const {selectRoom, addMessage, clearSelectedRoom, setSelectedRoomMessage, newUser = {id: null}, user, act, search, setChatAct} = this.props;
         let roomId = Number(qs.parse(search.replace('?', '')).room);
 
         if (act) {
@@ -222,7 +222,7 @@ class Chat extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        const {addMessage, setMessage, selected_room_id, selected_room, setNewRoom, router, updateLoadMessage, setSelectedRoomMessage, pathname, search, act} = this.props;
+        const {addMessage, setMessage, selected_room_id, selected_room, setNewRoom, router, updateLoadMessage, setSelectedRoomMessage, pathname, search, act, setChatAct} = this.props;
 
         const {value} = this.state;
         const trimmedValue = value.trimLeft().trimRight().replace(/\n{2,}/g, '\n').replace(/\s{2,}/g);
@@ -235,8 +235,15 @@ class Chat extends Component {
 
             setNewRoom({message: trimmedValue, roomId: selected_room_id, users: selected_room.users})
                 .then((id) => {
+                    setChatAct('');
                     updateLoadMessage({id, newMessageKey});
-                    router.push(router.pathname, pathname + (qs.stringify(newQuery) ? '?' + qs.stringify(newQuery) : `?room=${selected_room_id}`));
+                    window.Echo.leaveChannel(`private-room.${selected_room_id}`);
+                    window.Echo.private(`room.${selected_room_id}`)
+                        .listen('.sendMessage', (data) => {
+                            setSelectedRoomMessage(data.message);
+                            addMessage({...data, id: 1});
+                            checkMessages(selected_room_id);
+                        })
                 });
             setSelectedRoomMessage(trimmedValue);
             return this.setState({value: ''})
@@ -248,9 +255,10 @@ class Chat extends Component {
     };
 
     onSelectRoom = (roomId) => {
-        const {selectRoom, router, pathname, search} = this.props;
+        const {router, pathname, search, setChatAct} = this.props;
         const query = qs.parse(search.replace('?', ''));
         query.room = roomId;
+        setChatAct('');
 
         if (router.pathname === '/chat') {
             router.push(pathname + '?' + qs.stringify(query));
@@ -271,6 +279,7 @@ class Chat extends Component {
             newUser = { id: null },
             router,
             loginRequest,
+            request
         } = this.props;
 
 
@@ -299,6 +308,20 @@ class Chat extends Component {
                 <Col xs={12} md={10}>
                     <div className="d-flex feather-shadow chat">
                         <div className={"chat-rooms" + (isMobile &&  selected_room_id === null ? ' w-100' : '') + (isMobile &&  selected_room_id !== null ? ' d-none' : '')}>
+                            {
+                                request ?
+                                    <div className="d-flex w-100 h-100">
+                                        <BootstrapSpinner animation="border" className="m-auto"/>
+                                    </div>
+                                    : null
+                            }
+                            {
+                                !request && rooms.length === 0 ?
+                                    <div className="d-flex w-100 h-100">
+                                        <h3 className="m-auto">Похоже у вас нет диалогов</h3>
+                                    </div>
+                                    : null
+                            }
                             {
                                 rooms.map( (room, idx) => {
                                     return (
@@ -427,7 +450,7 @@ class Chat extends Component {
     }
 }
 
-const mapStateToProps = ({profile: {user}, auth: {loginRequest}, chat: {messages, rooms, selected_room_id, selected_room, getMessagesRequest, act}, router: {location: { pathname, search }}}) => ({
+const mapStateToProps = ({profile: {user}, auth: {loginRequest}, chat: {messages, rooms, selected_room_id, selected_room, getMessagesRequest, act, request}, router: {location: { pathname, search }}}) => ({
     user,
     rooms,
     messages,
@@ -437,7 +460,8 @@ const mapStateToProps = ({profile: {user}, auth: {loginRequest}, chat: {messages
     getMessagesRequest,
     pathname,
     search,
-    act
+    act,
+    request
 });
 
 const mapMethodsToProps = ({setMessage, checkMessages, countRoom, setNewRoom, searchRoom}) => ({

@@ -174,9 +174,10 @@ export const clearSelectedRoom = () => {
     }
 };
 
-export const getRooms = (payload) => (dispatch, getState) => {
+export const getRooms = () => (dispatch, getState) => {
     const token = cookies.get('token');
     const store = getState();
+    dispatch(setChatRequest(true));
     return Axios.get(
         '/api/rooms',
         {
@@ -187,7 +188,10 @@ export const getRooms = (payload) => (dispatch, getState) => {
             }
         })
         .then( (res) => res.data)
-        .then( (data) => dispatch(setRooms(data)));
+        .then( (data) => {
+            dispatch(setRooms(data));
+            dispatch(setChatRequest(false));
+        });
 };
 
 export const receivedMessage = (payload) => (dispatch, getState) => {
@@ -205,6 +209,11 @@ export const receivedMessage = (payload) => (dispatch, getState) => {
         rooms.splice(room, 1);
         rooms.unshift({...tmp, newMessage: true, newMessageCount: tmp.newMessageCount + 1});
         dispatch(setRooms([...rooms]));
+    } else if (!rooms[room])  {
+        dataService.getRoom(payload.room_id)
+            .then((data) => {
+                dispatch(setRooms([data, ...rooms]));
+            })
     }
 };
 
@@ -245,3 +254,10 @@ export const setChatAct = (payload) => {
         payload
     }
 };
+
+export const setChatRequest = (payload) => {
+    return {
+        type: 'SET_CHAT_REQUEST',
+        payload
+    }
+}

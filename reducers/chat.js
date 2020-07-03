@@ -121,9 +121,14 @@ const chat = (state, action) => {
                 ...initialState.chat
             };
         case 'SET_CHAT_ACT':
-            return  {
+            return {
                 ...state,
                 act: payload
+            };
+        case 'SET_CHAT_REQUEST':
+            return {
+                ...state,
+                request: payload
             };
         default:
             return state;

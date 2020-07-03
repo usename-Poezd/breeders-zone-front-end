@@ -143,7 +143,8 @@ const initialState = {
         messages: [],
         getMessagesRequest: false,
         messagesCancelToken: null,
-        act: ''
+        act: '',
+        request: true
     },
     search: {
         query: '',
