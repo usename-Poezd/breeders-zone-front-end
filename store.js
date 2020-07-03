@@ -1,10 +1,10 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import {createWrapper, Context} from "next-redux-wrapper"
+import { format } from 'url'
+import {applyMiddleware, createStore} from "redux";
+import {createWrapper} from "next-redux-wrapper"
 import thunkMiddleware from "redux-thunk";
 import createRootReducer from "./reducers";
 import {createRouterMiddleware, initialRouterState} from "connected-next-router";
-
-const routerMiddleware = createRouterMiddleware();
+import Router from 'next/router'
 
 const bindMiddleware = middleware => {
     if (process.env.NODE_ENV !== 'production') {
@@ -15,12 +15,14 @@ const bindMiddleware = middleware => {
 };
 
 export const initStore = (context) => {
-    const initialState = {};
-    if (context.asPath) {
-        initialState.router = initialRouterState(context.asPath);
+    const routerMiddleware = createRouterMiddleware();
+    const { asPath, pathname, query } = context.ctx || Router.router || {};
+    let initialState;
+    if (asPath) {
+        initialState = {
+        router: initialRouterState(asPath, asPath)
+        }
     }
-
-
 
     return createStore(
         createRootReducer(),

@@ -7,8 +7,11 @@ import 'lazysizes';
 import 'lazysizes/plugins/attrchange/ls.attrchange';
 import Axios from "axios";
 import {
-    getUser, getUserData, loginSuccess, setActiveKind,
+    getUserData, loginSuccess, setActiveKind,
     setKinds, setRoomsCountWithNewMessages,
+    receivedMessage,
+    updateCheckMessage,
+    addNotification
 } from "../actions";
 import {GetDataProvider} from "../components/data-service-context";
 import {DataService} from "../services";
@@ -19,7 +22,7 @@ import {Cookies, CookiesProvider} from 'react-cookie';
 import {ConnectedRouter} from "connected-next-router";
 import Header from "../components/header/header";
 import SecondHeader from "../components/second-header";
-import {Router} from "next/router";
+import {withRouter} from "next/router";
 import {Container} from "react-bootstrap";
 import nextCookies from "next-cookies";
 import Spinner from "../components/spinner";
@@ -94,7 +97,15 @@ class MyApp extends Component {
     }
 
     componentDidMount() {
-        const {deleteToken, isLogin, user, store} = this.props
+        const {
+            deleteToken,
+            isLogin,
+            user,
+            receivedMessage,
+            updateCheckMessage,
+            addNotification,
+            router
+        } = this.props;
         const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset)/gi;
 
         if (deleteToken) {
@@ -120,45 +131,45 @@ class MyApp extends Component {
                 .notification((notification) => {
                     switch (notification.type) {
                         case 'App\\Notifications\\NewMessageNotification':
-                            store.dispatch(receivedMessage(notification[0]));
+                            receivedMessage(notification[0]);
                             break;
                         case 'App\\Notifications\\CheckMessagesNotification':
-                            store.dispatch(updateCheckMessage(notification[0]));
+                            updateCheckMessage(notification[0]);
                             break;
                         default:
-                            store.dispatch(addNotification(notification));
+                            addNotification(notification);
                     }
                 });
         }
 
-        this.setState({prevUrl: Router.asPath});
+        this.setState({prevUrl: router.asPath}, () => {
+            router.events.on('routeChangeStart', (url) => {
+                const {prevUrl} = this.state;
+                let regPrevUrl = null;
 
-        Router.events.on('routeChangeStart', (url) => {
-            const {prevUrl} = this.state;
-            let regPrevUrl = null;
+                const regUrl = url.match(/(((\/\w+)*\/)([\w\-\.]+[^#?\s]+))(.+)?(#[\w\-]+)?$/);
+                if (prevUrl)
+                    regPrevUrl = prevUrl.match(/(((\/\w+)*\/)([\w\-\.]+[^#?\s]+))(.+)?(#[\w\-]+)?$/);
 
-            const regUrl = url.match(/(((\/\w+)*\/)([\w\-\.]+[^#?\s]+))(.+)?(#[\w\-]+)?$/);
-            if (prevUrl)
-                regPrevUrl = prevUrl.match(/(((\/\w+)*\/)([\w\-\.]+[^#?\s]+))(.+)?(#[\w\-]+)?$/);
-
-            if (url.match(/\/(divorces|products)\/edit\/\d$/) === null) { //TODO:refactor that
-                if (regUrl !== null && regPrevUrl !== null ) {
-                    if (url !== prevUrl && ( regUrl[1] !== regPrevUrl[1]))
+                if (url.match(/\/(divorces|products)\/edit\/\d$/) === null) { //TODO:refactor that
+                    if (regUrl !== null && regPrevUrl !== null) {
+                        if (url !== prevUrl && ( regUrl[1] !== regPrevUrl[1]))
+                            this.setState({changeRoute: true});
+                    } else {
                         this.setState({changeRoute: true});
-                } else {
-                    this.setState({changeRoute: true});
+                    }
                 }
-            }
 
 
-            if (url.match(regExp) === null)
-                this.setState({isSecondHeader: true});
-            else
-                this.setState({isSecondHeader: false});
+                if (url.match(regExp) === null)
+                    this.setState({isSecondHeader: true});
+                else
+                    this.setState({isSecondHeader: false});
 
-            this.setState({prevUrl: url})
+                this.setState({prevUrl: url})
+            });
+            router.events.on('routeChangeComplete', () => this.setState({changeRoute: false}));
         });
-        Router.events.on('routeChangeComplete', () => this.setState({changeRoute: false}));
     }
 
     render() {
@@ -221,4 +232,12 @@ class MyApp extends Component {
     }
 }
 
-export default wrapper.withRedux(MyApp);
+export default wrapper.withRedux(
+    connect(null, {
+        receivedMessage,
+        updateCheckMessage,
+        addNotification,
+    })(
+        withRouter(MyApp)
+    )
+);
