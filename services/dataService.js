@@ -251,7 +251,19 @@ export default class  DataService {
             }
         })
             .then((res) => res.data);
-    }
+    };
+
+    getRoom = (roomId) => {
+        const token = cookies.get('token');
+        return Axios.get(`/api/room/${roomId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((resp) => resp.data);
+    };
 
     countRoom = () => {
         return Axios.get('/api/rooms-count')

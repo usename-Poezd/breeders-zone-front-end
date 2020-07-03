@@ -1,7 +1,6 @@
 import React, {Component, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {Container} from "react-bootstrap";
-import {isLogin} from "../../utils";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faExclamationTriangle, faTimes} from "@fortawesome/free-solid-svg-icons";
@@ -17,8 +16,8 @@ class UserActivityBanner extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.user !== this.props.user || prevProps.loginRequest !== this.props.loginRequest) {
             const {success} = this.state;
-            const {loginRequest, user, cookies} = this.props;
-            if (!loginRequest && isLogin() && !user.active && !success && !cookies.get('isActivityChecked') ) {
+            const {loginRequest, user, cookies, isLogin} = this.props;
+            if (!loginRequest && isLogin && !user.active && !success && !cookies.get('isActivityChecked') ) {
                 setTimeout(() => this.setState({isOpen: true}), 3000);
             }
         }
@@ -92,8 +91,9 @@ class UserActivityBanner extends Component {
     }
 }
 
-const mapStateToProps = ({auth: {loginRequest}, profile: {user}}) => ({
+const mapStateToProps = ({auth: {loginRequest, isLogin}, profile: {user}}) => ({
     loginRequest,
+    isLogin,
     user
 });
 

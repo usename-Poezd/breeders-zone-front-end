@@ -64,25 +64,25 @@ class TopFilterAndResult extends Component {
                 params.price = 'desc';
                 if (params.created)
                     delete params.created;
-                router.push(router.route, pathname + '?' + qs.stringify(params));
+                router.push(router.pathname, pathname + '?' + qs.stringify(params));
                 break;
             case 2:
                 params.price = 'asc';
                 if (params.created)
                     delete params.created;
-                router.push(router.route, pathname + '?' + qs.stringify(params));
+                router.push(router.pathname, pathname + '?' + qs.stringify(params));
                 break;
             case 3:
                 params.created = 'desc';
                 if (params.price)
                     delete params.price;
-                router.push(router.route, pathname + '?' + qs.stringify(params));
+                router.push(router.pathname, pathname + '?' + qs.stringify(params));
                 break;
             case 4:
                 params.created = 'asc';
                 if (params.price)
                     delete params.price;
-                router.push(router.route, pathname + '?' + qs.stringify(params));
+                router.push(router.pathname, pathname + '?' + qs.stringify(params));
                 break;
         }
 
