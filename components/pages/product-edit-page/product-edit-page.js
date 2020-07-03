@@ -15,9 +15,7 @@ import {
 import {connect} from "react-redux";
 import {Col, Container, Row} from "react-bootstrap";
 import Spinner from "../../spinner";
-import {isLogin} from "../../../utils";
 import {withRouter} from "next/router";
-import {DataService} from "../../../services";
 
 class ProductEditPage extends Component{
     UNSAFE_componentWillMount() {
@@ -119,7 +117,8 @@ class ProductEditPage extends Component{
             user,
             allKinds,
             loginRequest,
-            router
+            router,
+            isLogin
         } = this.props;
 
         if(loginRequest || product.updateRequest || product.getRequest || allKinds.length === 0){
@@ -134,7 +133,7 @@ class ProductEditPage extends Component{
             )
         }
 
-        if (!(user.is_breeder || isLogin()) && typeof window !== 'undefined'){
+        if ((!user.is_breeder || !isLogin) && typeof window !== 'undefined'){
             router.push('/');
         }
 
@@ -150,11 +149,12 @@ class ProductEditPage extends Component{
     }
 }
 
-const mapStateToProps = ({auth: {loginRequest}, product, profile: {user}, kinds: {all: allKinds}}) => ({
+const mapStateToProps = ({auth: {loginRequest, isLogin}, product, profile: {user}, kinds: {all: allKinds}}) => ({
     user,
     product,
     allKinds,
-    loginRequest
+    loginRequest,
+    isLogin
 });
 
 const mapMethodsToProps = ({updateProduct, getProduct}) => ({

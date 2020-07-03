@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import Head from "next/head";
 import {connect} from "react-redux";
-import {isLogin} from "../../../utils";
 import Spinner from "../../spinner";
 import {
     clearDivorce, clearDivorceAcceptedFiles, clearDivorceError,
@@ -88,9 +87,9 @@ class DivorceEditPage extends Component{
     };
 
     render() {
-        const { loginRequest, divorce, allKinds, user, router } = this.props;
+        const { loginRequest, divorce, allKinds, user, router, isLogin } = this.props;
 
-        if (!(user.is_breeder || isLogin()) && typeof window !== 'undefined'){
+        if ((!user.is_breeder || !isLogin) && typeof window !== 'undefined'){
             router.push('/');
         }
 
@@ -119,11 +118,12 @@ class DivorceEditPage extends Component{
     }
 }
 
-const mapStateToProps = ({divorce, kinds: {all: allKinds}, auth: {loginRequest}, profile: {user}}) => ({
+const mapStateToProps = ({divorce, kinds: {all: allKinds}, auth: {loginRequest, isLogin}, profile: {user}}) => ({
     divorce,
     allKinds,
     loginRequest,
-    user
+    user,
+    isLogin
 });
 
 const mapMethodsToProps = ({updateDivorce, getDivorce}) => ({

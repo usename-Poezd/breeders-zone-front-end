@@ -146,7 +146,7 @@ class ShopProducts extends Component {
     };
 
     render() {
-        const { products, allKinds, user,  loginRequest, productsRequest, router } = this.props;
+        const { products, allKinds, user,  loginRequest, productsRequest, router, isLogin } = this.props;
         const { selectStyle, isMobile } = this.state;
 
         if(loginRequest && isMobile){
@@ -169,7 +169,7 @@ class ShopProducts extends Component {
             )
         }
 
-        if (!(user.is_breeder || isLogin()) && typeof window !== 'undefined'){
+        if ((!user.is_breeder || !isLogin) && typeof window !== 'undefined'){
             router.push('/');
         }
 

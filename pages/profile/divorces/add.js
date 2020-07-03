@@ -2,7 +2,6 @@ import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import Head from "next/head";
 import {connect} from "react-redux";
-import {isLogin} from "../../../utils";
 import Spinner from "../../../components/spinner";
 import {
     clearDivorce, clearDivorceError,
@@ -61,9 +60,9 @@ const AddDivorcePage = (props) => {
             });
     };
 
-    const { loginRequest, divorce, allKinds, user, router } = props;
+    const { loginRequest, divorce, allKinds, user, router, isLogin } = props;
 
-    if (!(user.is_breeder || isLogin()) && typeof window !== 'undefined'){
+    if ((!user.is_breeder || !isLogin) && typeof window !== 'undefined'){
         return router.push('/');
     }
 
@@ -91,11 +90,12 @@ const AddDivorcePage = (props) => {
     )
 };
 
-const mapStateToProps = ({divorce, kinds: {all: allKinds}, auth: {loginRequest}, profile: {user}}) => ({
+const mapStateToProps = ({divorce, kinds: {all: allKinds}, auth: {loginRequest, isLogin}, profile: {user}}) => ({
     divorce,
     allKinds,
     loginRequest,
-    user
+    user,
+    isLogin
 });
 
 const mapMethodsToProps = ({setDivorce}) => ({

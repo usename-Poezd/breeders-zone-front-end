@@ -1,7 +1,7 @@
-import React, {Component, useCallback} from "react";
-import {Alert, Col, Form, Row} from "react-bootstrap";
+import React, {useCallback} from "react";
+import { Col, Form, Row} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
-import {withGetData, withHookForm} from "../hoc-helpers";
+import {withGetData} from "../hoc-helpers";
 import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
 import {
@@ -18,7 +18,6 @@ import {useDropzone} from "react-dropzone";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {useRouter} from "next/router";
-import {isLogin} from "../../utils";
 import LazyImg from "../lazy-img";
 import Link from "next/link";
 
@@ -34,7 +33,8 @@ const Profile = ({
      profileUpdateRequest,
      setProfilePreview,
      deleteProductPreview,
-     loginRequest
+     loginRequest,
+     isLogin
 }) => {
 
     const router = useRouter();
@@ -49,7 +49,7 @@ const Profile = ({
         )
     }
 
-    if (!isLogin() && typeof window !== 'undefined') {
+    if (!isLogin && typeof window !== 'undefined') {
         router.push('/login');
     }
 
@@ -347,9 +347,10 @@ const mapMethodsToProps = (getData) => ({
     updateProfile: getData.updateProfile
 });
 
-const mapStateToProps = ({profile, auth: {loginRequest}}) => ({
+const mapStateToProps = ({profile, auth: {loginRequest, isLogin}}) => ({
     user: profile.user,
     loginRequest,
+    isLogin,
     profile
 });
 

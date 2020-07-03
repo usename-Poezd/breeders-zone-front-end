@@ -2,9 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {withGetData} from "../hoc-helpers";
 import {
-    clearDivorce,
     clearShopDivorces,
-    deleteShopDivorce,
     setShopDivorces,
     setShopDivorcesRequest
 } from "../../actions";
@@ -12,7 +10,6 @@ import Spinner from "../spinner";
 import {Pipes} from "../../services";
 import ShopDivorcesItem from "../shop-divorces-item";
 import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
-import {isLogin} from "../../utils";
 import {withRouter} from "next/router";
 import Link from "next/link";
 
@@ -129,7 +126,7 @@ class ShopDivorces extends Component{
 
     render() {
         const { selectStyle, isMobile } = this.state;
-        const { divorces, divorcesRequest, allKinds, user, router } = this.props;
+        const { divorces, divorcesRequest, allKinds, user, router, isLogin } = this.props;
 
         if (allKinds.length === 0) {
             return (
@@ -141,7 +138,7 @@ class ShopDivorces extends Component{
             );
         }
 
-        if (!(user.is_breeder || isLogin()) && typeof window !== 'undefined'){
+        if ((!user.is_breeder || !isLogin) && typeof window !== 'undefined'){
             router.push('/');
         }
 

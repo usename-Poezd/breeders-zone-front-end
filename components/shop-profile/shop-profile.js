@@ -19,10 +19,9 @@ import {
 import {HandelSuccess} from "../handels";
 import HandelError from "../handels/handel-error";
 import {useRouter} from "next/router";
-import {isLogin} from "../../utils";
 import LazyImg from "../lazy-img";
 
-const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdateClear, setShopUpdateSuccess, setShopUpdateError, shop, setShopPreview}) => {
+const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdateClear, setShopUpdateSuccess, setShopUpdateError, shop, setShopPreview, isLogin}) => {
 
     const router = useRouter();
 
@@ -36,7 +35,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         )
     }
 
-    if (!user.is_breeder && isLogin() && typeof window !== 'undefined'){
+    if ((!user.is_breeder || !isLogin) && typeof window !== 'undefined'){
         router.push('/');
     }
 
@@ -387,9 +386,10 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
     )
 };
 
-const mapStateToProps = ({profile: {user},shop}) => ({
+const mapStateToProps = ({auth: {isLogin}, profile: {user},shop}) => ({
     user,
-    shop
+    shop,
+    isLogin
 });
 
 const mapMethodsToProps = (getData) => ({

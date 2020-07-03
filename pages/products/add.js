@@ -14,10 +14,7 @@ import {
 import {connect} from "react-redux";
 import {Col, Container, Row} from "react-bootstrap";
 import Spinner from "../../components/spinner";
-// import BreadCrumbs from "../../bread-crumbs/bread-crumbs";
-import {isLogin} from "../../utils";
 import {withRouter} from "next/router";
-import Header from "../../components/header/header";
 
 
 class ProductSettingsPage extends Component{
@@ -79,7 +76,8 @@ class ProductSettingsPage extends Component{
             product,
             user,
             allKinds,
-            loginRequest
+            loginRequest,
+            isLogin
         } = this.props;
 
         if(loginRequest || product.updateRequest || product.getRequest || allKinds.length === 0){
@@ -94,8 +92,8 @@ class ProductSettingsPage extends Component{
             )
         }
 
-        if (!(user.is_breeder || isLogin()) && typeof window !== 'undefined'){
-            this.props.router.push('/');
+        if ((!user.is_breeder || !isLogin) && typeof window !== 'undefined'){
+            router.push('/');
         }
 
         return (
@@ -108,11 +106,12 @@ class ProductSettingsPage extends Component{
     }
 }
 
-const mapStateToProps = ({auth: {loginRequest}, product, profile: {user}, kinds: {all: allKinds}}) => ({
+const mapStateToProps = ({auth: {loginRequest, isLogin}, product, profile: {user}, kinds: {all: allKinds}}) => ({
     user,
     product,
     allKinds,
-    loginRequest
+    loginRequest,
+    isLogin
 });
 
 const mapMethodsToProps = ({setProduct}) => ({
