@@ -27,6 +27,7 @@ import {
 } from "../../actions";
 import {connect} from "react-redux";
 import Reports from "../reports";
+import {withRouter} from "next/router";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -58,7 +59,8 @@ const ProductSettings = ({
      allKinds,
      deleteMorphsKind,
      clearDeletedMorphsKind,
-     setProductSearchRequest
+     setProductSearchRequest,
+     router
 }) => {
     const [selectMorphIdx, setSelectMorphIdx] = useState(0);
     const searchList = useRef();
@@ -473,9 +475,13 @@ const ProductSettings = ({
                     <input type="submit" value="Сохранить" className="btn btn-main"/>
                 </Form>
             </Col>
-            <Col xs={12} md={9}>
-                <Reports reports={info.reports} isProduct/>
-            </Col>
+            {
+                router.pathname !== '/products/add' ?
+                    <Col xs={12} md={9}>
+                        <Reports reports={info.reports} isProduct/>
+                    </Col>
+                    : null
+            }
         </Row>
     )
 };
@@ -509,4 +515,6 @@ export default connect(mapStateToProps, {
     clearDeletedMorphsKind,
     getKinds,
     setProductSearchRequest
-})(ProductSettings);
+})(
+    withRouter(ProductSettings)
+);

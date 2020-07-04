@@ -1,7 +1,6 @@
 import React, {Component, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {Container} from "react-bootstrap";
-import {isLogin} from "../../utils";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faExclamationTriangle, faTimes} from "@fortawesome/free-solid-svg-icons";
@@ -14,11 +13,19 @@ class VerifyEmailBanner extends Component{
         success: false
     };
 
+    componentDidMount() {
+        const {success} = this.state;
+        const {loginRequest, user, isLogin} = this.props;
+        if (!loginRequest && isLogin && !user.email_verified_at && !success ) {
+            setTimeout(() => this.setState({isOpen: true}), 3000);
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.user !== this.props.user || prevProps.loginRequest !== this.props.loginRequest) {
             const {success} = this.state;
-            const {loginRequest, user} = this.props;
-            if (!loginRequest && isLogin() && !user.email_verified_at && !success ) {
+            const {loginRequest, user, isLogin} = this.props;
+            if (!loginRequest && isLogin && !user.email_verified_at && !success ) {
                 setTimeout(() => this.setState({isOpen: true}), 3000);
             }
         }
@@ -26,7 +33,7 @@ class VerifyEmailBanner extends Component{
 
     render() {
         const {isOpen, success} = this.state;
-        const {sendVerifyMail, user} = this.props;
+        const {sendVerifyMail, user, isLogin} = this.props;
 
         const variants = {
             success: {
@@ -48,7 +55,7 @@ class VerifyEmailBanner extends Component{
         return (
             <AnimatePresence>
                 {
-                    isOpen && isLogin() && !user.email_verified_at ?
+                    isOpen && isLogin && !user.email_verified_at ?
                         (
                             (
                                 <motion.div
@@ -118,9 +125,10 @@ const mapMethodsToProps = ({sendVerifyMail}) => ({
     sendVerifyMail,
 });
 
-const mapStateToProps = ({auth: {loginRequest}, profile: {user}}) => ({
+const mapStateToProps = ({auth: {loginRequest, isLogin}, profile: {user}}) => ({
     loginRequest,
-    user
+    user,
+    isLogin
 });
 
 export default connect(mapStateToProps)(withGetData(VerifyEmailBanner, mapMethodsToProps));
