@@ -28,7 +28,7 @@ export const getServerSideProps = async (ctx) => {
     const {query} = await ctx;
     const { morph } = await query;
 
-    const regex = /(het|possible-het|visual|normal|super)?\-?([Aa-zZ0-9]+\-?\(?[Aa-zZ]{0,}\-?[Aa-zZ]{0,}\)?)/gmi;
+    const regex = /(het|possible-het|visual|normal|super)?\-?([Aa-zZ0-9]+\-?\s?\(?[Aa-zZ]{0,}\-?\s?[Aa-zZ]{0,}\)?)/gmi;
     const regExpExecArray = regex.exec(morph);
     console.log(regExpExecArray);
 
