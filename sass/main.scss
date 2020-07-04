@@ -170,7 +170,7 @@ $border-radius: 5px;
         cursor: pointer;
 
         &:hover {
-            color: mix(#fff, #222) !important;
+            color: scale-color(#fff, $lightness: -5%) !important;
         }
     }
 
@@ -572,6 +572,7 @@ ul{
 }
 
 .search-morphs {
+    flex-wrap: nowrap;
     border: 1px solid #D3D9DE;
     border-top: none;
     z-index: 9999;
@@ -586,6 +587,10 @@ ul{
     &-item {
         padding: 5px 0;
         border-bottom: 1px solid #ccc;
+
+        .morph-indicator {
+            margin-bottom: 0;
+        }
 
         &:last-child {
             border-bottom: none;
