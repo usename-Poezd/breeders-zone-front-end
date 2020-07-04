@@ -13,6 +13,14 @@ class UserActivityBanner extends Component {
         success: false
     };
 
+    componentDidMount() {
+        const {success} = this.state;
+        const {loginRequest, user, cookies, isLogin} = this.props;
+        if (!loginRequest && isLogin && !user.active && !success && !cookies.get('isActivityChecked') ) {
+            setTimeout(() => this.setState({isOpen: true}), 3000);
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.user !== this.props.user || prevProps.loginRequest !== this.props.loginRequest) {
             const {success} = this.state;
@@ -24,7 +32,7 @@ class UserActivityBanner extends Component {
     }
 
     render() {
-        const {isOpen, success} = this.state;
+        const {isOpen, success, isLogin} = this.state;
         const {user, cookies} = this.props;
 
         const variants = {
@@ -47,7 +55,7 @@ class UserActivityBanner extends Component {
         return (
             <AnimatePresence>
                 {
-                    isOpen && isLogin() && !user.active && !cookies.get('isActivityChecked') ?
+                    isOpen && isLogin && !user.active && !cookies.get('isActivityChecked') ?
                         (
                             (
                                 <motion.div
