@@ -7,6 +7,7 @@ import Link from "next/link";
 import {withRouter} from "next/router";
 import {connect} from "react-redux";
 import Pagination from "../../components/pagination";
+import Head from "next/head";
 const qs = require('qs');
 
 class ShopsPage extends Component {
@@ -51,92 +52,97 @@ class ShopsPage extends Component {
     };
 
     render() {
-        const {pagination} = this.state;
-        const {shops} = this.props;
+        const {shops, activeKind} = this.props;
 
         return (
-            <Container>
-                <Form onSubmit={this.onSubmit} className="dashboard-filter d-flex justify-content-center">
-                    <div className="dashboard-search-container">
-                        <Form.Control
-                            className="dashboard-search feather-shadow"
-                            placeholder="Поиск..."
-                            onChange={this.setSearch}
-                            ref={this.searchInput}
-                        />
-                        <img src="/images/search_alt.svg" alt="" className="search-btn" onClick={this.onSubmit}/>
-                    </div>
-                </Form>
-                <Row>
-                    {
-                        shops.data.map( (item) => (
-                            <Col xs={12} sm={6} ms={4} lg={3} className="item">
-                                <div className="list-item">
-                                    <div className="item-body">
-                                        <Link href="/shops/[shopName]" as={`/shops/${item.company_name}`}>
-                                            <a className="item-img">
-                                                <img src={item.logo_img_url ? item.logo_img_url : '/images/icons/error-snake.svg'} alt={item.company_name} className="img-fluid"/>
-                                            </a>
-                                        </Link>
-                                        <div className="item-info">
+            <React.Fragment>
+                <Head>
+                    <title>Все магазины{activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ''} | Breeders Zone</title>
+                </Head>
+                <Container>
+                    <Form onSubmit={this.onSubmit} className="dashboard-filter d-flex justify-content-center">
+                        <div className="dashboard-search-container">
+                            <Form.Control
+                                className="dashboard-search feather-shadow"
+                                placeholder="Поиск..."
+                                onChange={this.setSearch}
+                                ref={this.searchInput}
+                            />
+                            <img src="/images/search_alt.svg" alt="" className="search-btn" onClick={this.onSubmit}/>
+                        </div>
+                    </Form>
+                    <Row>
+                        {
+                            shops.data.map( (item) => (
+                                <Col xs={12} sm={6} ms={4} lg={3} className="item">
+                                    <div className="list-item">
+                                        <div className="item-body">
                                             <Link href="/shops/[shopName]" as={`/shops/${item.company_name}`}>
-                                                <a className="item-title text-center text-decoration-none mb-2">
-                                                    <h3>{item.company_name}</h3>
-                                                    <p>{item.owner} ({item.products_count})</p>
+                                                <a className="item-img">
+                                                    <img src={item.logo_img_url ? item.logo_img_url : '/images/icons/error-snake.svg'} alt={item.company_name} className="img-fluid"/>
                                                 </a>
                                             </Link>
-                                            <div className="item-info-container d-flex justify-content-center align-items-center">
-                                                <div className="cb-and-raiting">
-                                                    <div className="delivery info d-flex">
-                                                        {
-                                                            item.local_delivery ?
-                                                                (
-                                                                    <div className="delivery-item mr-1">
-                                                                        <FontAwesomeIcon icon={faCar} size="lg"/>
-                                                                    </div>
-                                                                ) : null
-                                                        }
+                                            <div className="item-info">
+                                                <Link href="/shops/[shopName]" as={`/shops/${item.company_name}`}>
+                                                    <a className="item-title text-center text-decoration-none mb-2">
+                                                        <h3>{item.company_name}</h3>
+                                                        <p>{item.owner} ({item.products_count})</p>
+                                                    </a>
+                                                </Link>
+                                                <div className="item-info-container d-flex justify-content-center align-items-center">
+                                                    <div className="cb-and-raiting">
+                                                        <div className="delivery info d-flex">
+                                                            {
+                                                                item.local_delivery ?
+                                                                    (
+                                                                        <div className="delivery-item mr-1">
+                                                                            <FontAwesomeIcon icon={faCar} size="lg"/>
+                                                                        </div>
+                                                                    ) : null
+                                                            }
 
-                                                        {
-                                                            item.regional_delivery ?
-                                                                (
-                                                                    <div className="delivery-item mr-1">
-                                                                        <FontAwesomeIcon icon={faTruck} size="lg"/>
-                                                                    </div>
-                                                                ) : null
-                                                        }
+                                                            {
+                                                                item.regional_delivery ?
+                                                                    (
+                                                                        <div className="delivery-item mr-1">
+                                                                            <FontAwesomeIcon icon={faTruck} size="lg"/>
+                                                                        </div>
+                                                                    ) : null
+                                                            }
 
-                                                        {
-                                                            item.countrywide_delivery ?
-                                                                (
-                                                                    <div className="delivery-item">
-                                                                        <FontAwesomeIcon icon={faHelicopter} size="lg"/>
-                                                                    </div>
-                                                                ) : null
-                                                        }
+                                                            {
+                                                                item.countrywide_delivery ?
+                                                                    (
+                                                                        <div className="delivery-item">
+                                                                            <FontAwesomeIcon icon={faHelicopter} size="lg"/>
+                                                                        </div>
+                                                                    ) : null
+                                                            }
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Col>
-                        ))
+                                </Col>
+                            ))
+                        }
+                    </Row>
+                    {
+                        shops.last_page !== 1 ?
+                            <Pagination className="d-flex justify-content-center mb-2" totalItems={shops.last_page} pageSize={1} defaultActivePage={shops.current_page} changeRequest={() => this.setState({request: true})}/>
+                            : null
                     }
-                </Row>
-                {
-                    shops.last_page !== 1 ?
-                        <Pagination className="d-flex justify-content-center mb-2" totalItems={shops.last_page} pageSize={1} defaultActivePage={shops.current_page} changeRequest={() => this.setState({request: true})}/>
-                        : null
-                }
-            </Container>
+                </Container>
+            </React.Fragment>
         )
     }
 }
 
-const mapStateToProps = ({router: {location: {search, pathname}}}) => ({
+const mapStateToProps = ({router: {location: {search, pathname}}, kinds: {activeKind}}) => ({
     search,
-    pathname
+    pathname,
+    activeKind
 });
 
 export const getServerSideProps = async (ctx) => {
