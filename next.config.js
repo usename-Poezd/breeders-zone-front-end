@@ -1,7 +1,4 @@
-const withSass = require('@zeit/next-sass');
-const withCss = require('@zeit/next-css')
-
-module.exports = withCss(withSass({
+module.exports = {
     env: {
         MIX_PUSHER_APP_KEY: "4a726b0027184c3ac752",
         MIX_PUSHER_APP_CLUSTER: "eu",
@@ -18,6 +15,12 @@ module.exports = withCss(withSass({
             }
         });
 
+        if (!options.isServer) {
+            config.node = {
+                fs: 'empty'
+            }
+        }
+
         return config;
     },
     webpackDevMiddleware: config => {
@@ -27,4 +30,4 @@ module.exports = withCss(withSass({
         };
         return config
     },
-}));
+};

@@ -223,8 +223,8 @@ class ProductPage extends Component  {
                                                 <h3 className="title title-sex">Морфы:</h3>
                                                 <div className="info morphs">
                                                     {
-                                                        morphs.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle}}) => (
-                                                            <Link href="/[group]/[kind]/genes/[morph]" as={`/${group}/${kind}/genes/${this.pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
+                                                        morphs.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle}}, idx) => (
+                                                            <Link key={"morph-" + idx} href="/[group]/[kind]/genes/[morph]" as={`/${group}/${kind}/genes/${this.pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
                                                                 <a className={`morph-indicator morph-${type}-${this.pipes.toUrl(traitTitle)}`}>
                                                                     {traitTitle} {geneTitle}
                                                                 </a>
