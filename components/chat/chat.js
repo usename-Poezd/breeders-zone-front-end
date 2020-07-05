@@ -240,9 +240,11 @@ class Chat extends Component {
                     window.Echo.leaveChannel(`private-room.${selected_room_id}`);
                     window.Echo.private(`room.${selected_room_id}`)
                         .listen('.sendMessage', (data) => {
-                            setSelectedRoomMessage(data.message);
-                            addMessage({...data, id: 1});
-                            checkMessages(selected_room_id);
+                            if (typeof data.message === 'string') {
+                                setSelectedRoomMessage(data.message);
+                                addMessage({...data, id: 1});
+                                checkMessages(selected_room_id);
+                            }
                         })
                 });
             setSelectedRoomMessage(trimmedValue);

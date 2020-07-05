@@ -70,7 +70,6 @@ class GuardDashboard extends Component {
                 this.setState({productRequest: true});
                 getProducts({
                     guardId: user.id,
-                    kindsIn: user.guardians_kinds.map( (item) => item.id)
                 }, qs.stringify(router.query), source.token, prevCancelToken)
                     .then((data) => this.setState({
                         products: data.products.data,
@@ -84,7 +83,7 @@ class GuardDashboard extends Component {
             case 'divorces':
                 this.setState({divorceRequest: true});
                 getDivorces({
-                    kindsIn: user.guardians_kinds.map( (item) => item.id),
+                    guardId: user.id,
                     verified: false
                 }, qs.stringify(router.query), source.token, prevCancelToken)
                     .then((data) => this.setState({
@@ -333,7 +332,7 @@ class GuardDashboard extends Component {
                                 <div className="reward-block">
                                     <img src={guard_level.logo_src} alt="" className="img-fluid"/>
                                     <h2 className="text-center">{guard_level.title}</h2>
-                                    <p className="text-center">До следуйщего уровня нужно набрать 1000 XP</p>
+                                    <p className="text-center">До следуйщего уровня нужно набрать {1000 - guard_XP} XP</p>
                                 </div>
                                 <div className="progress">
                                     <div
