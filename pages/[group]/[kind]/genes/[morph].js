@@ -12,7 +12,7 @@ export default (props) => {
                 <title>
                     Животные с морофой
                     {
-                        props.selectedMorphs.map( ({geneTitle, traitTitle, type}) => ` ${traitTitle} ${geneTitle}`)
+                        props.selectedMorphs.map( ({geneTitle, traitTitle}) => ` ${traitTitle ? traitTitle + ' ' : ''}${geneTitle}`)
                     }
                 </title>
             </Head>
