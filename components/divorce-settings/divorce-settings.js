@@ -43,6 +43,7 @@ import {
 } from "../../actions";
 import {useDropzone} from "react-dropzone";
 import Reports from "../reports";
+import { NULL } from "node-sass";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -554,10 +555,13 @@ const DivorceSettings = ({
                     <input type="submit" value="Сохранить" className="btn btn-main"/>
                 </Form>
             </Col>
-
-            <Col xs={12} md={9}>
-                <Reports reports={divorce.reports}/>
-            </Col>
+            {
+                router.pathname !== '/profile/divorces/add' ?
+                <Col xs={12} md={9}>
+                    <Reports reports={divorce.reports}/>
+                </Col>
+                : null
+            }
         </Row>
     )
 };
