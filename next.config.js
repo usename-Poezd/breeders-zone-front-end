@@ -18,6 +18,12 @@ module.exports = withCss(withSass({
             }
         });
 
+        if (!options.isServer) {
+            config.node = {
+                fs: 'empty'
+            }
+        }
+
         return config;
     },
     webpackDevMiddleware: config => {
