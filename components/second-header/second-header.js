@@ -188,16 +188,16 @@ class SecondHeader extends Component {
                         {
                             pathname !== '/' && pathname !== '/search' && activeKind.title_eng ?
                                 (
-                                    <Col xs={12} lg={6} as={Row} className="nav-main m-auto">
-                                        <Col xs={4}>
-                                            <div className={"nav-main-item " + (home ? "actived" : "")}>
-                                                <Link href="/[group]/[kind]/home" as={`/${activeKind.group}/${this.pipes.toUrl(activeKind.title_eng)}/home`}>
-                                                    <a className="h3">
-                                                        На главную
-                                                    </a>
-                                                </Link>
-                                            </div>
-                                        </Col>
+                                    <Col xs={12} lg={6} as={Row} className="nav-main m-auto justify-content-center">
+                                        {/*<Col xs={4}>*/}
+                                        {/*    <div className={"nav-main-item " + (home ? "actived" : "")}>*/}
+                                        {/*        <Link href="/[group]/[kind]/home" as={`/${activeKind.group}/${this.pipes.toUrl(activeKind.title_eng)}/home`}>*/}
+                                        {/*            <a className="h3">*/}
+                                        {/*                На главную*/}
+                                        {/*            </a>*/}
+                                        {/*        </Link>*/}
+                                        {/*    </div>*/}
+                                        {/*</Col>*/}
                                         <Col xs={4}>
                                             <div className={"nav-main-item " + (morphs ? "actived" : "")}>
                                                 <Link href="/[group]/[kind]/morphs" as={`/${activeKind.group}/${this.pipes.toUrl(activeKind.title_eng)}/morphs`}>
