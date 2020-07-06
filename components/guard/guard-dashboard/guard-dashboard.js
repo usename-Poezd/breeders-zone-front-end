@@ -20,7 +20,7 @@ class GuardDashboard extends Component {
     state = {
         search: {
             q: '',
-            kindTitle: ''
+            kind: ''
         },
         products: [],
         divorces: [],
@@ -56,7 +56,7 @@ class GuardDashboard extends Component {
         this.setState({
             search: {
                 q: router.query.q,
-                kindTitle: router.query.kindTitle ? router.query.kindTitle : ''
+                kind: router.query.kind ? router.query.kind : ''
             }
         });
 
@@ -103,7 +103,7 @@ class GuardDashboard extends Component {
         this.setState({
             search: {
                 q: '',
-                kindTitle: ''
+                kind: ''
             }
         });
 
@@ -115,7 +115,7 @@ class GuardDashboard extends Component {
         const {router} = this.props;
         const {search} = this.state;
 
-        if (!!search.kindTitle) {
+        if (!!search.kind) {
             return router.push('/guard/dashboard' + '?' + qs.stringify(search))
         }
         router.push('/guard/dashboard?q=' + search.q);
@@ -130,12 +130,12 @@ class GuardDashboard extends Component {
             divorceRequest
         } = this.state;
         const {router} = this.props;
-        const {q, kindTitle} = router.query;
+        const {q, kind} = router.query;
 
-        if (q && kindTitle && products.length === 0 && divorces.length === 0 && !productRequest && !divorceRequest) {
+        if (q && kind && products.length === 0 && divorces.length === 0 && !productRequest && !divorceRequest) {
             return (
                 <React.Fragment>
-                    <p className="text-center ">По запросу <span className="h-3 d-inline">{q}</span> и категорией <span className="h-3">{kindTitle}</span> ничего не найдено.</p>
+                    <p className="text-center ">По запросу <span className="h-3 d-inline">{q}</span> и категорией <span className="h-3">{kind}</span> ничего не найдено.</p>
                     <p className="text-center clear-query" onClick={this.clearSearch}>Очистить.</p>
                 </React.Fragment>
             );
@@ -146,10 +146,10 @@ class GuardDashboard extends Component {
                     <p className="text-center clear-query" onClick={this.clearSearch}>Очистить.</p>
                 </React.Fragment>
             );
-        } else if (kindTitle && products.length === 0 && divorces.length === 0 && !productRequest && !divorceRequest) {
+        } else if (kind && products.length === 0 && divorces.length === 0 && !productRequest && !divorceRequest) {
             return (
                 <React.Fragment>
-                    <p className="text-center">По запросу c категорией <span className="h-3 d-inline">{kindTitle}</span> ничего не найдено.</p>
+                    <p className="text-center">По запросу c категорией <span className="h-3 d-inline">{kind}</span> ничего не найдено.</p>
                     <p className="text-center clear-query" onClick={this.clearSearch}>Очистить.</p>
                 </React.Fragment>
             );
@@ -163,17 +163,17 @@ class GuardDashboard extends Component {
         this.setState({
                 search: {
                     q: this.state.search.q,
-                    kindTitle: filteredValue
+                    kind: filteredValue
                 }
         });
 
-        router.push('/guard/dashboard' + '?' + qs.stringify({...this.state.search, kindTitle: filteredValue}));
+        router.push('/guard/dashboard' + '?' + qs.stringify({...this.state.search, kind: filteredValue}));
     };
 
     setSearch = (e) => {
         this.setState({
             search: {
-                kindTitle: this.state.search.kindTitle,
+                kind: this.state.search.kind,
                 q: e.target.value
             }
         });
@@ -208,7 +208,7 @@ class GuardDashboard extends Component {
 
     render() {
         const {router, loginRequest, user: {guardians_kinds = [], is_guard, guard_level, guard_XP}} = this.props;
-        const {products, search: {kindTitle}, productRequest, divorceRequest, activeTab, divorces} = this.state;
+        const {products, search: {kind}, productRequest, divorceRequest, activeTab, divorces} = this.state;
         const params = router.query;
         let XPStyle = {};
 
@@ -265,7 +265,7 @@ class GuardDashboard extends Component {
                             <Form.Control
                                 as="select"
                                 onChange={this.checkKindTitle}
-                                value={kindTitle}
+                                value={kind}
                             >
                                 <option value="all">Все</option>
                                 {
@@ -276,17 +276,17 @@ class GuardDashboard extends Component {
                     </Form>
                     <div className="dashboard-body position-relative d-flex flex-column">
                         {
-                            ((products.length === 0 && !productRequest) || (divorces.length === 0 && !divorceRequest)) && ( params.q || params.kindTitle) ?
+                            ((products.length === 0 && !productRequest) || (divorces.length === 0 && !divorceRequest)) && ( params.q || params.kind) ?
                                 this.checkEmpty()
                                 : null
                         }
                         {
-                            products.length === 0 && !productRequest && !params.q && !params.kindTitle && activeTab === 'products' ?
+                            products.length === 0 && !productRequest && !params.q && !params.kind && activeTab === 'products' ?
                                 <p>Замечательно, для вас нет товаров для оценки.</p>
                                 : null
                         }
                         {
-                            divorces.length === 0 && !divorceRequest && !params.q && !params.kindTitle && activeTab === 'divorces' ?
+                            divorces.length === 0 && !divorceRequest && !params.q && !params.kind && activeTab === 'divorces' ?
                                 <p>Замечательно, для вас нет разводов для оценки.</p>
                                 : null
                         }
@@ -332,7 +332,7 @@ class GuardDashboard extends Component {
                                 <div className="reward-block">
                                     <img src={guard_level.logo_src} alt="" className="img-fluid"/>
                                     <h2 className="text-center">{guard_level.title}</h2>
-                                    <p className="text-center">До следуйщего уровня нужно набрать {1000 - guard_XP} XP</p>
+                                    <p className="text-center">До следующего уровня нужно набрать {1000 - guard_XP} XP</p>
                                 </div>
                                 <div className="progress">
                                     <div
