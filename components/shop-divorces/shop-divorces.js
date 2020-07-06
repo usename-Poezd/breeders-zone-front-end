@@ -211,11 +211,12 @@ const mapMethodsToProps = ({getDivorces}) => ({
     getDivorces
 });
 
-const mapStateToProps = ({shop: {divorces, divorcesRequest}, kinds: { all: allKinds}, profile: {user}}) => ({
+const mapStateToProps = ({auth: {isLogin}, shop: {divorces, divorcesRequest}, kinds: { all: allKinds}, profile: {user}}) => ({
     divorces,
     divorcesRequest,
     allKinds,
-    user
+    user,
+    isLogin
 });
 
 export default connect(mapStateToProps, { setShopDivorcesRequest, setShopDivorces, clearShopDivorces })(

@@ -8,11 +8,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
-import {isLogin} from "../../utils";
+import {withRouter} from "next/router";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import MomentLocaleUtils, {formatDate, parseDate} from "react-day-picker/moment";
 import {
-    clearDivorce,
     clearDivorceError,
     clearDivorceSearchResultFemale,
     clearDivorceSearchResultMale,
@@ -73,7 +72,8 @@ const DivorceSettings = ({
      deleteExitPhoto,
      setSearchMaleRequest,
      setSearchFemaleRequest,
-     submit
+     submit,
+     router
  }) => {
     const { toTraitClass } = new Pipes();
 
@@ -601,4 +601,6 @@ export default connect(mapStateToProps, {
     setDivorce,
     setSearchMaleRequest,
     setSearchFemaleRequest
-})(DivorceSettings);
+})(
+    withRouter(DivorceSettings)
+);
