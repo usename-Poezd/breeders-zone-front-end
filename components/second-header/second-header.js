@@ -146,8 +146,8 @@ class SecondHeader extends Component {
         return (
             <nav className="nav flex-column">
                 <div className="titles">
-                    <h1 className="title">{activeKind.title_rus}</h1>
-                    <h1 className="title_latina">{activeKind.title_eng}</h1>
+                    <h1 className="title">{activeKind.title_rus ? activeKind.title_rus : 'Breeders Zone'}</h1>
+                    <h1 className="title_latina">{activeKind.title_eng ? activeKind.title_eng : 'Рептилии'}</h1>
                 </div>
 
                 <Container>
@@ -186,7 +186,7 @@ class SecondHeader extends Component {
                         </Col>
 
                         {
-                            pathname !== '/' && pathname !== '/search' && activeKind.title_eng ?
+                            pathname !== '/' && activeKind.title_eng ?
                                 (
                                     <Col xs={12} lg={6} as={Row} className="nav-main m-auto justify-content-center">
                                         {/*<Col xs={4}>*/}
