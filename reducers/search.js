@@ -16,7 +16,7 @@ const search = (state, action) => {
             return {
                 ...state,
                 selectedKind: payload,
-                subcategoryId: payload.subcategories ? payload.subcategories[0].id : null
+                subcategoryId: payload.subcategories ? payload.subcategories[0]?.id : null
             };
         case 'SET_SEARCH_PRICE_FROM':
             return {
