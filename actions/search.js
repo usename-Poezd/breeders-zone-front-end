@@ -38,6 +38,7 @@ export const search = () => (dispatch, getState) => {
 
     });
     dispatch(push('/search?' + options));
+    dispatch(clearSearch())
 };
 
 export const setSearchSelectedKind = (payload) => (dispatch, getState)=> {
