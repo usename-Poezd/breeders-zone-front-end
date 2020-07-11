@@ -1,6 +1,42 @@
 .chat {
     height: calc(100vh - 62px - 35px);
 
+    &-divider {
+        position: relative;
+
+        &.left {
+            padding-left: 9px;
+
+            &:after {
+                content: " ";
+                display: inline-block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                border-radius: 10px;
+                background: #fff;
+            }
+        }
+
+        &.right {
+            padding-right: 9px;
+        }
+
+        &:after {
+            content: " ";
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            border-radius: 10px;
+            background: #ccc;
+        }
+    }
+
     &-bubble {
         position: relative;
         background-color: #0084ff;
@@ -10,6 +46,26 @@
         padding: 8px 14px;
         float: right;
         font-weight: 300;
+
+        &-product {
+            display: flex;
+            flex-direction: column;
+
+            .title {
+                margin-bottom: 2px;
+            }
+
+            .product-img {
+                text-decoration: none;
+                border-bottom: none;
+
+                img {
+                    object-fit: cover;
+                    height: 200px;
+                    border-radius: 5px;
+                }
+            }
+        }
 
         .message-status {
             position: absolute;
@@ -146,6 +202,21 @@
             width: 100%;
             padding: 10px 10px;
             border-top: 1px solid #D3D9DE;
+
+            .chat-divider {
+                background: #ddd;
+                padding: 10px;
+                border-radius: 10px;
+                padding-right: 13px;
+
+                &:after {
+                    top: 50%;
+                    right: 5px;
+                    height: 95%;
+                    transform: translateY(-50%);
+                    background: #fff;
+                }
+            }
 
             .btn {
                 padding: 0;
