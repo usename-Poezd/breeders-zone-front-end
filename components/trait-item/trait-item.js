@@ -8,7 +8,7 @@ import {withRouter} from "next/router";
 import LazyImg from "../lazy-img";
 import {withGetData} from "../hoc-helpers";
 import {connect} from "react-redux";
-import {setReportModalProductId, setReportModalShow} from "../../actions";
+import {setChatProduct, setReportModalProductId, setReportModalShow} from "../../actions";
 
 const TraitItem = (props) => {
      const {
@@ -29,7 +29,8 @@ const TraitItem = (props) => {
          verifyProduct,
          profile,
          setReportModalProductId,
-         setReportModalShow
+         setReportModalShow,
+         setChatProduct
      } = props;
     const { toUrl, transformCb } = new Pipes();
     const [isVerify, setVerify] = useState(!!guards.find((item) => item.id === profile.user.id));
@@ -138,7 +139,19 @@ const TraitItem = (props) => {
                         </div>
                     </div>
                     <div className="btn-in-cart-container">
-                        <div className="btn-main btn-in-cart" onClick={() => sendMessage(user)}>
+                        <div className="btn-main btn-in-cart" onClick={() => {
+                            sendMessage(user);
+                            setChatProduct({
+                                id,
+                                product_images,
+                                name,
+                                price,
+                                guards,
+                                sex,
+                                cb,
+                                user
+                            })
+                        }}>
                             <h3>Написать</h3>
                         </div>
                     </div>
@@ -156,7 +169,7 @@ const TraitItem = (props) => {
      profile
  });
 
-export default connect(mapStateToProps, {setReportModalProductId, setReportModalShow})(
+export default connect(mapStateToProps, {setReportModalProductId, setReportModalShow, setChatProduct})(
     withRouter(
         withGetData(TraitItem, mapMethodsToProps)
     )
