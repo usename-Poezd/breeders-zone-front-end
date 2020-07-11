@@ -131,6 +131,7 @@ class ShopPage extends Component {
             regional_delivery,
             countrywide_delivery,
             logo_img_url,
+            country
         } = shop.info;
 
         return (
@@ -150,7 +151,7 @@ class ShopPage extends Component {
                                 <li className="shop-info-list-item">
                                     <h3 className="title">Локация:</h3>
                                     <h3 className="info info-text">{location}</h3>
-                                    <div className="country-flag country-flag-russia"></div>
+                                    <div className={`country-flag flag flag-${country?.iso_3166_2.toLowerCase()}`}></div>
                                 </li>
                                 {
                                     local_delivery || regional_delivery || countrywide_delivery ?
@@ -307,8 +308,8 @@ class ShopPage extends Component {
                                             (
                                                 <Row className="justify-content-center category">
                                                     {
-                                                        kinds.map((item) => (
-                                                            <Link href="/[group]/[kind]" as={`/${this.pipes.toUrl(item.group + '/' + item.title_eng)}?shop=${this.pipes.toUrl(company_name)}`}>
+                                                        kinds.map((item, idx) => (
+                                                            <Link key={"category-" + idx} href="/[group]/[kind]" as={`/${this.pipes.toUrl(item.group + '/' + item.title_eng)}?shop=${this.pipes.toUrl(company_name)}`}>
                                                                 <a
                                                                     className="col-12 col-sm-6 col-md-4 col-lg-3"
                                                                     onClick={() => setActiveKind(item)}
