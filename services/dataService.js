@@ -2,7 +2,6 @@ import Axios from "axios";
 import {toFormData} from "../utils";
 import { Cookies } from 'react-cookie';
 import nextCookies from "next-cookies"
-// set up cookies
 const cookies = new Cookies();
 
 Axios.interceptors.response.use(undefined, function (err) {
@@ -31,6 +30,11 @@ Axios.interceptors.response.use(undefined, function (err) {
 export default class  DataService {
 
     qs = require('qs');
+
+    getCountries = () => {
+        return Axios.get(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/countries`)
+            .then( (resp) => resp.data);
+    };
 
     getProduct = (productId, isBreeder = false, ctx) => {
         let token = cookies.get('token');
@@ -390,7 +394,9 @@ export default class  DataService {
             .then(data => {
                 if (!data.message && data.access_token) {
                     cookies.set('token', data.access_token, {
-                        sameSite: true
+                        path: '/',
+                        sameSite: true,
+                        maxAge: data.expires_in
                     });
                 }
             });
