@@ -260,4 +260,11 @@ export const setChatRequest = (payload) => {
         type: 'SET_CHAT_REQUEST',
         payload
     }
-}
+};
+
+export const setChatProduct = (payload) => {
+    return {
+        type: 'SET_CHAT_PRODUCT',
+        payload
+    }
+};

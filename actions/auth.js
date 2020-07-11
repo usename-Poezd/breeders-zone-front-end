@@ -28,8 +28,11 @@ export const logout = (tokenNotWork= false) => (dispatch, getState) => {
     if (!tokenNotWork)
         dataService.postLogout();
     const cookies = new Cookies();
-    const expires = new Date(Date.now() + 100).toUTCString();
-    cookies.set('token', '', {maxAge: 100});
+    cookies.set('token', '', {
+        path: '/',
+        sameSite: true,
+        maxAge: 100
+    });
     window.Echo.leaveChannel(`private-room.${state.chat.selected_room_id}`);
     window.Echo.leaveChannel(`private-App.User.${state.profile.user.id}`);
     window.Echo.disconnect();
