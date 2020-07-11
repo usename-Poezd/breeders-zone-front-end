@@ -16,7 +16,7 @@ import Head from "next/head";
 import comparer from "../../../utils/comparer-by-id";
 import LazyImg from "../../../components/lazy-img";
 import ReportModal from "../../../components/report-modal/report-modal";
-import {setReportModalProductId, setReportModalShow} from "../../../actions";
+import {setChatAct, setChatProduct, setReportModalProductId, setReportModalShow} from "../../../actions";
 
 class ProductPage extends Component  {
 
@@ -46,23 +46,26 @@ class ProductPage extends Component  {
         }
     };
 
-    sendMessage = (user) => {
-        const { router, pathname, search } = this.props;
-
+    sendMessage = () => {
+        const {setChatAct, setChatProduct, product} = this.props;
+        setChatAct('new');
+        setChatProduct(product);
         this.setState({
             sendMessageModal: true
         });
-        router.push(router.pathname, pathname + (search ? search + '&act=new' : '?act=new'));
     };
 
     modalClose = () => {
         const { router, pathname, search } = this.props;
         const newQuery = qs.parse(search.replace('?', ''));
-        if (newQuery.act)
+        if (newQuery.act) {
             delete newQuery.act;
-        if (newQuery.room)
-            delete newQuery.room;
-        router.push(router.pathname, pathname + (qs.stringify(newQuery) ? '?' + qs.stringify(newQuery) : ''));
+        }
+        if (newQuery.room) {
+            delete newQuery.room
+        }
+
+        router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
         this.setState({sendMessageModal: false});
     };
 
@@ -80,7 +83,8 @@ class ProductPage extends Component  {
             user: {
                 company_name,
                 location,
-                logo_img_url
+                logo_img_url,
+                country
             },
             age,
             kind: {title_rus, title_eng, guards: kindGuards, id: kindId},
@@ -302,7 +306,7 @@ class ProductPage extends Component  {
                                 <li className="product-card-info-item flex-row align-items-center">
                                     <h3 className="title">Локация:</h3>
                                     <h3 className="info info-text">{location}</h3>
-                                    <div className="country-flag country-flag-russia"></div>
+                                    <div className={`country-flag flag flag-${country?.name.toLowerCase()}`}></div>
                                 </li>
                             </ul>
                         </div>
@@ -326,7 +330,7 @@ class ProductPage extends Component  {
                                 mainImg ?
                                     (
                                         <div className="img-main-container" onClick={() => this.setState({modalImage: true})}>
-                                            <LazyImg src={mainImg.img_src} className="img-fluid img-main" alt="main"/>
+                                            <LazyImg src={mainImg.img_src} className="img-fluid img-main" alt={name}/>
                                         </div>
                                     )
                                     : null
@@ -335,10 +339,11 @@ class ProductPage extends Component  {
                                 {
                                     product_images.map( (item) => (
                                         <div
+                                            key={item.img_src}
                                             onClick={() => this.setState({mainImg: item})}
                                             className={"slider-item" + (item.id === mainImg.id ? ' selected' : '')}
                                         >
-                                            <LazyImg src={item.img_src} className="img-fluid" alt="main"/>
+                                            <LazyImg src={item.img_src} className="img-fluid" alt={name}/>
                                         </div>
                                     ))
                                 }
@@ -372,7 +377,7 @@ const mapStateToProps = ({router: {location: {pathname, search}}, profile}) => (
 });
 
 
-export default connect(mapStateToProps, {setReportModalShow, setReportModalProductId})(
+export default connect(mapStateToProps, {setReportModalShow, setReportModalProductId, setChatAct, setChatProduct})(
     withRouter(
         withGetData(
             withErrorBoundry(ProductPage),
