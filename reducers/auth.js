@@ -1,5 +1,6 @@
 import initialState from "./initialState";
 import {HYDRATE} from "next-redux-wrapper";
+import {diff} from "jsondiffpatch";
 
 const auth = (state, action) => {
 
@@ -11,9 +12,12 @@ const auth = (state, action) => {
 
     switch (action.type) {
         case HYDRATE:
+            const stateDiff = diff(state, action.payload.auth);
+            const wasBumpedOnClient = stateDiff?.isLogin?.[0] === true;
             return {
                 ...state,
-                ...action.payload.auth
+                ...action.payload.auth,
+                isLogin: wasBumpedOnClient ? state.isLogin : action.payload.auth.isLogin
             };
         case 'LOGIN_REQUEST':
             return {

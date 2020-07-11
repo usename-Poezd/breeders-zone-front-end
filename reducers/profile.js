@@ -1,5 +1,6 @@
 import initialState from "./initialState";
 import {HYDRATE} from "next-redux-wrapper";
+import {diff} from "jsondiffpatch";
 
 const profile = (state, action) => {
     const payload = action.payload;
@@ -9,9 +10,11 @@ const profile = (state, action) => {
 
     switch (action.type) {
         case HYDRATE:
+            const stateDiff = diff(state, action.payload.profile);
             return {
                 ...state,
-                ...action.payload.profile
+                ...action.payload.profile,
+                user: state.user.id && stateDiff?.user?.id?.[0] === state.user.id ? state.user : action.payload.profile.user
             };
         case 'GET_USER':
             return  {

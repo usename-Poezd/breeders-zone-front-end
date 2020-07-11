@@ -11,6 +11,7 @@ import divorce from "./divorce";
 import {combineReducers} from "redux";
 import {routerReducer} from "connected-next-router";
 import modals from "./modals";
+import countries from "./countries";
 
 const createRootReducer = () => combineReducers({
     modals,
@@ -23,6 +24,7 @@ const createRootReducer = () => combineReducers({
     chat,
     kinds,
     search,
+    countries,
     router: routerReducer
 });
 

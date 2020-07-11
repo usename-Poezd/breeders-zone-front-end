@@ -1,4 +1,6 @@
 import initialState from "./initialState";
+import {HYDRATE} from "next-redux-wrapper";
+import {diff} from "jsondiffpatch";
 
 const chat = (state, action) => {
     const payload = action.payload;
@@ -7,6 +9,15 @@ const chat = (state, action) => {
     }
 
     switch (action.type) {
+        case HYDRATE:
+            const stateDiff = diff(state, payload.chat);
+            return {
+                ...state,
+                ...payload.chat,
+                roomsWithNewMessages: stateDiff?.roomsWithNewMessages?.[0] > 0 ? state.roomsWithNewMessages : payload.chat.roomsWithNewMessages,
+                rooms: stateDiff?.rooms?.['_0']?.[0] === state.rooms?.[0] ? state.rooms : payload.chat.rooms,
+                request: stateDiff?.request?.[0] === false ? state.request : payload.chat.request
+            };
         case 'GET_MESSAGE_REQUEST':
             return {
                 ...state,
@@ -129,6 +140,11 @@ const chat = (state, action) => {
             return {
                 ...state,
                 request: payload
+            };
+        case 'SET_CHAT_PRODUCT':
+            return {
+                ...state,
+                product: payload
             };
         default:
             return state;

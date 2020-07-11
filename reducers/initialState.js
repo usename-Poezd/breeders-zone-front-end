@@ -17,6 +17,9 @@ const initialState = {
             title_eng: ''
         }
     },
+    countries: {
+        all: []
+    },
     auth: {
         isLogin: false,
         loginRequest: false,
@@ -42,6 +45,7 @@ const initialState = {
                 level: 1,
                 title: ''
             },
+            country: null,
             guardians_kinds: [],
             notifications : [],
             unread_notifications_count: 0
