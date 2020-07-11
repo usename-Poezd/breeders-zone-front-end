@@ -161,7 +161,7 @@ class SecondHeader extends Component {
                                             : 'Выберите категорию'
                                     }
                                 </span>
-                                <LazyImg src="/images/arrow-white.svg" className={'arrow img-fluid ' + isRotate} alt="arrow"/>
+                                <img src="/images/arrow-white.svg" className={'arrow img-fluid ' + isRotate} alt="arrow"/>
                             </div>
                             <ul className={idDropdown} style={{bottom: `-${dropdownHeight}px`, zIndex: dropdown ? 9999 : -1}} ref={this.dropdownList}>
                                 {
