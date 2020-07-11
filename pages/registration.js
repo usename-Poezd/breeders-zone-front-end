@@ -9,13 +9,17 @@ import {withGetData} from '../components/hoc-helpers';
 import {useForm} from 'react-hook-form';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
-import {getUser, setRegError} from "../actions";
+import {getUser, setCountries, setRegError} from "../actions";
 import {connect} from "react-redux";
 import Router, {withRouter} from "next/router";
+import wrapper from "../store";
+import {DataService} from "../services";
 
-const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, location, router: {query} }) => {
-    // const { state } = location;
+const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, router: {query} }) => {
 
+    if (isLogin && typeof window !== 'undefined') {
+        Router.push('/');
+    }
     const defaultValues = {
         name: '',
         surname: '',
@@ -143,6 +147,12 @@ const mapStateToProps = ({auth: {isLogin, regError}}) => ({
     regError
 });
 
+
+export const getStaticProps = wrapper.getStaticProps(async ({store}) => {
+    const dataService = await new DataService();
+    const data = await dataService.getCountries();
+    store.dispatch(setCountries(data))
+});
 
 export default connect(mapStateToProps, {setRegError, getUser})(
     withRouter(
