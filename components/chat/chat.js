@@ -1,29 +1,28 @@
 import React, {Component} from "react";
 import {Row, Col, Form, Spinner as BootstrapSpinner} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faCircle, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
-import {ChatBubble, ChatFeed, Message} from 'react-chat-ui';
+import {faArrowLeft, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
+import {ChatFeed} from 'react-chat-ui';
 import {
     addMessage, addRooms,
     clearChat, clearSelectedRoom,
-    getMessages,
     getRooms,
     newRoom,
     receivedMessage,
-    selectRoom, setChatAct,
-    setRooms, setSelectedRoomMessage, updateCheckMessage, updateLoadMessage
+    selectRoom, setChatAct, setChatProduct,
+    setSelectedRoomMessage, updateCheckMessage, updateLoadMessage
 } from "../../actions";
 import {withGetData, withHookForm} from "../hoc-helpers";
 import {connect} from "react-redux";
 import TextareaAutosize from "react-autosize-textarea";
-import Linkify from 'react-linkify';
-import {faClock} from "@fortawesome/free-regular-svg-icons";
-import {isLogin, randomString} from "../../utils";
+import {randomString} from "../../utils";
 import {DataService} from "../../services";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import Link from "next/link";
 import {withRouter} from "next/router";
 import Spinner from "../spinner";
+import LazyImg from "../lazy-img";
+import ChatBabble from "../chat-babble/chat-babble";
 
 const dataService = new DataService();
 const checkMessages = AwesomeDebouncePromise(
@@ -32,51 +31,11 @@ const checkMessages = AwesomeDebouncePromise(
 );
 const qs = require('qs');
 
-const LinkifyBabble = (props) => {
-    return (
-        <Linkify>
-            <div className="chat-bubble-wrap">
-                <div
-                    className="chat-bubble"
-                    style={
-                        props.message.id === 1 ?
-                            {
-                                'backgroundColor': 'rgb(204, 204, 204)',
-                                'float': 'left'
-                            }
-                            : null
-                    }
-                >
-                    {
-                        !props.message.messageId ?
-                            (
-                                <div className="message-status">
-                                    <FontAwesomeIcon icon={faClock} size="lg"/>
-                                </div>
-                            )
-                            : null
-                    }
-                    {
-                        !props.message.checked  && props.message.messageId ?
-                            (
-                                <div className="message-status">
-                                    <FontAwesomeIcon icon={faCircle} size="lg"/>
-                                </div>
-                            )
-                            : null
-                    }
-                    <p>{props.message.message}</p>
-                </div>
-            </div>
-        </Linkify>
-    )
-}
-
 class Chat extends Component {
 
     state = {
         value: '',
-        isMobile: false,
+        isMobile: false
     };
 
     componentDidMount() {
@@ -96,18 +55,7 @@ class Chat extends Component {
     }
 
     componentWillUnmount() {
-        const {clearChat, selected_room_id, router, pathname, search} = this.props;
-        const newQuery = qs.parse(search.replace('?', ''));
-        if (newQuery.act) {
-            delete newQuery.act;
-        }
-        if (newQuery.room) {
-            delete newQuery.room
-        }
-
-        if (router.query.act || router.query.room) {
-            router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
-        }
+        const {clearChat, selected_room_id} = this.props;
 
         clearChat();
         window.removeEventListener('resize', this.onResize);
@@ -187,6 +135,7 @@ class Chat extends Component {
 
             window.Echo.private(`room.${roomId}`)
                 .listen('.sendMessage', (data) => {
+                    console.log(data);
                     setSelectedRoomMessage(data.message);
                     addMessage({...data, id: 1});
                     checkMessages(roomId);
@@ -222,18 +171,31 @@ class Chat extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        const {addMessage, setMessage, selected_room_id, selected_room, setNewRoom, router, updateLoadMessage, setSelectedRoomMessage, pathname, search, act, setChatAct} = this.props;
+        const {
+            addMessage,
+            setMessage,
+            selected_room_id,
+            selected_room,
+            setNewRoom,
+            chat,
+            updateLoadMessage,
+            setSelectedRoomMessage,
+            search,
+            act,
+            setChatAct,
+            setChatProduct
+        } = this.props;
 
         const {value} = this.state;
         const trimmedValue = value.trimLeft().trimRight().replace(/\n{2,}/g, '\n').replace(/\s{2,}/g);
         const newMessageKey = randomString(6);
 
-        addMessage({message: trimmedValue, id: 0, checked: 0, newMessageKey});
+        addMessage({message: trimmedValue, id: 0, checked: 0, newMessageKey, product: chat.product});
         if (act === 'new') {
             const newQuery = qs.parse(search.replace('?', ''));
             delete newQuery.act;
 
-            setNewRoom({message: trimmedValue, roomId: selected_room_id, users: selected_room.users})
+            setNewRoom({message: trimmedValue, roomId: selected_room_id, users: selected_room.users, product_id: chat.product ? chat.product.id : null})
                 .then((id) => {
                     setChatAct('');
                     updateLoadMessage({id, newMessageKey});
@@ -250,8 +212,9 @@ class Chat extends Component {
             setSelectedRoomMessage(trimmedValue);
             return this.setState({value: ''})
         }
-        setMessage({message: trimmedValue, roomId: selected_room_id})
+        setMessage({message: trimmedValue, roomId: selected_room_id, product_id: chat.product ? chat.product.id : null})
             .then((id) => updateLoadMessage({id, newMessageKey}));
+        setChatProduct(null);
         setSelectedRoomMessage(trimmedValue);
         this.setState({value: ''})
     };
@@ -281,7 +244,9 @@ class Chat extends Component {
             newUser = { id: null },
             router,
             loginRequest,
-            request
+            request,
+            chat,
+            isLogin
         } = this.props;
 
 
@@ -295,7 +260,7 @@ class Chat extends Component {
             )
         }
 
-        if (!isLogin() && typeof window !== 'undefined') {
+        if (!isLogin && typeof window !== 'undefined') {
             router.push('/login');
         }
 
@@ -419,18 +384,40 @@ class Chat extends Component {
                                             !getMessagesRequest ?
                                                 (
                                                     <ChatFeed
-                                                        messages={messages} // Boolean: list of message objects
-                                                        // isTyping={this.state.is_typing} // Boolean: is the recipient typing
-                                                        // Boolean: use our input, or use your own
-                                                        // show the name of the user who sent the message
-                                                        chatBubble={LinkifyBabble}
-                                                        bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
-                                                        //JSON: Custom bubble styles
+                                                        messages={messages}
+                                                        chatBubble={ChatBabble}
+                                                        bubblesCentered={false}
                                                     />
                                                 )
                                                 : <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
                                         }
                                         <Form  onSubmit={!getMessagesRequest ? this.submit : null}>
+                                            {
+                                                chat.product ?
+                                                    <Form.Group className="m-0 d-flex justify-content-end">
+                                                        <div className="d-inline-flex chat-divider right">
+                                                            <div
+                                                                className="chat-bubble-product align-items-end"
+                                                            >
+                                                                <Link href={"/reptiles/[id]"} as={"/reptiles/" + chat.product.id}>
+                                                                    <a className="title">
+                                                                        {chat.product.name}
+                                                                    </a>
+                                                                </Link>
+                                                                <Link href={"/reptiles/[id]"} as={"/reptiles/" + chat.product.id}>
+                                                                    <a className="product-img">
+                                                                        {
+                                                                            chat.product.product_images.length > 0 ?
+                                                                                <LazyImg src={chat.product.product_images[0].img_src} className="img-fluid"/>
+                                                                                : null
+                                                                        }
+                                                                    </a>
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                    </Form.Group>
+                                                    : null
+                                            }
                                             <Form.Group className="my-1 d-flex justify-content-beetwen align-items-end">
                                                 <TextareaAutosize name="message" value={value} id="msg" className="w-100 form-control" onKeyDown={this.handelKeyDown} onChange={this.handelChange}/>
                                                 <button className={"btn btn-second-bn " + (!value.trim() && !getMessagesRequest ? 'disabled' : '')} onClick={(e) => !value.trim() && !getMessagesRequest ? e.preventDefault() : 's'} type="submit">
@@ -452,18 +439,21 @@ class Chat extends Component {
     }
 }
 
-const mapStateToProps = ({profile: {user}, auth: {loginRequest}, chat: {messages, rooms, selected_room_id, selected_room, getMessagesRequest, act, request}, router: {location: { pathname, search }}}) => ({
+const mapStateToProps = ({profile: {user}, auth: {isLogin, loginRequest}, chat, router: {location: { pathname, search }}}) => ({
     user,
-    rooms,
-    messages,
-    selected_room_id,
-    selected_room,
+    chat,
+    rooms: chat.rooms,
+    messages: chat.messages,
+    selected_room_id: chat.selected_room_id,
+    selected_room: chat.selected_room,
     loginRequest,
-    getMessagesRequest,
+    getMessagesRequest: chat.getMessagesRequest,
     pathname,
     search,
-    act,
-    request
+    act: chat.act,
+    request: chat.request,
+    isLogin,
+
 });
 
 const mapMethodsToProps = ({setMessage, checkMessages, countRoom, setNewRoom, searchRoom}) => ({
@@ -486,6 +476,7 @@ export default connect(mapStateToProps, {
     updateCheckMessage,
     setSelectedRoomMessage,
     addRooms,
-    setChatAct
+    setChatAct,
+    setChatProduct
 })(withHookForm(withGetData(withRouter(Chat), mapMethodsToProps)));
 
