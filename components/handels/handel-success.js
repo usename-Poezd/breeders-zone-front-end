@@ -19,10 +19,14 @@ class HandelSuccess extends Component {
         if (prevProps.success !== this.props.success){
             if(this.props.success){
                 this.setState({isToggle: true}, () => {
-                    setTimeout(() => this.setState({isToggle: false}), 3000)
+                    setTimeout( () => this.setState({isToggle: false}), 3000)
                 });
             }
         }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(3000);
     }
 
     render() {

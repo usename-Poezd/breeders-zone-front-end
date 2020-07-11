@@ -17,6 +17,10 @@ class HandelError extends Component {
         }
     }
 
+    componentWillUnmount() {
+        clearTimeout(3000);
+    }
+
     checkForErrors = () => {
         if(this.props.error.errors){
             const arr = Object.values(this.props.error.errors);
