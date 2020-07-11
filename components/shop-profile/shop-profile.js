@@ -21,11 +21,11 @@ import HandelError from "../handels/handel-error";
 import {useRouter} from "next/router";
 import LazyImg from "../lazy-img";
 
-const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdateClear, setShopUpdateSuccess, setShopUpdateError, shop, setShopPreview, isLogin}) => {
+const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdateClear, setShopUpdateSuccess, setShopUpdateError, shop, setShopPreview, isLogin, countries, loginRequest}) => {
 
     const router = useRouter();
 
-    if(!user.name || shop.update.request){
+    if((shop.update.request || loginRequest) && isLogin){
         return (
             <Row className="justify-content-center">
                 <Col xs={12} md={8} className="feather-shadow mt-3 py-5">
@@ -42,6 +42,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
     const { register, handleSubmit, watch, setValue, errors } = useForm({
         defaultValues: {
             ...user,
+            country: user.country ? user.country.name : countries.all[0].name,
             description: user.description ? user.description : '',
             policity: user.policity ? user.policity : '',
             vk: user.vk ? user.vk : '',
@@ -119,7 +120,8 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         instagram,
         youtube,
         website,
-        location
+        location,
+        country
     } = watch();
 
     const { update } = shop;
@@ -172,7 +174,32 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             })
                         }}
                     />
-
+                    <Form.Group className="d-flex flex-column locality">
+                        <Form.Label htmlFor="country">Укажите страну:</Form.Label>
+                        <div className="select-wrap w-100">
+                            <Form.Control
+                                id="country"
+                                as="select"
+                                name="country"
+                                value={country ? country : user.country?.name}
+                                onChange={(e) => setValue(e.target.value)}
+                                ref={
+                                    register({
+                                        required: true
+                                    })
+                                }
+                            >
+                                {
+                                    countries.all.map((item, idx) => <option key={idx} value={item.name}>{item.name}</option>)
+                                }
+                            </Form.Control>
+                        </div>
+                        {
+                            errors.country &&
+                            errors.country.type === 'required' &&
+                            <p className="form-err text-danger">Пожалуйста укажите страну`</p>
+                        }
+                    </Form.Group>
                     <GroupFormControl
                         label="Локация"
                         errors = {errors}
@@ -386,10 +413,12 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
     )
 };
 
-const mapStateToProps = ({auth: {isLogin}, profile: {user},shop}) => ({
+const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, shop, countries}) => ({
     user,
     shop,
-    isLogin
+    isLogin,
+    countries,
+    loginRequest
 });
 
 const mapMethodsToProps = (getData) => ({

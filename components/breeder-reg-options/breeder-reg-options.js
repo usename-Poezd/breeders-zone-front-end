@@ -1,10 +1,10 @@
 import React from "react";
-import {Col, Row} from "react-bootstrap";
+import {Form, Col, Row} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
+import {connect} from "react-redux";
+import {setSearchLocality} from "../../actions";
 
-const BreederRegOptions = ({register, errors}) => {
-
-
+const BreederRegOptions = ({register, errors, countries}) => {
     return (
         <React.Fragment>
             <GroupFormControl
@@ -36,13 +36,37 @@ const BreederRegOptions = ({register, errors}) => {
                         }),
                 }}
             />
+            <Form.Group className="d-flex flex-column locality">
+                <Form.Label htmlFor="country">Укажите страну:</Form.Label>
+                <div className="select-wrap w-100">
+                    <Form.Control
+                        id="country"
+                        as="select"
+                        name="country"
+                        ref={
+                            register({
+                                required: true
+                            })
+                        }
+                    >
+                        {
+                            countries.all.map((item, idx) => <option key={idx} value={item.name}>{item.name}</option>)
+                        }
+                    </Form.Control>
+                </div>
+                {
+                    errors.country &&
+                    errors.country.type === 'required' &&
+                    <p className="form-err text-danger">Пожалуйста укажите страну`</p>
+                }
+            </Form.Group>
             <GroupFormControl
                 label="Локация"
                 nec={true}
                 errors = {errors}
                 controls={{
                     type:"text",
-                    placeholder: "Тула, Россия",
+                    placeholder: "Тула",
                     name:"location",
                     ref: register({ required: true })
                 }}
@@ -132,4 +156,8 @@ const BreederRegOptions = ({register, errors}) => {
     )
 };
 
-export default BreederRegOptions;
+const mapStateToProps = ({countries}) => ({
+    countries
+});
+
+export default connect(mapStateToProps)(BreederRegOptions);
