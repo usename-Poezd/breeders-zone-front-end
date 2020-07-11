@@ -18,6 +18,7 @@ const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab,
                         {
                             kinds.map( ({ title_rus }, idx) => (
                                 <li
+                                    key={"shop-morphs-category-" + idx}
                                     className={`morph-list-item h3 ` + (activeTab === idx ? 'active' : '')}
                                     onClick={ () => onTab(idx)}
                                 >
@@ -49,6 +50,7 @@ const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab,
                     {
                         morphs.map( ({ traitTitle, geneTitle, type }) => (
                             <Link
+                                key={`shop-morph-${traitTitle}-${type}-${geneTitle}`}
                                 href="/[group]/[kind]/genes/[morph]"
                                 as={`${groupAndKindUrl}/genes/${pipes.toUrl(`${traitTitle}-${geneTitle}`)}?shop=${pipes.toUrl(shopName)}`}
                             >
