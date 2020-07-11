@@ -26,7 +26,11 @@ class Login extends Component {
 
     render() {
         const { serverError } = this.state;
-        const { register, handleSubmit, errors } = this.props;
+        const { register, handleSubmit, errors, isLogin } = this.props;
+
+        if (isLogin && typeof window !== 'undefined') {
+            Router.push('/');
+        }
 
         return (
             <div className="login form-container">
