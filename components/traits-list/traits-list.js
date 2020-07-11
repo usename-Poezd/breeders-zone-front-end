@@ -47,11 +47,14 @@ class TraitsList extends Component {
     modalClose = () => {
         const { router, pathname, search } = this.props;
         const newQuery = qs.parse(search.replace('?', ''));
-        if (newQuery.act)
+        if (newQuery.act) {
             delete newQuery.act;
-        if (newQuery.room)
-            delete newQuery.room;
-        router.push(router.pathname, pathname + (qs.stringify(newQuery) ? '?' + qs.stringify(newQuery) : ''));
+        }
+        if (newQuery.room) {
+            delete newQuery.room
+        }
+
+        router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
         this.setState({sendMessageModal: false});
     };
 
