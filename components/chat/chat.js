@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Row, Col, Form, Spinner as BootstrapSpinner} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
-import {ChatFeed} from 'react-chat-ui';
+import ChatFeed from "./chat-feed";
 import {
     addMessage, addRooms,
     clearChat, clearSelectedRoom,
@@ -22,7 +22,8 @@ import Link from "next/link";
 import {withRouter} from "next/router";
 import Spinner from "../spinner";
 import LazyImg from "../lazy-img";
-import ChatBabble from "../chat-babble/chat-babble";
+import ChatBubble from "./chat-bubble/chat-bubble";
+import ScrollBars from "react-custom-scrollbars";
 
 const dataService = new DataService();
 const checkMessages = AwesomeDebouncePromise(
@@ -135,9 +136,8 @@ class Chat extends Component {
 
             window.Echo.private(`room.${roomId}`)
                 .listen('.sendMessage', (data) => {
-                    console.log(data);
                     setSelectedRoomMessage(data.message);
-                    addMessage({...data, id: 1});
+                    addMessage({...data, id: user.id !== data.user_id ? 1 : 0, messageId: data.message_id});
                     checkMessages(roomId);
                 })
         }
@@ -385,7 +385,7 @@ class Chat extends Component {
                                                 (
                                                     <ChatFeed
                                                         messages={messages}
-                                                        chatBubble={ChatBabble}
+                                                        chatBubble={ChatBubble}
                                                         bubblesCentered={false}
                                                     />
                                                 )

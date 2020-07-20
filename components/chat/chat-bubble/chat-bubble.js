@@ -2,13 +2,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClock} from "@fortawesome/free-regular-svg-icons";
 import {faCircle} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import LazyImg from "../lazy-img";
+import LazyImg from "../../lazy-img";
 import Linkify from "react-linkify";
 import React from "react";
 import {withRouter} from "next/router";
-import {connect} from "react-redux";
 
-const ChatBabble = (props) => {
+const ChatBubble = (props) => {
     const {product} = props.message;
     return (
         <div className="chat-bubble-wrap">
@@ -73,4 +72,4 @@ const ChatBabble = (props) => {
     )
 };
 
-export default withRouter(ChatBabble);
+export default withRouter(ChatBubble);
