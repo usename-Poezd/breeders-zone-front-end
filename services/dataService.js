@@ -664,5 +664,28 @@ export default class  DataService {
             }
         })
             .then((resp) => resp.data)
-    }
+    };
+
+    getFaqs = (options) => {
+        const query = this.qs.stringify(options);
+        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '' ) + '/api/faq?' +  query, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            }
+        })
+            .then((res) => res.data);
+    };
+
+    getFaq = (label) => {
+        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '' ) + '/api/faq/' + label,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                }
+            }
+        )
+            .then( (res) => res.data)
+    };
 }
