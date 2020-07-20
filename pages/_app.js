@@ -75,13 +75,12 @@ class MyApp extends Component {
             if (activeKind)
                 ctx.store.dispatch(setActiveKind(activeKind));
         } else {
-            //clear active kind
             ctx.store.dispatch(setActiveKind({
                 title_rus: '',
                 title_eng: ''
             }));
         }
-        if (nextCookies(ctx).token && !state.profile.user.id) {
+        if (nextCookies(ctx).token && !ctx.store.getState().profile.user.id) {
             try {
                 const data = await dataService.getUserData(nextCookies(ctx).token);
                 ctx.store.dispatch(getUserData(data));
