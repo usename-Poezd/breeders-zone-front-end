@@ -26,9 +26,9 @@ const BreederRegOptions = ({register, errors, countries}) => {
                 nec={true}
                 errors = {errors}
                 controls={{
-                    type:"text",
+                    type:"tel",
                     name:"phone",
-                    placeholder: "+7 (980) 728-58-18",
+                    placeholder: "+7 (980) 999-99-99",
                     ref:
                         register({
                             required: true,
