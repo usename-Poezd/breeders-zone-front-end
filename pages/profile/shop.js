@@ -14,10 +14,12 @@ const ShopProfilePage = (props) => {
     )
 };
 
-export const getStaticProps = wrapper.getStaticProps(async ({store}) => {
-    const dataService = await new DataService();
-    const data = await dataService.getCountries();
-    store.dispatch(setCountries(data))
+export const getServerSideProps = wrapper.getStaticProps(async ({store}) => {
+    if(store.getState().countries.all.length === 0) {
+        const dataService = await new DataService();
+        const data = await dataService.getCountries();
+        store.dispatch(setCountries(data))
+    }
 });
 
 export default ShopProfilePage;

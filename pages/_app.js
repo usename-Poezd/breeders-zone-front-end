@@ -49,7 +49,7 @@ class MyApp extends Component {
 
         if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
             const kinds = await Axios.get(
-                'http://nginx-web/api/kinds',
+                'http://nginx-api/api/kinds',
                 {
                     headers: {
                         'Content-Type': 'application/json',
