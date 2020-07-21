@@ -1,5 +1,3 @@
-import {Message} from "react-chat-ui";
-
 export default class UpgradedMassage{
     constructor(data) {
         this.id = data.id;
