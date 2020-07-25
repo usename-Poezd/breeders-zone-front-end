@@ -1,5 +1,6 @@
 import initialState from "./initialState";
 import {HYDRATE} from "next-redux-wrapper";
+import {diff} from "jsondiffpatch";
 
 const countries = (state, action) => {
     const payload = action.payload;
@@ -9,7 +10,12 @@ const countries = (state, action) => {
 
     switch (action.type) {
         case HYDRATE:
-            return {...state, ...payload.countries};
+            const stateDiff = diff(state, action.payload.countries);
+            return {
+                ...state,
+                ...payload.countries,
+                all: stateDiff?.all?.['_0']?.[0] && stateDiff?.all?.['_0']?.[0] === state.all?.[0] ? state.all : action.payload.countries.all,
+            };
         case 'SET_COUNTRIES':
             return {
                 ...state,

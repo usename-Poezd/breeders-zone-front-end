@@ -14,7 +14,7 @@ const ShopProfilePage = (props) => {
     )
 };
 
-export const getServerSideProps = wrapper.getStaticProps(async ({store}) => {
+export const getServerSideProps = wrapper.getServerSideProps(async ({store}) => {
     if(store.getState().countries.all.length === 0) {
         const dataService = await new DataService();
         const data = await dataService.getCountries();

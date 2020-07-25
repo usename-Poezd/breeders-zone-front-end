@@ -73,6 +73,14 @@ class ShopsPage extends Component {
                     </Form>
                     <Row>
                         {
+                            shops.data.length === 0 ?
+                                <Col xs={12} className="d-flex flex-column justify-content-center m-auto">
+                                    <img src="/images/icons/error-snake.svg" alt="Пока что нет активных категорий"/>
+                                    <h1 className="text-center">Похоже магазинов{activeKind.title_rus ? ` в категории ${activeKind.title_rus} ` : ' '}нет</h1>
+                                </Col>
+                                : null
+                        }
+                        {
                             shops.data.map( (item) => (
                                 <Col xs={12} sm={6} ms={4} lg={3} className="item">
                                     <div className="list-item">

@@ -1,12 +1,12 @@
-import React, {useCallback} from "react";
-import { Col, Form, Row} from "react-bootstrap";
+import React, {useCallback, useState} from "react";
+import {Alert, Col, Form, Modal, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
 import {withGetData} from "../hoc-helpers";
 import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
 import {
     clearProfileState, deleteProductPreview,
-    getUser, profileUpdateRequest,
+    getUser, logout, profileUpdateRequest,
     setProfileChangePassword, setProfilePreview,
     setProfileUpdateError,
     setProfileUpdateSuccess
@@ -34,10 +34,15 @@ const Profile = ({
      setProfilePreview,
      deleteProductPreview,
      loginRequest,
-     isLogin
+     isLogin,
+     deleteProfile,
+     logout
 }) => {
 
     const router = useRouter();
+    const [modalShow, setModalShow] = useState(false);
+    const [deleteError, setDeleteError] = useState(false);
+    const [deleteRequest, setDeleteRequest] = useState(false);
 
     if(loginRequest || profile.update.request){
         return (
@@ -101,6 +106,21 @@ const Profile = ({
                 acceptedFiles.splice(0, acceptedFiles.length);
                 setTimeout(()=> clearProfileState(), 5000);
             });
+    };
+
+    const deleteProfileSubmit = (e) => {
+        e.preventDefault();
+
+        setDeleteRequest(true);
+        deleteProfile(user.id)
+            .then(() => {
+                logout(true);
+                router.push('/');
+            })
+            .catch(() => {
+                setDeleteError(true);
+                setDeleteRequest(false);
+            })
     };
 
     const {
@@ -332,19 +352,69 @@ const Profile = ({
                             }
                         </Col>
                     </Row>
-
-
-
                     <input type="submit" value="Сохранить" className="btn btn-main"/>
                 </Form>
+            </Col>
+            <Col xs={12} md={8}>
+                <div className="form-container border border-danger" style={{marginBottom: 20}}>
+                    <h2 className="text-center">Опасная зона</h2>
+                    <Modal show={modalShow} onHide={() => setModalShow(false)}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Удаление профиля</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body as={Form}  onSubmit={deleteProfileSubmit}>
+                            {
+                                !deleteRequest ?
+                                    (
+                                        <React.Fragment>
+                                            {
+                                                deleteError ?
+                                                    <Alert variant="danger">
+                                                        <p>Произошла ошибка, попробуйте еще раз.</p>
+                                                    </Alert>
+                                                    : null
+                                            }
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <h3>Вы действительно хотите удалить профиль?</h3>
+                                                <div className="d-flex justify-content-between align-items-center">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setModalShow(false)}
+                                                        className="btn"
+                                                    >Нет</button>
+                                                    <button
+                                                        type="submit"
+                                                        className="btn btn-danger"
+                                                    >Да</button>
+                                                </div>
+                                            </div>
+                                        </React.Fragment>
+                                    )
+                                    : (
+                                        <div className="d-flex justify-content-center align-items-center">
+                                            <BootstrapSpinner animation="border" className="m-auto"/>
+                                        </div>
+                                    )
+                            }
+                        </Modal.Body>
+                    </Modal>
+                    <Form.Group>
+                        <button
+                            type="button"
+                            onClick={() => setModalShow(true)}
+                            className="btn btn-danger"
+                        >Удалить профиль</button>
+                    </Form.Group>
+                </div>
             </Col>
         </Row>
     )
 
 };
 
-const mapMethodsToProps = (getData) => ({
-    updateProfile: getData.updateProfile
+const mapMethodsToProps = ({updateProfile, deleteProfile}) => ({
+    updateProfile,
+    deleteProfile
 });
 
 const mapStateToProps = ({profile, auth: {loginRequest, isLogin}}) => ({
@@ -354,7 +424,17 @@ const mapStateToProps = ({profile, auth: {loginRequest, isLogin}}) => ({
     profile
 });
 
-export default connect(mapStateToProps, { getUser, setProfileChangePassword, setProfileUpdateSuccess, setProfileUpdateError, clearProfileState, profileUpdateRequest, setProfilePreview, deleteProductPreview })(
+export default connect(mapStateToProps, {
+    getUser,
+    setProfileChangePassword,
+    setProfileUpdateSuccess,
+    setProfileUpdateError,
+    clearProfileState,
+    profileUpdateRequest,
+    setProfilePreview,
+    deleteProductPreview,
+    logout
+})(
     withGetData(
         Profile,
         mapMethodsToProps

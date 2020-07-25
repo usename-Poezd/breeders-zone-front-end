@@ -2,7 +2,6 @@ import React from "react";
 import {Col, Row, Container} from "react-bootstrap";
 import Login from "../components/login";
 import ContinueRegistration from "../components/continue-reg";
-import Header from "../components/header/header";
 
 export default () => {
     return (

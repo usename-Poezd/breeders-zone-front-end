@@ -100,7 +100,7 @@ class Morphs extends Component {
                                                     <Link href="/[group]/[kind]/subcategories/[subcategoryTitle]" as={`/${group}/${kind}/subcategories/${this.pipes.toUrl(item.title)}`}>
                                                         <a className="d-flex justify-content-between w-100">
                                                             <h3>{item.title}</h3>
-                                                            <div className="morph-indicator-count morph-other-normal ml-2">{item.count}</div>
+                                                            <div className="morph-indicator-count morph-other-normal ml-2">{item.products_count}</div>
                                                         </a>
                                                     </Link>
                                                 </div>

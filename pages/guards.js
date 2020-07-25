@@ -89,6 +89,14 @@ const Guards = (props) => {
             </Row>
             <Row className="mt-4 position-relative">
                 {
+                    !request && guards.data.length === 0 ?
+                        <Col xs={12} className="d-flex flex-column justify-content-center m-auto">
+                            <img src="/images/icons/error-snake.svg" alt="Пока что нет активных категорий"/>
+                            <h1 className="text-center">Хранителей еще нет</h1>
+                        </Col>
+                        : null
+                }
+                {
                     request && guards.data.length === 0 ?
                         <Col xs={12} className="d-flex">
                             <BootstrapSpinner className="m-auto" animation="border"/>
