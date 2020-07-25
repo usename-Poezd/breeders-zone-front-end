@@ -21,7 +21,12 @@ class Login extends Component {
                 Router.push('/');
                 getUser();
             })
-            .catch( (error) =>  this.setState({ serverError: error }) );
+            .catch( (error) =>  {
+                if (error.response.status === 403) {
+                    Router.push('/verify');
+                }
+                this.setState({ serverError: error });
+            });
     };
 
     render() {

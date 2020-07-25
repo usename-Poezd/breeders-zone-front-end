@@ -77,10 +77,9 @@ const VerificationPage = ({verification, sendVerifyMail}) => {
 export const getServerSideProps = async (ctx) => {
     const {verificationCode} = await ctx.query;
     const dataService = await new DataService();
-    const verification = await dataService.verifyMail(verificationCode)
+    const verification = await dataService.verify(verificationCode)
         .catch((err) => err.response.data);
 
-    console.log(verification);
     return {
         props: {
             verification

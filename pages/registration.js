@@ -45,8 +45,7 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, r
         setRegisterRequest(true);
         postRegister({...data, isBreeder: isBreeder})
             .then( () => {
-                Router.push("/");
-                getUser();
+                Router.push("/verify");
             })
             .catch( error => {
                 setRegisterRequest(false);
@@ -148,7 +147,7 @@ const mapStateToProps = ({auth: {isLogin, regError}}) => ({
 });
 
 
-export const getServerSideProps = wrapper.getStaticProps(async ({store}) => {
+export const getServerSideProps = wrapper.getServerSideProps(async ({store, res}) => {
     if(store.getState().countries.all.length === 0) {
         const dataService = await new DataService();
         const data = await dataService.getCountries();
