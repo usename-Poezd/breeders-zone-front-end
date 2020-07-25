@@ -4,36 +4,39 @@ import {Container} from "react-bootstrap";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faExclamationTriangle, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {withCookies} from "react-cookie";
 import Link from "next/link";
+import nookies from "nookies";
+
+
 class UserActivityBanner extends Component {
 
     state = {
         isOpen: false,
-        success: false
+        success: false,
+        cookies: nookies.get()
     };
 
     componentDidMount() {
-        const {success} = this.state;
-        const {loginRequest, user, cookies, isLogin} = this.props;
-        if (!loginRequest && isLogin && !user.active && !success && !cookies.get('isActivityChecked') ) {
+        const {success, cookies} = this.state;
+        const {loginRequest, user, isLogin} = this.props;
+        if (!loginRequest && isLogin && !user.active && !success && !cookies.isActivityChecked ) {
             setTimeout(() => this.setState({isOpen: true}), 3000);
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.user !== this.props.user || prevProps.loginRequest !== this.props.loginRequest) {
-            const {success} = this.state;
-            const {loginRequest, user, cookies, isLogin} = this.props;
-            if (!loginRequest && isLogin && !user.active && !success && !cookies.get('isActivityChecked') ) {
+            const {success, cookies} = this.state;
+            const {loginRequest, user, isLogin} = this.props;
+            if (!loginRequest && isLogin && !user.active && !success && !cookies.isActivityChecked ) {
                 setTimeout(() => this.setState({isOpen: true}), 3000);
             }
         }
     }
 
     render() {
-        const {isOpen, success, isLogin} = this.state;
-        const {user, cookies} = this.props;
+        const {isOpen, success, isLogin, cookies} = this.state;
+        const {user} = this.props;
 
         const variants = {
             success: {
@@ -55,7 +58,7 @@ class UserActivityBanner extends Component {
         return (
             <AnimatePresence>
                 {
-                    isOpen && isLogin && !user.active && !cookies.get('isActivityChecked') ?
+                    isOpen && isLogin && !user.active && !cookies.isActivityChecked ?
                         (
                             (
                                 <motion.div
@@ -74,7 +77,7 @@ class UserActivityBanner extends Component {
                                         onClick={
                                             () => {
                                                 this.setState({isOpen: false});
-                                                cookies.set('isActivityChecked', true, {
+                                                nookies.set(null, 'isActivityChecked', true, {
                                                     expires: new Date('01 January 30 00:00:00 UTC')
                                                 })
                                             }
@@ -105,4 +108,4 @@ const mapStateToProps = ({auth: {loginRequest, isLogin}, profile: {user}}) => ({
     user
 });
 
-export default connect(mapStateToProps)(withCookies(UserActivityBanner));
+export default connect(mapStateToProps)(UserActivityBanner);

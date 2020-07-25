@@ -1,10 +1,10 @@
 import Axios from "axios";
 import {DataService} from "../services";
 import UpgradedMassage from "../utils/upgraded-message";
+import nookies from "nookies";
 const dataService = new DataService();
-import { Cookies } from 'react-cookie';
 // set up cookies
-const cookies = new Cookies();
+const cookies = nookies.get();
 
 
 export const clearChat = () => {
@@ -27,7 +27,7 @@ export const getMessagesRequestClear = () => {
 };
 
 export const getMessages = (payload) => (dispatch, getState) => {
-    const token = cookies.get('token');
+    const token = cookies.token;
     const state = getState();
 
     const CancelToken = Axios.CancelToken;
@@ -108,7 +108,7 @@ export const newRoom = (payload) => (dispatch) => {
 };
 
 export const selectRoom = (payload) => (dispatch, getState) => {
-    const token = cookies.get('token');
+    const token = cookies.token;
     const state = getState();
     if(state.chat.selected_room_id !== null) {
         window.Echo.leaveChannel(`private-room.${state.chat.selected_room_id}`);
@@ -174,7 +174,7 @@ export const clearSelectedRoom = () => {
 };
 
 export const getRooms = () => (dispatch, getState) => {
-    const token = cookies.get('token');
+    const token = cookies.token;
     const store = getState();
     dispatch(setChatRequest(true));
     return Axios.get(
@@ -217,7 +217,7 @@ export const receivedMessage = (payload) => (dispatch, getState) => {
 };
 
 export const getRoomsCountWithNewMessages = () => (dispatch) => {
-    const token = cookies.get('token');
+    const token = cookies.token;
     return Axios.get(
         '/api/rooms-with-new-message',
         {

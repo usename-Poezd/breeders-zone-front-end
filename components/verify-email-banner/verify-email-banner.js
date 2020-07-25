@@ -33,7 +33,7 @@ class VerifyEmailBanner extends Component{
 
     render() {
         const {isOpen, success} = this.state;
-        const {sendVerifyMail, user, isLogin} = this.props;
+        const {sendVerifyEmail, user, isLogin} = this.props;
 
         const variants = {
             success: {
@@ -100,7 +100,7 @@ class VerifyEmailBanner extends Component{
                                                                     (e) => {
                                                                         e.preventDefault();
                                                                         this.setState({success: true});
-                                                                        sendVerifyMail();
+                                                                        sendVerifyEmail();
                                                                         setTimeout(() => this.setState({isOpen: false}), 3000)
                                                                     }
                                                                 }
@@ -121,8 +121,8 @@ class VerifyEmailBanner extends Component{
     }
 }
 
-const mapMethodsToProps = ({sendVerifyMail}) => ({
-    sendVerifyMail,
+const mapMethodsToProps = ({sendVerifyEmail}) => ({
+    sendVerifyEmail,
 });
 
 const mapStateToProps = ({auth: {loginRequest, isLogin}, profile: {user}}) => ({
