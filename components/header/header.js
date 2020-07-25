@@ -24,7 +24,6 @@ import {
     search as searchState, logout, clearUserNotificationsCount
 } from "../../actions";
 import Spinner from "../spinner";
-import {isLogin as isLoginToken} from "../../utils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faComments} from "@fortawesome/free-regular-svg-icons";
 import {
