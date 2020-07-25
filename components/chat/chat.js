@@ -23,7 +23,6 @@ import {withRouter} from "next/router";
 import Spinner from "../spinner";
 import LazyImg from "../lazy-img";
 import ChatBubble from "./chat-bubble/chat-bubble";
-import ScrollBars from "react-custom-scrollbars";
 
 const dataService = new DataService();
 const checkMessages = AwesomeDebouncePromise(
@@ -82,7 +81,7 @@ class Chat extends Component {
             delete newQuery.act;
             newQuery.room = room.room.id;
             setChatAct('');
-            router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
+            router.push(router.pathname, pathname + '?' + qs.stringify(newQuery), { shallow: true });
             return;
         }
 
@@ -94,7 +93,7 @@ class Chat extends Component {
                     roomId = data.room.id;
                     newQuery.room = roomId;
                     setChatAct('');
-                    return router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
+                    return router.push(router.pathname, pathname + '?' + qs.stringify(newQuery), { shallow: true });
                 })
                 .catch( () => {
                     if (act === 'new' && newUser && !room) {
@@ -105,7 +104,7 @@ class Chat extends Component {
                             })
                             .then((roomId) => {
                                 newQuery.room = roomId;
-                                router.push(router.pathname, pathname +  '?' + qs.stringify(newQuery));
+                                router.push(router.pathname, pathname +  '?' + qs.stringify(newQuery), { shallow: true });
                             })
                     }
                 });
@@ -226,10 +225,10 @@ class Chat extends Component {
         setChatAct('');
 
         if (router.pathname === '/chat') {
-            router.push(pathname + '?' + qs.stringify(query));
+            router.push(pathname + '?' + qs.stringify(query), { shallow: true });
             return;
         }
-        router.push(router.pathname, pathname + '?' + qs.stringify(query));
+        router.push(router.pathname, pathname + '?' + qs.stringify(query), { shallow: true });
     };
 
     render() {
