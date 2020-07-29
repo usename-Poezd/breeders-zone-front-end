@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Head from 'next/head'
-import {connect, Provider} from "react-redux";
+import {connect} from "react-redux";
 import "../sass/app.scss";
 import 'react-day-picker/lib/style.css';
 import 'lazysizes';
@@ -22,13 +22,13 @@ import {ConnectedRouter} from "connected-next-router";
 import Header from "../components/header/header";
 import SecondHeader from "../components/second-header";
 import {withRouter} from "next/router";
-import {Container} from "react-bootstrap";
-import Spinner from "../components/spinner";
 import CookiesBanner from "../components/cookies-banner/cookies-banner";
 import VerifyEmailBanner from "../components/verify-email-banner/verify-email-banner";
 import UserActivityBanner from "../components/user-activity-banner";
 import wrapper from "../store";
 import nookies from "nookies";
+import Footer from "../components/footer";
+import NextNProgress from "../components/progress-bar";
 config.autoAddCss = false;
 const dataService = new DataService();
 const cookies = nookies.get();
@@ -36,14 +36,13 @@ const cookies = nookies.get();
 class MyApp extends Component {
 
     state = {
-        changeRoute: false,
         prevUrl: '',
         isSecondHeader: this.props.isSecondHeader
     };
 
     static async getInitialProps({Component, ctx}) {
         const state = await ctx.store.getState();
-        const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset)/gi;
+        const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset|\/documents)/gi;
 
         if (ctx.res) {
 
@@ -110,7 +109,7 @@ class MyApp extends Component {
             addNotification,
             router
         } = this.props;
-        const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset)/gi;
+        const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset|\/documents)/gi;
 
         window.qs = require('qs');
         window.io = require('socket.io-client');
@@ -143,38 +142,18 @@ class MyApp extends Component {
         }
 
         this.setState({prevUrl: router.asPath}, () => {
-            router.events.on('routeChangeStart', (url) => {
-                const {prevUrl} = this.state;
-                let regPrevUrl = null;
-
-                const regUrl = url.match(/(((\/\w+)*\/)([\w\-\.]+[^#?\s]+))(.+)?(#[\w\-]+)?$/);
-                if (prevUrl)
-                    regPrevUrl = prevUrl.match(/(((\/\w+)*\/)([\w\-\.]+[^#?\s]+))(.+)?(#[\w\-]+)?$/);
-
-                if (url.match(/\/(divorces|products)\/edit\/\d$/) === null) { //TODO:refactor that
-                    if (regUrl !== null && regPrevUrl !== null) {
-                        if (url !== prevUrl && ( regUrl[1] !== regPrevUrl[1]))
-                            this.setState({changeRoute: true});
-                    } else {
-                        this.setState({changeRoute: true});
-                    }
-                }
-
-
+            router.events.on('routeChangeComplete', (url) => {
                 if (url.match(regExp) === null)
                     this.setState({isSecondHeader: true});
                 else
                     this.setState({isSecondHeader: false});
-
-                this.setState({prevUrl: url})
             });
-            router.events.on('routeChangeComplete', () => this.setState({changeRoute: false}));
         });
     }
 
     render() {
-        const { changeRoute, isSecondHeader } = this.state;
-        const { Component, pageProps, deleteToken } = this.props;
+        const { isSecondHeader } = this.state;
+        const { Component, pageProps, deleteToken, router } = this.props;
 
         return (
             <ConnectedRouter>
@@ -199,31 +178,30 @@ class MyApp extends Component {
                     <VerifyEmailBanner/>
                     <UserActivityBanner/>
 
-                <Header deleteToken={deleteToken}/>
-                {
-                    isSecondHeader ?
-                        <SecondHeader/>
-                        : null
-                }
-                {
-                    changeRoute ?
-                        (
-                            <Container>
-                                <Spinner/>
-                            </Container>
-                        )
-                        : <Component {...pageProps}/>
-                }
+                    <NextNProgress />
+                    <Header deleteToken={deleteToken}/>
+                    {
+                        isSecondHeader ?
+                            <SecondHeader/>
+                            : null
+                    }
+                    <Component {...pageProps}/>
+                    {
+                        router.pathname !== '/documents'
+                        && router.pathname !== '/documents/[label]' ?
+                            <Footer/>
+                            : null
+                    }
 
-                <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-                        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-                        crossOrigin="anonymous"></script>
-                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-                        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-                        crossOrigin="anonymous"></script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-                        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-                        crossOrigin="anonymous"></script>
+                    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+                            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                            crossOrigin="anonymous"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+                            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                            crossOrigin="anonymous"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+                            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                            crossOrigin="anonymous"></script>
             </GetDataProvider>
         </ConnectedRouter>
         )

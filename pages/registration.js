@@ -64,7 +64,7 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, r
 
     if (registerRequest) {
         return (
-            <Container>
+            <Container className="body-second-container">
                 <Row>
                     <Col xs={12} md={8} className="m-auto">
                         <Spinner/>
@@ -76,7 +76,7 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, r
 
 
     return (
-            <Container>
+            <Container className="body-second-container">
                 <Row>
                     <Col xs={12} md={8} className="m-auto">
                         <div className="reg form-container">

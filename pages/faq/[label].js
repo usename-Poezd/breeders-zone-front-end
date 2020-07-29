@@ -1,10 +1,15 @@
 import React from "react";
 import {DataService} from "../../services";
 import {Container, Row, Col} from "react-bootstrap";
+import Error from "../_error";
 
-export default ({faq}) => {
+export default ({faq, statusCode}) => {
+    if (statusCode && statusCode !== 200) {
+        return <Error statusCode={statusCode}/>;
+    }
+
     return (
-        <Container>
+        <Container className="body-container">
             <Row className="justify-content-center">
                 <Col xs={12} className="mb-3">
                     <h1>{faq.title}</h1>

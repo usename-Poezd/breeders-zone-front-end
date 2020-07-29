@@ -43,7 +43,7 @@ const Guards = (props) => {
     };
 
     return (
-        <Container>
+        <Container className="body-container">
             <Row className="mt-3">
                 <Col xs={12}>
                     <h1 className="text-center">Хранители</h1>

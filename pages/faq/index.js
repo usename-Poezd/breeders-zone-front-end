@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default ({faqs}) => {
     return (
-        <Container>
+        <Container className="body-container">
             <Row className="justify-content-center">
                 <Col xs={12} md={6} lg={4} className="d-flex flex-column mb-3">
                     <h1>FAQ</h1>

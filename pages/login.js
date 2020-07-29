@@ -5,7 +5,7 @@ import ContinueRegistration from "../components/continue-reg";
 
 export default () => {
     return (
-        <Container>
+        <Container className="body-second-container">
             <Row>
                 <Col xs={12} lg={8}>
 
