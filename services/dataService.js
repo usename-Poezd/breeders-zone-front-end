@@ -703,4 +703,27 @@ export default class  DataService {
         )
             .then( (res) => res.data)
     };
+
+    getDocuments = (options) => {
+        const query = this.qs.stringify(options);
+        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '' ) + '/api/documents?' +  query, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            }
+        })
+            .then((res) => res.data);
+    };
+
+    getDocument = (label) => {
+        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '' ) + '/api/documents/' + label,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                }
+            }
+        )
+            .then( (res) => res.data)
+    };
 }
