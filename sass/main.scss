@@ -33,6 +33,16 @@ $unit: 'px'; // Feel free to change the unit.
     }
 }
 
+.body {
+    &-second-container {
+        min-height: 640px;
+    }
+
+    &-container {
+        min-height: 410px;
+    }
+}
+
 .morph {
     &s{
         display: flex;
