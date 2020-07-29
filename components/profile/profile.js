@@ -44,16 +44,6 @@ const Profile = ({
     const [deleteError, setDeleteError] = useState(false);
     const [deleteRequest, setDeleteRequest] = useState(false);
 
-    if(loginRequest || profile.update.request){
-        return (
-            <Row className="justify-content-center">
-                <Col xs={12} md={8} className="feather-shadow mt-3 py-5">
-                    <Spinner/>
-                </Col>
-            </Row>
-        )
-    }
-
     if (!isLogin && typeof window !== 'undefined') {
         router.push('/login');
     }
@@ -151,6 +141,16 @@ const Profile = ({
         multiple: false,
         accept: 'image/jpeg, image/png'
     });
+
+    if(loginRequest || profile.update.request){
+        return (
+            <Row className="justify-content-center">
+                <Col xs={12} md={8} className="feather-shadow mt-3 py-5">
+                    <Spinner/>
+                </Col>
+            </Row>
+        )
+    }
 
     return (
         <Row className="justify-content-center">
