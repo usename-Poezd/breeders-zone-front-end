@@ -15,7 +15,7 @@ const Footer = (props) => {
                         <a className="footer-item">FAQ</a>
                     </Link>
                     <Link href="/documents">
-                        <a className="footer-item">Юредические документы</a>
+                        <a className="footer-item">Юридические документы</a>
                     </Link>
                     {
                         !auth.isLogin ?
