@@ -13,9 +13,7 @@ const DocsSidebar = (props) => {
                         key={item.label}
                         className={`sidebar-item ${router.query.label === item.label ? ' active' : ''}`}
                     >
-                        <Link href="/documents/[label]" as={`/documents/${item.label}`}>
-                            <a>{item.title}</a>
-                        </Link>
+                        <a href={`/documents/${item.label}`}>{item.title}</a>
                     </div>
                 ))
             }

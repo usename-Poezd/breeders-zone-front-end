@@ -54,9 +54,8 @@ export default class  DataService {
 
         return Axios.get(
             `${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/products/${productId}`,
-            {
-                headers
-            })
+            headers
+        )
             .then( (resp) => resp.data);
     };
 

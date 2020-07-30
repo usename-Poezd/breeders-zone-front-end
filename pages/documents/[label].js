@@ -5,8 +5,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import DocsSidebar from "../../components/docs-sidebar";
 import Head from "next/head";
 
-export default ({statusCode, documents, document}) => {
-    console.log(document);
+const DocumentPage = ({statusCode, documents, document}) => {
     if (statusCode && statusCode !== 200) {
         return <Error statusCode={statusCode}/>;
     }
@@ -14,7 +13,7 @@ export default ({statusCode, documents, document}) => {
     return (
         <Container fluid>
             <Head>
-                <title>{document.title}</title>
+                <title>{document.title} | Breeders Zone</title>
             </Head>
             <Row className="justify-content-center">
                 <Col xs={12} md={9}>
@@ -35,7 +34,9 @@ export default ({statusCode, documents, document}) => {
             </Row>
         </Container>
     )
-}
+};
+
+export default DocumentPage;
 
 export const getServerSideProps = async (ctx) => {
     try {

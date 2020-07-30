@@ -20,6 +20,9 @@ const initialState = {
     countries: {
         all: []
     },
+    documents: {
+        agree: []
+    },
     auth: {
         isLogin: false,
         loginRequest: false,
