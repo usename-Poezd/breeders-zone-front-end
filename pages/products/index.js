@@ -9,7 +9,7 @@ const ProductsPage = () => {
     return (
         <React.Fragment>
             <Head>
-                <title>Мои продукты</title>
+                <title>Мои товары | Breeders Zone</title>
             </Head>
             <Container>
                 <ShopProducts/>

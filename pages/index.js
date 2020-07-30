@@ -5,12 +5,17 @@ import React from "react";
 import {Pipes} from "../services";
 import {setActiveKind} from "../actions";
 import LazyImg from "../components/lazy-img";
+import Head from "next/head";
 
 const Index = ({activeKinds, setActiveKind}) => {
     const pipes = new Pipes();
 
     return (
-        <Container>
+        <Container className="body-container">
+            <Head>
+                <title>Более 100 рептилий от крупных заводчиков России | Breeders Zone</title>
+                <meta name="description" content="Breeders Zone это маркетплейс где вы можете бысто найти и продать животное, больше никаних групп и форумов, все в одном месте"/>
+            </Head>
             <Row className="justify-content-center" style={{marginTop: 10}}>
                 <Col xs={12} md={8}>
                     <h2 className="text-center p-3">Breeders Zone это маркетплейс где вы можете бысто найти и продать животное</h2>

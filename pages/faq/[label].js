@@ -2,6 +2,7 @@ import React from "react";
 import {DataService} from "../../services";
 import {Container, Row, Col} from "react-bootstrap";
 import Error from "../_error";
+import Head from "next/head";
 
 export default ({faq, statusCode}) => {
     if (statusCode && statusCode !== 200) {
@@ -10,6 +11,9 @@ export default ({faq, statusCode}) => {
 
     return (
         <Container className="body-container">
+            <Head>
+                <title>{faq.title} | Breeders Zone</title>
+            </Head>
             <Row className="justify-content-center">
                 <Col xs={12} className="mb-3">
                     <h1>{faq.title}</h1>

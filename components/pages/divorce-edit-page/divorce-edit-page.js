@@ -108,7 +108,7 @@ class DivorceEditPage extends Component{
         return (
             <React.Fragment>
                 <Head>
-                    <title>{divorce.title}</title>
+                    <title>{divorce.title} | Breeders Zone</title>
                 </Head>
                 <Container>
                     <DivorceSettings submit={this.submit}/>

@@ -81,7 +81,7 @@ const AddDivorcePage = (props) => {
     return (
         <React.Fragment>
             <Head>
-                <title>Мои разводы</title>
+                <title>Добавить развод | Breeders Zone</title>
             </Head>
             <Container>
                 <DivorceSettings submit={submit}/>

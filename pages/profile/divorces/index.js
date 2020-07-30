@@ -8,7 +8,7 @@ const DivorcesPage = () => {
     return (
         <React.Fragment>
             <Head>
-                <title>Мои разводы</title>
+                <title>Мои разводы | Breeders Zone</title>
             </Head>
             <Container>
                 <ShopDivorces/>

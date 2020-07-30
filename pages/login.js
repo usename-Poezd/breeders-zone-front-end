@@ -2,10 +2,15 @@ import React from "react";
 import {Col, Row, Container} from "react-bootstrap";
 import Login from "../components/login";
 import ContinueRegistration from "../components/continue-reg";
+import Head from "next/head";
 
 export default () => {
     return (
         <Container className="body-second-container">
+            <Head>
+                <title>Вход | Breeders Zone</title>
+                <meta name="description" content="Breeders Zone это маркетплейс где вы можете бысто найти и продать животное, больше никаних групп и форумов, все в одном месте"/>
+            </Head>
             <Row>
                 <Col xs={12} lg={8}>
 

@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {withRouter} from "next/router";
 import {DataService} from "../services";
 import {Spinner as BootstrapSpinner} from "react-bootstrap";
+import Head from "next/head";
 const qs = require('qs');
 
 const Guards = (props) => {
@@ -44,6 +45,9 @@ const Guards = (props) => {
 
     return (
         <Container className="body-container">
+            <Head>
+                <title>Хранители | Breeders Zone</title>
+            </Head>
             <Row className="mt-3">
                 <Col xs={12}>
                     <h1 className="text-center">Хранители</h1>

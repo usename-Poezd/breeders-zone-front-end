@@ -57,7 +57,11 @@ class ShopsPage extends Component {
         return (
             <React.Fragment>
                 <Head>
-                    <title>Все магазины{activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ''} | Breeders Zone</title>
+                    <title>Зваодчики {activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ''} | Breeders Zone</title>
+                    <meta
+                        name="description"
+                        content={`Более сотни заводчиков рептилий ${activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ''} в России | Breeders Zone`}
+                    />
                 </Head>
                 <Container>
                     <Form onSubmit={this.onSubmit} className="dashboard-filter d-flex justify-content-center">

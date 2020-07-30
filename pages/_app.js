@@ -154,7 +154,7 @@ class MyApp extends Component {
     render() {
         const { isSecondHeader } = this.state;
         const { Component, pageProps, deleteToken, router } = this.props;
-
+        console.log(router.pathname);
         return (
             <ConnectedRouter>
                 <GetDataProvider value={dataService}>
@@ -169,7 +169,7 @@ class MyApp extends Component {
                             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
                             crossOrigin="anonymous"
                         />
-                        <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+                        <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
                         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
                         <script src="https://kit.fontawesome.com/438eed2481.js" crossOrigin="anonymous"></script>
                     </Head>

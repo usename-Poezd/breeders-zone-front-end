@@ -23,6 +23,7 @@ export const getServerSideProps = async (ctx) => {
             }
         }
     } catch (e) {
+        console.log(e);
         ctx.res.statusCode = e.response.status;
         return {
             props: {

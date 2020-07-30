@@ -16,9 +16,9 @@ const MorphsPage = ({morphs, activeKind, statusCode}) => {
     return (
         <React.Fragment>
             <Head>
-                <title>Морфы {activeKind.title_rus}  ({activeKind.title_eng})</title>
+                <title>Морфы {activeKind.title_rus}  ({activeKind.title_eng}) | Breeders Zone</title>
             </Head>
-            <Container>
+            <Container className="body-container">
                 <Morphs morphs={morphs}/>
             </Container>
         </React.Fragment>

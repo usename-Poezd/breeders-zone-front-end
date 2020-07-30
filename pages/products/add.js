@@ -15,6 +15,7 @@ import {connect} from "react-redux";
 import {Col, Container, Row} from "react-bootstrap";
 import Spinner from "../../components/spinner";
 import {withRouter} from "next/router";
+import Head from "next/head";
 
 
 class ProductSettingsPage extends Component{
@@ -98,6 +99,9 @@ class ProductSettingsPage extends Component{
 
         return (
             <Container>
+                <Head>
+                    <title>Добавить товар | Breeders Zone</title>
+                </Head>
                 <ProductSettings
                     submit={this.submit}
                 />

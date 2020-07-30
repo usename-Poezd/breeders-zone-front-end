@@ -16,6 +16,7 @@ import {connect} from "react-redux";
 import {Col, Container, Row} from "react-bootstrap";
 import Spinner from "../../spinner";
 import {withRouter} from "next/router";
+import Head from "next/head";
 
 class ProductEditPage extends Component{
     UNSAFE_componentWillMount() {
@@ -118,7 +119,8 @@ class ProductEditPage extends Component{
             allKinds,
             loginRequest,
             router,
-            isLogin
+            isLogin,
+            productSSR
         } = this.props;
 
         if(loginRequest || product.updateRequest || product.getRequest || allKinds.length === 0){
@@ -139,6 +141,9 @@ class ProductEditPage extends Component{
 
         return (
             <React.Fragment>
+                <Head>
+                    <title>{product.info.name ? productSSR.name : product.info.name} | Breeders Zone</title>
+                </Head>
                 <Container>
                     <ProductSettings
                         submit={this.submit}

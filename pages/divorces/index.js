@@ -1,14 +1,12 @@
 import React, {Component} from "react";
 import {DataService} from "../../services";
 import {Col, Container, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
-import Link from "next/link";
-import LazyImg from "../../components/lazy-img";
-import {formatDate} from "react-day-picker/moment";
 import Pagination from "../../components/pagination";
 import {withRouter} from "next/router";
 import Spinner from "../../components/spinner";
 import DivorcesListItem from "../../components/divorces-list-item";
 import ReportModal from "../../components/report-modal/report-modal";
+import Head from "next/head";
 
 class Divorces extends Component {
     state = {
@@ -29,6 +27,10 @@ class Divorces extends Component {
 
         return (
             <Container>
+                <Head>
+                    <title>Все разводы | Breeders Zone</title>
+                    <meta name="description" content="История разведений | Breeders Zone"/>
+                </Head>
                 <ReportModal/>
                 <Row>
                     <Col xs={12} className="my-3">

@@ -3,10 +3,14 @@ import {Col, Container, Row} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle} from "@fortawesome/free-regular-svg-icons";
 import nookies from "nookies";
+import Head from "next/head";
 
 export default () => {
     return (
         <Container>
+            <Head>
+                <title>Активируйте свой аккаунт | Breeders Zone</title>
+            </Head>
             <Row>
                 <Col xs={12}>
                     <div className="d-flex flex-column align-items-center feather-shadow p--15 mt--20">

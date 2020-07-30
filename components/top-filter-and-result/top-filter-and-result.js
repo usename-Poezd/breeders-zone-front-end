@@ -126,7 +126,7 @@ class TopFilterAndResult extends Component {
 
     render() {
         const { activeText, activeImg, sliderDrag } = this.state;
-        const { morphs = [], localities = [], total } = this.props;
+        const { morphs = [], localities = [], total, activeKind } = this.props;
         const sliderOptions = {
             dots: false,
             infinite: true,
@@ -151,20 +151,44 @@ class TopFilterAndResult extends Component {
                                     <h3 className="mb-1">С { morphs.length > 1 ? 'морфами' : 'морфой' }</h3>
                                     <div className="result-morphs morphs morph w-75 align-items-center">
                                         {
-                                            morphs.map( ({geneTitle, traitTitle, type}, idx) => (
-                                                <div
-                                                    key={"morph-exists" + idx}
-                                                    className={
-                                                        `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
-                                                    }
-                                                >
-                                                    {
-                                                        traitTitle && geneTitle ?
-                                                            `${traitTitle} ${geneTitle}`
-                                                            : geneTitle
-                                                    }
-                                                </div>
-                                            ))
+                                            morphs.map( ({geneTitle, traitTitle, type}, idx) => {
+                                                if (activeKind.title_eng) {
+                                                    return (
+                                                        <Link
+                                                            key={"morph-exists" + idx}
+                                                            href={"/[group]/[kind]/genes/[morph]"}
+                                                            as={`/${this.pipes.toUrl(activeKind.group)}/${this.pipes.toUrl(activeKind.title_eng)}/genes/${this.pipes.toUrl(traitTitle + ' ' + geneTitle)}`}
+                                                        >
+                                                            <a
+                                                                className={
+                                                                    `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
+                                                                }
+                                                            >
+                                                                {
+                                                                    traitTitle && geneTitle ?
+                                                                        `${traitTitle} ${geneTitle}`
+                                                                        : geneTitle
+                                                                }
+                                                            </a>
+                                                        </Link>
+                                                    )
+                                                }
+
+                                                return (
+                                                    <div
+                                                        key={"morph-exists" + idx}
+                                                        className={
+                                                            `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
+                                                        }
+                                                    >
+                                                        {
+                                                            traitTitle && geneTitle ?
+                                                                `${traitTitle} ${geneTitle}`
+                                                                : geneTitle
+                                                        }
+                                                    </div>
+                                                )
+                                            })
                                         }
                                     </div>
                                 </React.Fragment>
@@ -186,20 +210,44 @@ class TopFilterAndResult extends Component {
                                     >
                                         <Slider {...sliderOptions}>
                                             {
-                                                morphs.map( ({geneTitle, traitTitle, type}, idx) => (
-                                                    <div
-                                                        key={"morph-dont-exists" + idx}
-                                                        className={
-                                                            `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
-                                                        }
-                                                    >
-                                                        {
-                                                            traitTitle && geneTitle ?
-                                                                `${traitTitle} ${geneTitle}`
-                                                                : geneTitle
-                                                        }
-                                                    </div>
-                                                ))
+                                                morphs.map( ({geneTitle, traitTitle, type}, idx) => {
+                                                    if (activeKind.title_eng) {
+                                                        return (
+                                                            <Link
+                                                                key={"morph-exists" + idx}
+                                                                href={"/[group]/[kind]/genes/[morph]"}
+                                                                as={`/${this.pipes.toUrl(activeKind.group)}/${this.pipes.toUrl(activeKind.title_eng)}/genes/${this.pipes.toUrl(traitTitle + ' ' + geneTitle)}`}
+                                                            >
+                                                                <a
+                                                                    className={
+                                                                        `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        traitTitle && geneTitle ?
+                                                                            `${traitTitle} ${geneTitle}`
+                                                                            : geneTitle
+                                                                    }
+                                                                </a>
+                                                            </Link>
+                                                        )
+                                                    }
+
+                                                    return (
+                                                        <div
+                                                            key={"morph-exists" + idx}
+                                                            className={
+                                                                `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
+                                                            }
+                                                        >
+                                                            {
+                                                                traitTitle && geneTitle ?
+                                                                    `${traitTitle} ${geneTitle}`
+                                                                    : geneTitle
+                                                            }
+                                                        </div>
+                                                    )
+                                                })
                                             }
                                         </Slider>
                                     </div>
@@ -250,8 +298,8 @@ class TopFilterAndResult extends Component {
     }
 }
 
-const mapStateToProps = ({router: {location: {search, pathname}}}) => ({
-    search, pathname
+const mapStateToProps = ({router: {location: {search, pathname}}, kinds: {activeKind}}) => ({
+    search, pathname, activeKind
 });
 
 export default connect(mapStateToProps)(
