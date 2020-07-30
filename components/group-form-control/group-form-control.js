@@ -7,12 +7,12 @@ const HandelError = ({errors, name, controls}) => (
     <React.Fragment>
         {   errors[name] &&
         errors[name].type === 'required' &&
-        <p className="form-err text-danger">Пожалуйста запполните это поле</p>
+        <p className="form-err text-danger">Пожалуйста заполните это поле</p>
         }
         {   errors[name] &&
         errors[name].type === 'pattern' &&
         name !== 'confirmPassword' &&
-        <p className="form-err text-danger">Пожалуйста запполните это поле правильно</p>
+        <p className="form-err text-danger">Пожалуйста заполните это поле правильно</p>
         }
         {   errors[name] &&
         errors[name].type === 'pattern' &&
