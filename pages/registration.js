@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Header from "../components/header/header";
 import Spinner from "../components/spinner";
 import {HandelError} from "../components/handels";
 import UserRegOptions from "../components/user-reg-options";
@@ -14,7 +13,6 @@ import {connect} from "react-redux";
 import Router, {withRouter} from "next/router";
 import wrapper from "../store";
 import {DataService} from "../services";
-import Link from "next/link";
 import Head from "next/head";
 import nookies from "nookies";
 
@@ -187,7 +185,8 @@ const mapStateToProps = ({auth: {isLogin, regError}, documents}) => ({
     documents
 });
 
-export const getServerSideProps = wrapper.getServerSideProps(async ({store, res}) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
+    const {store, res} = await ctx;
     if (nookies.get(ctx).token && ctx.res) {
         ctx.res.setHeader("location", "/");
         ctx.res.statusCode = 301;
