@@ -23,7 +23,7 @@ const Footer = (props) => {
                                 <Link href="/login">
                                     <a className="footer-item">Войти</a>
                                 </Link>
-                                <Link href="/register">
+                                <Link href="/registration">
                                     <a className="footer-item">Зарегистрироваться</a>
                                 </Link>
                             </React.Fragment>
