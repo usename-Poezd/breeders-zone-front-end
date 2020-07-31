@@ -154,7 +154,6 @@ class MyApp extends Component {
     render() {
         const { isSecondHeader } = this.state;
         const { Component, pageProps, deleteToken, router } = this.props;
-        console.log(router.pathname);
         return (
             <ConnectedRouter>
                 <GetDataProvider value={dataService}>

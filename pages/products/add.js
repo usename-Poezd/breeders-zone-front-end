@@ -16,6 +16,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import Spinner from "../../components/spinner";
 import {withRouter} from "next/router";
 import Head from "next/head";
+import {serverRedirect} from "../../utils";
 
 
 class ProductSettingsPage extends Component{
@@ -121,6 +122,14 @@ const mapStateToProps = ({auth: {loginRequest, isLogin}, product, profile: {user
 const mapMethodsToProps = ({setProduct}) => ({
     setProduct
 });
+
+export const getServerSideProps = (ctx) => {
+    serverRedirect(ctx);
+
+    return {
+        props: {}
+    }
+};
 
 export default connect(mapStateToProps, {
     getKinds,

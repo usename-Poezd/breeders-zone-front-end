@@ -5,10 +5,15 @@ import React from "react";
 import Head from "next/head";
 import {num2str, ucFirst} from "../../utils";
 import {withRouter} from "next/router";
+import Error from "../_error";
 
 const qs = require('qs');
 
-export default withRouter(({ products, router}) => {
+export default withRouter(({ products, router, statusCode}) => {
+    if (statusCode && statusCode !== 200) {
+        return <Error statusCode={statusCode}/>;
+    }
+
     const {selectedMorphs} = products;
     return (
         <React.Fragment>
@@ -36,13 +41,22 @@ export default withRouter(({ products, router}) => {
     )
 })
 export const getServerSideProps = async (ctx) => {
-    const dataService = await new DataService();
-    const {query} = await ctx;
-    const products = await dataService.getProducts({}, qs.stringify(query));
+    try {
+        const dataService = await new DataService();
+        const {query} = await ctx;
+        const products = await dataService.getProducts({}, qs.stringify(query));
 
-    return {
-        props: {
-            products
+        return {
+            props: {
+                products
+            }
         }
+    } catch (e) {
+        ctx.res.statusCode = e.response.status;
+        return {
+            props: {
+                statusCode: e.response.status
+            }
+        };
     }
 };

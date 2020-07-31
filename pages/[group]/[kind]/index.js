@@ -5,6 +5,7 @@ import React from "react";
 import Head from "next/head";
 import {connect} from "react-redux";
 import {num2str} from "../../../utils";
+import Error from "../../_error";
 
 const qs = require('qs');
 
@@ -14,8 +15,11 @@ const mapStateToProps = ({kinds: {activeKind}}) => ({
 });
 
 export default connect(mapStateToProps)(
-    ({activeKind, products}) => {
+    ({activeKind, products, statusCode}) => {
         const {selectedMorphs} = products;
+        if (statusCode && statusCode !== 200) {
+            return <Error statusCode={statusCode}/>;
+        }
         return (
             <React.Fragment>
                 <Head>
@@ -43,13 +47,23 @@ export default connect(mapStateToProps)(
     }
 )
 export const getServerSideProps = async (ctx) => {
-    const dataService = await new DataService();
-    const {query} = await ctx;
-    const products = await dataService.getProducts({}, qs.stringify(query));
+    try {
+        const dataService = await new DataService();
+        const {query} = await ctx;
+        const products = await dataService.getProducts({}, qs.stringify(query));
 
-    return {
-        props: {
-            products
+        return {
+            props: {
+                statusCode: 200,
+                products
+            }
         }
+    } catch (e) {
+        ctx.res.statusCode = e.response.status;
+        return {
+            props: {
+                statusCode: e.response.status
+            }
+        };
     }
 };

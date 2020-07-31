@@ -12,6 +12,7 @@ import {
 import DivorceSettings from "../../../components/divorce-settings";
 import {withGetData} from "../../../components/hoc-helpers";
 import {withRouter} from "next/router";
+import {serverRedirect} from "../../../utils";
 
 const AddDivorcePage = (props) => {
 
@@ -102,6 +103,14 @@ const mapMethodsToProps = ({setDivorce}) => ({
     setDivorce
 });
 
+
+export const getServerSideProps = (ctx) => {
+    serverRedirect(ctx);
+
+    return {
+        props: {}
+    }
+};
 
 export default connect(mapStateToProps, {
     setDivorceSuccess,

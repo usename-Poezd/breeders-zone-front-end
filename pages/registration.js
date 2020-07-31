@@ -16,6 +16,7 @@ import wrapper from "../store";
 import {DataService} from "../services";
 import Link from "next/link";
 import Head from "next/head";
+import nookies from "nookies";
 
 const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, router: {query}, documents }) => {
 
@@ -187,6 +188,12 @@ const mapStateToProps = ({auth: {isLogin, regError}, documents}) => ({
 });
 
 export const getServerSideProps = wrapper.getServerSideProps(async ({store, res}) => {
+    if (nookies.get(ctx).token && ctx.res) {
+        ctx.res.setHeader("location", "/");
+        ctx.res.statusCode = 301;
+        ctx.res.end();
+    }
+
     if(store.getState().countries.all.length === 0 && res) {
         const dataService = await new DataService();
         const countries = await dataService.getCountries();

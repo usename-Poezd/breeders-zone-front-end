@@ -5,6 +5,7 @@ import wrapper from "../../store";
 import {DataService} from "../../services";
 import {setCountries} from "../../actions";
 import Head from "next/head";
+import {serverRedirect} from "../../utils";
 
 const ShopProfilePage = (props) => {
     return (
@@ -17,11 +18,12 @@ const ShopProfilePage = (props) => {
     )
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(async ({store}) => {
-    if(store.getState().countries.all.length === 0) {
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
+    serverRedirect(ctx);
+    if(ctx.store.getState().countries.all.length === 0) {
         const dataService = await new DataService();
         const data = await dataService.getCountries();
-        store.dispatch(setCountries(data))
+        ctx.store.dispatch(setCountries(data))
     }
 });
 

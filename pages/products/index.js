@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {Container} from "react-bootstrap";
-import Header from "../../components/header/header";
 import ShopProducts from "../../components/shop-products";
 import Head from "next/head";
-import Link from "next/link";
+import {serverRedirect} from "../../utils";
 
 const ProductsPage = () => {
     return (
@@ -18,5 +17,12 @@ const ProductsPage = () => {
     );
 };
 
+export const getServerSideProps = (ctx) => {
+    serverRedirect(ctx);
+
+    return {
+        props: {}
+    }
+};
 
 export default ProductsPage;
