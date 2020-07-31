@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Alert, Col, Form, Modal, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
 import {withGetData} from "../hoc-helpers";
@@ -38,7 +38,6 @@ const Profile = ({
      deleteProfile,
      logout
 }) => {
-
     const router = useRouter();
     const [modalShow, setModalShow] = useState(false);
     const [deleteError, setDeleteError] = useState(false);
@@ -86,9 +85,13 @@ const Profile = ({
             .then( data => {
                 clearProperty();
                 getUser()
-                    .then( () =>{
+                    .then( (user) =>{
                         setProfileUpdateSuccess(data.success);
                         setTimeout(()=> clearProfileState(), 5000);
+                        setValue('name', user.name);
+                        setValue('surname', user.surname);
+                        setValue('patronymic', user.patronymic);
+                        setValue('email', user.email);
                     });
             })
             .catch( error => {
