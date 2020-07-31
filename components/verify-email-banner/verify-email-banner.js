@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faExclamationTriangle, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {withGetData} from "../hoc-helpers";
+import {withRouter} from "next/router";
 
 class VerifyEmailBanner extends Component{
 
@@ -15,8 +16,8 @@ class VerifyEmailBanner extends Component{
 
     componentDidMount() {
         const {success} = this.state;
-        const {loginRequest, user, isLogin} = this.props;
-        if (!loginRequest && isLogin && !user.email_verified_at && !success ) {
+        const {loginRequest, user, isLogin, router} = this.props;
+        if (!loginRequest && isLogin && !user.email_verified_at && !success && router.pathname !== '/verify/[verificationCode]' ) {
             setTimeout(() => this.setState({isOpen: true}), 3000);
         }
     }
@@ -24,8 +25,8 @@ class VerifyEmailBanner extends Component{
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.user !== this.props.user || prevProps.loginRequest !== this.props.loginRequest) {
             const {success} = this.state;
-            const {loginRequest, user, isLogin} = this.props;
-            if (!loginRequest && isLogin && !user.email_verified_at && !success ) {
+            const {loginRequest, user, isLogin, router} = this.props;
+            if (!loginRequest && isLogin && !user.email_verified_at && !success && router.pathname !== '/verify/[verificationCode]' ) {
                 setTimeout(() => this.setState({isOpen: true}), 3000);
             }
         }
@@ -131,4 +132,4 @@ const mapStateToProps = ({auth: {loginRequest, isLogin}, profile: {user}}) => ({
     isLogin
 });
 
-export default connect(mapStateToProps)(withGetData(VerifyEmailBanner, mapMethodsToProps));
+export default connect(mapStateToProps)(withGetData(withRouter(VerifyEmailBanner), mapMethodsToProps));
