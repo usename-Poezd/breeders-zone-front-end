@@ -5,6 +5,7 @@ import UpgradedMassage from "./upgraded-message";
 import randomString from "./random-string";
 import num2str from "./num2string";
 import comparer from "./comparer-by-id";
+import ucFirst from "./us-first";
 
 export {
     compose,
@@ -13,5 +14,6 @@ export {
     UpgradedMassage,
     randomString,
     num2str,
-    comparer
+    comparer,
+    ucFirst
 };
