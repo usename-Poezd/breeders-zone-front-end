@@ -50,7 +50,8 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, r
             })
             .catch( error => {
                 setRegisterRequest(false);
-                setRegError({errors: error.response.data.errors, status: error.status});
+                setRegError({errors: error.response.data.errors, status: error.response.status});
+                setTimeout(() => setRegError({errors: null, status: null}), 3000)
             });
     };
 
