@@ -81,7 +81,7 @@ export const getUser = (tokenServer = '') => (dispatch) => {
                 dispatch(setRoomsCountWithNewMessages(data.roomsWithNewMessages));
                 dispatch(loginSuccess());
 
-                return true;
+                return data;
             })
             .catch((error) => {
                 dispatch(logout(true));
