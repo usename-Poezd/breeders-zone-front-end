@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /registration
+Disallow: /login
+Disallow: /search
+Disallow: /profile
+Disallow: /products
+Disallow: /chat
+Disallow: /guard
+Disallow: /verify
+Disallow: /reset
+Disallow: /_next
+Disallow: /search*&*&*&
+Disallow: *q=
+Disallow: *room=
