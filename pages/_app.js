@@ -162,6 +162,7 @@ class MyApp extends Component {
                         <meta charSet="utf-8"/>
                         <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
                         <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                        <link rel="shortcut icon" href="https://breeders-zone.s3.us-east-2.amazonaws.com/static/icons/favicon.ico" type="image/x-icon" />
                         <link
                             rel="stylesheet"
                             href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
