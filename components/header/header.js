@@ -24,7 +24,6 @@ import {
     search as searchState, logout, clearUserNotificationsCount
 } from "../../actions";
 import Spinner from "../spinner";
-import {isLogin as isLoginToken} from "../../utils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faComments} from "@fortawesome/free-regular-svg-icons";
 import {
@@ -311,7 +310,7 @@ class Header extends Component {
                 <Navbar bg="light" expand="lg">
                     <Link href="/">
                         <Navbar.Brand as="a" >
-                            <img src="/images/logo.svg" alt="Breeders Zone" className="logo"/>
+                            <img src="https://breeders-zone.s3.us-east-2.amazonaws.com/static/icons/logo.svg" alt="Breeders Zone" className="logo"/>
                         </Navbar.Brand>
                     </Link>
 

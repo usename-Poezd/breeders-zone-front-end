@@ -15,6 +15,8 @@ import {connect} from "react-redux";
 import {Col, Container, Row} from "react-bootstrap";
 import Spinner from "../../components/spinner";
 import {withRouter} from "next/router";
+import Head from "next/head";
+import {serverRedirect} from "../../utils";
 
 
 class ProductSettingsPage extends Component{
@@ -98,6 +100,9 @@ class ProductSettingsPage extends Component{
 
         return (
             <Container>
+                <Head>
+                    <title>Добавить товар | Breeders Zone</title>
+                </Head>
                 <ProductSettings
                     submit={this.submit}
                 />
@@ -117,6 +122,14 @@ const mapStateToProps = ({auth: {loginRequest, isLogin}, product, profile: {user
 const mapMethodsToProps = ({setProduct}) => ({
     setProduct
 });
+
+export const getServerSideProps = (ctx) => {
+    serverRedirect(ctx);
+
+    return {
+        props: {}
+    }
+};
 
 export default connect(mapStateToProps, {
     getKinds,

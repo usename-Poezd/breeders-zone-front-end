@@ -8,6 +8,7 @@ import {resetPasswordRequest, setResetPasswordError, setResetPasswordSuccess} fr
 import Spinner from "../spinner";
 import {HandelSuccess, HandelError} from "../handels";
 import {withRouter} from "next/router";
+import Head from "next/head";
 
 const ResetPasswordForm = ({password, passwordRegExp, onChange, errors, register }) => (
     <React.Fragment>
@@ -114,6 +115,9 @@ const ResetPassword = ({
     if (request) {
         return (
             <Row className="justify-content-center mt-3">
+                <Head>
+                    <title>Сброс пароля | Breeders Zone</title>
+                </Head>
                 <Col xs={12} md={8} className="feather-shadow py-3">
                     <Spinner size={15}/>
                 </Col>
@@ -123,6 +127,9 @@ const ResetPassword = ({
 
     return (
         <Row className="justify-content-center mt-3">
+            <Head>
+                <title>Сброс пароля | Breeders Zone</title>
+            </Head>
             <Col xs={12} md={8} className="feather-shadow">
                 <Form
                     onSubmit={

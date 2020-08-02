@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {withRouter} from "next/router";
 import {DataService} from "../services";
 import {Spinner as BootstrapSpinner} from "react-bootstrap";
+import Head from "next/head";
 const qs = require('qs');
 
 const Guards = (props) => {
@@ -43,7 +44,10 @@ const Guards = (props) => {
     };
 
     return (
-        <Container>
+        <Container className="body-second-container">
+            <Head>
+                <title>Хранители | Breeders Zone</title>
+            </Head>
             <Row className="mt-3">
                 <Col xs={12}>
                     <h1 className="text-center">Хранители</h1>
@@ -88,6 +92,14 @@ const Guards = (props) => {
                 </Col>
             </Row>
             <Row className="mt-4 position-relative">
+                {
+                    !request && guards.data.length === 0 ?
+                        <Col xs={12} className="d-flex flex-column justify-content-center m-auto">
+                            <img src="/images/icons/error-snake.svg" alt="Пока что нет активных категорий"/>
+                            <h1 className="text-center">Хранителей еще нет</h1>
+                        </Col>
+                        : null
+                }
                 {
                     request && guards.data.length === 0 ?
                         <Col xs={12} className="d-flex">

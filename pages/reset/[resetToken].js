@@ -4,7 +4,7 @@ import ResetPassword from "../../components/reset-password";
 
 export default () => {
     return (
-        <Container>
+        <Container className="body-second-container">
             <ResetPassword/>
         </Container>
     )

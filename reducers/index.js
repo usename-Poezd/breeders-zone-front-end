@@ -12,6 +12,7 @@ import {combineReducers} from "redux";
 import {routerReducer} from "connected-next-router";
 import modals from "./modals";
 import countries from "./countries";
+import documents from "./documents";
 
 const createRootReducer = () => combineReducers({
     modals,
@@ -25,6 +26,7 @@ const createRootReducer = () => combineReducers({
     kinds,
     search,
     countries,
+    documents,
     router: routerReducer
 });
 

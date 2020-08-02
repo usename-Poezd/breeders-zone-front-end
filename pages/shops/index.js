@@ -57,7 +57,11 @@ class ShopsPage extends Component {
         return (
             <React.Fragment>
                 <Head>
-                    <title>Все магазины{activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ''} | Breeders Zone</title>
+                    <title>Зваодчики {activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ''} | Breeders Zone</title>
+                    <meta
+                        name="description"
+                        content={`Более сотни заводчиков рептилий ${activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ''} в России | Breeders Zone`}
+                    />
                 </Head>
                 <Container>
                     <Form onSubmit={this.onSubmit} className="dashboard-filter d-flex justify-content-center">
@@ -72,6 +76,14 @@ class ShopsPage extends Component {
                         </div>
                     </Form>
                     <Row>
+                        {
+                            shops.data.length === 0 ?
+                                <Col xs={12} className="d-flex flex-column justify-content-center m-auto">
+                                    <img src="/images/icons/error-snake.svg" alt="Пока что нет активных категорий"/>
+                                    <h1 className="text-center">Похоже магазинов{activeKind.title_rus ? ` в категории ${activeKind.title_rus} ` : ' '}нет</h1>
+                                </Col>
+                                : null
+                        }
                         {
                             shops.data.map( (item) => (
                                 <Col xs={12} sm={6} ms={4} lg={3} className="item">

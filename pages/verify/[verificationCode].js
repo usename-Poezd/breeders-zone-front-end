@@ -3,6 +3,7 @@ import {DataService} from "../../services";
 import {Col, Container, Row} from "react-bootstrap";
 import {withGetData} from "../../components/hoc-helpers";
 import {motion} from "framer-motion";
+import Head from "next/head";
 
 const VerificationPage = ({verification, sendVerifyMail}) => {
     const [sendMail, setSendMail] = useState(false);
@@ -25,6 +26,9 @@ const VerificationPage = ({verification, sendVerifyMail}) => {
 
     return (
         <Container>
+            <Head>
+                <title>{!verification.success ? 'Ой ой, что-то пошло не так' : 'Активация акаунта и подтверждения почты'} | Breeders Zone</title>
+            </Head>
             <Row style={{marginTop: 20}}>
                 <Col xs={12}>
                     <motion.div
@@ -77,10 +81,9 @@ const VerificationPage = ({verification, sendVerifyMail}) => {
 export const getServerSideProps = async (ctx) => {
     const {verificationCode} = await ctx.query;
     const dataService = await new DataService();
-    const verification = await dataService.verifyMail(verificationCode)
+    const verification = await dataService.verify(verificationCode)
         .catch((err) => err.response.data);
 
-    console.log(verification);
     return {
         props: {
             verification

@@ -55,7 +55,8 @@ const DivorcePage = (props) => {
     return (
         <Container>
             <Head>
-                <title>{divorce.title}</title>
+                <title>{divorce.title} | Breeders Zone</title>
+                <meta name="description" content="История разведений | Breeders Zone"/>
             </Head>
             <Row className="product-card" style={{marginTop: 20}}>
 

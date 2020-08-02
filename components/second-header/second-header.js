@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import {Pipes} from "../../services";
 import {withRouter} from "next/router";
 import {setActiveKind} from "../../actions";
-import LazyImg from "../lazy-img";
+import {ucFirst} from "../../utils";
 
 class SecondHeader extends Component {
 
@@ -130,7 +130,7 @@ class SecondHeader extends Component {
     };
 
     render() {
-        const { activeKinds, router: {pathname}, setActiveKind, activeKind} = this.props;
+        const { activeKinds, router: {pathname, query}, setActiveKind, activeKind} = this.props;
         const { dropdown, location, dropdownHeight } = this.state;
         const { home, morphs, shops} = location;
 
@@ -146,8 +146,8 @@ class SecondHeader extends Component {
         return (
             <nav className="nav flex-column">
                 <div className="titles">
-                    <h1 className="title">{activeKind.title_rus ? activeKind.title_rus : 'Breeders Zone'}</h1>
-                    <h1 className="title_latina">{activeKind.title_eng ? activeKind.title_eng : 'Рептилии'}</h1>
+                    <h1 className="title">{activeKind.title_rus  ? activeKind.title_rus : query.group ? ucFirst(query.group) : 'Breeders Zone'}</h1>
+                    <h1 className="title_latina">{activeKind.title_eng ? activeKind.title_eng : `${query.group ? `${ucFirst(query.group)} в продаже` : 'Рептилии'}`}</h1>
                 </div>
 
                 <Container>

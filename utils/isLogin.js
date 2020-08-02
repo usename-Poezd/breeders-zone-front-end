@@ -1,8 +1,8 @@
-import { Cookies } from 'react-cookie';
+import nookies from "nookies";
 
-const isLogin = () => {
-    const cookies = new Cookies();
-    if(cookies.get('token')){
+const isLogin = (ctx = null) => {
+    const cookies = nookies.get(ctx);
+    if(cookies.token){
       return true
     }
 };

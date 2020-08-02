@@ -1,14 +1,17 @@
 import React from "react";
-import Header from "../components/header";
-import SecondHeader from "../components/second-header";
 import {Container} from "react-bootstrap";
 import TraitItems from "../components/traits-list";
 import {DataService} from "../services";
+import Head from "next/head";
 const qs = require('qs');
 
 const SearchPage = (props) => {
     return (
         <Container>
+            <Head>
+                <title>Поиск | Breeders Zone</title>
+                <meta name="description" content="Breeders Zone это маркетплейс где вы можете бысто найти и продать животное, больше никаних групп и форумов, все в одном месте"/>
+            </Head>
             <TraitItems {...props}/>
         </Container>
     )

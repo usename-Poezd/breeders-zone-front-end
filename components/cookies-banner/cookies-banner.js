@@ -1,20 +1,20 @@
 import {AnimatePresence, motion} from "framer-motion"
 import React, {useState} from "react";
-import {Cookies} from "react-cookie";
-import {Col, Container, Row} from "react-bootstrap";
-const cookies = new Cookies();
+import {Container} from "react-bootstrap";
+import nookies from "nookies";
 
 const CookiesBanner = (props) => {
+    const cookies = nookies.get();
     const [isOpen, setOpen] = useState(false);
 
-    if (!isOpen && !cookies.get('acceptCookies')) {
+    if (!isOpen && !cookies.acceptCookies) {
         setTimeout(() => setOpen(true), 5000);
     }
 
     return (
         <AnimatePresence>
             {
-                isOpen && !cookies.get('acceptCookies') ?
+                isOpen && !cookies.acceptCookies ?
                     (
                         (
                             <motion.div
@@ -31,7 +31,7 @@ const CookiesBanner = (props) => {
                                             className="btn btn-main text-nowrap"
                                             onClick={
                                                 () => {
-                                                    cookies.set('acceptCookies', true, {
+                                                    nookies.set(null, 'acceptCookies', true, {
                                                         expires: new Date('01 January 30 00:00:00 UTC')
                                                     });
                                                     setOpen(false)

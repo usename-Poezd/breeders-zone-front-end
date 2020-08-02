@@ -54,7 +54,7 @@ class TraitsList extends Component {
             delete newQuery.room
         }
 
-        router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
+        router.push(router.pathname, pathname + '?' + qs.stringify(newQuery), { shallow: true });
         this.setState({sendMessageModal: false});
     };
 

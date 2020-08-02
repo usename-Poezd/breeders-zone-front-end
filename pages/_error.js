@@ -1,9 +1,13 @@
 import {Container} from "react-bootstrap";
 import React from "react";
+import Head from "next/head";
 
 function Error({ statusCode }) {
     return (
         <Container>
+            <Head>
+                <title>{statusCode && statusCode === 404 ? 'Упс... такой страницы не существует' : ''} Что-то пошло не так | Breeders Zone</title>
+            </Head>
             <div className="feather-shadow p-4 mt-4">
                 {
                     statusCode ?

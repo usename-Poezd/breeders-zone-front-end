@@ -17,7 +17,7 @@ export default connect(mapStateToProps)(
         return (
             <React.Fragment>
                 <Head>
-                    <title>Животные в подкатегории {products.selectedSubcategory ? products.selectedSubcategory.title : null} | {activeKind.title_rus}  ({activeKind.title_eng})</title>
+                    <title>Животные в подкатегории {products.selectedSubcategory ? products.selectedSubcategory.title : null} | {activeKind.title_rus}  ({activeKind.title_eng}) | Breeders Zone</title>
                 </Head>
                 <Container>
                     <TraitItems {...products}/>

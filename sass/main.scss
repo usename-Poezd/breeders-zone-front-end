@@ -20,6 +20,29 @@ $border-radius: 5px;
     white-space: nowrap!important;
 }
 
+$max: 50;
+$offset: 5;
+$unit: 'px'; // Feel free to change the unit.
+@mixin list-loop($className, $styleName) {
+    $i: 0;
+    @while $i <= $max {
+        #{$className + $i} {
+            #{$styleName}: #{$i + $unit};
+        }
+        $i: $i + $offset;
+    }
+}
+
+.body {
+    &-second-container {
+        min-height: 640px;
+    }
+
+    &-container {
+        min-height: 410px;
+    }
+}
+
 .morph {
     &s{
         display: flex;
@@ -260,6 +283,18 @@ ul{
     margin: 0;
     padding: 0;
 }
+
+@include list-loop('.mt--', 'margin-top');
+@include list-loop('.mr--', 'margin-right');
+@include list-loop('.mb--', 'margin-bottom');
+@include list-loop('.ml--', 'margin-left');
+@include list-loop('.m--', 'margin');
+
+@include list-loop('.pt--', 'padding-top');
+@include list-loop('.pr--', 'padding-right');
+@include list-loop('.pb--', 'padding-bottom');
+@include list-loop('.pl--', 'padding-left');
+@include list-loop('.p--', 'padding');
 
 .select-wrap {
     position: relative;

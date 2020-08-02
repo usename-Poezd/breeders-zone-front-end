@@ -3,11 +3,9 @@ import Echo from "laravel-echo";
 import {receivedMessage, setRoomsCountWithNewMessages, updateCheckMessage} from "./chat";
 
 const dataService = new DataService();
-
-import { Cookies } from 'react-cookie';
 import {addNotification} from "./profile";
-// set up cookies
-const cookies = new Cookies();
+import nookies from "nookies";
+import {push} from "connected-next-router";
 
 
 export const loginRequest = () => {
@@ -27,12 +25,7 @@ export const logout = (tokenNotWork= false) => (dispatch, getState) => {
     dispatch({ type: 'LOGOUT' });
     if (!tokenNotWork)
         dataService.postLogout();
-    const cookies = new Cookies();
-    cookies.set('token', '', {
-        path: '/',
-        sameSite: true,
-        maxAge: 100
-    });
+    nookies.destroy(null, 'token');
     window.Echo.leaveChannel(`private-room.${state.chat.selected_room_id}`);
     window.Echo.leaveChannel(`private-App.User.${state.profile.user.id}`);
     window.Echo.disconnect();
@@ -47,8 +40,8 @@ export const getUserData = (payload) => {
 };
 
 export const getUser = (tokenServer = '') => (dispatch) => {
-
-    const token = cookies.get('token');
+    const cookies = nookies.get();
+    const token = cookies.token;
     if(token || tokenServer) {
         dispatch(loginRequest());
         return dataService.getUserData(tokenServer ? tokenServer : token)
@@ -88,10 +81,13 @@ export const getUser = (tokenServer = '') => (dispatch) => {
                 dispatch(setRoomsCountWithNewMessages(data.roomsWithNewMessages));
                 dispatch(loginSuccess());
 
-                return true;
+                return data;
             })
             .catch((error) => {
                 dispatch(logout(true));
+                if (error.response.status === 403) {
+                    dispatch(push('/verify'));
+                }
                 return false;
             });
     }

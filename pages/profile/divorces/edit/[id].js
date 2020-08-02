@@ -2,6 +2,7 @@ import React from "react";
 import Error from "../../../_error";
 import {DivorceEditPage} from "../../../../components/pages";
 import DataService from "../../../../services/dataService";
+import {serverRedirect} from "../../../../utils";
 
 export default ({divorceSSR, statusCode}) => {
     if (statusCode && statusCode !== 200) {
@@ -13,6 +14,7 @@ export default ({divorceSSR, statusCode}) => {
 
 export const getServerSideProps = async (ctx) => {
     try {
+        serverRedirect(ctx);
         const dataService = await new DataService();
         const divorceSSR = await dataService.getDivorce(ctx.query.id, true, ctx);
 
