@@ -310,7 +310,7 @@ class Header extends Component {
                 <Navbar bg="light" expand="lg">
                     <Link href="/">
                         <Navbar.Brand as="a" >
-                            <img src="/images/logo.svg" alt="Breeders Zone" className="logo"/>
+                            <img src="https://breeders-zone.s3.us-east-2.amazonaws.com/static/icons/logo.svg" alt="Breeders Zone" className="logo"/>
                         </Navbar.Brand>
                     </Link>
 
