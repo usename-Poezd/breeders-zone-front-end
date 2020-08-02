@@ -7,7 +7,7 @@ import {serverRedirect} from "../../utils";
 
 const Dashboard = (props) => {
     return (
-        <Container>
+        <Container className="body-second-container">
             <Head>
                 <title>Рабочий стол хранителя | Breeders Zone</title>
             </Head>

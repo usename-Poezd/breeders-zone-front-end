@@ -44,7 +44,7 @@ const Guards = (props) => {
     };
 
     return (
-        <Container className="body-container">
+        <Container className="body-second-container">
             <Head>
                 <title>Хранители | Breeders Zone</title>
             </Head>

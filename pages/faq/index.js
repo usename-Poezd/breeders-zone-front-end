@@ -6,7 +6,7 @@ import Head from "next/head";
 
 export default ({faqs}) => {
     return (
-        <Container className="body-container">
+        <Container className="body-second-container">
             <Head>
                 <title>FAQ</title>
                 <meta name="description" content="Здесь вы найдете ответы на все вопросы."/>
@@ -18,6 +18,13 @@ export default ({faqs}) => {
                 </Col>
             </Row>
             <nav className="row justify-content-center">
+                {
+                    faqs.length === 0 ?
+                        <div className="col-12 col-md-6 d-flex">
+                            <h2 className="text-center">Пока что нет ни одного часто задаваемого вопроса</h2>
+                        </div>
+                        : null
+                }
                 {
                     faqs.map((item) => (
                         <Link
