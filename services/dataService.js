@@ -1,9 +1,9 @@
 import Axios from "axios";
 import {toFormData} from "../utils";
 import nookies from "nookies";
-const cookies = nookies.get();
 
 Axios.interceptors.response.use(undefined, function (err) {
+    const cookies = nookies.get();
     const token = cookies.token;
     if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
         return Axios.post(
@@ -28,6 +28,7 @@ Axios.interceptors.response.use(undefined, function (err) {
 
 export default class  DataService {
 
+    cookies = nookies.get();
     qs = require('qs');
 
     getCountries = () => {
@@ -36,7 +37,7 @@ export default class  DataService {
     };
 
     getProduct = (productId, isBreeder = false, ctx) => {
-        let token = cookies.token;
+        let token = this.cookies.token;
 
         if (ctx) {
             token = nookies.get(ctx).token
@@ -95,7 +96,7 @@ export default class  DataService {
     getShopProducts = (options) => {
 
         options = this.qs.stringify(options);
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.get('/api/shop-products?' + options,
             {
@@ -128,7 +129,7 @@ export default class  DataService {
     * */
 
     getDivorce = (divorceId, isBreeder = false, ctx) => {
-        let token = cookies.token;
+        let token = this.cookies.token;
         if (ctx) {
             token = nookies.get(ctx).token
         }
@@ -150,7 +151,7 @@ export default class  DataService {
     };
 
     updateDivorce = (data, divorceId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
         const formData = toFormData(data);
         formData.append('_method', 'PUT');
 
@@ -170,7 +171,7 @@ export default class  DataService {
     };
 
     setDivorce = (data) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
         const formData = toFormData(data);
         return Axios.post(
             '/api/divorces',
@@ -188,7 +189,7 @@ export default class  DataService {
     };
 
     deleteDivorce = (divorceId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
         return Axios.delete(
             `/api/divorces/${divorceId}`,
             {
@@ -205,7 +206,7 @@ export default class  DataService {
     getDivorces = (options, searchStringify = '', cancelToken, prevCancelToken) => {
         searchStringify = searchStringify.replace('?', '');
         const params = this.qs.stringify(options);
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         if (prevCancelToken)
             prevCancelToken.cancel();
@@ -223,7 +224,7 @@ export default class  DataService {
     };
 
     verifyDivorce = (divorceId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.post(
             '/api/verify-divorce',
@@ -242,7 +243,7 @@ export default class  DataService {
     };
 
     searchRoom = (userId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
         return Axios.post('/api/search/room',
         {userId},
         {
@@ -256,7 +257,7 @@ export default class  DataService {
     };
 
     getRoom = (roomId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
         return Axios.get(`/api/room/${roomId}`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -291,7 +292,7 @@ export default class  DataService {
     };
 
     postLogout = () => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         if(token){
             return Axios.post('/api/auth/logout', {}, {
@@ -342,7 +343,7 @@ export default class  DataService {
     };
 
     updateProfile = (userId, data) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         const formData = toFormData(data);
         formData.append('_method', 'PUT');
@@ -363,7 +364,7 @@ export default class  DataService {
     };
 
     deleteProfile = (userId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.delete(
             `/api/users/${userId}`,
@@ -379,7 +380,7 @@ export default class  DataService {
     };
 
     updateShop = (shopName, data) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         const formData = toFormData(data);
         formData.append('_method', 'PUT');
@@ -430,7 +431,7 @@ export default class  DataService {
     };
 
     setProduct = (data) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
         const formData = toFormData(data);
         return Axios.post(
             '/api/products',
@@ -448,7 +449,7 @@ export default class  DataService {
     };
 
     updateProduct = (data, productId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
         const formData = toFormData(data);
         formData.append('_method', 'PUT');
         return Axios.post(
@@ -467,7 +468,7 @@ export default class  DataService {
     };
 
     deleteProduct = (productId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
         return Axios.delete(
             `/api/products/${productId}`,
             {
@@ -520,7 +521,7 @@ export default class  DataService {
 
 
     setNewRoom = (data) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.post(
             '/api/room',
@@ -537,7 +538,7 @@ export default class  DataService {
     };
 
     setMessage = (data) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.post(
             '/api/message',
@@ -555,7 +556,7 @@ export default class  DataService {
     };
 
     checkMessages = (roomId) =>  {
-        const token = cookies.token;
+        const token = this.cookies.token;
         Axios.post(
             '/api/check-messages',
             {
@@ -596,7 +597,7 @@ export default class  DataService {
     };
 
     setReport = (data) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.post(
             '/api/reports',
@@ -613,7 +614,7 @@ export default class  DataService {
     };
 
     verifyProduct = (productId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.post(
             '/api/verify-product',
@@ -632,7 +633,7 @@ export default class  DataService {
     };
 
     sendVerifyEmail = () => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.get('/api/auth/send-verify-mail', {
             headers: {
@@ -655,7 +656,7 @@ export default class  DataService {
     };
 
     checkNotifications = () => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.put('/api/notifications', {
             headers: {
@@ -668,7 +669,7 @@ export default class  DataService {
     };
 
     checkReport = (reportId) => {
-        const token = cookies.token;
+        const token = this.cookies.token;
 
         return Axios.put(`/api/reports/${reportId}`, {
             headers: {
@@ -726,3 +727,4 @@ export default class  DataService {
             .then( (res) => res.data)
     };
 }
+
