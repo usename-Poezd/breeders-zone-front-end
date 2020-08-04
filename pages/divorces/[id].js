@@ -185,7 +185,7 @@ const DivorcePage = (props) => {
                                             <div className="info morphs">
                                                 {
                                                     divorce.male.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle}}) => (
-                                                        <Link href="/[group]/[kind]/genes/[morph]" as={`/${pipes.toUrl(divorce.kind.group + '/' + divorce.kind.title_eng)}/genes/${pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
+                                                        <Link href="/[group]/[kind]/morphs/[morph]" as={`/${pipes.toUrl(divorce.kind.group + '/' + divorce.kind.title_eng)}/morphs/${pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
                                                             <a className={`morph-indicator morph-${type}-${pipes.toUrl(traitTitle)}`}>
                                                                 {compareMorph(traitTitle, geneTitle)}
                                                             </a>
@@ -205,7 +205,7 @@ const DivorcePage = (props) => {
                                             <div className="info morphs">
                                                 {
                                                     divorce.female.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle}}) => (
-                                                        <Link href="/[group]/[kind]/genes/[morph]" as={`/${pipes.toUrl(divorce.kind.group + '/' + divorce.kind.title_eng)}/genes/${pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
+                                                        <Link href="/[group]/[kind]/morphs/[morph]" as={`/${pipes.toUrl(divorce.kind.group + '/' + divorce.kind.title_eng)}/morphs/${pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
                                                             <a className={`morph-indicator morph-${type}-${pipes.toUrl(traitTitle)}`}>
                                                                 {compareMorph(traitTitle, geneTitle)}
                                                             </a>
