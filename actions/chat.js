@@ -3,8 +3,6 @@ import {DataService} from "../services";
 import UpgradedMassage from "../utils/upgraded-message";
 import nookies from "nookies";
 const dataService = new DataService();
-// set up cookies
-const cookies = nookies.get();
 
 
 export const clearChat = () => {
@@ -27,6 +25,7 @@ export const getMessagesRequestClear = () => {
 };
 
 export const getMessages = (payload) => (dispatch, getState) => {
+    const cookies = nookies.get();
     const token = cookies.token;
     const state = getState();
 
@@ -108,6 +107,7 @@ export const newRoom = (payload) => (dispatch) => {
 };
 
 export const selectRoom = (payload) => (dispatch, getState) => {
+    const cookies = nookies.get();
     const token = cookies.token;
     const state = getState();
     if(state.chat.selected_room_id !== null) {
@@ -174,6 +174,7 @@ export const clearSelectedRoom = () => {
 };
 
 export const getRooms = () => (dispatch, getState) => {
+    const cookies = nookies.get();
     const token = cookies.token;
     const store = getState();
     dispatch(setChatRequest(true));
@@ -217,6 +218,7 @@ export const receivedMessage = (payload) => (dispatch, getState) => {
 };
 
 export const getRoomsCountWithNewMessages = () => (dispatch) => {
+    const cookies = nookies.get();
     const token = cookies.token;
     return Axios.get(
         '/api/rooms-with-new-message',
