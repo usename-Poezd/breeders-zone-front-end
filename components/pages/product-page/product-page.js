@@ -307,7 +307,7 @@ class ProductPage extends Component  {
                                 <li className="product-card-info-item flex-row align-items-center">
                                     <h3 className="title">Локация:</h3>
                                     <h3 className="info info-text">{location}</h3>
-                                    <div className={`country-flag flag flag-${country?.name.toLowerCase()}`}></div>
+                                    <div className={`country-flag flag flag-${country?.iso_3166_2.toLowerCase()}`}></div>
                                 </li>
                             </ul>
                         </div>
