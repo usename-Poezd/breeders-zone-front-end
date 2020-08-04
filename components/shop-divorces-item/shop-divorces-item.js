@@ -8,6 +8,7 @@ import {Pipes} from "../../services";
 import {deleteShopDivorce} from "../../actions";
 import {connect} from 'react-redux';
 import Link from "next/link";
+import {compareMorph} from "../../utils";
 
 
 const ShopDivorcesItem = (props) => {
@@ -60,7 +61,7 @@ const ShopDivorcesItem = (props) => {
                             <h3 className="title-sex">Самец:</h3>
                             <div className="info morphs d-inline-block">
                                 {
-                                    props.male.map( ({gene, trait}) => <div key={`${gene}-${trait}-${props.title}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{trait.title} {gene.title}</div>)
+                                    props.male.map( ({gene, trait}) => <div key={`${gene}-${trait}-${props.title}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
                                 }
                             </div>
                         </Col>
@@ -68,7 +69,7 @@ const ShopDivorcesItem = (props) => {
                             <h3 className="title-sex">Самка:</h3>
                             <div className="info morphs d-inline-block">
                                 {
-                                    props.female.map( ({gene, trait}) => <div key={`${gene}-${trait}-${props.title}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{trait.title} {gene.title}</div>)
+                                    props.female.map( ({gene, trait}) => <div key={`${gene}-${trait}-${props.title}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
                                 }
                             </div>
                         </Col>

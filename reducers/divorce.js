@@ -44,7 +44,7 @@ const divorce = (state, action) => {
         case 'SET_MALE_MORPHS':
             return {
                 ...state,
-                male: [ payload, ...state.male]
+                male: [...state.male, payload]
             };
         case 'CLEAR_DIVORCE_SEARCH_RESULT_MALE':
             return {
@@ -70,7 +70,7 @@ const divorce = (state, action) => {
         case 'SET_FEMALE_MORPHS':
             return {
                 ...state,
-                female: [ payload, ...state.female]
+                female: [...state.female, payload]
             };
         case 'CLEAR_DIVORCE_SEARCH_RESULT_FEMALE':
             return {
