@@ -38,7 +38,7 @@ const TraitItem = (props) => {
     return (
         <Col xs={12} sm={6} ms={4} lg={3} className="item">
             <div className="list-item">
-                <Link href="/shops/[shopName]" as={'/shops/' + toUrl(company_name)} >
+                <Link href="/shops/[shopName]" as={'/shops/' + company_name} >
                     <a className="profile">
                         <div className="profile-img">
                             {
