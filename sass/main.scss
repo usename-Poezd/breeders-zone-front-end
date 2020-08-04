@@ -578,6 +578,7 @@ ul{
     }
 
     &-info{
+        overflow: hidden;
         flex: 1 1;
         margin-left: 5px;
         display: flex;
