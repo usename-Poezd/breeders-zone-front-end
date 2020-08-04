@@ -24,6 +24,7 @@ import {
     setSelectedMorphOut,
     search as searchState, setSearchMorphsInRequest, setSearchMorphsOutRequest
 } from "../../actions";
+import {compareMorph} from "../../utils";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -341,7 +342,7 @@ const Search = ({
                                                         }}
                                                     >
                                                         <div className={`morph-indicator morph-${pipes.toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
-                                                            {gene.trait.title} {gene.title}
+                                                            {compareMorph(gene.trait.title, gene.title)}
                                                         </div>
                                                     </li>
                                                 ))
@@ -358,7 +359,7 @@ const Search = ({
                                             key={`morphs-${gene.title}-${gene.trait.title}-${gene.id}`}
                                             className={`morph-indicator morph-${pipes.toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}
                                         >
-                                            {gene.trait.title} {gene.title}
+                                           {compareMorph(gene.trait.title, gene.title)}
                                             <FontAwesomeIcon
                                                 icon={faTimes}
                                                 size="lg"
@@ -403,7 +404,7 @@ const Search = ({
                                                         }}
                                                     >
                                                         <div className={`morph-indicator morph-${pipes.toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
-                                                            {gene.trait.title} {gene.title}
+                                                           {compareMorph(gene.trait.title, gene.title)}
                                                         </div>
                                                     </li>
                                                 ))
@@ -420,7 +421,7 @@ const Search = ({
                                             key={`morphs-${gene.title}-${gene.trait.title}-${gene.id}`}
                                             className={`morph-indicator morph-${pipes.toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}
                                         >
-                                            {gene.trait.title} {gene.title}
+                                           {compareMorph(gene.trait.title, gene.title)}
                                             <FontAwesomeIcon
                                                 icon={faTimes}
                                                 size="lg"

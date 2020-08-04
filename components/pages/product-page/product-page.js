@@ -17,6 +17,7 @@ import comparer from "../../../utils/comparer-by-id";
 import LazyImg from "../../../components/lazy-img";
 import ReportModal from "../../../components/report-modal/report-modal";
 import {setChatAct, setChatProduct, setReportModalProductId, setReportModalShow} from "../../../actions";
+import {compareMorph} from "../../../utils";
 
 class ProductPage extends Component  {
 
@@ -230,7 +231,7 @@ class ProductPage extends Component  {
                                                         morphs.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle}}, idx) => (
                                                             <Link key={"morph-" + idx} href="/[group]/[kind]/genes/[morph]" as={`/${group}/${kind}/genes/${this.pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
                                                                 <a className={`morph-indicator morph-${type}-${this.pipes.toUrl(traitTitle)}`}>
-                                                                    {traitTitle} {geneTitle}
+                                                                    {compareMorph(traitTitle, geneTitle)}
                                                                 </a>
                                                             </Link>
                                                         ))

@@ -13,6 +13,7 @@ import Link from "next/link";
 import {formatDate} from "react-day-picker/moment";
 import LazyImg from "../../components/lazy-img";
 import Slider from "react-slick";
+import {compareMorph} from "../../utils";
 
 const DivorcePage = (props) => {
     const {
@@ -186,7 +187,7 @@ const DivorcePage = (props) => {
                                                     divorce.male.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle}}) => (
                                                         <Link href="/[group]/[kind]/genes/[morph]" as={`/${pipes.toUrl(divorce.kind.group + '/' + divorce.kind.title_eng)}/genes/${pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
                                                             <a className={`morph-indicator morph-${type}-${pipes.toUrl(traitTitle)}`}>
-                                                                {traitTitle} {geneTitle}
+                                                                {compareMorph(traitTitle, geneTitle)}
                                                             </a>
                                                         </Link>
                                                     ))
@@ -206,7 +207,7 @@ const DivorcePage = (props) => {
                                                     divorce.female.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle}}) => (
                                                         <Link href="/[group]/[kind]/genes/[morph]" as={`/${pipes.toUrl(divorce.kind.group + '/' + divorce.kind.title_eng)}/genes/${pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
                                                             <a className={`morph-indicator morph-${type}-${pipes.toUrl(traitTitle)}`}>
-                                                                {traitTitle} {geneTitle}
+                                                                {compareMorph(traitTitle, geneTitle)}
                                                             </a>
                                                         </Link>
                                                     ))

@@ -4,6 +4,7 @@ import { Pipes } from '../../services';
 import Link from "next/link";
 import {setActiveKind} from "../../actions";
 import {connect} from "react-redux";
+import {compareMorph} from "../../utils";
 
 const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab, loadingMorphs, setActiveKind}) => {
 
@@ -36,7 +37,7 @@ const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab,
                     }
                     {
                         morphs.length === 0 && !loadingMorphs ?
-                            <p className="m-auto">Похоже отдельный морф нет, <Link href="/[group]/[kind]" as={`/${kinds[activeTab].group}/${pipes.toUrl(kinds[activeTab].title_eng)}?shop=${shopName}`}><a>но вы можете посмотреть всех животный с данной категорией у данного заводчика</a></Link></p>
+                            <p className="m-auto">Похоже отдельный морф нет, <Link href="/[group]/[kind]" as={`/${kinds[activeTab]?.group}/${pipes.toUrl(kinds[activeTab]?.title_eng)}?shop=${shopName}`}><a>но вы можете посмотреть всех животный с данной категорией у данного заводчика</a></Link></p>
                             : null
                     }
                     {
@@ -58,7 +59,7 @@ const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab,
                                     className={`morph-indicator d-inline-block morph-${type}-${pipes.toTraitClass(traitTitle)}`}
                                     onClick={() => setActiveKind(kinds[activeTab])}
                                 >
-                                    {traitTitle} {geneTitle}
+                                    {compareMorph(traitTitle, geneTitle)}
                                 </a>
                             </Link>
                         ))
