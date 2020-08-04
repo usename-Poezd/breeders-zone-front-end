@@ -208,6 +208,7 @@ export default class  DataService {
     };
 
     getDivorces = (options, searchStringify = '', cancelToken, prevCancelToken) => {
+        const cookies = nookies.get();
         searchStringify = searchStringify.replace('?', '');
         const params = this.qs.stringify(options);
         const token = cookies.token;
