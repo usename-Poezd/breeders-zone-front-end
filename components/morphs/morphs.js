@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Col, Row} from 'react-bootstrap';
+import {Col, Row, Spinner as BootstrapSpinner} from 'react-bootstrap';
 import {connect} from "react-redux";
 
 import RenderMorphs from '../render-morphs';
@@ -30,6 +30,20 @@ class Morphs extends Component {
                 request: false
             });
         }
+
+        if (prevProps.activeKind !== this.props.activeKind
+            && this.props.router.query.kind === this.props.activeKind?.title_eng.toLowerCase().replace(' ', '-')) {
+            this.setState({
+                request: false
+            });
+        }
+
+        if (prevProps.activeKind !== this.props.activeKind
+            && this.props.router.query.kind !== this.props.activeKind?.title_eng.toLowerCase().replace(' ', '-')) {
+            this.setState({
+                request: true
+            });
+        }
     }
 
     render() {
@@ -37,7 +51,7 @@ class Morphs extends Component {
         const { kind, group } = this.props.router.query;
         const { request } = this.state;
 
-        if (request) {
+        if (request && genes.length === 0 && subcategories.length === 0) {
             return <Spinner/>;
         }
 
@@ -72,7 +86,14 @@ class Morphs extends Component {
         }
 
         return (
-            <React.Fragment>
+            <div className="position-relative">
+                {
+                    request ?
+                        <div className="load">
+                                    <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
+                                </div>
+                        : null
+                }
                 {
                     genes.length > 0 ?
                         (
@@ -135,7 +156,7 @@ class Morphs extends Component {
                             </React.Fragment>
                         ) : null
                 }
-            </React.Fragment>
+            </div>
         );
     }
 }
