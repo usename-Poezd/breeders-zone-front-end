@@ -130,7 +130,7 @@ const product = (state, action) => {
         case 'SET_SELECTED_MORPHS':
             return {
                 ...state,
-                selectedMorphs: [payload, ...state.selectedMorphs]
+                selectedMorphs: [...state.selectedMorphs, payload]
             };
         case 'DELETE_SELECTED_MORPH':
             const selectedMorphs = state.selectedMorphs;
