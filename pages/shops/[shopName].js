@@ -29,7 +29,7 @@ class ShopPage extends Component {
     pipes = new Pipes();
 
     componentDidMount(){
-        if (typeof this.props.shop !== 'undefined') {
+        if (typeof this.props.shop !== 'undefined' && this.props.shop.kinds.length > 0) {
             this.updateTabContent();
             this.upgradeGroupAndKindUrl();
         }
@@ -184,7 +184,7 @@ class ShopPage extends Component {
                                                             (
                                                                 <div className="delivery-item">
                                                                     <FontAwesomeIcon icon={faHelicopter} size="lg"/>
-                                                                    <h3 className="info-text">По всей стране</h3>
+                                                                    <h3 className="info-text">Международная</h3>
                                                                 </div>
                                                             ) : null
                                                     }
@@ -336,31 +336,41 @@ class ShopPage extends Component {
                             ) : null
                     }
 
-                    <ShopMorphs
-                        kinds={kinds}
-                        morphs={morphs}
-                        groupAndKindUrl={groupAndKindUrl}
-                        shopName={company_name}
-                        activeTab={activeTab}
-                        onTab={this.onTab}
-                        loadingMorphs={loadingMorphs}
-                    />
+                    {
+                        kinds.length > 0 ?
+                            <ShopMorphs
+                                kinds={kinds}
+                                morphs={morphs}
+                                groupAndKindUrl={groupAndKindUrl}
+                                shopName={company_name}
+                                activeTab={activeTab}
+                                onTab={this.onTab}
+                                loadingMorphs={loadingMorphs}
+                            />
+                            : null
+                    }
 
-                    <h2 className="shop-title">Все товары:</h2>
-                    <Row className="shop-items justify-content-center">
-                        {
-                            shop.products.map( (item) => (
-                                <TraitItem key={item.id} {...item}/>
-                            ))
-                        }
-                        <Col xs={12}>
-                            <Link href={"/reptiles?shop=" + company_name}>
-                                <a>
-                                    <h3 className="my-3 p-3 feather-shadow text-center">Показать всех животный от {company_name}</h3>
-                                </a>
-                            </Link>
-                        </Col>
-                    </Row>
+                    {
+                        shop.products.length > 0 ?
+                            <React.Fragment>
+                                <h2 className="shop-title">Все товары:</h2>
+                                <Row className="shop-items justify-content-center">
+                                    {
+                                        shop.products.map( (item) => (
+                                            <TraitItem key={item.id} {...item}/>
+                                        ))
+                                    }
+                                    <Col xs={12}>
+                                        <Link href={"/reptiles?shop=" + company_name}>
+                                            <a>
+                                                <h3 className="my-3 p-3 feather-shadow text-center">Показать всех животный от {company_name}</h3>
+                                            </a>
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            </React.Fragment>
+                            : null
+                    }
                 </div>
             </Container>
         );
