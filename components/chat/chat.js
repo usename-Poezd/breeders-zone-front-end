@@ -209,12 +209,14 @@ class Chat extends Component {
                         })
                 });
             setSelectedRoomMessage(trimmedValue);
+            setChatProduct(null);
             return this.setState({value: ''})
         }
         setMessage({message: trimmedValue, roomId: selected_room_id, product_id: chat.product ? chat.product.id : null})
             .then((id) => updateLoadMessage({id, newMessageKey}));
         setChatProduct(null);
         setSelectedRoomMessage(trimmedValue);
+        setChatProduct(null);
         this.setState({value: ''})
     };
 
@@ -225,7 +227,7 @@ class Chat extends Component {
         setChatAct('');
 
         if (router.pathname === '/chat') {
-            router.push(pathname + '?' + qs.stringify(query), { shallow: true });
+            router.push(router.pathname, pathname + '?' + qs.stringify(query), { shallow: true });
             return;
         }
         router.push(router.pathname, pathname + '?' + qs.stringify(query), { shallow: true });
