@@ -12,7 +12,7 @@ class ChatFeed extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.message !== this.props.messages) {
-            if (this.scrollbar.current.getValues().top >= 0.96) {
+            if (this.scrollbar.current.getValues().top >= 0.86) {
                 this.scrollbar.current.scrollToBottom();
             }
         }
