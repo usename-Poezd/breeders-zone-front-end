@@ -244,7 +244,7 @@ const ProductSettings = ({
                                         >
                                             <option value="none">Нет локалитета</option>
                                             {
-                                                selectedKind.subcategories ?
+                                                selectedKind.subcategories && selectedKind.subcategories.find( (item) => item.id === Number(values.subcategory_id)) ?
                                                     selectedKind.subcategories.find( (item) => item.id === Number(values.subcategory_id)).localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
                                                     : selectedKind.localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
                                             }
