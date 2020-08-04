@@ -87,7 +87,11 @@ const ShopDivorcesItem = (props) => {
                                     </Link>
                                     <div
                                         className="products-item-controls-item times"
-                                        onClick={() => props.deleteShopDivorce(props.id)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            props.deleteShopDivorce(props.id)
+                                        }}
                                     >
                                         <FontAwesomeIcon icon={faTimes}/>
                                     </div>
