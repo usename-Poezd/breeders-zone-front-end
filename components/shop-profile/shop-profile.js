@@ -254,7 +254,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                                 (
                                     <div className="d-flex">
                                         <FontAwesomeIcon icon={faHelicopter} size="lg" className={"mr-1 " + ( countrywide_delivery ? '' : 'disabled')}/>
-                                        <p>По всей стране</p>
+                                        <p>Международная</p>
                                     </div>
                                 )
                             }

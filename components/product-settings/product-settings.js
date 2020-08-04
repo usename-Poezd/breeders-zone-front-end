@@ -27,6 +27,7 @@ import {
 } from "../../actions";
 import {connect} from "react-redux";
 import Reports from "../reports";
+import {compareMorph} from "../../utils";
 import {withRouter} from "next/router";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
@@ -293,7 +294,7 @@ const ProductSettings = ({
                                                                 }}
                                                             >
                                                                 <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
-                                                                    {gene.trait.title} {gene.title}
+                                                                   {compareMorph(gene.trait.title, gene.title)}
                                                                 </div>
                                                             </li>
                                                         ))
@@ -310,7 +311,7 @@ const ProductSettings = ({
                                                     key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
                                                     className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
                                                 >
-                                                    {trait.title} {gene.title}
+                                                    {compareMorph(trait.title, gene.title)}
                                                     <FontAwesomeIcon
                                                         icon={faTimes}
                                                         size="lg"

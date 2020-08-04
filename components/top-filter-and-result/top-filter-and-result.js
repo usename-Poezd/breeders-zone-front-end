@@ -10,6 +10,7 @@ const qs = require('qs');
 import {connect} from "react-redux";
 import {num2str} from "../../utils";
 import LazyImg from "../lazy-img";
+import compareMorph from "../../utils/compare-morph";
 
 class TopFilterAndResult extends Component {
     state = {
@@ -166,7 +167,7 @@ class TopFilterAndResult extends Component {
                                                             >
                                                                 {
                                                                     traitTitle && geneTitle ?
-                                                                        `${traitTitle} ${geneTitle}`
+                                                                        compareMorph(traitTitle, geneTitle)
                                                                         : geneTitle
                                                                 }
                                                             </a>
@@ -183,7 +184,7 @@ class TopFilterAndResult extends Component {
                                                     >
                                                         {
                                                             traitTitle && geneTitle ?
-                                                                `${traitTitle} ${geneTitle}`
+                                                                compareMorph(traitTitle, geneTitle)
                                                                 : geneTitle
                                                         }
                                                     </div>
@@ -225,7 +226,7 @@ class TopFilterAndResult extends Component {
                                                                 >
                                                                     {
                                                                         traitTitle && geneTitle ?
-                                                                            `${traitTitle} ${geneTitle}`
+                                                                            compareMorph(traitTitle, geneTitle)
                                                                             : geneTitle
                                                                     }
                                                                 </a>
@@ -242,7 +243,7 @@ class TopFilterAndResult extends Component {
                                                         >
                                                             {
                                                                 traitTitle && geneTitle ?
-                                                                    `${traitTitle} ${geneTitle}`
+                                                                    compareMorph(traitTitle, geneTitle)
                                                                     : geneTitle
                                                             }
                                                         </div>

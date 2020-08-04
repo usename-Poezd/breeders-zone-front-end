@@ -42,6 +42,7 @@ import {
 } from "../../actions";
 import {useDropzone} from "react-dropzone";
 import Reports from "../reports";
+import {compareMorph} from "../../utils";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -337,7 +338,7 @@ const DivorceSettings = ({
                                                     }}
                                                 >
                                                     <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
-                                                        {gene.trait.title} {gene.title}
+                                                        {compareMorph(gene.trait.title, gene.title)}
                                                     </div>
                                                 </li>
                                             ))
@@ -354,7 +355,7 @@ const DivorceSettings = ({
                                         key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
                                         className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
                                     >
-                                        {trait.title} {gene.title}
+                                        {compareMorph(trait.title, gene.title)}
                                         <FontAwesomeIcon
                                             icon={faTimes}
                                             size="lg"
@@ -400,7 +401,7 @@ const DivorceSettings = ({
                                                     }}
                                                 >
                                                     <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
-                                                        {gene.trait.title} {gene.title}
+                                                        {compareMorph(gene.trait.title, gene.title)}
                                                     </div>
                                                 </li>
                                             ))
@@ -417,7 +418,7 @@ const DivorceSettings = ({
                                         key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
                                         className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
                                     >
-                                        {trait.title} {gene.title}
+                                        {compareMorph(trait.title, gene.title)}
                                         <FontAwesomeIcon
                                             icon={faTimes}
                                             size="lg"
