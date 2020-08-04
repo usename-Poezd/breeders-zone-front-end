@@ -31,7 +31,6 @@ import Footer from "../components/footer";
 import NextNProgress from "../components/progress-bar";
 config.autoAddCss = false;
 const dataService = new DataService();
-const cookies = nookies.get();
 
 class MyApp extends Component {
 
@@ -110,6 +109,7 @@ class MyApp extends Component {
             router
         } = this.props;
         const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset|\/documents)/gi;
+        const cookies = nookies.get();
 
         window.qs = require('qs');
         window.io = require('socket.io-client');
