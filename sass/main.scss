@@ -525,6 +525,67 @@ ul{
     margin-bottom: 10px;
 }
 
+.dropdown{
+
+    &-actived{
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 28px;
+        text-align: center;
+
+        cursor: pointer;
+        user-select: none;
+
+        .arrow{
+            transition: 0.5s;
+        }
+
+        .rotated{
+            transform: rotate(180deg);
+            transition: 0.5s;
+        }
+    }
+
+    &-list{
+        max-width: 300px;
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 30px;
+        z-index: 9999;
+        list-style: none;
+        text-align: center;
+
+        margin: 0 auto;
+        padding: 0;
+        opacity: 1;
+        color: #000;
+        background: #fff;
+        transition: 0.3s;
+
+        border-radius: $border-radius;
+        box-shadow: $feather-shadow;
+
+        &.hidden{
+            z-index: -1;
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        li{
+            padding: 5px 0;
+            cursor: pointer;
+            user-select: none;
+
+            a {
+                color: #000 !important;
+            }
+        }
+    }
+}
+
 
 .profile{
     display: flex;

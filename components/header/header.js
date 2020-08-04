@@ -301,7 +301,8 @@ class Header extends Component {
             setSearchQuery,
             query,
             searchState,
-            user
+            user,
+            isLogin
         } = this.props;
 
 
@@ -315,37 +316,45 @@ class Header extends Component {
                     </Link>
 
                     <div className="d-flex align-items-center">
-                        <Link href="/chat">
-                            <a className="chat-icon">
-                                {
-                                    roomsWithNewMessages > 0 ?
-                                        <span className="message-count">{roomsWithNewMessages}</span>
-                                        : null
-                                }
-                                <FontAwesomeIcon icon={faComments} size="lg"/>
-                            </a>
-                        </Link>
-                        <Nav.Link
-                            as={NavDropdown}
-                            className="chat-icon notifications m-0"
-                            style={{fontSize: 13}}
-                            onClick={() => {
-                                this.setState({isNotifications: true});
-                                clearUserNotificationsCount()
-                            }}
-                            title={(
-                                <React.Fragment>
-                                    {
-                                        user.unread_notifications_count > 0 ?
-                                            <span className="message-count"></span>
-                                            : null
-                                    }
-                                    <FontAwesomeIcon icon={faBell}/>
-                                </React.Fragment>
-                            )}
-                        >
-                            <Notifications show={isNotifications}/>
-                        </Nav.Link>
+                        {
+                            isLogin ?
+                                (
+                                    <React.Fragment>
+                                        <Link href="/chat">
+                                            <a className="chat-icon">
+                                                {
+                                                    roomsWithNewMessages > 0 ?
+                                                        <span className="message-count">{roomsWithNewMessages}</span>
+                                                        : null
+                                                }
+                                                <FontAwesomeIcon icon={faComments} size="lg"/>
+                                            </a>
+                                        </Link>
+                                        <Nav.Link
+                                            as={NavDropdown}
+                                            className="chat-icon notifications m-0"
+                                            style={{fontSize: 13}}
+                                            onClick={() => {
+                                                this.setState({isNotifications: true});
+                                                clearUserNotificationsCount()
+                                            }}
+                                            title={(
+                                                <React.Fragment>
+                                                    {
+                                                        user.unread_notifications_count > 0 ?
+                                                            <span className="message-count"></span>
+                                                            : null
+                                                    }
+                                                    <FontAwesomeIcon icon={faBell}/>
+                                                </React.Fragment>
+                                            )}
+                                        >
+                                            <Notifications show={isNotifications}/>
+                                        </Nav.Link>
+                                    </React.Fragment>
+                                )
+                                : null
+                        }
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" className="btn shadow-none" onClick={this.onToggleBurger}>
                             <LazyImg src="/images/burger.svg" alt="Меню" className="img-fluid" />
                         </Navbar.Toggle>

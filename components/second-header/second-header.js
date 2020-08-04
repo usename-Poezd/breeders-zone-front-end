@@ -8,28 +8,22 @@ import {Pipes} from "../../services";
 import {withRouter} from "next/router";
 import {setActiveKind} from "../../actions";
 import {ucFirst} from "../../utils";
+import Dropdown, {DropdownItem} from "../dropdown";
 
 class SecondHeader extends Component {
-
-    dropdownList = React.createRef();
     pipes = new Pipes();
 
     state = {
-        dropdown: false,
         location: {
             home: false,
             morphs: false,
             shops: false,
             none: false
         },
-        dropdownHeight: 0
     };
 
     componentDidMount(){
         this.isTab();
-
-
-        this.updateDropdownHeight();
     }
 
     componentDidUpdate(prevProps) {
@@ -52,10 +46,6 @@ class SecondHeader extends Component {
                     setActiveKind(activeKind);
             }
         }
-
-        if (prevProps.activeKinds !== this.props.activeKinds) {
-            this.updateDropdownHeight();
-        }
     }
 
 
@@ -65,11 +55,9 @@ class SecondHeader extends Component {
         switch(pathname){
             case "/[group]/[kind]/home":
                 this.setState( ()=> {
-                    const { home } = this.state.location;
-
                     return {
                         location: {
-                            home: !home
+                            home: true
                         }
                     }
                 });
@@ -77,11 +65,9 @@ class SecondHeader extends Component {
 
             case "/[group]/[kind]/morphs":
                 this.setState( ()=> {
-                    const { morphs } = this.state.location;
-
                     return {
                         location: {
-                            morphs: !morphs
+                            morphs: true
                         }
                     }
                 });
@@ -89,11 +75,9 @@ class SecondHeader extends Component {
 
             case "/shops/[shopName]":
                 this.setState( ()=> {
-                    const { shops } = this.state.location;
-
                     return {
                         location: {
-                            shops: !shops
+                            shops: true
                         }
                     }
                 });
@@ -101,11 +85,9 @@ class SecondHeader extends Component {
 
             case "/shops":
                 this.setState( ()=> {
-                    const { shops } = this.state.location;
-
                     return {
                         location: {
-                            shops: !shops
+                            shops: true
                         }
                     }
                 });
@@ -113,35 +95,16 @@ class SecondHeader extends Component {
         }
     };
 
-    dropdownUp = () =>{
-        this.setState( (state) =>{
-            const { dropdown } = state;
-
-            return {
-                dropdown: !dropdown
-            }
-        });
-    };
-
-    updateDropdownHeight = () => {
-        const dropdownHeight = this.dropdownList.current.clientHeight;
-
-        this.setState({ dropdownHeight: dropdownHeight });
-    };
-
     render() {
         const { activeKinds, router: {pathname, query}, setActiveKind, activeKind} = this.props;
-        const { dropdown, location, dropdownHeight } = this.state;
-        const { home, morphs, shops} = location;
+        const { location } = this.state;
+        const { morphs, shops} = location;
 
         if (
             location.none
         ){
             return null;
         }
-
-        const idDropdown = !dropdown ? 'dropdown-list hidden' : 'dropdown-list';
-        const isRotate = dropdown ? 'rotated' : '';
 
         return (
             <nav className="nav flex-column">
@@ -153,24 +116,20 @@ class SecondHeader extends Component {
                 <Container>
                     <Row className="nav-container flex-column">
                         <Col xs={12} sm={8} md={6} className="select-block mx-auto">
-                            <div className="dropdown-actived" onClick={this.dropdownUp} ref={this.dropdown}>
-                                <span className="dropdown-actived-span">
-                                    {
-                                        activeKind.title_rus ?
-                                            activeKind.title_rus
-                                            : 'Выберите категорию'
-                                    }
-                                </span>
-                                <img src="/images/arrow-white.svg" className={'arrow img-fluid ' + isRotate} alt="arrow"/>
-                            </div>
-                            <ul className={idDropdown} style={{bottom: `-${dropdownHeight}px`, zIndex: dropdown ? 9999 : -1}} ref={this.dropdownList}>
+                            <Dropdown
+                                label={
+                                    activeKind.title_rus ?
+                                        activeKind.title_rus
+                                        : 'Выберите категорию'
+                                }
+                                variant="white"
+                            >
                                 {
                                     activeKinds.map( (item) => (
-                                        <li
+                                        <DropdownItem
                                             key={`${item.title_eng}-${item.id}`}
                                             onClick={
                                                 (e) => {
-                                                    this.dropdownUp(e);
                                                     setActiveKind(item);
                                                 }
                                             }>
@@ -179,10 +138,10 @@ class SecondHeader extends Component {
                                                     {item.title_rus}
                                                 </a>
                                             </Link>
-                                        </li>
+                                        </DropdownItem>
                                     ))
                                 }
-                            </ul>
+                            </Dropdown>
                         </Col>
 
                         {

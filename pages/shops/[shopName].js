@@ -311,7 +311,7 @@ class ShopPage extends Component {
                                                         kinds.map((item, idx) => (
                                                             <Link key={"category-" + idx} href="/[group]/[kind]" as={`/${this.pipes.toUrl(item.group + '/' + item.title_eng)}?shop=${this.pipes.toUrl(company_name)}`}>
                                                                 <a
-                                                                    className="col-12 col-sm-6 col-md-4 col-lg-3"
+                                                                    className={"col-12 col-sm-6 col-md-4 col-lg-3" + (idx + 1 !== kinds.length ? ' mb-3' : '')}
                                                                     onClick={() => setActiveKind(item)}
                                                                 >
                                                                     <div className="d-flex flex-column justify-content-center home-card">

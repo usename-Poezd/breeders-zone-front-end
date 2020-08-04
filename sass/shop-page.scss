@@ -131,10 +131,23 @@
     &-morphs{
         display: flex;
         padding: 0 !important;
+        @media (max-width: 992px) {
+            flex-direction: column;
+        }
 
         &-nav{
+            width: 35%;
             position: relative;
             padding-left: 20px;
+            overflow: hidden;
+
+            @media (max-width: 992px) {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                overflow: visible;
+                padding: 20px 0;
+            }
         }
 
         .morphs{
@@ -144,6 +157,11 @@
             align-items: flex-start;
             position: relative;
 
+            @media (max-width: 992px) {
+                border-left: none;
+                border-top: 1px solid #D3D9DE;
+            }
+
             .load {
                 border-radius: 0 5px 5px 0;
             }
@@ -152,10 +170,14 @@
         .morph-list{
             padding: 20px 0;
             padding-right: 35px;
+            overflow: hidden;
 
             &-item{
                 margin-bottom: 20px;
                 cursor: pointer;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
 
                 &.active {
                     color: $main-color;

@@ -1,33 +1,66 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Spinner as BootstrapSpinner} from "react-bootstrap";
 import { Pipes } from '../../services';
 import Link from "next/link";
 import {setActiveKind} from "../../actions";
 import {connect} from "react-redux";
 import {compareMorph} from "../../utils";
+import Dropdown, {DropdownItem} from "../dropdown";
 
 const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab, loadingMorphs, setActiveKind}) => {
-
+    const [isMobile, setIsMobile] = useState(false);
     const pipes = new Pipes();
+    const activeKind = kinds.find((item, idx) => activeTab === idx);
+    const onResize = () => {
+        if (window.innerWidth < 992) {
+            setIsMobile(true);
+        } else {
+            setIsMobile(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', onResize);
+        window.addEventListener('load', onResize)
+    });
 
     return (
         <React.Fragment>
             <h2 className="shop-title">Морфы:</h2>
             <div className="shop-container shop-morphs">
                 <nav className="d-flex shop-morphs-nav">
-                    <ul className="morph-list">
-                        {
-                            kinds.map( ({ title_rus }, idx) => (
-                                <li
-                                    key={"shop-morphs-category-" + idx}
-                                    className={`morph-list-item h3 ` + (activeTab === idx ? 'active' : '')}
-                                    onClick={ () => onTab(idx)}
-                                >
-                                    {title_rus}
-                                </li>
-                            ))
-                        }
-                    </ul>
+                    {
+                        isMobile ?
+                            <Dropdown label={activeKind?.title_rus}>
+                                {
+                                    kinds.map( ({ title_rus }, idx) => (
+                                        <DropdownItem
+                                            key={"shop-morphs-category-" + idx}
+                                            className={`morph-list-item h3 ` + (activeTab === idx ? 'active' : '')}
+                                            onClick={ () => onTab(idx)}
+                                        >
+                                            {title_rus}
+                                        </DropdownItem>
+                                    ))
+                                }
+                            </Dropdown>
+                            : (
+                                <ul className="morph-list">
+                                    {
+                                        kinds.map( ({ title_rus }, idx) => (
+                                            <li
+                                                key={"shop-morphs-category-" + idx}
+                                                className={`morph-list-item h3 ` + (activeTab === idx ? 'active' : '')}
+                                                onClick={ () => onTab(idx)}
+                                            >
+                                                {title_rus}
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            )
+                    }
+
                 </nav>
                 <div className="morphs">
                     {
@@ -53,7 +86,7 @@ const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab,
                             <Link
                                 key={`shop-morph-${traitTitle}-${type}-${geneTitle}`}
                                 href="/[group]/[kind]/genes/[morph]"
-                                as={`${groupAndKindUrl}/genes/${pipes.toUrl(`${traitTitle}-${geneTitle}`)}?shop=${pipes.toUrl(shopName)}`}
+                                as={`${groupAndKindUrl}/genes/${pipes.toUrl(`${traitTitle}-${geneTitle}`)}?shop=${shopName}`}
                             >
                                 <a
                                     className={`morph-indicator d-inline-block morph-${type}-${pipes.toTraitClass(traitTitle)}`}
