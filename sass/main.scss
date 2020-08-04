@@ -81,7 +81,7 @@ $unit: 'px'; // Feel free to change the unit.
         white-space: nowrap!important;
 
         @media (max-width: 576px) {
-            white-space: nowrap!important;
+            white-space: normal!important;
         }
 
         &:hover{
