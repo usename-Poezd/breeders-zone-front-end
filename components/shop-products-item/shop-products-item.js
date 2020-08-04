@@ -7,6 +7,7 @@ import Link from "next/link";
 import {connect} from "react-redux";
 import {formatDate} from 'react-day-picker/moment';
 import {Pipes} from "../../services";
+import {compareMorph} from "../../utils";
 
 const ShopProductsItem = ({id, idx, name, sex, cb, morphs, price, kind, subcategory, locality, product_images, deleteProduct, deleteShopProduct, getKinds}) => {
     const delProduct = () => {
@@ -81,7 +82,7 @@ const ShopProductsItem = ({id, idx, name, sex, cb, morphs, price, kind, subcateg
                                     <h3 className="title-sex">Морфы:</h3>
                                     <div className="info morphs d-inline-block">
                                         {
-                                            morphs.map( ({gene, trait}) => <div key={`${gene}-${trait}-${name}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{trait.title} {gene.title}</div>)
+                                            morphs.map( ({gene, trait}) => <div key={`${gene}-${trait}-${name}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
                                         }
                                     </div>
                                 </li>
