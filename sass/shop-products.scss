@@ -50,7 +50,7 @@
         padding: 10px;
         margin-bottom: 10px;
         color: #212529;
-        
+
         &:hover {
             color: #212529;
             text-decoration: none;
@@ -102,14 +102,13 @@
         &-info {
             width: 65%;
             padding: 0 10px;
-            border-right: 1px solid #E5E5E5;
 
             @media (max-width: 768px) {
                 width: 100%;
                 padding: 10px 0;
                 border-right: none;
                 border-left: none !important;
-                border-bottom: 1px solid #E5E5E5;
+                border-bottom: none;
             }
 
             h3.title {
@@ -129,11 +128,15 @@
             &-container {
                 width: 15%;
                 padding-left: 10px;
+                border-right: 1px solid #E5E5E5;
 
                 @media (max-width: 768px) {
                     width: 100%;
                     padding-left: 0;
                     padding-top: 10px;
+                    border-right: none;
+                    border-left: none !important;
+                    border-top: 1px solid #E5E5E5;
                 }
             }
 
