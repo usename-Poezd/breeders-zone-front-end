@@ -20,6 +20,7 @@ import {HandelSuccess} from "../handels";
 import HandelError from "../handels/handel-error";
 import {useRouter} from "next/router";
 import LazyImg from "../lazy-img";
+import InputMask from "react-input-mask";
 
 const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdateClear, setShopUpdateSuccess, setShopUpdateError, shop, setShopPreview, isLogin, countries, loginRequest}) => {
 
@@ -113,7 +114,6 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         local_delivery,
         regional_delivery,
         countrywide_delivery,
-        phone,
         description,
         vk,
         facebook,
@@ -123,6 +123,9 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         location,
         country
     } = watch();
+
+    const countryCallCode = countries.all.find((item) => item.name === country)?.calling_code;
+    const countryCallCodeMask = countryCallCode?.replace('9', '\\9');
 
     const { update } = shop;
 
@@ -159,21 +162,6 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             ref: register()
                         }}
                     />
-
-                    <GroupFormControl
-                        label="Телефон"
-                        errors={errors}
-                        controls={{
-                            type: "text",
-                            name: "phone",
-                            onChange: handleChange,
-                            value: phone,
-                            ref: register({
-                                required: true,
-                                pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
-                            })
-                        }}
-                    />
                     <Form.Group className="d-flex flex-column locality">
                         <Form.Label htmlFor="country">Укажите страну:</Form.Label>
                         <div className="select-wrap w-100">
@@ -198,6 +186,28 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                             errors.country &&
                             errors.country.type === 'required' &&
                             <p className="form-err text-danger">Пожалуйста укажите страну`</p>
+                        }
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Телефон:</Form.Label>
+                        <InputMask mask={`+${countryCallCodeMask} 999 999 99 99`}>
+                            <Form.Control
+                                name="phone"
+                                placeholder={`+${countryCallCode} 999 999 99 99`}
+                                type="tel"
+                                ref={register({
+                                    required: true,
+                                    pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+                                })}
+                            />
+                        </InputMask>
+                        {   errors['phone'] &&
+                        errors['phone'].type === 'required' &&
+                        <p className="form-err text-danger">Пожалуйста заполните это поле</p>
+                        }
+                        {   errors['phone'] &&
+                        errors['phone'].type === 'pattern' &&
+                        <p className="form-err text-danger">Пожалуйста заполните это поле правильно</p>
                         }
                     </Form.Group>
                     <GroupFormControl
