@@ -2,9 +2,12 @@ import React from "react";
 import {Form, Col, Row} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
 import {connect} from "react-redux";
-import {setSearchLocality} from "../../actions";
+import InputMask from "react-input-mask";
 
-const BreederRegOptions = ({register, errors, countries}) => {
+const BreederRegOptions = ({register, errors, countries, watch}) => {
+    const {country} = watch();
+    const countryCallCode = countries.all.find((item) => item.name === country)?.calling_code;
+    const countryCallCodeMask = countryCallCode?.replace('9', '\\9');
     return (
         <React.Fragment>
             <GroupFormControl
@@ -18,21 +21,6 @@ const BreederRegOptions = ({register, errors, countries}) => {
                     ref:
                         register({
                             required: true
-                        }),
-                }}
-            />
-            <GroupFormControl
-                label="Телефон"
-                nec={true}
-                errors = {errors}
-                controls={{
-                    type:"tel",
-                    name:"phone",
-                    placeholder: "+7 (980) 999-99-99",
-                    ref:
-                        register({
-                            required: true,
-                            pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
                         }),
                 }}
             />
@@ -58,6 +46,28 @@ const BreederRegOptions = ({register, errors, countries}) => {
                     errors.country &&
                     errors.country.type === 'required' &&
                     <p className="form-err text-danger">Пожалуйста укажите страну`</p>
+                }
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Телефон:</Form.Label>
+                <InputMask mask={`+${countryCallCodeMask} 999 999 99 99`}>
+                    <Form.Control
+                        name="phone"
+                        placeholder={`+${countryCallCode} 999 999 99 99`}
+                        type="tel"
+                        ref={register({
+                            required: true,
+                            pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+                        })}
+                    />
+                </InputMask>
+                {   errors['phone'] &&
+                errors['phone'].type === 'required' &&
+                <p className="form-err text-danger">Пожалуйста заполните это поле</p>
+                }
+                {   errors['phone'] &&
+                errors['phone'].type === 'pattern' &&
+                <p className="form-err text-danger">Пожалуйста заполните это поле правильно</p>
                 }
             </Form.Group>
             <GroupFormControl
