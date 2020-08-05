@@ -1,12 +1,12 @@
 import React from "react";
-import Header from "../../../components/header";
+import Header from "../../../../components/header";
 import {Container} from "react-bootstrap";
-import SecondHeader from "../../../components/second-header";
-import Morphs from "../../../components/morphs";
-import {DataService} from "../../../services";
+import SecondHeader from "../../../../components/second-header";
+import Morphs from "../../../../components/morphs";
+import {DataService} from "../../../../services";
 import Head from "next/head";
 import {connect} from "react-redux";
-import Error from "../../_error";
+import Error from "../../../_error";
 
 const MorphsPage = ({morphs, activeKind, statusCode}) => {
     if (statusCode && statusCode !== 200) {

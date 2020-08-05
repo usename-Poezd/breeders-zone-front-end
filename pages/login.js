@@ -3,7 +3,6 @@ import {Col, Row, Container} from "react-bootstrap";
 import Login from "../components/login";
 import ContinueRegistration from "../components/continue-reg";
 import Head from "next/head";
-import {serverRedirect} from "../utils";
 import nookies from "nookies";
 
 export default () => {

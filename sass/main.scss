@@ -578,12 +578,13 @@ ul{
             transition: 0.5s;
         }
 
-        li{
+        .dropdown-item{
             padding: 5px 0;
             cursor: pointer;
             user-select: none;
 
             a {
+                display: block;
                 color: #000 !important;
             }
         }

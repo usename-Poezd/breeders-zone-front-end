@@ -43,6 +43,7 @@
     "react-dropzone": "^10.2.1",
     "react-hook-form": "^4.10.2",
     "react-images": "^1.1.7",
+    "react-input-mask": "^3.0.0-alpha.2",
     "react-linkify": "^1.0.0-alpha",
     "react-redux": "^7.2.0",
     "react-slick": "^0.25.2",

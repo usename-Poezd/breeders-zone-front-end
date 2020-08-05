@@ -157,8 +157,8 @@ class TopFilterAndResult extends Component {
                                                     return (
                                                         <Link
                                                             key={"morph-exists" + idx}
-                                                            href={"/[group]/[kind]/genes/[morph]"}
-                                                            as={`/${this.pipes.toUrl(activeKind.group)}/${this.pipes.toUrl(activeKind.title_eng)}/genes/${this.pipes.toUrl(traitTitle + ' ' + geneTitle)}`}
+                                                            href={`/[group]/[kind]/${traitTitle ? 'morphs' : 'genes'}/${traitTitle ? '[morph]' : '[geneTitle]'}`}
+                                                            as={`/${this.pipes.toUrl(activeKind.group)}/${this.pipes.toUrl(activeKind.title_eng)}/${traitTitle ? 'morphs' : 'genes'}/${this.pipes.toUrl(traitTitle ? `${traitTitle} ${geneTitle}` : geneTitle)}`}
                                                         >
                                                             <a
                                                                 className={
@@ -216,8 +216,8 @@ class TopFilterAndResult extends Component {
                                                         return (
                                                             <Link
                                                                 key={"morph-exists" + idx}
-                                                                href={"/[group]/[kind]/genes/[morph]"}
-                                                                as={`/${this.pipes.toUrl(activeKind.group)}/${this.pipes.toUrl(activeKind.title_eng)}/genes/${this.pipes.toUrl(traitTitle + ' ' + geneTitle)}`}
+                                                                href={`/[group]/[kind]/${traitTitle ? 'morphs' : 'genes'}/${traitTitle ? '[morph]' : '[geneTitle]'}`}
+                                                                as={`/${this.pipes.toUrl(activeKind.group)}/${this.pipes.toUrl(activeKind.title_eng)}/${traitTitle ? 'morphs' : 'genes'}/${this.pipes.toUrl(traitTitle ? `${traitTitle} ${geneTitle}` : geneTitle)}`}
                                                             >
                                                                 <a
                                                                     className={

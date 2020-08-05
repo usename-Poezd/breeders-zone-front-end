@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import {connect} from "react-redux";
 import {getUser} from "../../actions";
 import GroupFormControl from "../group-form-control";
-import Router from 'next/router'
+import Router, {withRouter} from 'next/router'
 
 class Login extends Component {
 
@@ -31,10 +31,10 @@ class Login extends Component {
 
     render() {
         const { serverError } = this.state;
-        const { register, handleSubmit, errors, isLogin } = this.props;
+        const { register, handleSubmit, errors, isLogin, router } = this.props;
 
         if (isLogin && typeof window !== 'undefined') {
-            Router.push('/');
+            router.push('/');
         }
 
         return (
@@ -99,8 +99,10 @@ const mapStateToProps = ({auth: {isLogin}}) => ({
 
 
 export default connect(mapStateToProps, {getUser})(
-   withGetData(
-            withHookForm(Login, useForm),
-            mapMethodsToProps
+   withRouter(
+       withGetData(
+           withHookForm(Login, useForm),
+           mapMethodsToProps
+       )
    )
 );

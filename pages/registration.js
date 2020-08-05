@@ -134,6 +134,7 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, r
                                         <BreederRegOptions
                                             register={register}
                                             errors={errors}
+                                            watch={watch}
                                         />
                                         : null
                                 }
