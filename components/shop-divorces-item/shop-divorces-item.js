@@ -27,7 +27,7 @@ const ShopDivorcesItem = (props) => {
 
     return (
         <Link href="/divorces/[id]" as={`/divorces/${props.id}`}>
-            <a className="products-item feather-shadow d-flex align-items-center">
+            <a className="products-item feather-shadow d-flex">
                 <div className={"products-item-img border-0" + (!props.hasControls ? " w-25" : '')}>
                     {
                         props.exit_photos.length > 0 ?
