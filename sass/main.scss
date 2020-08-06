@@ -755,6 +755,14 @@ ul{
 
     .products-item-info {
         border-left: 1px solid #E5E5E5;
+
+        a {
+            color: #212529;
+
+            &:hover {
+                color: #212529;
+            }
+        }
     }
 }
 
