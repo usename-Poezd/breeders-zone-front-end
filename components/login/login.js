@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import {connect} from "react-redux";
 import {getUser} from "../../actions";
 import GroupFormControl from "../group-form-control";
-import Router, {withRouter} from 'next/router'
+import {withRouter} from 'next/router'
 
 class Login extends Component {
 
@@ -15,15 +15,15 @@ class Login extends Component {
     };
 
     login = data => {
-        const { postLogin, getUser } = this.props;
+        const { postLogin, getUser, router } = this.props;
         postLogin(data)
             .then( () => {
-                Router.push('/');
+                router.push('/');
                 getUser();
             })
             .catch( (error) =>  {
                 if (error.response.status === 403) {
-                    Router.push('/verify');
+                    router.push('/verify');
                 }
                 this.setState({ serverError: error });
             });
