@@ -43,6 +43,7 @@ class Header extends Component {
 
     state = {
         isToggle: false,
+        isToggleSearch: false,
         selectMorphIdx: 0,
         searchMorphInValue: '',
         searchMorphOutValue: '',
@@ -73,17 +74,16 @@ class Header extends Component {
     };
 
     onToggle = () => {
-        this.setState( () => {
-            const { isToggle } = this.state;
-
-            return {
-                isToggle: !isToggle
-            }
-        })
+        const { isToggleSearch } = this.state;
+        this.setState( {isToggleSearch: !isToggleSearch})
     };
 
     onToggleBurger = () => {
-        this.setState({ isToggle: false });
+        const {isToggle} = this.state;
+        this.setState({
+            isToggle: !isToggle,
+            isToggleSearch: false
+        });
     };
 
     renderNav = () => {
@@ -179,20 +179,20 @@ class Header extends Component {
         if (isLogin && isMobile) {
             return (
                 <React.Fragment>
-                    <Link href="/faq" >
-                        <a className="nav-link">
+                    <Link href="/faq">
+                        <a className="nav-link" onClick={() => this.setState({isToggle: false})}>
                             <span className="icon"><FontAwesomeIcon icon={faQuestionCircle} size="lg"/></span>
                             <span className="text">FAQ</span>
                         </a>
                     </Link>
-                    <Link href="/guards" >
-                        <a className="nav-link">
+                    <Link href="/guards">
+                        <a className="nav-link" onClick={() => this.setState({isToggle: false})}>
                             <span className="icon"><FontAwesomeIcon icon={faShieldAlt} size="lg"/></span>
                             <span className="text">Хранители</span>
                         </a>
                     </Link>
                     <Link href="/profile">
-                        <Nav.Link as="a">
+                        <Nav.Link as="a" onClick={() => this.setState({isToggle: false})}>
                             <span className="icon"><FontAwesomeIcon icon={faUserCircle} size="lg"/></span>
                             <span className="text">Мой профиль</span>
                         </Nav.Link>
@@ -202,19 +202,19 @@ class Header extends Component {
                             (
                                 <React.Fragment>
                                     <Link href="/profile/shop">
-                                        <Nav.Link as="a">
+                                        <Nav.Link as="a" onClick={() => this.setState({isToggle: false})}>
                                             <span className="icon"><FontAwesomeIcon icon={faStore} size="lg"/></span>
                                             <span className="text">Профиль магазина</span>
                                         </Nav.Link>
                                     </Link>
                                     <Link href="/products">
-                                        <Nav.Link as="a">
+                                        <Nav.Link as="a" onClick={() => this.setState({isToggle: false})}>
                                             <span className="icon"><FontAwesomeIcon icon={faBoxOpen} size="lg"/></span>
                                             <span className="text">Мои товары</span>
                                         </Nav.Link>
                                     </Link>
                                     <Link href="/profile/divorces">
-                                        <Nav.Link as="a">
+                                        <Nav.Link as="a" onClick={() => this.setState({isToggle: false})}>
                                             <span className="icon"><FontAwesomeIcon icon={faEgg} size="lg"/></span>
                                             <span className="text">Мои разводы</span>
                                         </Nav.Link>
@@ -226,7 +226,7 @@ class Header extends Component {
                     {
                         user.is_guard ?
                             <Link href="/guard/dashboard">
-                                <Nav.Link as="a">
+                                <Nav.Link as="a" onClick={() => this.setState({isToggle: false})}>
                                     <span className="icon"><FontAwesomeIcon icon={faDesktop} size="lg"/></span>
                                     <span className="text">Рабочий стол хранителя</span>
                                 </Nav.Link>
@@ -245,24 +245,24 @@ class Header extends Component {
             return (
                 <React.Fragment>
                     <Link href="/faq" >
-                        <a className="nav-link">
+                        <a className="nav-link" onClick={() => this.setState({isToggle: false})}>
                             <span className="icon"><FontAwesomeIcon icon={faQuestionCircle} size="lg"/></span>
                             <span className="text">FAQ</span>
                         </a>
                     </Link>
                     <Link href="/guards" >
-                        <a className="nav-link">
+                        <a className="nav-link" onClick={() => this.setState({isToggle: false})}>
                             <span className="icon"><FontAwesomeIcon icon={faShieldAlt} size="lg"/></span>
                             <span className="text">Хранители</span>
                         </a>
                     </Link>
                     <Link href="/login">
-                        <Nav.Link as="a"  className="btn btn-second">
+                        <Nav.Link as="a"  className="btn btn-second" onClick={() => this.setState({isToggle: false})}>
                             Войти
                         </Nav.Link>
                     </Link>
                     <Link href="/registration">
-                        <Nav.Link as="a"  className="btn btn-main">
+                        <Nav.Link as="a"  className="btn btn-main" onClick={() => this.setState({isToggle: false})}>
                             Зарегестрироваться
                         </Nav.Link>
                     </Link>
@@ -295,7 +295,7 @@ class Header extends Component {
     };
 
     render(){
-        const { isToggle, isNotifications } = this.state;
+        const { isToggle, isToggleSearch, isNotifications } = this.state;
         const {
             roomsWithNewMessages,
             setSearchQuery,
@@ -308,9 +308,9 @@ class Header extends Component {
 
         return (
             <Container fluid as="header">
-                <Navbar bg="light" expand="lg">
+                <Navbar bg="light" expand="lg" onToggle={this.onToggleBurger} expanded={isToggle}>
                     <Link href="/">
-                        <Navbar.Brand as="a" >
+                        <Navbar.Brand as="a">
                             <img src="https://breeders-zone.s3.us-east-2.amazonaws.com/static/icons/logo.svg" alt="Breeders Zone" className="logo"/>
                         </Navbar.Brand>
                     </Link>
@@ -355,7 +355,7 @@ class Header extends Component {
                                 )
                                 : null
                         }
-                        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="btn shadow-none" onClick={this.onToggleBurger}>
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="btn shadow-none">
                             <LazyImg src="/images/burger.svg" alt="Меню" className="img-fluid" />
                         </Navbar.Toggle>
                     </div>
@@ -398,7 +398,7 @@ class Header extends Component {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                <Search isToggle={isToggle} onToggleBurger={this.onToggleBurger}/>
+                <Search isToggle={isToggleSearch} onToggleBurger={this.onToggleBurger}/>
             </Container>
         );
     }
