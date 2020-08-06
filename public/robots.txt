@@ -8,7 +8,6 @@ Disallow: /chat
 Disallow: /guard
 Disallow: /verify
 Disallow: /reset
-Disallow: /_next
-Disallow: /search*&*&*&
+Disallow: /search
 Disallow: *q=
 Disallow: *room=
