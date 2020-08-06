@@ -1,13 +1,12 @@
 import React, {Component} from "react";
 import ShopProductsItem from "../shop-products-item";
 import Link from "next/link";
-import Router, {withRouter} from "next/router";
-import {Col, Dropdown, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
+import {withRouter} from "next/router";
+import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import withGetData from "../hoc-helpers/with-get-data";
 import {connect} from "react-redux";
 import {clearShopProducts, setShopProducts, setShopProductsRequest} from "../../actions";
 import Spinner from "../spinner";
-import {isLogin} from "../../utils";
 
 class ShopProducts extends Component {
 
