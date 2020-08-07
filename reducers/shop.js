@@ -64,6 +64,11 @@ const shop = (state, action) => {
                 products: payload,
                 productsRequest: false
             };
+        case 'ACTIVE_SHOP_PRODUCTS':
+            return {
+                ...state,
+                products: [...payload]
+            };
         case 'SET_SHOP_PRODUCTS_REQUEST':
             return {
                 ...state,
