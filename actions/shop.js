@@ -60,6 +60,21 @@ export const clearShopDivorces = () => {
     }
 };
 
+export const activeShopProduct = (id) => (dispatch, getState) => {
+    const products = getState().shop.products;
+
+    const productIdx = products.findIndex((item) => item.id === id);
+
+    if (productIdx >= 0) {
+        products[productIdx].is_active = !products[productIdx].is_active;
+
+        dispatch({
+            type: 'ACTIVE_SHOP_PRODUCTS',
+            payload: products
+        });
+    }
+};
+
 export const deleteShopProduct = (payload) => {
     return {
         type: 'DELETE_PRODUCT',
