@@ -191,7 +191,7 @@ class ShopProducts extends Component {
                                     : 'Вы пока не добавили ни одного товара'
                             }
                         </h2>
-                        <Form onSubmit={this.onSubmit} className="d-flex justify-content-end w-75">
+                        <Form onSubmit={this.onSubmit} className="d-flex flex-column flex-md-row justify-content-end w-75">
                             <div className="dashboard-search-container">
                                 <Form.Control
                                     className="dashboard-search feather-shadow"

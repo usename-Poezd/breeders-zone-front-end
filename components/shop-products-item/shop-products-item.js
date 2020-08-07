@@ -1,19 +1,30 @@
-import React from "react";
+import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMars, faPen, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import {withGetData} from "../hoc-helpers";
-import {deleteShopProduct, getKinds} from "../../actions";
+import {activeShopProduct, deleteShopProduct, getKinds} from "../../actions";
 import Link from "next/link";
 import {connect} from "react-redux";
 import {formatDate} from 'react-day-picker/moment';
-import {Pipes} from "../../services";
+import {DataService, Pipes} from "../../services";
 import {compareMorph} from "../../utils";
+import Switch from "react-switch";
+import AwesomeDebouncePromise from "awesome-debounce-promise";
+const dataService = new DataService();
+const debounceUpdate = AwesomeDebouncePromise(
+    dataService.updateProduct,
+    300
+);
 
-const ShopProductsItem = ({id, idx, name, sex, cb, morphs, price, kind, subcategory, locality, product_images, deleteProduct, deleteShopProduct, getKinds}) => {
+const ShopProductsItem = ({id, idx, name, sex, cb, is_active, morphs, price, kind, subcategory, locality, product_images, deleteProduct, deleteShopProduct, activeShopProduct, getKinds}) => {
     const delProduct = () => {
         deleteShopProduct({idx});
         getKinds();
         deleteProduct(id);
+    };
+    const handleSwitch = () => {
+        activeShopProduct(id);
+        debounceUpdate({is_active: !is_active}, id);
     };
 
     const { toTraitClass } = new Pipes();
@@ -91,7 +102,23 @@ const ShopProductsItem = ({id, idx, name, sex, cb, morphs, price, kind, subcateg
                     }
                 </ul>
             </div>
-            <div className="products-item-controls-container d-flex flex-column flex-sm-row flex-md-column justify-content-center align-items-center">
+            <div className="products-item-controls-container d-flex flex-column flex-md-row flex-md-column justify-content-center align-items-center">
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                    <h3 className="mr--5">Активен:</h3>
+                    <Switch
+                        checked={is_active}
+                        onChange={handleSwitch}
+                        onColor="#77a6ed"
+                        onHandleColor="#3F81E5"
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 3px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 5px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                    />
+                </div>
                 <div className="products-item-controls d-flex align-items-start justify-content-center">
                     <Link href="/products/edit/[id]" as={`/products/edit/${id}`} >
                         <a className="products-item-controls-item">
@@ -111,4 +138,4 @@ const mapMethodsToProps = ({deleteProduct}) => ({
     deleteProduct
 });
 
-export default connect(null, {deleteShopProduct, getKinds})(withGetData(ShopProductsItem, mapMethodsToProps));
+export default connect(null, {deleteShopProduct, getKinds, activeShopProduct})(withGetData(ShopProductsItem, mapMethodsToProps));
