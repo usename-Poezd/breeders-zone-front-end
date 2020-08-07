@@ -1,7 +1,5 @@
 import React from "react";
-import Header from "../../../../components/header";
 import {Container} from "react-bootstrap";
-import SecondHeader from "../../../../components/second-header";
 import Morphs from "../../../../components/morphs";
 import {DataService} from "../../../../services";
 import Head from "next/head";

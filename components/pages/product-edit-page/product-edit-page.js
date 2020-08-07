@@ -73,7 +73,7 @@ class ProductEditPage extends Component{
             updateProduct,
             setProductUpdateSuccess,
             setProductUpdateError,
-            product: {info:{cb}, acceptedFiles, selectedMorphs, deletedImages, localities},
+            product: {info, acceptedFiles, selectedMorphs, deletedImages, localities},
             router,
             productUpdateClearSuccess,
             productUpdateClearError,
@@ -83,7 +83,7 @@ class ProductEditPage extends Component{
         updateProduct({
             ...data,
             locality_id: data.locality_id !== 'none' ? data.locality_id : null,
-            cb,
+            cb: info.cb,
             product_images: acceptedFiles,
             deletedImages: deletedImages,
             morphs: selectedMorphs,
@@ -99,8 +99,9 @@ class ProductEditPage extends Component{
                 setProductUpdateError({
                     product: {
                         info: {
+                            ...info,
                             ...data,
-                            cb
+                            cb: info.cb
                         },
                         morphs: selectedMorphs,
                         localities
