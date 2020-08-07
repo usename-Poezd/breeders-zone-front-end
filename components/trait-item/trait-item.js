@@ -126,7 +126,11 @@ const TraitItem = (props) => {
                             <div className="cb-and-raiting">
                                 <div className="cb">
                                     <div className="sex">
-                                        <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
+                                        {
+                                            sex !== null ?
+                                                <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
+                                                : <span>Пол не определен</span>
+                                        }
                                         <span>'{transformCb(cb)}</span>
                                     </div>
                                 </div>

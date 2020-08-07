@@ -229,8 +229,13 @@ class ProductPage extends Component  {
                                         : null
                                 }
                                 <li className="product-card-info-item flex-row align-items-center">
-                                    <h3 className="title title-sex">Пол:</h3>
-                                    <FontAwesomeIcon icon={ sex ? faMars : faVenus } size="2x" className={`info sex-` + (sex ? 'male' : 'female')} />
+                                    <h3 className={"title" + (sex !== null ? ' title-sex' : '')}>Пол:</h3>
+                                    {
+                                        sex !== null ?
+                                            <FontAwesomeIcon icon={ sex ? faMars : faVenus } size="2x" className={`info sex-` + (sex ? 'male' : 'female')} />
+                                            : <h3 className="info info-text">Не определён</h3>
+                                    }
+
                                 </li>
                                 {
                                     morphs.length > 0 ?

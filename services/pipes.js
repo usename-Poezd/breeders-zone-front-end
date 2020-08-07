@@ -1,7 +1,8 @@
+import {formatDate} from "react-day-picker/moment";
+
 export default class Pipes {
     transformCb = (cb) => {
-        const year = cb.split(/-+/)[0];
-        return year.replace(/\d{2}/, '');
+        return formatDate(new Date(cb), 'YY');
     };
 
     transformBirthDay = (date = '') => {
