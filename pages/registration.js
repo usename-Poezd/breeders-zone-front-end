@@ -204,7 +204,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     if (store.getState().documents.agree.length === 0 && res) {
         const dataService = await new DataService();
         const documents = await dataService.getDocuments({only_agree: true});
-        console.log(documents);
         store.dispatch(setAgreeDocuments(documents))
     }
 });
