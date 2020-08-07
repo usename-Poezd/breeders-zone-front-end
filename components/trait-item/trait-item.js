@@ -13,6 +13,7 @@ import {setChatProduct, setReportModalProductId, setReportModalShow} from "../..
 const TraitItem = (props) => {
      const {
          id,
+         article,
          product_images,
          name,
          price,
@@ -97,7 +98,7 @@ const TraitItem = (props) => {
                     </a>
                 </Link>
                 <div className="item-body">
-                    <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${id}`}>
+                    <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${article ? article : id}`}>
                         <a className="item-img">
                             {
                                 product_images[0] ?
@@ -116,7 +117,7 @@ const TraitItem = (props) => {
                         </a>
                     </Link>
                     <div className="item-info">
-                        <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${id}`}>
+                        <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${article ? article : id}`}>
                             <a className="item-title h3">
                                 {name}
                             </a>
