@@ -96,7 +96,6 @@ const search = (state, action) => {
                 searchMorphResultOut: payload
             };
         case 'SET_SELECTED_MORPH_OUT':
-            console.log(state.searchMorphResultOut[payload]);
             return {
                 ...state,
                 morphsOut: [...state.morphsOut, state.searchMorphResultOut[payload]]

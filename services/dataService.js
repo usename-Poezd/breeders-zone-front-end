@@ -18,7 +18,6 @@ Axios.interceptors.response.use(undefined, function (err) {
             }
         )
             .catch(function (error) {
-                console.log('Refresh login error: ', error);
                 throw error;
             });
     }

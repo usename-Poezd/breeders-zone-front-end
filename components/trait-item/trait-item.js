@@ -13,6 +13,7 @@ import {setChatProduct, setReportModalProductId, setReportModalShow} from "../..
 const TraitItem = (props) => {
      const {
          id,
+         article,
          product_images,
          name,
          price,
@@ -97,7 +98,7 @@ const TraitItem = (props) => {
                     </a>
                 </Link>
                 <div className="item-body">
-                    <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${id}`}>
+                    <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${article ? article : id}`}>
                         <a className="item-img">
                             {
                                 product_images[0] ?
@@ -116,7 +117,7 @@ const TraitItem = (props) => {
                         </a>
                     </Link>
                     <div className="item-info">
-                        <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${id}`}>
+                        <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${article ? article : id}`}>
                             <a className="item-title h3">
                                 {name}
                             </a>
@@ -125,7 +126,11 @@ const TraitItem = (props) => {
                             <div className="cb-and-raiting">
                                 <div className="cb">
                                     <div className="sex">
-                                        <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
+                                        {
+                                            sex !== null ?
+                                                <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
+                                                : <span>Пол не определен</span>
+                                        }
                                         <span>'{transformCb(cb)}</span>
                                     </div>
                                 </div>

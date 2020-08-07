@@ -35,7 +35,7 @@ class ProductSettingsPage extends Component{
             setProductUpdateSuccess,
             productUpdateClear,
             setProductUpdateError,
-            product: {info:{id, cb}, acceptedFiles, selectedMorphs, localities},
+            product: {info, acceptedFiles, selectedMorphs, localities},
             productUpdateClearSuccess,
             productUpdateClearError,
             getKinds,
@@ -44,8 +44,9 @@ class ProductSettingsPage extends Component{
 
         setProduct({
             ...data,
+            sex: data.sex !== 'null' ? data.sex : null,
             locality_id: data.locality_id !== 'none' ? data.locality_id : null,
-            cb,
+            cb: info.cb,
             product_images: acceptedFiles,
             morphs: selectedMorphs,
             localities
@@ -60,8 +61,9 @@ class ProductSettingsPage extends Component{
                 setProductUpdateError({
                     product: {
                         info: {
+                            ...info,
                             ...data,
-                            cb
+                            cb: info.cb
                         },
                         morphs: selectedMorphs,
                         localities

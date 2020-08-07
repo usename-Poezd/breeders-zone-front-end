@@ -5,7 +5,7 @@ const toFormData = (obj, form, namespace) => {
 
 
     for(let property in obj) {
-        if(obj.hasOwnProperty(property) && obj[property]) {
+        if(obj.hasOwnProperty(property) && obj[property] !== null && obj[property] !== undefined) {
             if (namespace) {
                 formKey = namespace + '[' + property + ']';
             } else {

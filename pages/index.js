@@ -21,7 +21,7 @@ const Index = ({activeKinds, setActiveKind}) => {
                     <h2 className="text-center p-3">Breeders Zone это маркетплейс где вы можете бысто найти и продать животное</h2>
                 </Col>
             </Row>
-            <Row className="justify-content-center" style={{marginTop: 10}}>
+            <Row className="justify-content-center align-items-center" style={{marginTop: 10}}>
                 {
                     activeKinds.length === 0 ?
                         <Col xs={12} className="d-flex flex-column justify-content-center m-auto">

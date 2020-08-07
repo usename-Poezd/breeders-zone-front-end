@@ -82,11 +82,13 @@ const initialState = {
     product: {
         info: {
             id: '',
+            article: '',
             user_id: '',
             name: '',
             price: '',
             sex: 1,
             cb: null,
+            is_active: true,
             kindId: '',
             reports: []
         },

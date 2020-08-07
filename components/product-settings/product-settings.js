@@ -29,6 +29,8 @@ import {connect} from "react-redux";
 import Reports from "../reports";
 import {compareMorph} from "../../utils";
 import {withRouter} from "next/router";
+import Switch from "react-switch";
+import Link from "next/link";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -144,6 +146,7 @@ const ProductSettings = ({
             morph: ''
         }
     });
+    const [isActive, setActive] = useState(info.is_active);
 
     const {getRootProps, getInputProps} = useDropzone({
         onDrop,
@@ -164,7 +167,33 @@ const ProductSettings = ({
     return (
         <Row className="justify-content-center">
             <Col xs={12} md={9}>
-                <Form className="feather-shadow form-container" onSubmit={handleSubmit(submit)}>
+                <div className="feather-shadow breadcrumbs">
+                    <div className="breadcrumbs-item">
+                        <Link href="/products">
+                            <a>Мои товары</a>
+                        </Link>
+                    </div>
+                    <div className="breadcrumbs-item">
+                        <Link
+                            href={router.pathname === '/products/add' ? '/products/add' : '/products/[id]'}
+                            as={router.pathname === '/products/add' ? '/products/add' : `/products/${info.id}`}
+                        >
+                            <a>
+                                {
+                                    router.pathname === '/products/add' ?
+                                        'Добавить'
+                                        : info.name
+                                }
+                            </a>
+                        </Link>
+                    </div>
+                </div>
+            </Col>
+            <Col xs={12} md={9}>
+                <Form className="feather-shadow form-container" onSubmit={handleSubmit((data, ...args) => {
+                    data.is_active = isActive;
+                    submit(data, ...args)
+                })}>
                     <HandelSuccess success={success}/>
                     <HandelError error={error}/>
                     <GroupFormControl
@@ -178,6 +207,21 @@ const ProductSettings = ({
                             ref: register({
                                 required: true
                             })
+                        }}
+                    />
+                    <GroupFormControl
+                        label="Уинкальный индификатор"
+                        info={{
+                            isInfo: true,
+                            text: 'Уинкальный индификатор животного (не обязательно)'
+                        }}
+                        errors={errors}
+                        controls={{
+                            type: "text",
+                            name: "article",
+                            value: values.article,
+                            onChange: handleChange,
+                            ref: register
                         }}
                     />
                     <Form.Group>
@@ -350,6 +394,18 @@ const ProductSettings = ({
                                 })
                             }
                         />
+                        <Form.Check
+                            id="non-sex"
+                            type="radio"
+                            name="sex"
+                            value={'null'}
+                            label={"Пол не определен"}
+                            ref={
+                                register({
+                                    required: true
+                                })
+                            }
+                        />
                         {   errors.sex &&
                             errors.sex.type === 'required' &&
                             <p className="form-err text-danger">Пожалуйста укажите пол.</p>
@@ -452,26 +508,47 @@ const ProductSettings = ({
                             ref: register
                         }}
                     />
-                    <div className="price">
-                        <Form.Label>Цена:</Form.Label>
-                        <div className="d-flex align-items-center">
-                            <GroupFormControl
-                                errors={errors}
-                                className="w-25 m-0"
-                                controls={{
-                                    type: "number",
-                                    name: "price",
-                                    value: values.price,
-                                    onChange: handleChange,
-                                    ref: register({
-                                        required: true,
-                                        pattern: /[0-9]+/gi
-                                    })
-                                }}
-                            />
-                            <FontAwesomeIcon icon={faRubleSign} className="ml-1"/>
-                        </div>
-                    </div>
+                    <Row className="align-items-center">
+                        <Col xs={12} md={6}>
+                            <Form.Label>Цена:</Form.Label>
+                            <div className="d-flex align-items-center">
+                                <GroupFormControl
+                                    errors={errors}
+                                    className="w-25 m-0"
+                                    controls={{
+                                        type: "number",
+                                        name: "price",
+                                        value: values.price,
+                                        onChange: handleChange,
+                                        ref: register({
+                                            required: true,
+                                            pattern: /[0-9]+/gi
+                                        })
+                                    }}
+                                />
+                                <FontAwesomeIcon icon={faRubleSign} className="ml-1"/>
+                            </div>
+                        </Col>
+                        <Col xs={12} md={6}>
+                            <div className="d-flex justify-content-between justify-content-md-start align-items-center mb-2">
+                                <h3 className="mr--5">Активен:</h3>
+                                <Switch
+                                    checked={isActive}
+                                    onChange={() => setActive(!isActive)}
+                                    onColor="#77a6ed"
+                                    onHandleColor="#3F81E5"
+                                    handleDiameter={30}
+                                    uncheckedIcon={false}
+                                    checkedIcon={false}
+                                    boxShadow="0px 1px 3px rgba(0, 0, 0, 0.6)"
+                                    activeBoxShadow="0px 0px 1px 5px rgba(0, 0, 0, 0.2)"
+                                    height={20}
+                                    width={48}
+                                    name="is_active"
+                                />
+                            </div>
+                        </Col>
+                    </Row>
 
                     <input type="submit" value="Сохранить" className="btn btn-main"/>
                 </Form>
