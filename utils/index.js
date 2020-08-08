@@ -8,6 +8,7 @@ import comparer from "./comparer-by-id";
 import ucFirst from "./us-first";
 import serverRedirect from "./server-redirect";
 import compareMorph from "./compare-morph";
+import toUrl from "./to-url";
 
 export {
     compose,
@@ -19,5 +20,6 @@ export {
     comparer,
     ucFirst,
     serverRedirect,
-    compareMorph
+    compareMorph,
+    toUrl
 };
