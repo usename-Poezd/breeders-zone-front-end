@@ -7,6 +7,7 @@ import withGetData from "../hoc-helpers/with-get-data";
 import {connect} from "react-redux";
 import {clearShopProducts, setShopProducts, setShopProductsRequest} from "../../actions";
 import Spinner from "../spinner";
+import qs from 'qs';
 
 class ShopProducts extends Component {
 
@@ -15,8 +16,7 @@ class ShopProducts extends Component {
     state = {
         isMobile: false,
         options: {
-            q: '',
-            kindId: null
+            q: ''
         },
         selectStyle: {
             width: '150px'
@@ -46,7 +46,7 @@ class ShopProducts extends Component {
     }
 
     updateProducts = (options = {}) => {
-        const { getShopProducts, setShopProducts, user, isLogin, setShopProductsRequest } = this.props;
+        const { getShopProducts, setShopProducts, setShopProductsRequest } = this.props;
         setShopProductsRequest();
         getShopProducts(options)
             .then( ({products}) => setShopProducts(products));
@@ -64,20 +64,20 @@ class ShopProducts extends Component {
     };
 
     onChangeKinds = (e) => {
+        const {router, setShopProductsRequest} = this.props;
+        const newQuery = router.query;
         if (e.target.value !== 'all') {
-            this.setState({
-                options: {
-                    kindId: Number(e.target.value)
-                }
-            }, () => this.updateProducts(this.state.options));
+            delete newQuery.q;
+            newQuery.kindId = e.target.value;
+            setShopProductsRequest();
+            router.push(router.pathname + '?' + qs.stringify(newQuery));
         }
 
-        if (e.target.value === 'all' && this.state.options.kindId !== null) {
-            this.setState({
-                options: {
-                    kindId: null
-                }
-            }, () => this.updateProducts(this.state.options));
+        if (e.target.value === 'all' && router.query.kindId !== null) {
+            delete newQuery.q;
+            delete  newQuery.kindId;
+            setShopProductsRequest();
+            router.push(router.pathname + '?' + qs.stringify(newQuery));
         }
 
         let textLength = 0;
@@ -174,50 +174,52 @@ class ShopProducts extends Component {
 
         return (
             <React.Fragment>
-                <div className="products feather-shadow">
-                    <div className="products-title d-flex justify-content-between align-items-start">
-                        <h1>Ваши товары:</h1>
-                        <Link href="products/add">
-                            <a className="btn btn-main">
-                                <h3>{!isMobile ? 'Добавить' : '+'}</h3>
-                            </a>
-                        </Link>
-                    </div>
-                    <div className="products-filter-and-result">
-                        <h2 className="products-result">
-                            {
-                                products.length > 0 ?
-                                    `Всего: ${products.length}`
-                                    : 'Вы пока не добавили ни одного товара'
-                            }
-                        </h2>
-                        <Form onSubmit={this.onSubmit} className="d-flex flex-column flex-md-row justify-content-end w-75">
-                            <div className="dashboard-search-container">
-                                <Form.Control
-                                    className="dashboard-search feather-shadow"
-                                    placeholder="Поиск..."
-                                    onChange={this.setSearch}
-                                    ref={this.searchInput}
-                                />
-                                <img src="/images/search_alt.svg" alt="" className="search-btn" onClick={this.onSubmit}/>
-                            </div>
-                            <div className="select-wrap" ref={this.select}>
-                                <Form.Control as="select" onChange={this.onChangeKinds} style={selectStyle}>
-                                    <option value="all">Все</option>
-                                    {
-                                        !allKinds ?
-                                            <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
-                                            : null
-                                    }
-                                    {
-                                        allKinds.map( (item) => <option key={item.title_eng} value={item.id}>{item.title_rus}</option> )
-                                    }
-                                </Form.Control>
-                            </div>
-                        </Form>
+                <div className="products">
+                    <div className="feather-shadow p--20">
+                        <div className="products-title d-flex justify-content-between align-items-start">
+                            <h1>Ваши товары:</h1>
+                            <Link href="products/add">
+                                <a className="btn btn-main">
+                                    <h3>{!isMobile ? 'Добавить' : '+'}</h3>
+                                </a>
+                            </Link>
+                        </div>
+                        <div className="products-filter-and-result">
+                            <h2 className="products-result">
+                                {
+                                    products.length > 0 ?
+                                        `Всего: ${products.length}`
+                                        : 'Вы пока не добавили ни одного товара'
+                                }
+                            </h2>
+                            <Form onSubmit={this.onSubmit} className="d-flex flex-column flex-md-row justify-content-end w-75">
+                                <div className="dashboard-search-container">
+                                    <Form.Control
+                                        className="dashboard-search feather-shadow"
+                                        placeholder="Поиск..."
+                                        onChange={this.setSearch}
+                                        ref={this.searchInput}
+                                    />
+                                    <img src="/images/search_alt.svg" alt="" className="search-btn" onClick={this.onSubmit}/>
+                                </div>
+                                <div className="select-wrap" ref={this.select}>
+                                    <Form.Control as="select" value={router.query.kindId | null} onChange={this.onChangeKinds} style={selectStyle}>
+                                        <option value="all">Все</option>
+                                        {
+                                            !allKinds ?
+                                                <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
+                                                : null
+                                        }
+                                        {
+                                            allKinds.map( (item) => <option key={item.title_eng} value={item.id}>{item.title_rus}</option> )
+                                        }
+                                    </Form.Control>
+                                </div>
+                            </Form>
+                        </div>
                     </div>
 
-                    <div className="products-container position-relative d-flex flex-column">
+                    <div className="products-container position-relative d-flex flex-column mt--10">
                         {
                             productsRequest && products.length === 0 ?
                                 <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
