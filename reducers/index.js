@@ -13,7 +13,6 @@ import {routerReducer} from "connected-next-router";
 import modals from "./modals";
 import countries from "./countries";
 import documents from "./documents";
-
 const createRootReducer = () => combineReducers({
     modals,
     auth,
@@ -31,3 +30,7 @@ const createRootReducer = () => combineReducers({
 });
 
 export default createRootReducer;
+
+export {
+    initialState
+}
