@@ -9,6 +9,7 @@ import Spinner from "../spinner";
 import Link from "next/link";
 import {withRouter} from "next/router";
 import Head from "next/head";
+import {toUrl} from "../../utils";
 
 class Morphs extends Component {
     state = {
@@ -32,14 +33,14 @@ class Morphs extends Component {
         }
 
         if (prevProps.activeKind !== this.props.activeKind
-            && this.props.router.query.kind === this.props.activeKind?.title_eng.toLowerCase().replace(' ', '-')) {
+            && toUrl(this.props.router.query.kind) === toUrl(this.props.activeKind?.title_eng)) {
             this.setState({
                 request: false
             });
         }
 
         if (prevProps.activeKind !== this.props.activeKind
-            && this.props.router.query.kind !== this.props.activeKind?.title_eng.toLowerCase().replace(' ', '-')) {
+            && toUrl(this.props.router.query.kind) !== toUrl(this.props.activeKind?.title_eng)) {
             this.setState({
                 request: true
             });
