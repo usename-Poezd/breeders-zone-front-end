@@ -23,7 +23,8 @@ const CustomDropdownMenu = React.forwardRef(({children, className, style, labele
         ref={ref}
         style={{
             ...style,
-            right: 0
+            right: 0,
+            transform: "translate(-50%, 28px)"
         }}
         className={"dropdown-list " + (className === 'dropdown-menu show' ? '' : 'hidden')}
         aria-labelledby={labeledBy}
