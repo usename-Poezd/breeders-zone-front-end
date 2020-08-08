@@ -10,6 +10,7 @@ import {DataService, Pipes} from "../../services";
 import {compareMorph} from "../../utils";
 import Switch from "react-switch";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
+import moment from "moment";
 const dataService = new DataService();
 const debounceUpdate = AwesomeDebouncePromise(
     dataService.updateProduct,
@@ -77,7 +78,7 @@ const ShopProductsItem = ({id, idx, name, sex, cb, is_active, morphs, price, kin
                     </li>
                     <li className="product-card-info-item">
                         <h3 className="title">Дата рождения:</h3>
-                        <h3 className="info info-text">{formatDate(new Date(cb), 'DD/MM/YYYY', 'ru')}</h3>
+                        <h3 className="info info-text">{moment(cb).format('DD.MM.YY')}</h3>
                     </li>
                     <li className="product-card-info-item flex-row">
                         <h3 className="title">Цена:</h3>

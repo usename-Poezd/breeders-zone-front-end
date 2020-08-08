@@ -9,24 +9,16 @@ class HandelSuccess extends Component {
 
     componentDidMount(){
         if(this.props.success){
-            this.setState({isToggle: true}, () => {
-                setTimeout(() => this.setState({isToggle: false}), 3000)
-            });
+            this.setState({isToggle: true});
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.success !== this.props.success){
             if(this.props.success){
-                this.setState({isToggle: true}, () => {
-                    setTimeout( () => this.setState({isToggle: false}), 3000)
-                });
+                this.setState({isToggle: true});
             }
         }
-    }
-
-    componentWillUnmount() {
-        clearTimeout(3000);
     }
 
     render() {
@@ -52,8 +44,8 @@ class HandelSuccess extends Component {
         }
 
         return (
-            <Fade in={isToggle}>
-                <Alert variant="success" show={isToggle}>
+            <Fade in={isToggle && success !== null}>
+                <Alert variant="success" show={isToggle && success !== null}>
                     {body}
                 </Alert>
             </Fade>

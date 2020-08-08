@@ -79,8 +79,8 @@ class ProductEditPage extends Component{
             productUpdateClearError,
             getKinds,
         } = this.props;
-        setProductUpdateRequest();
-        updateProduct({
+
+        const options = {
             ...data,
             locality_id: data.locality_id !== 'none' ? data.locality_id : null,
             cb: info.cb,
@@ -88,12 +88,19 @@ class ProductEditPage extends Component{
             deletedImages: deletedImages,
             morphs: selectedMorphs,
             localities
-        }, router.query.id)
+        };
+
+        if (selectedMorphs.length === 0) {
+            options.delete_all_morphs = true;
+        }
+
+        setProductUpdateRequest();
+        updateProduct(options, router.query.id)
             .then( async (data) => {
                 setProductUpdateSuccess(data.success);
                 getKinds();
                 this.getStateProduct();
-                setTimeout(()=> productUpdateClearSuccess(), 5000);
+                setTimeout(() => productUpdateClearSuccess(), 5000);
             })
             .catch( error => {
                 setProductUpdateError({
@@ -109,7 +116,7 @@ class ProductEditPage extends Component{
                     errors: error.response.data.errors,
                     status: error.status
                 });
-                setTimeout(()=> productUpdateClearError(), 5000);
+                setTimeout(() => productUpdateClearError(), 5000);
             });
     };
 

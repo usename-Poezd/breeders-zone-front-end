@@ -1,12 +1,11 @@
 import React, {Component} from "react";
-import {DataService, Pipes} from "../../../services";
+import {Pipes} from "../../../services";
 import {Col, Container, Modal, Row} from "react-bootstrap";
 import Spinner from "../../../components/spinner";
 import Carousel, {Modal as ImageModal, ModalGateway} from "react-images";
 import Chat from "../../../components/chat";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBan, faCheck, faMars, faRubleSign, faVenus} from "@fortawesome/free-solid-svg-icons";
-import {formatDate} from "react-day-picker/moment";
 import Slider from "react-slick";
 import {withErrorBoundry, withGetData} from "../../../components/hoc-helpers";
 import {withRouter} from "next/router";
@@ -18,6 +17,7 @@ import LazyImg from "../../../components/lazy-img";
 import ReportModal from "../../../components/report-modal/report-modal";
 import {setChatAct, setChatProduct, setReportModalProductId, setReportModalShow} from "../../../actions";
 import {compareMorph} from "../../../utils";
+import moment from "moment";
 
 class ProductPage extends Component  {
 
@@ -275,7 +275,7 @@ class ProductPage extends Component  {
                                 }
                                 <li className="product-card-info-item">
                                     <h3 className="title">Дата рождения:</h3>
-                                    <h3 className="info info-text">{formatDate(new Date(cb), 'DD/MM/YYYY', 'ru')}</h3>
+                                    <h3 className="info info-text">{moment(cb).format('DD.MM.YY')}</h3>
                                 </li>
                                 <li className="product-card-info-item">
                                     <h3 className="title">Возраст:</h3>

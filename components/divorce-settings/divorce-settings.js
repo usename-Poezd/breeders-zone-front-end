@@ -43,6 +43,7 @@ import {
 import {useDropzone} from "react-dropzone";
 import Reports from "../reports";
 import {compareMorph} from "../../utils";
+import moment from "moment";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -209,7 +210,7 @@ const DivorceSettings = ({
     });
 
     const value = divorce.cb
-        ? new Date(divorce.cb)
+        ? moment(divorce.cb).toDate()
         : "";
 
     return (
@@ -284,8 +285,8 @@ const DivorceSettings = ({
                             onDayChange={(day) => setDivorceCb(day)}
                             formatDate={formatDate}
                             parseDate={parseDate}
-                            format="DD/MM/YYYY"
-                            placeholder={`${formatDate(new Date(), 'DD/MM/YYYY', 'ru')}`}
+                            format="DD.MM.YYYY"
+                            placeholder={`${moment().format('DD.MM.YY')}`}
                             dayPickerProps={{
                                 locale: 'ru',
                                 localeUtils: MomentLocaleUtils
