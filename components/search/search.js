@@ -204,7 +204,7 @@ const Search = ({
                         </Form.Group>
 
                         {
-                            selectedKind.has_subcategories ?
+                            selectedKind.has_subcategories && selectedKind.subcategories.length > 0 ?
                                 (
                                     <Form.Group>
                                         <Form.Label>Выберите подкатегорию:</Form.Label>
@@ -239,8 +239,8 @@ const Search = ({
                                             >
                                                 <option value="any">Все</option>
                                                 {
-                                                    selectedKind.subcategories ?
-                                                        selectedKind.subcategories.find( (item) => item.id === subcategoryId).localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
+                                                    selectedKind.subcategories && selectedKind.subcategories.find( (item) => item.id === Number(subcategoryId)) ?
+                                                        selectedKind.subcategories.find( (item) => item.id === Number(subcategoryId)).localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
                                                         : selectedKind.localities.map( (locality) => <option key={`localities-${locality.id}`} value={locality.id}>{locality.title}</option>)
                                                 }
                                             </Form.Control>
