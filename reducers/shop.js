@@ -1,4 +1,6 @@
 import initialState from "./initialState";
+import {HYDRATE} from "next-redux-wrapper";
+import {diff} from "jsondiffpatch";
 
 const shop = (state, action) => {
     const payload = action.payload;
@@ -7,6 +9,13 @@ const shop = (state, action) => {
     }
 
     switch (action.type) {
+        case HYDRATE:
+            const stateDiff = diff(state, action.payload.shop);
+            return {
+                ...state,
+                ...action.payload.shop,
+                divorces: state.divorces.total && stateDiff?.divorces?.total === state.divorces.total ? state.divorces : action.payload.shop.divorces
+            };
         case 'SHOP_UPDATE_REQUEST':
             return {
                 ...state,
@@ -83,7 +92,7 @@ const shop = (state, action) => {
         case 'CLEAR_SHOP_DIVORCES':
             return {
                 ...state,
-                divorces: []
+                divorces: initialState.shop.divorces
             };
         case 'DELETE_PRODUCT':
             const products = state.products;

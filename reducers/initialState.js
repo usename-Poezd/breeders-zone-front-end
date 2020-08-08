@@ -67,7 +67,12 @@ const initialState = {
     shop: {
         products: [],
         productsRequest: false,
-        divorces: [],
+        divorces: {
+            total: 0,
+            current_page: 1,
+            last_page: 1,
+            data: []
+        },
         divorcesRequest: false,
         update: {
             previews: [],
