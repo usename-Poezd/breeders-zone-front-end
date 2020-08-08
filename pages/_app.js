@@ -78,6 +78,7 @@ class MyApp extends Component {
                     title_eng: ''
                 }));
             }
+
             if (nookies.get(ctx).token && !ctx.store.getState().profile.user.id) {
                 try {
                     const data = await dataService.getUserData(nookies.get(ctx).token);
@@ -94,6 +95,13 @@ class MyApp extends Component {
                     }
                 }
             }
+        }
+
+        if (ctx.pathname === '/') {
+            ctx.store.dispatch(setActiveKind({
+                title_rus: '',
+                title_eng: ''
+            }));
         }
 
         return {store: ctx.store, isLogin: ctx.store.getState().auth.isLogin, user: ctx.store.getState().profile.user, isSecondHeader: ctx.pathname.match(regExp) === null};
