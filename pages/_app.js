@@ -29,6 +29,7 @@ import wrapper from "../store";
 import nookies from "nookies";
 import Footer from "../components/footer";
 import NextNProgress from "../components/progress-bar";
+import {toUrl} from "../utils";
 config.autoAddCss = false;
 const dataService = new DataService();
 
@@ -38,6 +39,8 @@ class MyApp extends Component {
         prevUrl: '',
         isSecondHeader: this.props.isSecondHeader
     };
+
+
 
     static async getInitialProps({Component, ctx}) {
         const state = await ctx.store.getState();
@@ -63,8 +66,7 @@ class MyApp extends Component {
 
             if (ctx.query.kind) {
                 const state = await ctx.store.getState();
-                const regExp = await new RegExp(ctx.query.kind.replace('-', ' '), 'gi');
-                const activeKind = await state.kinds.all.find((item) => item.title_eng.match(regExp));
+                const activeKind = await state.kinds.all.find((item) => toUrl(item.title_eng) === toUrl(ctx.query.kind));
                 if (activeKind)
                     ctx.store.dispatch(setActiveKind(activeKind));
             } else if (ctx.query.kindId) {
