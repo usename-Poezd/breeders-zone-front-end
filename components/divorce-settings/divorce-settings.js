@@ -44,6 +44,7 @@ import {useDropzone} from "react-dropzone";
 import Reports from "../reports";
 import {compareMorph} from "../../utils";
 import moment from "moment";
+import Link from "next/link";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -215,6 +216,29 @@ const DivorceSettings = ({
 
     return (
         <Row className="justify-content-center">
+            <Col xs={12} md={9}>
+                <div className="feather-shadow breadcrumbs">
+                    <div className="breadcrumbs-item">
+                        <Link href="/profile/divorces">
+                            <a>Мои разводы</a>
+                        </Link>
+                    </div>
+                    <div className="breadcrumbs-item">
+                        <Link
+                            href={router.pathname === '/add' ? '/profile/divorces/add' : '/profile/divorces/[id]'}
+                            as={router.pathname === '/profile/divorces/add' ? '/profile/divorces/add' : `/profile/divorces/${divorce.id}`}
+                        >
+                            <a>
+                                {
+                                    router.pathname === '/profile/divorces/add' ?
+                                        'Добавить'
+                                        : divorce.title
+                                }
+                            </a>
+                        </Link>
+                    </div>
+                </div>
+            </Col>
             <Col xs={12} md={9}>
                 <Form className="feather-shadow form-container" onSubmit={handleSubmit(submit)}>
                     <HandelSuccess success={divorce.success}/>
