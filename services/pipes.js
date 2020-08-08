@@ -1,8 +1,8 @@
-import {formatDate} from "react-day-picker/moment";
+import moment from "moment";
 
 export default class Pipes {
     transformCb = (cb) => {
-        return formatDate(new Date(cb), 'YY');
+        return moment(cb).format('YY');
     };
 
     transformBirthDay = (date = '') => {

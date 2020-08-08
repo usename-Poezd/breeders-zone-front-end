@@ -1,6 +1,5 @@
 import Link from "next/link";
 import LazyImg from "../lazy-img";
-import {formatDate} from "react-day-picker/moment";
 import {Col} from "react-bootstrap";
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -8,6 +7,7 @@ import {faBan, faCheck} from "@fortawesome/free-solid-svg-icons";
 import {setReportModalDivorceId, setReportModalShow} from "../../actions";
 import {withGetData} from "../hoc-helpers";
 import {connect} from "react-redux";
+import moment from "moment";
 
 const DivorcesListItem = (props) => {
     const [isVerify, setVerify] = useState(props.verified);
@@ -114,7 +114,7 @@ const DivorcesListItem = (props) => {
                         </Link>
                         <div className="item-info-container d-flex flex-column align-items-center">
                             <p>{props.kind.title_rus}</p>
-                            <p>{formatDate(new Date(props.cb), 'DD/MM/YYYY')}</p>
+                            <p>{moment(props.cb).format('DD.MM.YY')}</p>
                         </div>
                     </div>
                 </div>

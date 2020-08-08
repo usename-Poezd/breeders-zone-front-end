@@ -1,11 +1,11 @@
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBan, faCheck, faEye, faMars, faPen, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
-import {formatDate} from "react-day-picker/moment";
+import {faBan, faCheck, faMars, faVenus} from "@fortawesome/free-solid-svg-icons";
 import {Pipes} from "../../../services";
 import Link from "next/link";
 import {setReportModalProductId, setReportModalShow} from "../../../actions";
 import {connect} from "react-redux";
+import moment from "moment";
 
 const GuardDashboardProductItem = ({id, product_images, kind, subcategory, locality, sex, cb, morphs, name, onVerify, setReportModalProductId, setReportModalShow}) => {
     const {toTraitClass, toUrl} = new Pipes();
@@ -65,7 +65,7 @@ const GuardDashboardProductItem = ({id, product_images, kind, subcategory, local
                     </li>
                     <li className="product-card-info-item">
                         <h3 className="title">Дата рождения:</h3>
-                        <h3 className="info info-text">{formatDate(new Date(cb), 'DD/MM/YYYY', 'ru')}</h3>
+                        <h3 className="info info-text">{moment(cb).format('DD.MM.YY')}</h3>
                     </li>
                     {
                         morphs.length !== 0 ?

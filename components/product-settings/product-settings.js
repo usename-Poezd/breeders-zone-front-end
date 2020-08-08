@@ -31,6 +31,7 @@ import {compareMorph} from "../../utils";
 import {withRouter} from "next/router";
 import Switch from "react-switch";
 import Link from "next/link";
+import * as moment from "moment";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -161,7 +162,7 @@ const ProductSettings = ({
     const [morphsShow, setMorphsShow] = useState(false);
 
     const value = info.cb
-        ? new Date(info.cb)
+        ? moment(info.cb).toDate()
         : "";
 
     return (
@@ -457,8 +458,8 @@ const ProductSettings = ({
                                     onDayChange={(day) => setProductCb(day)}
                                     formatDate={formatDate}
                                     parseDate={parseDate}
-                                    format="DD/MM/YYYY"
-                                    placeholder={`${formatDate(new Date(), 'DD/MM/YYYY', 'ru')}`}
+                                    format="DD.MM.YYYY"
+                                    placeholder={`${moment().format('DD.MM.YY')}`}
                                     dayPickerProps={{
                                         locale: 'ru',
                                         localeUtils: MomentLocaleUtils

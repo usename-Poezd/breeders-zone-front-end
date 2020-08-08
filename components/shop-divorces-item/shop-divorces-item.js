@@ -1,7 +1,5 @@
 import React from "react";
-import Slider from "react-slick";
 import {Col, Row} from "react-bootstrap";
-import {formatDate} from "react-day-picker/moment";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPen, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Pipes} from "../../services";
@@ -9,6 +7,7 @@ import {deleteShopDivorce} from "../../actions";
 import {connect} from 'react-redux';
 import Link from "next/link";
 import {compareMorph} from "../../utils";
+import moment from "moment";
 
 
 const ShopDivorcesItem = (props) => {
@@ -60,7 +59,7 @@ const ShopDivorcesItem = (props) => {
                     }
                     <Col xs={12} className="product-card-info-item flex-row align-items-center">
                         <h3 className="title-sex">Дата выхода:</h3>
-                        <h3 className="info info-text">{formatDate(new Date(props.cb), 'DD/MM/YYYY', 'ru')}</h3>
+                        <h3 className="info info-text">{moment(props.cb).format('DD.MM.YY')}</h3>
                     </Col>
                     <Col xs={12} className="product-card-info-item flex-row align-items-center">
                         <h3 className="title-sex">Самец:</h3>
