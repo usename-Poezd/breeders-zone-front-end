@@ -168,7 +168,7 @@ class Pagination extends PureComponent {
     };
 
     changePaginationState = (newActivePage) => {
-        const {router, pathname, changeRequest} = this.props;
+        const {router, routerOptions, pathname, changeRequest} = this.props;
         const {query} = router;
         this.activePage = newActivePage;
         this.setState({
@@ -178,7 +178,7 @@ class Pagination extends PureComponent {
         if (changeRequest) {
             changeRequest()
         }
-        router.push(router.pathname, pathname + '?' + qs.stringify(query));
+        router.push(router.pathname, pathname + '?' + qs.stringify(query), routerOptions);
         if (typeof window !== 'undefined')
             window.scrollTo(0, 0)
     };
@@ -195,6 +195,7 @@ Pagination.defaultProps = {
     lastPageText: "Last",
     previousPageText: "Prev",
     nextPageText: "Next",
+    routerOptions: {}
 };
 
 const mapStateToProps = ({router: {location: {pathname, search}}}) => ({

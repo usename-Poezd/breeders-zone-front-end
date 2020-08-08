@@ -4,6 +4,9 @@ import Header from "../../../components/header/header";
 import Head from "next/head";
 import ShopDivorces from "../../../components/shop-divorces/shop-divorces";
 import {serverRedirect} from "../../../utils";
+import wrapper from "../../../store";
+import {DataService} from "../../../services";
+import {setShopDivorces} from "../../../actions";
 
 const DivorcesPage = () => {
     return (
@@ -18,12 +21,11 @@ const DivorcesPage = () => {
     )
 };
 
-export const getServerSideProps = (ctx) => {
+export const getServerSideProps = wrapper.getServerSideProps( async (ctx) => {
     serverRedirect(ctx);
-
-    return {
-        props: {}
-    }
-};
+    const dataService = await new DataService();
+    const data = await dataService.getDivorces({...ctx.query, onlyBreeder: true}, '', null, null, ctx);
+    ctx.store.dispatch(setShopDivorces(data));
+});
 
 export default DivorcesPage;

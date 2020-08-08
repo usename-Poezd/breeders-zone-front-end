@@ -556,13 +556,12 @@ ul{
         max-width: 300px;
         position: absolute;
         right: 0;
-        left: 0;
+        left: 50% !important;
         top: 30px;
         z-index: 9999;
         list-style: none;
         text-align: center;
 
-        margin: 0 auto;
         padding: 0;
         opacity: 1;
         color: #000;
