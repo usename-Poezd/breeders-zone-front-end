@@ -202,6 +202,15 @@
     }
 
     .slick{
+        &-list {
+            max-height: 700px;
+            min-height: 250px;
+
+            @media (max-width: 576px) {
+                min-height: 410px;
+            }
+        }
+
         &-slide{
             padding: 0 15px;
         }
