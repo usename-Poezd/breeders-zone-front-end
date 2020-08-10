@@ -148,16 +148,6 @@ class ShopProducts extends Component {
         const { products, allKinds, user,  loginRequest, productsRequest, router, isLogin } = this.props;
         const { selectStyle, isMobile } = this.state;
 
-        if(loginRequest && isMobile){
-            return (
-                <Row className="justify-content-center">
-                    <Col xs={12} md={8} className="mt-3 py-5">
-                        <Spinner/>
-                    </Col>
-                </Row>
-            )
-        }
-
         if(loginRequest){
             return (
                 <Row className="justify-content-center">
