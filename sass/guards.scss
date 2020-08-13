@@ -1,4 +1,28 @@
 .guard {
+    @media (min-width: 768px) {
+        -webkit-column-count: 3 !important;
+        -moz-column-count: 3 !important;
+        column-count: 2 !important;
+        -webkit-column-gap: 1.25rem !important;
+        -moz-column-gap: 1.25rem !important;
+        column-gap: 1.25rem !important;
+        orphans: 1 !important;
+        widows: 1 !important;
+    }
+    &.card-columns {
+
+
+        @media (min-width: 576px) {
+            -webkit-column-count: 1;
+            -moz-column-count: 1;
+            column-count: 1;
+            -webkit-column-gap: 1.25rem;
+            -moz-column-gap: 1.25rem;
+            column-gap: 1.25rem;
+            orphans: 1;
+            widows: 1;
+        }
+    }
     &-item {
         padding: 15px;
         .profile {

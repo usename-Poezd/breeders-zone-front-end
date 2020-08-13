@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Col, Container, Form, Row} from "react-bootstrap";
+import {Card, CardColumns, Col, Container, Form, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {withRouter} from "next/router";
 import {DataService} from "../services";
 import {Spinner as BootstrapSpinner} from "react-bootstrap";
 import Head from "next/head";
+import Linkify from "react-linkify";
+
 const qs = require('qs');
 
 const Guards = (props) => {
@@ -114,55 +116,61 @@ const Guards = (props) => {
                         </Col>
                         : null
                 }
-                {
-                    guards.data.map( (item, idx) => (
-                        <Col xs={12} md={6} key={idx}>
-                            <div className="guard-item feather-shadow">
-                                <a className="profile">
-                                    <div className="profile-img">
-                                        {
-                                            item.profile_img ?
-                                                <img
-                                                    src={item.profile_img}
-                                                    alt="asd"
-                                                    className="img-fluid"
-                                                />
-                                                : <img
-                                                    src={'/images/icons/error-snake.svg'}
-                                                    alt="asd"
-                                                    className="img-fluid"
-                                                />
+                <Col xs={12}>
+                    <CardColumns className="guard">
+                        {
+                            guards.data.map( (item, idx) => (
+                                <Card key={item.id} className="guard-item feather-shadow">
+                                    <a className="profile">
+                                        <div className="profile-img">
+                                            {
+                                                item.profile_img ?
+                                                    <img
+                                                        src={item.profile_img}
+                                                        alt={item.name + " " + item.surname}
+                                                        className="img-fluid"
+                                                    />
+                                                    : <img
+                                                        src={'/images/icons/error-snake.svg'}
+                                                        alt="error"
+                                                        className="img-fluid"
+                                                    />
 
+                                            }
+                                        </div>
+                                        <div className="profile-info">
+                                            <h3>{item.name} {item.surname}</h3>
+                                        </div>
+
+                                        <div className="profile-level">
+                                            <img src="https://sun1-19.userapi.com/ltMSG09VhhydvjKqDIda5Ly3mjVF1mAj3NLnnQ/0SWVXKX1lOY.jpg" alt="" className="img-fluid"/>
+                                        </div>
+                                    </a>
+                                    <hr/>
+                                    <p style={{whiteSpace: 'pre-wrap'}}>
+                                        <Linkify>
+                                            {item.about}
+                                        </Linkify>
+                                    </p>
+                                    <hr/>
+                                    <h3>Категории:</h3>
+                                    <div className="morphs selected-morphs">
+                                        {
+                                            item.guardians_kinds.map( (item, idx) => (
+                                                <div
+                                                    className="morph-indicator morph-other-normal d-inline-block"
+                                                    key={'kinds-' + idx}
+                                                >
+                                                    {item.title_rus}
+                                                </div>
+                                            ))
                                         }
                                     </div>
-                                    <div className="profile-info">
-                                        <h3>{item.name} {item.surname}</h3>
-                                    </div>
-
-                                    <div className="profile-level">
-                                        <img src="https://sun1-19.userapi.com/ltMSG09VhhydvjKqDIda5Ly3mjVF1mAj3NLnnQ/0SWVXKX1lOY.jpg" alt="" className="img-fluid"/>
-                                    </div>
-                                </a>
-                                <hr/>
-                                <p>{item.about}</p>
-                                <hr/>
-                                <h3>Категории:</h3>
-                                <div className="morphs selected-morphs">
-                                    {
-                                        item.guardians_kinds.map( (item, idx) => (
-                                            <div
-                                                className="morph-indicator morph-other-normal d-inline-block"
-                                                key={'kinds-' + idx}
-                                            >
-                                                {item.title_rus}
-                                            </div>
-                                        ))
-                                    }
-                                </div>
-                            </div>
-                        </Col>
-                    ))
-                }
+                                </Card>
+                            ))
+                        }
+                    </CardColumns>
+                </Col>
             </Row>
         </Container>
     )

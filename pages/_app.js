@@ -42,11 +42,11 @@ class MyApp extends Component {
 
 
 
-    static async getInitialProps({Component, ctx}) {
+    static async getInitialProps({ctx}) {
         const state = await ctx.store.getState();
         const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset|\/documents)/gi;
 
-        if (ctx.res) {
+        if (ctx.req) {
 
             if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
                 const kinds = await Axios.get(
