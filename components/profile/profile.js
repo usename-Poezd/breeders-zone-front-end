@@ -52,6 +52,7 @@ const Profile = ({
             name: user.name,
             surname: user.surname,
             patronymic: user.patronymic,
+            about: user.about ? user.about : '',
             email: user.email,
             password: '',
             oldPassword: '',
