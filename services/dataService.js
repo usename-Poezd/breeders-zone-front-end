@@ -92,12 +92,15 @@ export default class  DataService {
             .then((resp)=> resp.data);
     };
 
-    getShopProducts = (options) => {
-        const cookies = nookies.get();
+    getShopProducts = (options, ctx) => {
+        let cookies = nookies.get();
+        if(ctx) {
+            cookies = nookies.get(ctx)
+        }
         options = this.qs.stringify(options);
         const token = cookies.token;
 
-        return Axios.get('/api/shop-products?' + options,
+        return Axios.get( (typeof window === 'undefined' ? 'http://nginx-api' : '') + '/api/shop-products?' + options,
             {
                 headers: {
                     'Content-Type': 'application/json',

@@ -3,6 +3,9 @@ import {Container} from "react-bootstrap";
 import ShopProducts from "../../components/shop-products";
 import Head from "next/head";
 import {serverRedirect} from "../../utils";
+import {DataService} from "../../services";
+import wrapper from "../../store";
+import {setShopProducts} from "../../actions";
 
 const ProductsPage = () => {
     return (
@@ -17,12 +20,12 @@ const ProductsPage = () => {
     );
 };
 
-export const getServerSideProps = (ctx) => {
+export const getServerSideProps = wrapper.getServerSideProps( async (ctx) => {
     serverRedirect(ctx);
+    const dataService = new DataService();
+    const {products} = await dataService.getShopProducts(ctx.query, ctx);
 
-    return {
-        props: {}
-    }
-};
+    ctx.store.dispatch(setShopProducts(products));
+});
 
 export default ProductsPage;

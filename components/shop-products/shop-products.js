@@ -30,13 +30,6 @@ class ShopProducts extends Component {
             this.setState({isMobile: true})
         }
         window.addEventListener('resize', this.onResize);
-        this.updateProducts({...this.state.options, ...this.props.router.query});
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.router.query !== this.props.router.query) {
-            this.updateProducts({...this.state.options, ...this.props.router.query});
-        }
     }
 
     componentWillUnmount() {
@@ -64,20 +57,22 @@ class ShopProducts extends Component {
     };
 
     onChangeKinds = (e) => {
-        const {router, setShopProductsRequest} = this.props;
+        const {router, setShopProductsRequest, pathname} = this.props;
         const newQuery = router.query;
         if (e.target.value !== 'all') {
             delete newQuery.q;
             newQuery.kindId = e.target.value;
             setShopProductsRequest();
-            router.push(router.pathname + '?' + qs.stringify(newQuery));
+            router.push(router.pathname, pathname + '?' + qs.stringify(newQuery));
         }
 
         if (e.target.value === 'all' && router.query.kindId !== null) {
             delete newQuery.q;
             delete  newQuery.kindId;
             setShopProductsRequest();
-            router.push(router.pathname + '?' + qs.stringify(newQuery));
+            // Нужно чтобы страница не перегружалась
+            router.push(router.pathname, pathname + '?' + qs.stringify(newQuery), {shallow: true});
+            this.updateProducts({...this.state.options, ...this.props.router.query});
         }
 
         let textLength = 0;
@@ -131,7 +126,7 @@ class ShopProducts extends Component {
         const query = qs.parse(routerSearch.replace('?', ''));
         query.q = options.q;
 
-        router.push('/products?' + qs.stringify(query));
+        router.push(router.pathname + '?' + qs.stringify(query));
         this.searchInput.current.value = '';
     };
 
@@ -227,7 +222,7 @@ class ShopProducts extends Component {
                         }
 
                         {
-                            products.map( (product, idx) => <ShopProductsItem key={`product-${name}-${idx}`} {...product} idx={idx}/>)
+                            products.map( (product, idx) => <ShopProductsItem key={`product-${product.name}-${idx}`} {...product} idx={idx}/>)
                         }
                     </div>
                 </div>
