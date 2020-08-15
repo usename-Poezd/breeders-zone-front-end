@@ -14,6 +14,7 @@ const shop = (state, action) => {
             return {
                 ...state,
                 ...action.payload.shop,
+                products: state.products.total && stateDiff?.products?.total === state.products.total ? state.products : action.payload.shop.products,
                 divorces: state.divorces.total && stateDiff?.divorces?.total === state.divorces.total ? state.divorces : action.payload.shop.divorces
             };
         case 'SHOP_UPDATE_REQUEST':
