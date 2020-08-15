@@ -49,6 +49,16 @@ class ShopDivorces extends Component{
             this.setState({isMobile: false})
         }
     };
+
+    onChangeSort = (e) => {
+        const {router, setShopDivorcesRequest} = this.props;
+        const newQuery = router.query;
+
+        newQuery.sort = e.target.value;
+        setShopDivorcesRequest();
+        router.push(router.pathname + '?' + qs.stringify(newQuery))
+    };
+
     onChangeKinds = (e) => {
         const {router, setShopDivorcesRequest} = this.props;
         const newQuery = router.query;
@@ -154,7 +164,13 @@ class ShopDivorces extends Component{
                                         : 'Вы пока не добавили ни одного товара'
                                 }
                             </h2>
-                            <Form className="justify-content-end">
+                            <Form className="d-flex justify-content-end">
+                                <div className="select-wrap mr--10" ref={this.select}>
+                                    <Form.Control as="select" value={router.query.sort} onChange={this.onChangeSort} style={selectStyle}>
+                                        <option value="desc">Сначала новые</option>
+                                        <option value="asc">Сначала старые</option>
+                                    </Form.Control>
+                                </div>
                                 <div className="select-wrap" ref={this.select}>
                                     <Form.Control as="select" value={router.query.kindId | null} onChange={this.onChangeKinds} style={selectStyle}>
                                         <option value="all">Все</option>
