@@ -263,7 +263,7 @@ class Header extends Component {
                     </Link>
                     <Link href="/registration">
                         <Nav.Link as="a"  className="btn btn-main" onClick={() => this.setState({isToggle: false})}>
-                            Зарегестрироваться
+                            Зарегистрироваться
                         </Nav.Link>
                     </Link>
                 </React.Fragment>
