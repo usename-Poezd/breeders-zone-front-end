@@ -306,9 +306,9 @@ class Chat extends Component {
                                                                     <div  className="profile-img d-flex">
                                                                         <h3 className="d-inline-block m-auto">
                                                                             {
-                                                                                room.users[0].is_breeder ?
-                                                                                    room.users[0].company_name[0]
-                                                                                    : room.users[0].name[0]
+                                                                                room.users[0].is_breeder && room.users[0].company_name ?
+                                                                                    room.users[0].company_name
+                                                                                    : room.users[0].name
                                                                             }
                                                                         </h3>
                                                                     </div>
@@ -317,7 +317,7 @@ class Chat extends Component {
                                                     <div className="profile-info">
                                                         <h3 className="profile-title">
                                                             {
-                                                                room.users[0].is_breeder ?
+                                                                room.users[0].is_breeder && room.users[0].company_name ?
                                                                     room.users[0].company_name
                                                                     : room.users[0].name
                                                             }
@@ -359,7 +359,7 @@ class Chat extends Component {
                                                 <div className="profile-info">
                                                     <h3 className="profile-title">
                                                         {
-                                                            selected_room.users[0].is_breeder ?
+                                                            selected_room.users[0].is_breeder && selected_room.users[0].company_name ?
                                                                 selected_room.users[0].company_name
                                                                 : selected_room.users[0].name
                                                         }
@@ -373,9 +373,9 @@ class Chat extends Component {
                                                             <div  className="profile-img d-flex">
                                                                 <h3 className="d-inline-block m-auto">
                                                                     {
-                                                                        selected_room.users[0].is_breeder ?
-                                                                            selected_room.users[0].company_name[0]
-                                                                            : selected_room.users[0].name[0]
+                                                                        selected_room.users[0].is_breeder && selected_room.users[0].company_name ?
+                                                                            selected_room.users[0].company_name
+                                                                            : selected_room.users[0].name
                                                                     }
                                                                 </h3>
                                                             </div>
