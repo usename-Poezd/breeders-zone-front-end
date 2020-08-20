@@ -45,7 +45,7 @@ const BreederRegOptions = ({register, errors, countries, watch}) => {
                 {
                     errors.country &&
                     errors.country.type === 'required' &&
-                    <p className="form-err text-danger">Пожалуйста укажите страну`</p>
+                    <p className="form-err text-danger">Пожалуйста укажите страну</p>
                 }
             </Form.Group>
             <Form.Group>

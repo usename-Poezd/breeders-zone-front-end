@@ -104,7 +104,7 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, r
                                         Вы регестрируетесь как:
                                         <span className="info">
                                     <FontAwesomeIcon icon={faQuestionCircle}/>
-                                    <p className="info-text">Вы всегда можете сменить это в настройках профиля</p>
+                                    <p className="info-text">Вы всегда можете изменить это в настройках профиля</p>
                                 </span>
                                     </Form.Label>
                                     <Form.Check
