@@ -133,12 +133,14 @@ class Chat extends Component {
             selectRoom(roomId);
             checkMessages(roomId);
 
-            window.Echo.private(`room.${roomId}`)
-                .listen('.sendMessage', (data) => {
-                    setSelectedRoomMessage(data.message);
-                    addMessage({...data, id: user.id !== data.user_id ? 1 : 0, messageId: data.message_id});
-                    checkMessages(roomId);
-                })
+            if (!window.Echo.connector.channels[`private-room.${roomId}`]) {
+                window.Echo.private(`room.${roomId}`)
+                    .listen('.sendMessage', (data) => {
+                        setSelectedRoomMessage(data.message);
+                        addMessage({...data, id: user.id !== data.user_id ? 1 : 0, messageId: data.message_id});
+                        checkMessages(roomId);
+                    })
+            }
         }
     };
 
