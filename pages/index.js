@@ -44,7 +44,7 @@ const Index = ({activeKinds, setActiveKind}) => {
                                 <a className="home-card">
                                     <div className="home-card-img">
                                         <div className="img-container">
-                                            <LazyImg src={item.logo_square ? item.logo_square : '/images/error-snake.svg'} alt={item.title_rus} className="img-fluid"/>
+                                            <LazyImg src={item.logo_square ? item.logo_square : '/images/icons/error-snake.svg'} alt={item.title_rus} className="img-fluid"/>
                                         </div>
                                     </div>
                                     <div className="home-card-info">
