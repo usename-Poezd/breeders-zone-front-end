@@ -9,7 +9,7 @@ import Error from "../_error";
 
 const qs = require('qs');
 
-export default withRouter(({ products, router, statusCode}) => {
+export default withRouter(({ products = {selectedMorphs: []}, router, statusCode}) => {
     if (statusCode && statusCode !== 200) {
         return <Error statusCode={statusCode}/>;
     }
@@ -20,7 +20,7 @@ export default withRouter(({ products, router, statusCode}) => {
             <Head>
                 <title>
                     {
-                        selectedMorphs.length === 0 ?
+                        selectedMorphs && selectedMorphs.length === 0 ?
                             `Животные в группе ${ucFirst(router.query.group)} | Breeders Zone`
                             : `${num2str(selectedMorphs.length, ['Морфа', 'Морфы'])} ${selectedMorphs.map((item) => `${item.traitTitle === 'Normal' || item.traitTitle === 'Visual' ? `${item.geneTitle}, ` : `${item.traitTitle} ${item.geneTitle}, `}`)}в группе ${ucFirst(router.query.group)} купить | Breeders Zone`
                     }
@@ -28,7 +28,7 @@ export default withRouter(({ products, router, statusCode}) => {
                 <meta
                     name="description"
                     content={
-                        selectedMorphs.length === 0 ?
+                        selectedMorphs && selectedMorphs.length === 0 ?
                             `Купить рептилию в группе ${ucFirst(router.query.group)}`
                             : `Купить рептилию с ${num2str(selectedMorphs.length, ['морфой', 'морффми'])} ${selectedMorphs.map((item) => `${item.traitTitle === 'Normal' || item.traitTitle === 'Visual' ? `${item.geneTitle}, ` : `${item.traitTitle} ${item.geneTitle}, `}`)}в группе ${ucFirst(router.query.group)}`
                     }
@@ -53,6 +53,12 @@ export const getServerSideProps = async (ctx) => {
         }
     } catch (e) {
         ctx.res.statusCode = e.response.status;
+
+        if (e.response.status === 422) {
+            ctx.res.setHeader("location", "/");
+            ctx.res.statusCode = 301;
+            ctx.res.end();
+        }
         return {
             props: {
                 statusCode: e.response.status
