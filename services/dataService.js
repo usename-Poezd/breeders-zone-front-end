@@ -594,9 +594,9 @@ export default class  DataService {
             });
     };
 
-    getKinds = (data = {withMorps: false}) => {
+    getKinds = () => {
         return Axios.get(
-            '/api/kinds',
+            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/kinds`,
             {
                 headers: {
                     'Content-Type': 'application/json',

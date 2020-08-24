@@ -25,4 +25,8 @@ module.exports = {
         };
         return config
     },
+    env: {
+        API_URL: process.env.API_URL,
+        NEXT_PUBLIC_YM_ACCOUNT: process.env.NEXT_PUBLIC_YM_ACCOUNT,
+    }
 };
