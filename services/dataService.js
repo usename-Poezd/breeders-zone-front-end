@@ -30,7 +30,7 @@ export default class  DataService {
     qs = require('qs');
 
     getCountries = () => {
-        return Axios.get(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/countries`)
+        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/countries`)
             .then( (resp) => resp.data);
     };
 
@@ -53,7 +53,7 @@ export default class  DataService {
         }
 
         return Axios.get(
-            `${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/products/${encodeURI(productId)}`,
+            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/products/${encodeURI(productId)}`,
             headers
         )
             .then( (resp) => resp.data);
@@ -62,7 +62,7 @@ export default class  DataService {
     getGuards = (data = {}) => {
         data.sort = 'guards';
         const query = this.qs.stringify(data);
-        return Axios.get(`http://nginx-api/api/users?${query}`, {
+        return Axios.get(`${process.env.API_URL}/api/users?${query}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -73,7 +73,7 @@ export default class  DataService {
 
     getShops = (data) => {
         const query = this.qs.stringify(data);
-        return Axios.get(`http://nginx-api/api/shops?${query}`, {
+        return Axios.get(`${process.env.API_URL}/api/shops?${query}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -100,7 +100,7 @@ export default class  DataService {
         options = this.qs.stringify(options);
         const token = cookies.token;
 
-        return Axios.get( (typeof window === 'undefined' ? 'http://nginx-api' : '') + '/api/shop-products?' + options,
+        return Axios.get( (typeof window === 'undefined' ? process.env.API_URL : '') + '/api/shop-products?' + options,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ export default class  DataService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '') + `/api/divorces/${encodeURI(divorceId)}`,
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '') + `/api/divorces/${encodeURI(divorceId)}`,
             {
                 headers
             })
@@ -221,7 +221,7 @@ export default class  DataService {
         if (prevCancelToken)
             prevCancelToken.cancel();
 
-        return Axios.get(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/divorces?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
+        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/divorces?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
             {
                 cancelToken,
                 headers: {
@@ -293,7 +293,7 @@ export default class  DataService {
             prevCancelToken.cancel();
 
         const params = this.qs.stringify(options);
-        return Axios.get(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
+        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
             {
                 cancelToken,
                 headers: {
@@ -309,7 +309,7 @@ export default class  DataService {
         const token = cookies.token;
 
         if(token){
-            return Axios.post(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/auth/logout`, {}, {
+            return Axios.post(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/auth/logout`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
@@ -323,7 +323,7 @@ export default class  DataService {
     };
 
     getUserData = (token) => {
-        return Axios.post(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/auth/me`,{},{
+        return Axios.post(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/auth/me`,{},{
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -535,7 +535,7 @@ export default class  DataService {
 
     getActiveGenes = (options) => {
         const params = this.qs.stringify(options);
-        return Axios.get(`http://nginx-api/api/active-genes-subcategories?${params}`)
+        return Axios.get(`${process.env.API_URL}/api/active-genes-subcategories?${params}`)
             .then( (resp) => resp.data);
     };
 
@@ -594,9 +594,9 @@ export default class  DataService {
             });
     };
 
-    getKinds = (data = {withMorps: false}) => {
+    getKinds = () => {
         return Axios.get(
-            '/api/kinds',
+            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/kinds`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -672,7 +672,7 @@ export default class  DataService {
     };
 
     verify = (verifyCode) => {
-        return Axios.get(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/verifications/${verifyCode}`, {
+        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/verifications/${verifyCode}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -711,7 +711,7 @@ export default class  DataService {
 
     getFaqs = (options) => {
         const query = this.qs.stringify(options);
-        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '' ) + '/api/faq?' +  query, {
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/faq?' +  query, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -721,7 +721,7 @@ export default class  DataService {
     };
 
     getFaq = (label) => {
-        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '' ) + '/api/faq/' + label,
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/faq/' + label,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -734,7 +734,7 @@ export default class  DataService {
 
     getDocuments = (options) => {
         const query = this.qs.stringify(options);
-        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '' ) + '/api/documents?' +  query, {
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/documents?' +  query, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -744,7 +744,7 @@ export default class  DataService {
     };
 
     getDocument = (label) => {
-        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '' ) + '/api/documents/' + label,
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/documents/' + label,
             {
                 headers: {
                     'Content-Type': 'application/json',

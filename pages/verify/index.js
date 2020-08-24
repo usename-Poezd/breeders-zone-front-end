@@ -16,7 +16,7 @@ export default () => {
                     <div className="d-flex flex-column align-items-center feather-shadow p--15 mt--20">
                         <FontAwesomeIcon icon={faCheckCircle} size="8x" className="text-success mb-2"/>
                         <h1 className="text-center">Активируйте свой аккаунт.</h1>
-                        <p className="text-center">На вашу почту было высланно письмо, с дальнейшими иструкциями по активации.</p>
+                        <p className="text-center">Без активации аккаунта вы не сможете войти в свой профиль,<br/> на вашу почту было высланно письмо, с дальнейшими иструкциями по активации.</p>
                     </div>
                 </Col>
             </Row>

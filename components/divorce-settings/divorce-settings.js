@@ -328,132 +328,138 @@ const DivorceSettings = ({
                         <p className="form-err text-danger">Пожалуйста запполните это поле правильно</p>
                         }
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Самец:</Form.Label>
-                        <div className="morph-search-input">
-                            <Form.Control
-                                type="text"
-                                name="male"
-                                value={values.male}
-                                onChange={onSearchMorphs}
-                                onKeyDown={onSelectMorph}
-                                ref={register}
-                                onFocus={() => setMorphsShowMale(true)}
-                                onBlur={() => setTimeout(() => setMorphsShowMale(false), 200)}
-                                placeholder="Начните вводить название морфы..."
-                            />
-                            {
-                                divorce.searchMaleRequest ?
-                                    <BootstrapSpinner animation="border"/>
-                                    : null
-                            }
-                        </div>
-                        {
-                            divorce.searchResultMale.length > 0 && morphsShowMale ?
-                                (
-                                    <ul className="morphs d-inline-flex flex-column search-morphs" ref={searchList}>
+                    {
+                        selectedKind.genes_count ?
+                            <React.Fragment>
+                                <Form.Group>
+                                    <Form.Label>Самец:</Form.Label>
+                                    <div className="morph-search-input">
+                                        <Form.Control
+                                            type="text"
+                                            name="male"
+                                            value={values.male}
+                                            onChange={onSearchMorphs}
+                                            onKeyDown={onSelectMorph}
+                                            ref={register}
+                                            onFocus={() => setMorphsShowMale(true)}
+                                            onBlur={() => setTimeout(() => setMorphsShowMale(false), 200)}
+                                            placeholder="Начните вводить название морфы..."
+                                        />
                                         {
-                                            divorce.searchResultMale.map( (gene, idx) => (
-                                                <li
-                                                    key={`${gene.title}-${gene.trait.title}-${gene.id}`}
-                                                    className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
-                                                    onClick={() => {
-                                                        setSelectedMorphMale(idx);
-                                                        clearSearchInput();
-                                                    }}
+                                            divorce.searchMaleRequest ?
+                                                <BootstrapSpinner animation="border"/>
+                                                : null
+                                        }
+                                    </div>
+                                    {
+                                        divorce.searchResultMale.length > 0 && morphsShowMale ?
+                                            (
+                                                <ul className="morphs d-inline-flex flex-column search-morphs" ref={searchList}>
+                                                    {
+                                                        divorce.searchResultMale.map( (gene, idx) => (
+                                                            <li
+                                                                key={`${gene.title}-${gene.trait.title}-${gene.id}`}
+                                                                className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
+                                                                onClick={() => {
+                                                                    setSelectedMorphMale(idx);
+                                                                    clearSearchInput();
+                                                                }}
+                                                            >
+                                                                <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
+                                                                    {compareMorph(gene.trait.title, gene.title)}
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                            )
+                                            : null
+                                    }
+
+                                    <div className="morphs selected-morphs" ref={searchList}>
+                                        {
+                                            divorce.male.map( ({gene, trait}, idx) => (
+                                                <div
+                                                    key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
+                                                    className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
                                                 >
-                                                    <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
-                                                        {compareMorph(gene.trait.title, gene.title)}
-                                                    </div>
-                                                </li>
+                                                    {compareMorph(trait.title, gene.title)}
+                                                    <FontAwesomeIcon
+                                                        icon={faTimes}
+                                                        size="lg"
+                                                        onClick={() => deleteMaleMorph(idx)}
+                                                        className="delete pl-1"/>
+                                                </div>
                                             ))
                                         }
-                                    </ul>
-                                )
-                                : null
-                        }
-
-                        <div className="morphs selected-morphs" ref={searchList}>
-                            {
-                                divorce.male.map( ({gene, trait}, idx) => (
-                                    <div
-                                        key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
-                                        className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
-                                    >
-                                        {compareMorph(trait.title, gene.title)}
-                                        <FontAwesomeIcon
-                                            icon={faTimes}
-                                            size="lg"
-                                            onClick={() => deleteMaleMorph(idx)}
-                                            className="delete pl-1"/>
                                     </div>
-                                ))
-                            }
-                        </div>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Самка:</Form.Label>
-                        <div className="morph-search-input">
-                            <Form.Control
-                                type="text"
-                                name="female"
-                                value={values.female}
-                                onChange={(e) => onSearchMorphs(e, false)}
-                                onKeyDown={(e) => onSelectMorph(e, false)}
-                                ref={register}
-                                onFocus={() => setMorphsShowFemale(true)}
-                                onBlur={() => setTimeout(() => setMorphsShowFemale(false), 200)}
-                                placeholder="Начните вводить название морфы..."
-                            />
-                            {
-                                divorce.searchFemaleRequest ?
-                                    <BootstrapSpinner animation="border"/>
-                                    : null
-                            }
-                        </div>
-                        {
-                            divorce.searchResultFemale.length > 0 && morphsShowFemale ?
-                                (
-                                    <ul className="morphs d-inline-flex flex-column search-morphs" ref={searchList}>
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Самка:</Form.Label>
+                                    <div className="morph-search-input">
+                                        <Form.Control
+                                            type="text"
+                                            name="female"
+                                            value={values.female}
+                                            onChange={(e) => onSearchMorphs(e, false)}
+                                            onKeyDown={(e) => onSelectMorph(e, false)}
+                                            ref={register}
+                                            onFocus={() => setMorphsShowFemale(true)}
+                                            onBlur={() => setTimeout(() => setMorphsShowFemale(false), 200)}
+                                            placeholder="Начните вводить название морфы..."
+                                        />
                                         {
-                                            divorce.searchResultFemale.map( (gene, idx) => (
-                                                <li
-                                                    key={`${gene.title}-${gene.trait.title}-${gene.id}`}
-                                                    className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
-                                                    onClick={() => {
-                                                        setSelectedMorphFemale(idx);
-                                                        clearSearchInput();
-                                                    }}
+                                            divorce.searchFemaleRequest ?
+                                                <BootstrapSpinner animation="border"/>
+                                                : null
+                                        }
+                                    </div>
+                                    {
+                                        divorce.searchResultFemale.length > 0 && morphsShowFemale ?
+                                            (
+                                                <ul className="morphs d-inline-flex flex-column search-morphs" ref={searchList}>
+                                                    {
+                                                        divorce.searchResultFemale.map( (gene, idx) => (
+                                                            <li
+                                                                key={`${gene.title}-${gene.trait.title}-${gene.id}`}
+                                                                className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
+                                                                onClick={() => {
+                                                                    setSelectedMorphFemale(idx);
+                                                                    clearSearchInput();
+                                                                }}
+                                                            >
+                                                                <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
+                                                                    {compareMorph(gene.trait.title, gene.title)}
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                            )
+                                            : null
+                                    }
+
+                                    <div className="morphs selected-morphs" ref={searchList}>
+                                        {
+                                            divorce.female.map( ({gene, trait}, idx) => (
+                                                <div
+                                                    key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
+                                                    className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
                                                 >
-                                                    <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
-                                                        {compareMorph(gene.trait.title, gene.title)}
-                                                    </div>
-                                                </li>
+                                                    {compareMorph(trait.title, gene.title)}
+                                                    <FontAwesomeIcon
+                                                        icon={faTimes}
+                                                        size="lg"
+                                                        onClick={() => deleteFemaleMorph(idx)}
+                                                        className="delete pl-1"/>
+                                                </div>
                                             ))
                                         }
-                                    </ul>
-                                )
-                                : null
-                        }
-
-                        <div className="morphs selected-morphs" ref={searchList}>
-                            {
-                                divorce.female.map( ({gene, trait}, idx) => (
-                                    <div
-                                        key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
-                                        className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
-                                    >
-                                        {compareMorph(trait.title, gene.title)}
-                                        <FontAwesomeIcon
-                                            icon={faTimes}
-                                            size="lg"
-                                            onClick={() => deleteFemaleMorph(idx)}
-                                            className="delete pl-1"/>
                                     </div>
-                                ))
-                            }
-                        </div>
-                    </Form.Group>
+                                </Form.Group>
+                            </React.Fragment>
+                            : null
+                    }
 
                     <Form.Group>
                         <Form.Label className={divorce.sexPhotos.length === 0 ? 'm-0' : ''}>Фото спаривания:</Form.Label>
