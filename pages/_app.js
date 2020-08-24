@@ -11,7 +11,7 @@ import {
     setKinds, setRoomsCountWithNewMessages,
     receivedMessage,
     updateCheckMessage,
-    addNotification
+    addNotification, logout
 } from "../actions";
 import {GetDataProvider} from "../components/data-service-context";
 import {DataService} from "../services";
@@ -104,6 +104,10 @@ class MyApp extends Component {
                 title_rus: '',
                 title_eng: ''
             }));
+        }
+
+        if (typeof window !== 'undefined' && !nookies.get().token) {
+            ctx.store.dispatch(logout())
         }
 
         return {store: ctx.store, isLogin: ctx.store.getState().auth.isLogin, user: ctx.store.getState().profile.user, isSecondHeader: ctx.pathname.match(regExp) === null};
