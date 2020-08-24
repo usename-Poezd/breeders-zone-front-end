@@ -1,9 +1,4 @@
 module.exports = {
-    env: {
-        MIX_PUSHER_APP_KEY: "4a726b0027184c3ac752",
-        MIX_PUSHER_APP_CLUSTER: "eu",
-        WS_HOST: "fpm"
-    },
     webpack (config, options) {
         config.module.rules.push({
             test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
