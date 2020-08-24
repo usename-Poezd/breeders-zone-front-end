@@ -13,30 +13,29 @@ class UserActivityBanner extends Component {
     state = {
         isOpen: false,
         success: false,
-        cookies: nookies.get()
     };
 
     componentDidMount() {
-        const {success, cookies} = this.state;
+        const {success} = this.state;
         const {loginRequest, user, isLogin} = this.props;
-        if (!loginRequest && isLogin && !user.active && !success && !cookies.isActivityChecked ) {
+        if (!loginRequest && isLogin && !success && user.is_breeder && !user.active && !nookies.get().isActivityChecked ) {
             setTimeout(() => this.setState({isOpen: true}), 3000);
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.user !== this.props.user || prevProps.loginRequest !== this.props.loginRequest) {
-            const {success, cookies} = this.state;
+            const {success} = this.state;
             const {loginRequest, user, isLogin} = this.props;
-            if (!loginRequest && isLogin && !user.active && !success && !cookies.isActivityChecked ) {
+            if (!loginRequest && isLogin && user.is_breeder && !user.active && !success && !nookies.get().isActivityChecked ) {
                 setTimeout(() => this.setState({isOpen: true}), 3000);
             }
         }
     }
 
     render() {
-        const {isOpen, success, isLogin, cookies} = this.state;
-        const {user} = this.props;
+        const {isOpen, success,} = this.state;
+        const {user, isLogin} = this.props;
 
         const variants = {
             success: {
@@ -58,7 +57,7 @@ class UserActivityBanner extends Component {
         return (
             <AnimatePresence>
                 {
-                    isOpen && isLogin && !user.active && !cookies.isActivityChecked ?
+                    isOpen && isLogin && user.is_breeder && !user.active && !nookies.get().isActivityChecked ?
                         (
                             (
                                 <motion.div
@@ -87,7 +86,7 @@ class UserActivityBanner extends Component {
                                     </motion.span>
                                     <Container fluid>
                                         <p className="p-3">
-                                            <FontAwesomeIcon icon={faExclamationTriangle}/>
+                                            <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2"/>
                                             Для улучшения качества, все магазины проходят контроль перед тем как выстовлять свои товары на Breeders Zone,
                                             пожалуйста заполните данные о магазине в <Link href="profile/shop"><a>профиле магазина</a></Link>
                                         </p>

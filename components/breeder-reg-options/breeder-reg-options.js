@@ -3,8 +3,9 @@ import {Form, Col, Row} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
 import {connect} from "react-redux";
 import InputMask from "react-input-mask";
+import {Controller} from "react-hook-form";
 
-const BreederRegOptions = ({register, errors, countries, watch}) => {
+const BreederRegOptions = ({register, errors, control, countries, watch}) => {
     const {country} = watch();
     const countryCallCode = countries.all.find((item) => item.name === country)?.calling_code;
     const countryCallCodeMask = countryCallCode?.replace('9', '\\9');
@@ -50,17 +51,20 @@ const BreederRegOptions = ({register, errors, countries, watch}) => {
             </Form.Group>
             <Form.Group>
                 <Form.Label>Телефон:</Form.Label>
-                <InputMask mask={`+${countryCallCodeMask} 999 999 99 99`}>
-                    <Form.Control
-                        name="phone"
-                        placeholder={`+${countryCallCode} 999 999 99 99`}
-                        type="tel"
-                        ref={register({
-                            required: true,
-                            pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
-                        })}
-                    />
-                </InputMask>
+                <Controller
+                    as={InputMask}
+                    mask={`+${countryCallCodeMask} 999 999 99 99`}
+                    maskPlaceholder={null}
+                    placeholder={`+${countryCallCode} 999 999 99 99`}
+                    control={control}
+                    name="phone"
+                    type="tel"
+                    className="form-control"
+                    rules={{
+                        required: true,
+                        pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+                    }}
+                />
                 {   errors['phone'] &&
                 errors['phone'].type === 'required' &&
                 <p className="form-err text-danger">Пожалуйста заполните это поле</p>
