@@ -16,7 +16,7 @@ import {DataService} from "../services";
 import Head from "next/head";
 import nookies from "nookies";
 
-const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, router: {query}, documents }) => {
+const Registration = ({ postRegister, setRegError, isLogin, regError, router: {query}, documents }) => {
 
     if (isLogin && typeof window !== 'undefined') {
         Router.push('/');
@@ -37,7 +37,7 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, r
         defaultValues.email = query.email;
     }
 
-    const { register, handleSubmit, setValue, watch, errors } = useForm({
+    const { register, handleSubmit, setValue, watch, control, errors } = useForm({
         defaultValues: defaultValues
     });
 
@@ -135,6 +135,7 @@ const Registration = ({ postRegister, getUser, setRegError, isLogin, regError, r
                                             register={register}
                                             errors={errors}
                                             watch={watch}
+                                            control={control}
                                         />
                                         : null
                                 }

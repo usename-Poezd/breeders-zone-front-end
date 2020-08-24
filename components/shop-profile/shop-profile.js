@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import {Col, Form, Row} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {connect} from "react-redux";
 import Spinner from "../spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -40,7 +40,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         router.push('/');
     }
 
-    const { register, handleSubmit, watch, setValue, errors } = useForm({
+    const { register, handleSubmit, watch, setValue, control, errors } = useForm({
         defaultValues: {
             ...user,
             country: user.country ? user.country.name : countries.all[0].name,
@@ -121,8 +121,11 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         youtube,
         website,
         location,
-        country
+        country,
+        phone
     } = watch();
+
+    console.log(phone);
 
     const countryCallCode = countries.all.find((item) => item.name === country)?.calling_code;
     const countryCallCodeMask = countryCallCode?.replace('9', '\\9');
@@ -190,17 +193,20 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Телефон:</Form.Label>
-                        <InputMask mask={`+${countryCallCodeMask} 999 999 99 99`}>
-                            <Form.Control
-                                name="phone"
-                                placeholder={`+${countryCallCode} 999 999 99 99`}
-                                type="tel"
-                                ref={register({
-                                    required: true,
-                                    pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
-                                })}
-                            />
-                        </InputMask>
+                        <Controller
+                            as={InputMask}
+                            mask={`+${countryCallCodeMask} 999 999 99 99`}
+                            maskPlaceholder={null}
+                            placeholder={`+${countryCallCodeMask} 999 999 99 99`}
+                            control={control}
+                            name="phone"
+                            type="tel"
+                            className="form-control"
+                            rules={{
+                                required: true,
+                                pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+                            }}
+                        />
                         {   errors['phone'] &&
                         errors['phone'].type === 'required' &&
                         <p className="form-err text-danger">Пожалуйста заполните это поле</p>

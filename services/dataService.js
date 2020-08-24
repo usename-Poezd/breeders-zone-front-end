@@ -309,7 +309,7 @@ export default class  DataService {
         const token = cookies.token;
 
         if(token){
-            return Axios.post('/api/auth/logout', {}, {
+            return Axios.post(`${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/auth/logout`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
