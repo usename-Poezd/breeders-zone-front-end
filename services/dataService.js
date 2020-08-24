@@ -53,7 +53,7 @@ export default class  DataService {
         }
 
         return Axios.get(
-            `${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/products/${productId}`,
+            `${typeof window === 'undefined' ? 'http://nginx-api' : ''}/api/products/${encodeURI(productId)}`,
             headers
         )
             .then( (resp) => resp.data);
@@ -146,7 +146,7 @@ export default class  DataService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '') + `/api/divorces/${divorceId}`,
+        return Axios.get((typeof window === 'undefined' ? 'http://nginx-api' : '') + `/api/divorces/${encodeURI(divorceId)}`,
             {
                 headers
             })

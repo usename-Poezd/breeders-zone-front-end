@@ -66,7 +66,7 @@ export const getServerSideProps = async (ctx) => {
             ctx.res.statusCode = 301;
             ctx.res.end();
         }
-        
+
         return {
             props: {
                 statusCode: e.response.status
