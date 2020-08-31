@@ -1,5 +1,6 @@
 .sidebar {
-    height: 660px;
+    min-height: 660px;
+    height: 100%;
     overflow: hidden;
 
     .sidebar-item {
@@ -27,6 +28,10 @@
             border-top-left-radius: 4px;
             border-bottom-left-radius: 4px;
             transition: background 0.3s ease-in-out;
+
+            @media (max-width: 768px) {
+                padding: 10px 0;
+            }
 
             &:hover {
                 background: rgba(0, 16, 61, 0.04);

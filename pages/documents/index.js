@@ -16,10 +16,11 @@ export default ({documents}) => {
                 <Col xs={12} md={9}>
                     <Container fluid>
                         <Row>
-                            <Col xs={4}>
-                                <DocsSidebar documents={documents} paddingTop={20}/>
+                            <Col xs={12} md={4}>
+                                <h1 className="d-block d-md-none pb--15 pt--20">Юредические документы</h1>
+                                <DocsSidebar documents={documents}/>
                             </Col>
-                            <Col xs={8} className="d-flex">
+                            <Col xs={8} className="d-none d-md-flex">
                                 <div className="text-center m-auto w-50">
                                     <FontAwesomeIcon icon={faBook} size="4x"/>
                                     <h2 className="mt-2">Выберите документ для прочтения.</h2>

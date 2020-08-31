@@ -83,7 +83,7 @@ export default class  DataService {
     };
 
     getShop = (shopName) => {
-        return Axios.get('http://nginx-api/api/shops/' + encodeURIComponent(shopName), {
+        return Axios.get(`${process.env.API_URL}/api/shops/` + encodeURIComponent(shopName), {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
