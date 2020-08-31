@@ -61,22 +61,30 @@ const ShopDivorcesItem = (props) => {
                         <h3 className="title-sex">Дата выхода:</h3>
                         <h3 className="info info-text">{moment(props.cb).format('DD.MM.YY')}</h3>
                     </Col>
-                    <Col xs={12} className="product-card-info-item flex-row align-items-center">
-                        <h3 className="title-sex">Самец:</h3>
-                        <div className="info morphs d-inline-block">
-                            {
-                                props.male.map( ({gene, trait}) => <div key={`${gene}-${trait}-${props.title}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
-                            }
-                        </div>
-                    </Col>
-                    <Col xs={12} className="product-card-info-item flex-row align-items-center">
-                        <h3 className="title-sex">Самка:</h3>
-                        <div className="info morphs d-inline-block">
-                            {
-                                props.female.map( ({gene, trait}) => <div key={`${gene}-${trait}-${props.title}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
-                            }
-                        </div>
-                    </Col>
+                    {
+                        props.male.length > 0 ?
+                            <Col xs={12} className="product-card-info-item flex-row align-items-center">
+                                <h3 className="title-sex">Самец:</h3>
+                                <div className="info morphs d-inline-block">
+                                    {
+                                        props.male.map( ({gene, trait}) => <div key={`${gene}-${trait}-${props.title}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
+                                    }
+                                </div>
+                            </Col>
+                            : null
+                    }
+                    {
+                        props.female.length > 0 ?
+                            <Col xs={12} className="product-card-info-item flex-row align-items-center">
+                                <h3 className="title-sex">Самка:</h3>
+                                <div className="info morphs d-inline-block">
+                                    {
+                                        props.female.map( ({gene, trait}) => <div key={`${gene}-${trait}-${props.title}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
+                                    }
+                                </div>
+                            </Col>
+                            : null
+                    }
                 </Row>
             </div>
             {

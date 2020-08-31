@@ -21,12 +21,13 @@ import Echo from "laravel-echo";
 import {ConnectedRouter} from "connected-next-router";
 import Header from "../components/header/header";
 import SecondHeader from "../components/second-header";
-import {withRouter} from "next/router";
+import {Router, withRouter} from "next/router";
 import CookiesBanner from "../components/cookies-banner/cookies-banner";
 import VerifyEmailBanner from "../components/verify-email-banner/verify-email-banner";
 import UserActivityBanner from "../components/user-activity-banner";
 import wrapper from "../store";
 import nookies from "nookies";
+import withYM from "next-ym";
 import Footer from "../components/footer";
 import NextNProgress from "../components/progress-bar";
 import {toUrl} from "../utils";
@@ -49,16 +50,7 @@ class MyApp extends Component {
         if (ctx.req) {
 
             if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
-                const kinds = await Axios.get(
-                    'http://nginx-api/api/kinds',
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json'
-                        }
-                    }
-                )
-                    .then((resp) => resp.data);
+                const kinds = await dataService.getKinds();
 
                 ctx.store.dispatch(setKinds(kinds));
             }
@@ -223,11 +215,16 @@ class MyApp extends Component {
 }
 
 export default wrapper.withRedux(
-    connect(null, {
-        receivedMessage,
-        updateCheckMessage,
-        addNotification,
-    })(
-        withRouter(MyApp)
+    withYM(
+        process.env.NEXT_PUBLIC_YM_ACCOUNT,
+        Router
+    )(
+        connect(null, {
+            receivedMessage,
+            updateCheckMessage,
+            addNotification,
+        })(
+            withRouter(MyApp)
+        )
     )
 );
