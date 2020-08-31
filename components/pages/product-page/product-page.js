@@ -197,16 +197,10 @@ class ProductPage extends Component  {
                     <Col xs={12} lg={6} className="product-card-container">
                         <div className="product-card-body feather-shadow">
                             <ul className="product-card-info">
-                                {
-                                    article ?
-                                        <li className="product-card-info-item">
-                                            <h3 className="title">Уникальный индификатор:</h3>
-                                            <h3 className="info info-text">
-                                                {article}
-                                            </h3>
-                                        </li>
-                                        : null
-                                }
+                                <li className="product-card-info-item">
+                                    <h3 className="title-sex">{article ? 'Уникальный индификатор' : 'Номер в системе'}:</h3>
+                                    <h3 className="info info-text">{article ? article : id}</h3>
+                                </li>
                                 <li className="product-card-info-item">
                                     <h3 className="title">Категория:</h3>
                                     <h3 className="info info-text">

@@ -17,7 +17,7 @@ const debounceUpdate = AwesomeDebouncePromise(
     300
 );
 
-const ShopProductsItem = ({id, idx, name, sex, cb, is_active, morphs, price, kind, subcategory, locality, product_images, deleteProduct, deleteShopProduct, activeShopProduct, getKinds}) => {
+const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, price, kind, subcategory, locality, product_images, deleteProduct, deleteShopProduct, activeShopProduct, getKinds}) => {
     const delProduct = () => {
         deleteShopProduct({idx});
         getKinds();
@@ -46,6 +46,10 @@ const ShopProductsItem = ({id, idx, name, sex, cb, is_active, morphs, price, kin
             <div className="products-item-info">
                 <h2 className="font-weight-bold">{name}</h2>
                 <ul>
+                    <li className="product-card-info-item flex-row align-items-center">
+                        <h3 className="title-sex">{article ? 'Уникальный индификатор' : 'Номер в системе'}:</h3>
+                        <h3 className="info info-text">{article ? article : id}</h3>
+                    </li>
                     <li className="product-card-info-item flex-row align-items-center">
                         <h3 className="title-sex">Категория:</h3>
                         <h3 className="info info-text">{kind.title_eng}</h3>
