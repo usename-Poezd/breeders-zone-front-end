@@ -1,17 +1,40 @@
-import {Pagination as BootstrapPagination} from "react-bootstrap";
+import {Pagination as BootstrapPagination, Spinner as BootstrapSpinner} from "react-bootstrap";
 import React, { PureComponent } from "react";
 import {connect} from "react-redux";
 import memoize from 'memoize-one';
 import {withRouter} from "next/router";
+import qs from "qs";
 
 class Pagination extends PureComponent {
-    constructor(props) {
-        super(props);
+    state = {
+        activePage: this.props.defaultActivePage,
+        activePageInRouter:  this.props.defaultActivePage,
+        request: false
+    };
 
-        this.state = {
-            activePage: this.props.defaultActivePage
-        };
+    componentDidMount() {
+        const {router} = this.props;
+        router.events.on('routeChangeStart', this.routeChangeStart);
+        router.events.on('routeChangeComplete', this.routeChangeEnd);
+        router.events.on('routeChangeError', this.routeChangeEnd);
     }
+
+    componentWillUnmount() {
+        const {router} = this.props;
+        router.events.off('routeChangeStart', this.routeChangeStart);
+        router.events.off('routeChangeComplete', this.routeChangeEnd);
+        router.events.off('routeChangeError', this.routeChangeEnd);
+    }
+
+    routeChangeStart = () => this.setState({request: true});
+
+    routeChangeEnd = () => {
+        const {activePage} = this.state;
+        this.setState({request: false,  activePageInRouter: activePage});
+        if (typeof window !== 'undefined')
+            window.scrollTo(0, 0)
+    };
+
 
     // Since we want to not have to worry about when this changes and since it won't change much
     // Memoize will remember the last parameter and only execute when they change
@@ -167,7 +190,7 @@ class Pagination extends PureComponent {
         this.changePaginationState(newActivePage);
     };
 
-    changePaginationState = (newActivePage) => {
+    changePaginationState = (newActivePage = (this.props.router.query.page ?  ++this.props.router.query.page :  2), scrollToTop = true) => {
         const {router, routerOptions, pathname, changeRequest} = this.props;
         const {query} = router;
         this.activePage = newActivePage;
@@ -179,12 +202,29 @@ class Pagination extends PureComponent {
             changeRequest()
         }
         router.push(router.pathname, pathname + '?' + qs.stringify(query), routerOptions);
-        if (typeof window !== 'undefined')
+        if (typeof window !== 'undefined' && scrollToTop)
             window.scrollTo(0, 0)
     };
 
     render() {
-        return <BootstrapPagination size={this.props.size} className={this.props.className}>{this.paginationItems()}</BootstrapPagination>;
+        const {isMobile, totalItems} = this.props;
+        const {activePageInRouter, request} = this.state;
+        return (
+            <React.Fragment>
+                {
+                    isMobile && (totalItems !== activePageInRouter ) ?
+                        <button className="btn btn-gray h3 mb--10 p--10 w-100" onClick={() => this.changePaginationState(this.props.router.query.page ?  ++this.props.router.query.page :  2, false)}>
+                            {
+                                request ?
+                                    <BootstrapSpinner animation="border" className="color-main"/>
+                                    : 'Дальше'
+                            }
+                        </button>
+                        : null
+                }
+                <BootstrapPagination size={this.props.size} className={this.props.className}>{this.paginationItems()}</BootstrapPagination>
+            </React.Fragment>
+        );
     }
 }
 
@@ -198,8 +238,9 @@ Pagination.defaultProps = {
     routerOptions: {}
 };
 
-const mapStateToProps = ({router: {location: {pathname, search}}}) => ({
+const mapStateToProps = ({router: {location: {pathname, search}}, stats: {isMobile}}) => ({
     pathname,
-    search
+    search,
+    isMobile
 });
 export default connect(mapStateToProps)(withRouter(Pagination))

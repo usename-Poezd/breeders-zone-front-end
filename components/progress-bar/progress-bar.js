@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import NProgress from 'nprogress';
-import Router, {withRouter} from "next/router";
+import {withRouter} from "next/router";
 
 class NextNProgress extends Component {
     static defaultProps = {
@@ -23,8 +23,8 @@ class NextNProgress extends Component {
 
         this.setState({prevUrl: router.asPath}, (url) => {
             router.events.on('routeChangeStart', (url) => this.routeChangeStart(url));
-            Router.events.on('routeChangeComplete', this.routeChangeEnd);
-            Router.events.on('routeChangeError', this.routeChangeEnd);
+            router.events.on('routeChangeComplete', this.routeChangeEnd);
+            router.events.on('routeChangeError', this.routeChangeEnd);
         });
 
 
