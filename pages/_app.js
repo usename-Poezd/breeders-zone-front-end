@@ -11,7 +11,7 @@ import {
     setKinds, setRoomsCountWithNewMessages,
     receivedMessage,
     updateCheckMessage,
-    addNotification, logout
+    addNotification, logout, setIsMobile
 } from "../actions";
 import {GetDataProvider} from "../components/data-service-context";
 import {DataService} from "../services";
@@ -30,7 +30,7 @@ import nookies from "nookies";
 import withYM from "next-ym";
 import Footer from "../components/footer";
 import NextNProgress from "../components/progress-bar";
-import {toUrl} from "../utils";
+import {toUrl, checkMobile} from "../utils";
 config.autoAddCss = false;
 const dataService = new DataService();
 
@@ -48,7 +48,6 @@ class MyApp extends Component {
         const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset|\/documents)/gi;
 
         if (ctx.req) {
-
             if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
                 const kinds = await dataService.getKinds();
 
@@ -97,6 +96,8 @@ class MyApp extends Component {
                 title_eng: ''
             }));
         }
+
+        ctx.store.dispatch(setIsMobile(checkMobile(ctx)));
 
         if (typeof window !== 'undefined' && !nookies.get().token) {
             ctx.store.dispatch(logout())

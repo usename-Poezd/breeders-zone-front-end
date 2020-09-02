@@ -13,7 +13,9 @@ import {routerReducer} from "connected-next-router";
 import modals from "./modals";
 import countries from "./countries";
 import documents from "./documents";
+import stats from "./stats/stats";
 const createRootReducer = () => combineReducers({
+    stats,
     modals,
     auth,
     resetPassword,
