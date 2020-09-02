@@ -9,6 +9,7 @@ import ucFirst from "./us-first";
 import serverRedirect from "./server-redirect";
 import compareMorph from "./compare-morph";
 import toUrl from "./to-url";
+import checkMobile from "./check-mobile";
 
 export {
     compose,
@@ -21,5 +22,6 @@ export {
     ucFirst,
     serverRedirect,
     compareMorph,
-    toUrl
+    toUrl,
+    checkMobile
 };

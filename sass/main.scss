@@ -1,4 +1,5 @@
 $main-color: #3F81E5;
+$gray: #f2f3f5;
 $feather-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 $country-shadow: 0px 0px 2px 0.5px rgba(0, 0, 0, 0.5);
 $border-radius: 5px;
@@ -157,6 +158,30 @@ $unit: 'px'; // Feel free to change the unit.
 }
 
 .btn{
+
+    &-gray{
+        color: $main-color !important;
+        border: none;
+        background: $gray;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+            //box-shadow: ;
+            color: mix($main-color, #222) !important;
+            border-color: mix($main-color, #222) !important;
+        }
+
+        &-bn{
+            border: none;
+            color: $main-color !important;
+            border-radius: 5px;
+
+            &:hover {
+                color: mix($main-color, #222) !important;
+            }
+        }
+    }
+
     &-second{
         color: $main-color !important;
         border: 1px solid $main-color !important;
