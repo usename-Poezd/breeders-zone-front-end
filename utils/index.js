@@ -10,7 +10,7 @@ import serverRedirect from "./server-redirect";
 import compareMorph from "./compare-morph";
 import toUrl from "./to-url";
 import checkMobile from "./check-mobile";
-
+import currencyOptions from "./currency-options";
 export {
     compose,
     isLogin,
@@ -23,5 +23,6 @@ export {
     serverRedirect,
     compareMorph,
     toUrl,
-    checkMobile
+    checkMobile,
+    currencyOptions
 };

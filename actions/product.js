@@ -1,4 +1,5 @@
 import {DataService} from "../services";
+import * as moment from "moment";
 
 const dataService = new DataService();
 
@@ -28,9 +29,10 @@ export const productUpdateClear = () => {
 };
 
 export const setProductCb = (payload) => {
+    const newPayload = moment(payload).toISOString(true);
     return {
         type: 'SET_PRODUCT_CB',
-        payload: payload
+        payload: newPayload
     }
 };
 

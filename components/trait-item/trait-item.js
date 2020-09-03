@@ -8,7 +8,9 @@ import {withRouter} from "next/router";
 import LazyImg from "../lazy-img";
 import {withGetData} from "../hoc-helpers";
 import {connect} from "react-redux";
+import currency from "currency.js";
 import {setChatProduct, setReportModalProductId, setReportModalShow} from "../../actions";
+import {currencyOptions} from "../../utils";
 
 const TraitItem = (props) => {
      const {
@@ -137,7 +139,7 @@ const TraitItem = (props) => {
                                 <div className="rating"></div>
                             </div>
                             <span className="price">
-                                {price}
+                                {currency(price, currencyOptions).format()}
                                 <FontAwesomeIcon icon={faRubleSign} size="sm" />
                             </span>
 
