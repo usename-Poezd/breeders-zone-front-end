@@ -16,8 +16,9 @@ import comparer from "../../../utils/comparer-by-id";
 import LazyImg from "../../../components/lazy-img";
 import ReportModal from "../../../components/report-modal/report-modal";
 import {setChatAct, setChatProduct, setReportModalProductId, setReportModalShow} from "../../../actions";
-import {compareMorph} from "../../../utils";
+import {compareMorph, currencyOptions} from "../../../utils";
 import moment from "moment";
+import currency from "currency.js";
 
 class ProductPage extends Component  {
 
@@ -324,7 +325,7 @@ class ProductPage extends Component  {
 
                         <div className="in-cart-container feather-shadow">
                             <div className="price-container d-flex justify-content-center align-items-center">
-                                <h2 className="price">{price}</h2>
+                                <h2 className="price">{currency(price, currencyOptions).format()}</h2>
                                 <FontAwesomeIcon icon={faRubleSign} size="2x" className="ruble-icon"/>
                             </div>
                             <div className="btn-main btn-in-cart m-0" onClick={() => this.sendMessage()}>
