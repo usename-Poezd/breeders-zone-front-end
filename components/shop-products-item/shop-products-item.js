@@ -5,12 +5,12 @@ import {withGetData} from "../hoc-helpers";
 import {activeShopProduct, deleteShopProduct, getKinds} from "../../actions";
 import Link from "next/link";
 import {connect} from "react-redux";
-import {formatDate} from 'react-day-picker/moment';
 import {DataService, Pipes} from "../../services";
-import {compareMorph} from "../../utils";
+import {compareMorph, currencyOptions} from "../../utils";
 import Switch from "react-switch";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import moment from "moment";
+import currency from "currency.js";
 const dataService = new DataService();
 const debounceUpdate = AwesomeDebouncePromise(
     dataService.updateProduct,
@@ -87,7 +87,7 @@ const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, p
                     <li className="product-card-info-item flex-row">
                         <h3 className="title">Цена:</h3>
                         <h3 className="info">
-                            {price}
+                            {currency(price, currencyOptions).format()}
                             <FontAwesomeIcon icon={faRubleSign} size="sm" className="ml-1"/>
                         </h3>
                     </li>
