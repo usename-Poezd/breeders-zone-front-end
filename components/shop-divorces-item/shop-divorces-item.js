@@ -59,7 +59,7 @@ const ShopDivorcesItem = (props) => {
                     }
                     <Col xs={12} className="product-card-info-item flex-row align-items-center">
                         <h3 className="title-sex">Дата выхода:</h3>
-                        <h3 className="info info-text">{moment(props.cb).format('DD.MM.YY')}</h3>
+                        <h3 className="info info-text">{moment(props.cb).format('DD.MM.YYYY')}</h3>
                     </Col>
                     {
                         props.male.length > 0 ?
