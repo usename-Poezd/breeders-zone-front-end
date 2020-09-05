@@ -29,7 +29,10 @@ export const productUpdateClear = () => {
 };
 
 export const setProductCb = (payload) => {
-    const newPayload = moment(payload).toISOString(true);
+    let newPayload = payload;
+    if (payload) {
+        newPayload = moment(payload).toISOString(true);
+    }
     return {
         type: 'SET_PRODUCT_CB',
         payload: newPayload
