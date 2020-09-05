@@ -32,6 +32,8 @@ import {withRouter} from "next/router";
 import Switch from "react-switch";
 import Link from "next/link";
 import * as moment from "moment";
+import PriceInput from "../price-input";
+import DateInput from "../date-input";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -138,7 +140,7 @@ const ProductSettings = ({
 
     const onDrop = useCallback(acceptedFiles => setAcceptedFiles(acceptedFiles), []);
 
-    const { register, handleSubmit, watch, setValue, errors } = useForm({
+    const { register, handleSubmit, watch, setValue, control, errors } = useForm({
         defaultValues: {
             ...info,
             kind_id: info.kind_id ? info.kind_id : allKinds[0].id,
@@ -454,6 +456,7 @@ const ProductSettings = ({
                             <Form.Group>
                                 <Form.Label>Дата рождения:</Form.Label>
                                 <DayPickerInput
+                                    component={DateInput}
                                     value={value}
                                     onDayChange={(day) => setProductCb(day)}
                                     formatDate={formatDate}
@@ -463,9 +466,6 @@ const ProductSettings = ({
                                     dayPickerProps={{
                                         locale: 'ru',
                                         localeUtils: MomentLocaleUtils
-                                    }}
-                                    inputProps={{
-                                        name: "cb"
                                     }}
                                 />
                                 {   errors.cb &&
@@ -511,24 +511,13 @@ const ProductSettings = ({
                     />
                     <Row className="align-items-center">
                         <Col xs={12} md={6}>
-                            <Form.Label>Цена:</Form.Label>
-                            <div className="d-flex align-items-center">
-                                <GroupFormControl
-                                    errors={errors}
-                                    className="w-25 m-0"
-                                    controls={{
-                                        type: "number",
-                                        name: "price",
-                                        value: values.price,
-                                        onChange: handleChange,
-                                        ref: register({
-                                            required: true,
-                                            pattern: /[0-9]+/gi
-                                        })
-                                    }}
-                                />
-                                <FontAwesomeIcon icon={faRubleSign} className="ml-1"/>
-                            </div>
+                            <Form.Group>
+                                <Form.Label>Цена:</Form.Label>
+                                <div className="d-flex align-items-center">
+                                    <PriceInput errors={errors} control={control}/>
+                                    <FontAwesomeIcon icon={faRubleSign} className="ml-1"/>
+                                </div>
+                            </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
                             <div className="d-flex justify-content-between justify-content-md-start align-items-center mb-2">

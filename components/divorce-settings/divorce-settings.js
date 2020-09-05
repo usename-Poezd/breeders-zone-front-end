@@ -45,6 +45,7 @@ import Reports from "../reports";
 import {compareMorph} from "../../utils";
 import moment from "moment";
 import Link from "next/link";
+import DateInput from "../date-input";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -305,6 +306,7 @@ const DivorceSettings = ({
                     <Form.Group>
                         <Form.Label>Дата выхода:</Form.Label>
                         <DayPickerInput
+                            component={DateInput}
                             value={value}
                             onDayChange={(day) => setDivorceCb(day)}
                             formatDate={formatDate}

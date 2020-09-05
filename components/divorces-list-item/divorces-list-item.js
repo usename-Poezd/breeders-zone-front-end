@@ -114,7 +114,7 @@ const DivorcesListItem = (props) => {
                         </Link>
                         <div className="item-info-container d-flex flex-column align-items-center">
                             <p>{props.kind.title_rus}</p>
-                            <p>{moment(props.cb).format('DD.MM.YY')}</p>
+                            <p>{moment(props.cb).format('DD.MM.YYYY')}</p>
                         </div>
                     </div>
                 </div>
