@@ -65,7 +65,7 @@ const GuardDashboardProductItem = ({id, product_images, kind, subcategory, local
                     </li>
                     <li className="product-card-info-item">
                         <h3 className="title">Дата рождения:</h3>
-                        <h3 className="info info-text">{moment(cb).format('DD.MM.YY')}</h3>
+                        <h3 className="info info-text">{moment(cb).format('DD.MM.YYYY')}</h3>
                     </li>
                     {
                         morphs.length !== 0 ?
