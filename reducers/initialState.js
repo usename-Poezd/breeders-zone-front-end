@@ -88,14 +88,18 @@ const initialState = {
         info: {
             id: '',
             article: '',
-            user_id: '',
+            user_id: null,
             name: '',
             price: '',
-            sex: 1,
+            sex: true,
             cb: null,
             is_active: true,
-            kindId: '',
-            reports: []
+            kind_id: null,
+            subcategory_id: null,
+            locality_id: null,
+            reports: [],
+            description: '',
+            preview: null
         },
         product_images: [],
         deletedImages: [],
