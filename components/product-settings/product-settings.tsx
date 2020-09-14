@@ -7,10 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMars, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {HandelError, HandelSuccess} from "../handels";
-import MomentLocaleUtils, {
-    formatDate,
-    parseDate,
-} from 'react-day-picker/moment';
+import MomentLocaleUtils from 'react-day-picker/moment';
 import {DataService, Pipes} from "../../services";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import {
@@ -476,8 +473,8 @@ const ProductSettings = ({
                                        component={DateInput}
                                        value={value}
                                        onDayChange={(day) => setProductCb(day)}
-                                       formatDate={formatDate}
-                                       parseDate={parseDate}
+                                       formatDate={MomentLocaleUtils.formatDate}
+                                       parseDate={MomentLocaleUtils.parseDate}
                                        format="DD.MM.YYYY"
                                        placeholder={`${moment().format('DD.MM.YY')}`}
                                        dayPickerProps={{
