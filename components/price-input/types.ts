@@ -1,10 +1,6 @@
-import {Control} from "react-hook-form";
+import {Control, DeepMap, FieldError} from "react-hook-form";
 
 export interface PriceInputProps {
-    errors: {
-        price: {
-            type: 'required'|'pattern'
-        }
-    },
+    errors: DeepMap<Record<string, any>, FieldError>,
     control: Control
 }

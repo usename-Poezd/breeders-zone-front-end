@@ -15,7 +15,7 @@ const PriceInput = (props: PriceInputProps) => {
                 name="price"
                 rules={{
                     required: true,
-                    pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+                    pattern: /\d+$/
                 }}
             />
             {   errors.price &&

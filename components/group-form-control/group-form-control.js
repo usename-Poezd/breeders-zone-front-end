@@ -38,7 +38,8 @@ const GroupFormControl = ({
     max = 255,
     textArea = false,
     info = {
-        isInfo: false
+        isInfo: false,
+        text: ''
     },
     controls = {}
 }) => {
