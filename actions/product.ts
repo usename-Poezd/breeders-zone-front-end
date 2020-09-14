@@ -1,5 +1,6 @@
 import {DataService} from "../services";
-import * as moment from "moment";
+import moment from "moment";
+import {Dispatch} from "redux";
 
 const dataService = new DataService();
 
@@ -9,14 +10,14 @@ export const setProductUpdateRequest = () => {
     }
 };
 
-export const setProductUpdateSuccess = (payload) => {
+export const setProductUpdateSuccess = (payload: string) => {
     return {
         type: 'PRODUCT_UPDATE_SUCCESS',
         payload: payload
     }
 };
 
-export const setProductUpdateError = (payload) => {
+export const setProductUpdateError = (payload: any) => {
     return {
         type: 'PRODUCT_UPDATE_ERROR',
         payload: payload
@@ -28,7 +29,7 @@ export const productUpdateClear = () => {
     }
 };
 
-export const setProductCb = (payload) => {
+export const setProductCb = (payload: Date|string) => {
     let newPayload = payload;
     if (payload) {
         newPayload = moment(payload).toISOString(true);
@@ -51,7 +52,7 @@ export const setGetProductRequest = () => {
     }
 };
 
-export const setAcceptedFiles = (payload) => {
+export const setAcceptedFiles = (payload: Array<File>) => {
     const previews = [];
     const acceptedFiles = payload;
     for (let item of payload){
@@ -67,21 +68,21 @@ export const setAcceptedFiles = (payload) => {
     }
 };
 
-export const deleteAcceptedFile = (payload) => {
+export const deleteAcceptedFile = (payload: number) => {
     return {
         type: 'DELETE_PRODUCT_ACCEPTED_FILE',
         payload: payload
     }
 };
 
-export const setProductInfo = (payload) => {
+export const setProductInfo = (payload: any) => {
     return {
         type: 'SET_PRODUCT_INFO',
         payload: payload
     }
 };
 
-export const deleteProductStateImg = (payload) =>  {
+export const deleteProductStateImg = (payload: number) =>  {
     return {
         type: 'DELETE_PRODUCT_IMG',
         payload: payload
@@ -100,7 +101,7 @@ export const productUpdateClearError = () => {
     }
 };
 
-export const setProductSearchResult = (payload) => {
+export const setProductSearchResult = (payload: any) => {
     return {
         type: 'SET_PRODUCT_SEARCH_RESULT',
         payload
@@ -113,7 +114,7 @@ export const clearSearchResult = () => {
     }
 };
 
-export const setSelectedMorph = (payload) => (dispatch, getState) => {
+export const setSelectedMorph = (payload: any) => (dispatch: Dispatch, getState) => {
     const state = getState();
     const selectedMorphs = state.product.selectedMorphs;
     const searchResult = state.product.searchResult;
@@ -133,7 +134,7 @@ export const setSelectedMorph = (payload) => (dispatch, getState) => {
     }
 };
 
-export const deleteSelectedMorph = (payload) => {
+export const deleteSelectedMorph = (payload: number) => {
     return  {
         type: 'DELETE_SELECTED_MORPH',
         payload: payload
@@ -152,7 +153,7 @@ export const clearDeletedMorphsKind = () => {
     }
 };
 
-export const deleteProductReport = (payload) => (dispatch, getState) => {
+export const deleteProductReport = (payload: number) => (dispatch: Dispatch, getState) => {
     const productReports = getState().product.info.reports;
     const reportIdx = productReports.findIndex((item) => item.id === payload);
     productReports.splice(reportIdx, 1);
@@ -165,7 +166,7 @@ export const deleteProductReport = (payload) => (dispatch, getState) => {
     })
 };
 
-export const setProductSearchRequest = (payload) => {
+export const setProductSearchRequest = (payload: boolean) => {
     return {
         type: 'SET_PRODUCT_SEARCH_REQUEST',
         payload
