@@ -45,14 +45,13 @@ class ShopPage extends Component {
     };
 
     updateTabContent = () => {
-        const { getShopMorphs, router, shop } = this.props;
+        const { getShopMorphs, shop } = this.props;
         const { activeTab } = this.state;
-        const { shopName } = router.query;
         const kindId = shop.kinds[activeTab].id;
 
         this.setState({loadingMorphs: true});
         getShopMorphs({
-            shop: shopName,
+            shop: shop.info.company_name,
             kindId
         })
             .then( data => this.setState({ morphs: data, loadingMorphs: false }));
