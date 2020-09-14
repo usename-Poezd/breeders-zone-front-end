@@ -17,7 +17,7 @@ const debounceUpdate = AwesomeDebouncePromise(
     300
 );
 
-const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, price, kind, subcategory, locality, product_images, deleteProduct, deleteShopProduct, activeShopProduct, getKinds}) => {
+const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, price, kind, subcategory, locality, preview, deleteProduct, deleteShopProduct, activeShopProduct, getKinds}) => {
     const delProduct = () => {
         deleteShopProduct({idx});
         getKinds();
@@ -34,9 +34,9 @@ const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, p
         <div className="products-item feather-shadow d-flex">
             <div className="products-item-img">
                 {
-                    product_images[0] ?
+                    preview ?
                         <img
-                            src={product_images[0].img_src}
+                            src={preview.img_src}
                             alt={name}
                             className="img-fluid"
                         />
@@ -98,7 +98,7 @@ const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, p
                                     <h3 className="title-sex">Морфы:</h3>
                                     <div className="info morphs d-inline-block">
                                         {
-                                            morphs.map( ({gene, trait}) => <div key={`${gene}-${trait}-${name}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
+                                            morphs.map( ({gene, trait}) => <div key={`${id}-${gene.title}-${trait.title}-${name}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
                                         }
                                     </div>
                                 </li>
