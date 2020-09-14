@@ -1,6 +1,6 @@
 import React, {Component, useState} from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faBan, faCheck, faMars, faRubleSign, faVenus} from "@fortawesome/free-solid-svg-icons";
+import {faBan, faCheck, faGenderless, faMars, faRubleSign, faVenus} from "@fortawesome/free-solid-svg-icons";
 import { Col } from 'react-bootstrap';
 import { Pipes } from '../../services';
 import Link from "next/link";
@@ -23,6 +23,7 @@ const TraitItem = (props) => {
          sex,
          cb,
          user,
+         preview,
          kind: {
              group,
              title_eng: kindTitle,
@@ -103,9 +104,9 @@ const TraitItem = (props) => {
                     <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${article ? article : id}`}>
                         <a className="item-img">
                             {
-                                product_images[0] ?
+                                preview ?
                                     <LazyImg
-                                        src={product_images[0].img_src}
+                                        src={preview.img_src}
                                         alt="asd"
                                         className="img-fluid"
                                     />
@@ -131,7 +132,7 @@ const TraitItem = (props) => {
                                         {
                                             sex !== null ?
                                                 <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
-                                                : <span>Пол не определен</span>
+                                                : <FontAwesomeIcon icon={faGenderless} size="lg"/>
                                         }
                                         <span>'{transformCb(cb)}</span>
                                     </div>
