@@ -134,10 +134,10 @@ const product = (state, action) => {
             };
         case 'DELETE_SELECTED_MORPH':
             const selectedMorphs = state.selectedMorphs;
-            selectedMorphs.splice(payload.idx, 1);
+            selectedMorphs.splice(payload, 1);
             return {
                 ...state,
-                selectedMorphs: selectedMorphs
+                selectedMorphs: [...selectedMorphs]
             };
         case 'DELETE_MORPHS_KIND':
             return {

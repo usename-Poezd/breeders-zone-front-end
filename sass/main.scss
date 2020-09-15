@@ -1,39 +1,3 @@
-$main-color: #3F81E5;
-$gray: #f2f3f5;
-$feather-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-$country-shadow: 0px 0px 2px 0.5px rgba(0, 0, 0, 0.5);
-$border-radius: 5px;
-
-
-@mixin morph-indicator {
-    margin: 0 5px;
-    padding: 5px;
-    color: #fff;
-    border-radius: 5px;
-    user-select: none;
-
-    font-family: Roboto, sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    font-height: 16px;
-    font-align: center;
-    white-space: nowrap!important;
-}
-
-$max: 50;
-$offset: 5;
-$unit: 'px'; // Feel free to change the unit.
-@mixin list-loop($className, $styleName) {
-    $i: 0;
-    @while $i <= $max {
-        #{$className + $i} {
-            #{$styleName}: #{$i + $unit};
-        }
-        $i: $i + $offset;
-    }
-}
-
 .body {
     &-second-container {
         min-height: 640px;
@@ -49,11 +13,21 @@ $unit: 'px'; // Feel free to change the unit.
         display: flex;
         flex-wrap: wrap;
         width: 100%;
+
+        &-table {
+            .morph-indicator {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 29%;
+                font-size: 75%;
+            }
+        }
     }
 
     &-indicator-count{
         display: inline-block;
-        padding: 2px 5px;
+        padding: 2px 8px;
         color: #fff;
         border-radius: 5px;
         user-select: none;
@@ -97,8 +71,8 @@ $unit: 'px'; // Feel free to change the unit.
 
     &-dominant{
 
-        $normal: #3F81E5;
-        $super: #665599;
+        $normal: #8AABDA;
+        $super: #3C68AF;
 
         &-normal{
             background: $normal;
@@ -111,9 +85,9 @@ $unit: 'px'; // Feel free to change the unit.
 
     &-recessive{
 
-        $possible-het: #FFCC44;
-        $het: #FF9966;
-        $visual: #FF7788;
+        $possible-het: #FECC00;
+        $het: #FCBD6A;
+        $visual: #EF7F1A;
 
         &-possible-het{
             background: $possible-het;
@@ -130,8 +104,8 @@ $unit: 'px'; // Feel free to change the unit.
 
     &-other{
 
-        $normal: #B3B3B3;
-        $possible: #808080;
+        $normal: #B2B09C;
+        $possible: #727271;
 
         &-normal{
             background: $normal;
@@ -157,80 +131,14 @@ $unit: 'px'; // Feel free to change the unit.
     }
 }
 
-.btn{
+.text-corp {
+    font-family: "Franklin Gothic Heavy";
+    color: $main-color;
 
-    &-gray{
-        color: $main-color !important;
-        border: none;
-        background: $gray;
-        border-radius: 5px;
-        cursor: pointer;
-        &:hover {
-            //box-shadow: ;
-            color: mix($main-color, #222) !important;
-            border-color: mix($main-color, #222) !important;
-        }
-
-        &-bn{
-            border: none;
-            color: $main-color !important;
-            border-radius: 5px;
-
-            &:hover {
-                color: mix($main-color, #222) !important;
-            }
-        }
-    }
-
-    &-second{
-        color: $main-color !important;
-        border: 1px solid $main-color !important;
-        border-radius: 5px;
-        cursor: pointer;
-        &:hover {
-            color: mix($main-color, #222) !important;
-            border-color: mix($main-color, #222) !important;
-        }
-
-        &-bn{
-            border: none;
-            color: $main-color !important;
-            border-radius: 5px;
-
-            &:hover {
-                color: mix($main-color, #222) !important;
-            }
-        }
-    }
-
-    &-main {
-        color: #fff !important;
-        background: $main-color !important;
-        border-radius: 5px;
-        cursor: pointer;
-
-        &:hover {
-            color: darken(#fff, 10%) !important;
-        }
-    }
-
-    &-success{
-        color: #fff !important;
-        background: #3ED04D !important;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-
-        &:hover {
-            color: scale-color(#fff, $lightness: -5%) !important;
-        }
-    }
-
-    &-in-cart {
-        width: 100%;
-        padding: 10px 0;
-        text-align: center;
-        cursor: pointer;
+    sup {
+        position: relative;
+        top: -12px;
+        font-size: 12px;
     }
 }
 
@@ -241,6 +149,10 @@ $unit: 'px'; // Feel free to change the unit.
 .color {
     &-main {
         color: $main-color !important;
+    }
+
+    &-second {
+        color: $second-color !important;
     }
 }
 
@@ -272,7 +184,7 @@ $unit: 'px'; // Feel free to change the unit.
 
 .sex{
     &-male {
-        color: $main-color;
+        color: #3F81E5;
     }
 
     &-female {
@@ -365,149 +277,6 @@ ul{
 
 .ruble-icon{
     margin-left: 5px;
-}
-
-.form {
-    &-container {
-        padding: 20px;
-        border-radius: $border-radius;
-        box-shadow: $feather-shadow;
-        margin-top: 20px;
-
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 16px;
-
-        & .price {
-            & + .btn.btn-main {
-                margin-top: 10px;
-            }
-
-            .form-group {
-                margin-bottom: 0 !important;
-            }
-        }
-
-        .nec{
-            position: relative;
-
-            &::after{
-                content: "*";
-                position: absolute;
-                top: 0;
-                right: -10px;
-
-                color: #dc3545;
-            }
-        }
-
-        &-title {
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .forgot-pass {
-            color: $main-color !important;
-        }
-
-        .controls {
-            margin-top: 20px;
-
-            .btn-main {
-                margin-right: 25px;
-            }
-        }
-
-        .info{
-            position: relative;
-            margin-left: 5px;
-
-            svg{
-                width: 18px;
-                color: $main-color;
-            }
-
-            &:hover .info-text{
-                display: block;
-            }
-
-            &-text{
-                width: 300px;
-                display: none;
-                position: absolute;
-                top: -10px;
-                right: -320px;
-                background: #fff;
-
-                padding: 10px;
-                box-shadow: $feather-shadow;
-                border-radius: $border-radius;
-
-                @media (max-width: 768px) {
-                    position: relative;
-                    top: 0;
-                    right: 0;
-                    left: 0;
-                    margin: 10px 0;
-                }
-            }
-        }
-
-        .btn {
-            font-weight: bold;
-
-            &-success {
-                margin-top: 10px;
-            }
-        }
-    }
-
-    &-group &-control {
-        border: 1px solid #D3D9DE;
-
-        &:focus {
-            border: 1px solid $main-color !important;
-            box-shadow: none !important;
-        }
-    }
-
-    &-container &-group {
-        position: relative;
-        margin-bottom: 10px;
-
-
-
-        .DayPickerInput {
-            display: block;
-            width: 100%;
-            input {
-                width: 100%;
-                height: calc(1.5em + .75rem + 2px);
-                padding: .375rem .75rem;
-                font-size: 1rem;
-                font-weight: 400;
-                line-height: 1.5;
-                color: #495057;
-                background-color: #fff;
-                background-clip: padding-box;
-                border-radius: .25rem;
-                transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-                outline: none;
-
-                border: 1px solid #D3D9DE;
-
-                &:focus {
-                    border: 1px solid $main-color !important;
-                    box-shadow: none !important;
-                }
-            }
-        }
-    }
-
-    &-container &-label {
-        margin-bottom: 2px;
-    }
 }
 
 .social{

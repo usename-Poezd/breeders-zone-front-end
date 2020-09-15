@@ -1,8 +1,3 @@
-$main-color: #3F81E5;
-$feather-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-$country-shadow: 0px 0px 2px 0.5px rgba(0, 0, 0, 0.5);
-$border-radius: 5px;
-
 .feather-shadow{
     box-shadow: $feather-shadow;
     border-radius: $border-radius;
@@ -253,7 +248,7 @@ $border-radius: 5px;
     }
 
     &-prev:before, &-next:before{
-        color: $main-color !important;
+        color: $main-color-hover !important;
     }
 
     &-disabled{

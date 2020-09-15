@@ -1,0 +1,29 @@
+//BASE COLOR
+$main-color: #006633;
+$main-color-hover: #00974B;
+$second-color: #61A375;
+$gray: #f2f3f5;
+
+
+//BUTTONS
+$btn-main-color-highlight: $main-color-hover;
+$btn-success-color-highlight: scale-color($main-color-hover, $lightness: -5%);
+
+$btn-main-color-light: darken($btn-main-color-highlight, 7.8%);
+$btn-main-color-dark: darken($btn-main-color-highlight, 10%);
+$btn-main-color-shadow: darken($btn-main-color-highlight, 12.5%);
+$btn-main-box-shadow: 0 0 0 0.2rem transparentize($btn-main-color-light, 0.5);
+
+$btn-success-color-light: darken($btn-success-color-highlight, 7.8%);
+$btn-success-color-dark: darken($btn-success-color-highlight, 10%);
+$btn-success-color-shadow: darken($btn-success-color-highlight, 12.5%);
+$btn-success-box-shadow: 0 0 0 0.2rem transparentize($btn-success-color-light, 0.5);
+
+
+$input-hover-color: #3F81E5;
+
+
+$feather-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+$country-shadow: 0px 0px 2px 0.5px rgba(0, 0, 0, 0.5);
+
+$border-radius: 5px;

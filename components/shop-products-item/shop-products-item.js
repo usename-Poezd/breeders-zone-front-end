@@ -11,6 +11,7 @@ import Switch from "react-switch";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import moment from "moment";
 import currency from "currency.js";
+import {mainColor, mainColorHover, secondColor} from "../../variables/style-variables";
 const dataService = new DataService();
 const debounceUpdate = AwesomeDebouncePromise(
     dataService.updateProduct,
@@ -113,8 +114,8 @@ const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, p
                     <Switch
                         checked={is_active}
                         onChange={handleSwitch}
-                        onColor="#77a6ed"
-                        onHandleColor="#3F81E5"
+                        onColor={secondColor}
+                        onHandleColor={mainColorHover}
                         handleDiameter={30}
                         uncheckedIcon={false}
                         checkedIcon={false}

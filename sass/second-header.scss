@@ -20,12 +20,12 @@
             font-family: Roboto, sans-serif;
             font-style: normal;
             font-weight: bold;
-            font-size: 74px;
+            font-size: 65px;
             line-height: 28px;
 
 
             color: #FFFFFF;
-            text-shadow: 1.5px 3px 0px $main-color;
+            text-shadow: 1.5px 3px 0px $second-color;
 
             @media (max-width: 768px) {
                 font-size: 54px;
@@ -33,7 +33,7 @@
             }
 
             @media (max-width: 425px){
-                text-shadow: 1px 2px 0px $main-color;
+                text-shadow: 1px 2px 0px $second-color;
                 font-size: 34px;
                 line-height: 28px;
             }
@@ -47,11 +47,11 @@
                 font-family: Roboto;
                 font-style: italic;
                 font-weight: normal;
-                font-size: 44px;
+                font-size: 40px;
                 line-height: 52px;
 
                 color: #FFFFFF;
-                text-shadow: 2px 1px 0px #3F81E5;
+                text-shadow: 2px 1px 0px $second-color;
 
                 @media (max-width: 768px) {
                     font-size: 34px;
@@ -63,7 +63,7 @@
                     font-size: 24px;
                     line-height: 19px;
                     top: +10px;
-                    text-shadow: 1px 1px 0px #3F81E5;
+                    text-shadow: 1px 1px 0px $second-color;
                 }
             }
         }
