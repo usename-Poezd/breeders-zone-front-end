@@ -1,0 +1,142 @@
+.form {
+    &-container {
+        padding: 20px;
+        border-radius: $border-radius;
+        box-shadow: $feather-shadow;
+        margin-top: 20px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+
+        & .price {
+            & + .btn.btn-main {
+                margin-top: 10px;
+            }
+
+            .form-group {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        .nec{
+            position: relative;
+
+            &::after{
+                content: "*";
+                position: absolute;
+                top: 0;
+                right: -10px;
+
+                color: #dc3545;
+            }
+        }
+
+        &-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .forgot-pass {
+            color: $main-color !important;
+        }
+
+        .controls {
+            margin-top: 20px;
+
+            .btn-main {
+                margin-right: 25px;
+            }
+        }
+
+        .info{
+            position: relative;
+            margin-left: 5px;
+
+            svg{
+                width: 18px;
+                color: $main-color;
+            }
+
+            &:hover .info-text{
+                display: block;
+            }
+
+            &-text{
+                width: 300px;
+                display: none;
+                position: absolute;
+                top: -10px;
+                right: -320px;
+                background: #fff;
+
+                padding: 10px;
+                box-shadow: $feather-shadow;
+                border-radius: $border-radius;
+
+                @media (max-width: 768px) {
+                    position: relative;
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    margin: 10px 0;
+                }
+            }
+        }
+
+        .btn {
+            font-weight: bold;
+
+            &-success {
+                margin-top: 10px;
+            }
+        }
+    }
+
+    &-group &-control {
+        border: 1px solid #D3D9DE;
+
+        &:focus {
+            border: 1px solid $input-hover-color !important;
+            box-shadow: none !important;
+        }
+    }
+
+    &-container &-group {
+        position: relative;
+        margin-bottom: 10px;
+
+
+
+        .DayPickerInput {
+            display: block;
+            width: 100%;
+            input {
+                width: 100%;
+                height: calc(1.5em + .75rem + 2px);
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                font-weight: 400;
+                line-height: 1.5;
+                color: #495057;
+                background-color: #fff;
+                background-clip: padding-box;
+                border-radius: .25rem;
+                transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+                outline: none;
+
+                border: 1px solid #D3D9DE;
+
+                &:focus {
+                    border: 1px solid $input-hover-color !important;
+                    box-shadow: none !important;
+                }
+            }
+        }
+    }
+
+    &-container &-label {
+        margin-bottom: 2px;
+    }
+}

@@ -1,0 +1,75 @@
+.btn{
+
+    &-gray{
+        color: $main-color !important;
+        border: none;
+        background: $gray;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+            color: mix($main-color, #222) !important;
+            border-color: mix($main-color, #222) !important;
+        }
+
+        &-bn{
+            border: none;
+            color: $main-color !important;
+            border-radius: 5px;
+
+            &:hover {
+                color: mix($main-color, #222) !important;
+            }
+        }
+    }
+
+    &-second{
+        color: $main-color !important;
+        border: 1px solid $main-color !important;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+            color: $main-color-hover !important;
+            border-color: $main-color-hover !important;
+        }
+
+        &-bn{
+            border: none;
+            color: $main-color !important;
+            border-radius: 5px;
+
+            &:hover {
+                color: $main-color-hover !important;
+            }
+        }
+    }
+
+    &-main {
+        color: #fff !important;
+        background: $main-color !important;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+            background: $main-color-hover !important;
+        }
+    }
+
+    &-success{
+        color: #fff !important;
+        background: $main-color-hover important;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+            background: scale-color($main-color-hover, $lightness: -5%) !important;
+        }
+    }
+
+    &-in-cart {
+        width: 100%;
+        padding: 10px 0;
+        text-align: center;
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,7 @@
+.dropdown {
+    &-item {
+        &.active, &:active {
+            background-color: $main-color-hover;
+        }
+    }
+}
