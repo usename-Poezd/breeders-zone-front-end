@@ -52,6 +52,8 @@
         &:hover {
             background: $main-color-hover !important;
         }
+
+        @include btnFocus($main-color-hover, $btn-main-color-dark, $btn-main-box-shadow);
     }
 
     &-success{
@@ -62,8 +64,10 @@
         cursor: pointer;
 
         &:hover {
-            background: scale-color($main-color-hover, $lightness: -5%) !important;
+            background: $btn-success-color-highlight !important;
         }
+
+        @include btnFocus($btn-success-color-highlight, $btn-success-color-dark, $btn-success-color-shadow);
     }
 
     &-in-cart {
