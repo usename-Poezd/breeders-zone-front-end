@@ -33,6 +33,7 @@ import moment from "moment";
 import PriceInput from "../price-input";
 import DateInput from "../date-input";
 import {IDispatchProps, IStateProps, ProductSettingsProps} from "./types";
+import {mainColorHover, secondColor} from "../../variables/style-variables";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -540,8 +541,8 @@ const ProductSettings = ({
                                    <Switch
                                        checked={isActive}
                                        onChange={() => setActive(!isActive)}
-                                       onColor="#77a6ed"
-                                       onHandleColor="#3F81E5"
+                                       onColor={secondColor}
+                                       onHandleColor={mainColorHover}
                                        handleDiameter={30}
                                        uncheckedIcon={false}
                                        checkedIcon={false}
