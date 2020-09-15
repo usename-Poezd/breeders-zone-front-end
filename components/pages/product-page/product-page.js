@@ -328,7 +328,7 @@ class ProductPage extends Component  {
                                 <h2 className="price">{currency(price, currencyOptions).format()}</h2>
                                 <FontAwesomeIcon icon={faRubleSign} size="2x" className="ruble-icon"/>
                             </div>
-                            <div className="btn-main btn-in-cart m-0" onClick={() => this.sendMessage()}>
+                            <div className="btn btn-main btn-in-cart m-0" onClick={() => this.sendMessage()}>
                                 <h3>Написать о покупке</h3>
                             </div>
                             {/*<div className="btn-second-bn btn-in-cart feather-shadow">*/}
