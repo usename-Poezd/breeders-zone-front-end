@@ -87,76 +87,115 @@ class Morphs extends Component {
         }
 
         return (
-            <div className="position-relative">
-                {
-                    request ?
-                        <div className="load">
-                                    <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
+            <div className="body-container d-flex flex-column justify-content-between position-relative">
+                <div>
+                    {
+                       request ?
+                           <div className="load">
+                               <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
+                           </div>
+                           : null
+                    }
+                    {
+                       genes.length > 0 ?
+                           (
+                               <React.Fragment>
+                                   <h2 className="mb-2">Морфы:</h2>
+                                   <Row className="mb-3">
+                                       {
+                                           genes.map( (item) => <RenderMorphs key={item.title} title={item.title} traits={item.traits}/>)
+                                       }
+                                   </Row>
+                               </React.Fragment>
+                           )
+                           : null
+                    }
+                    {
+                       subcategories.length > 0 ?
+                           (
+                               <React.Fragment>
+                                   <h2 className="mb-2">Подкатегории и локалитеты:</h2>
+                                   <Row className="flex-column subcategories align-items-center">
+                                       {
+                                           subcategories.map( (item) => (
+                                               <Col key={item.title} xs={12} md={4} className="subcategories-item">
+                                                   <div className="subcategories-title">
+                                                       <Link href="/[group]/[kind]/subcategories/[subcategoryTitle]" as={`/${group}/${kind}/subcategories/${this.pipes.toUrl(item.title)}`}>
+                                                           <a className="d-flex justify-content-between w-100">
+                                                               <h3>{item.title}</h3>
+                                                               <div className="morph-indicator-count morph-other-normal ml-2">{item.products_count}</div>
+                                                           </a>
+                                                       </Link>
+                                                   </div>
+                                                   {
+                                                       item.localities ?
+                                                           (
+                                                               <ul className="pl-4 localities">
+                                                                   {
+                                                                       item.localities.map( (locality) => {
+                                                                           if (locality.products_count) {
+                                                                               return (
+                                                                                   <li className="localities-item">
+                                                                                       <Link key={locality.title} href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
+                                                                                           <a className="d-flex justify-content-between">
+                                                                                               <h3>{locality.title}</h3>
+                                                                                               <div className="morph-indicator-count morph-other-normal ml-2">{locality.products_count}</div>
+                                                                                           </a>
+                                                                                       </Link>
+                                                                                   </li>
+                                                                               )
+                                                                           }
+                                                                       })
+                                                                   }
+                                                               </ul>
+                                                           )
+                                                           : null
+                                                   }
+                                               </Col>
+                                           ))
+                                       }
+                                   </Row>
+                               </React.Fragment>
+                           ) : null
+                    }
+                </div>
+                <Row className="justify-content-center mt--15">
+                    <Col xs={12} lg={7}>
+                        <div className="feather-shadow p--20">
+                            <h3 className="text-center">Обозначения в таблице</h3>
+                            <div>
+                                <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
+                                    <p className="w-100 text-center text-md-left">Частично доминантные гены</p>
+                                    <div className="morphs-table morphs justify-content-center">
+                                        <div className="morph-indicator"></div>
+                                        <div className="morph-indicator morph-dominant-normal">Normal</div>
+                                        <div className="morph-indicator morph-dominant-super">Super</div>
+                                    </div>
                                 </div>
-                        : null
-                }
-                {
-                    genes.length > 0 ?
-                        (
-                            <React.Fragment>
-                                <h2 className="mb-2">Морфы:</h2>
-                                <Row className="mb-3">
-                                    {
-                                        genes.map( (item) => <RenderMorphs key={item.title} title={item.title} traits={item.traits}/>)
-                                    }
-                                </Row>
-                            </React.Fragment>
-                        )
-                        : null
-                }
-                {
-                    subcategories.length > 0 ?
-                        (
-                            <React.Fragment>
-                                <h2 className="mb-2">Подкатегории и локалитеты:</h2>
-                                <Row className="flex-column subcategories align-items-center">
-                                    {
-                                        subcategories.map( (item) => (
-                                            <Col key={item.title} xs={12} md={4} className="subcategories-item">
-                                                <div className="subcategories-title">
-                                                    <Link href="/[group]/[kind]/subcategories/[subcategoryTitle]" as={`/${group}/${kind}/subcategories/${this.pipes.toUrl(item.title)}`}>
-                                                        <a className="d-flex justify-content-between w-100">
-                                                            <h3>{item.title}</h3>
-                                                            <div className="morph-indicator-count morph-other-normal ml-2">{item.products_count}</div>
-                                                        </a>
-                                                    </Link>
-                                                </div>
-                                                {
-                                                    item.localities ?
-                                                        (
-                                                            <ul className="pl-4 localities">
-                                                                {
-                                                                    item.localities.map( (locality) => {
-                                                                        if (locality.products_count) {
-                                                                            return (
-                                                                                <li className="localities-item">
-                                                                                    <Link key={locality.title} href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
-                                                                                        <a className="d-flex justify-content-between">
-                                                                                            <h3>{locality.title}</h3>
-                                                                                            <div className="morph-indicator-count morph-other-normal ml-2">{locality.products_count}</div>
-                                                                                        </a>
-                                                                                    </Link>
-                                                                                </li>
-                                                                            )
-                                                                        }
-                                                                    })
-                                                                }
-                                                            </ul>
-                                                        )
-                                                        : null
-                                                }
-                                            </Col>
-                                        ))
-                                    }
-                                </Row>
-                            </React.Fragment>
-                        ) : null
-                }
+                                <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
+                                    <p className="w-100 text-center text-md-left">Рецесивные гены</p>
+                                    <div className="morphs-table morphs justify-content-center">
+                                        <div className="morph-indicator morph-recessive-possible-het">possible Het</div>
+                                        <div className="morph-indicator morph-recessive-het">Normal</div>
+                                        <div className="morph-indicator morph-recessive-visual">Visual</div>
+                                    </div>
+                                </div>
+                                <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
+                                    <p className="w-100 text-center text-md-left" style={{
+                                        lineHeight: 1.1
+                                    }}>Другие визуальные признаки<br/><span style={{
+                                        fontSize: 12
+                                    }}>(селекционные, природные и генетические)</span></p>
+                                    <div className="morphs-table morphs justify-content-center">
+                                        <div className="morph-indicator morph-other-possible">Possible</div>
+                                        <div className="morph-indicator morph-other-normal">Normal</div>
+                                        <div className="morph-indicator"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
             </div>
         );
     }

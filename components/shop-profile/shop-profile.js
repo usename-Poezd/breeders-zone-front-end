@@ -122,12 +122,11 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         website,
         location,
         country,
-        phone
     } = watch();
 
-    console.log(phone);
-
-    const countryCallCode = countries.all.find((item) => item.name === country)?.calling_code;
+    const countryCallCode = !countries.all.find((item) => item.name === country)?.calling_code ?
+        countries.all.find((item) => item.name === user.country.name)?.calling_code
+        : countries.all.find((item) => item.name === country)?.calling_code;
     const countryCallCodeMask = countryCallCode?.replace('9', '\\9');
 
     const { update } = shop;

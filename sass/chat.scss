@@ -107,12 +107,12 @@
 
             cursor: pointer;
             padding: 5px 0;
-            border-bottom: 1px solid #D3D9DE;
+            border-bottom: 1px solid $gray;
 
             &.selected {
-                background: $main-color !important;
+                background: $gray !important;
                 .profile-info, .profile-title {
-                    color: #fff !important;
+                    color: $main-color !important;
                 }
             }
 

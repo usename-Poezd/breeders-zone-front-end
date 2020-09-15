@@ -109,8 +109,8 @@ class SecondHeader extends Component {
         return (
             <nav className="nav flex-column">
                 <div className="titles">
-                    <h1 className="title">{activeKind.title_rus  ? activeKind.title_rus : query.group ? ucFirst(query.group) : 'Breeders Zone'}</h1>
-                    <h1 className="title_latina">{activeKind.title_eng ? activeKind.title_eng : `${query.group ? `${ucFirst(query.group)} в продаже` : 'Рептилии'}`}</h1>
+                    <h1 className="title">{activeKind.title_rus  ? activeKind.title_rus : query.group ? ucFirst(query.group) : 'Рептилии'}</h1>
+                    <h1 className="title_latina">{activeKind.title_eng ? activeKind.title_eng : `${query.group ? `${ucFirst(query.group)} в продаже` : ''}`}</h1>
                 </div>
 
                 <Container>

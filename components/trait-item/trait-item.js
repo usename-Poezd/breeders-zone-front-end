@@ -147,7 +147,7 @@ const TraitItem = (props) => {
                         </div>
                     </div>
                     <div className="btn-in-cart-container">
-                        <div className="btn-main btn-in-cart" onClick={() => {
+                        <div className="btn btn-main btn-in-cart" onClick={() => {
                             sendMessage(user);
                             setChatProduct({
                                 id,
