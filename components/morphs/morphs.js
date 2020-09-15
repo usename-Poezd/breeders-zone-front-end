@@ -168,15 +168,15 @@ class Morphs extends Component {
                                     <p className="w-100 text-center text-md-left">Частично доминантные гены</p>
                                     <div className="morphs-table morphs justify-content-center">
                                         <div className="morph-indicator"></div>
-                                        <div className="morph-indicator morph-dominant-normal">Normal</div>
+                                        <div className="morph-indicator morph-dominant-normal">Visual</div>
                                         <div className="morph-indicator morph-dominant-super">Super</div>
                                     </div>
                                 </div>
                                 <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
                                     <p className="w-100 text-center text-md-left">Рецесивные гены</p>
                                     <div className="morphs-table morphs justify-content-center">
-                                        <div className="morph-indicator morph-recessive-possible-het">possible Het</div>
-                                        <div className="morph-indicator morph-recessive-het">Normal</div>
+                                        <div className="morph-indicator morph-recessive-possible-het">poss. Het</div>
+                                        <div className="morph-indicator morph-recessive-het">Het</div>
                                         <div className="morph-indicator morph-recessive-visual">Visual</div>
                                     </div>
                                 </div>
@@ -188,7 +188,7 @@ class Morphs extends Component {
                                     }}>(селекционные, природные и генетические)</span></p>
                                     <div className="morphs-table morphs justify-content-center">
                                         <div className="morph-indicator morph-other-possible">Possible</div>
-                                        <div className="morph-indicator morph-other-normal">Normal</div>
+                                        <div className="morph-indicator morph-other-normal">Visual</div>
                                         <div className="morph-indicator"></div>
                                     </div>
                                 </div>
