@@ -226,10 +226,10 @@ const ProductSettings = ({
                            }}
                        />
                        <GroupFormControl
-                           label="Уинкальный индификатор"
+                           label="Уинкальный идентификатор"
                            info={{
                                isInfo: true,
-                               text: 'Уинкальный индификатор животного (не обязательно)'
+                               text: 'Уинкальный идентификатор животного (не обязательно)'
                            }}
                            errors={errors}
                            controls={{

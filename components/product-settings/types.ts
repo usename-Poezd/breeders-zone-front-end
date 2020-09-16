@@ -44,6 +44,7 @@ export interface IStateProps {
         searchRequest: boolean,
         selectedMorphs: Array<{
             gene: {
+                id: number|string
                 type: string,
                 title: string
             },

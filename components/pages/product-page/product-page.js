@@ -199,7 +199,7 @@ class ProductPage extends Component  {
                         <div className="product-card-body feather-shadow">
                             <ul className="product-card-info">
                                 <li className="product-card-info-item">
-                                    <h3 className="title-sex">{article ? 'Уникальный индификатор' : 'Номер в системе'}:</h3>
+                                    <h3 className="title-sex">{article ? 'Уникальный идентификатор' : 'Номер в системе'}:</h3>
                                     <h3 className="info info-text">{article ? article : id}</h3>
                                 </li>
                                 <li className="product-card-info-item">
