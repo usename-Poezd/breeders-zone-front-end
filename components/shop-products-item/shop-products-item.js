@@ -99,7 +99,7 @@ const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, p
                                     <h3 className="title-sex">Морфы:</h3>
                                     <div className="info morphs d-inline-block">
                                         {
-                                            morphs.map( ({gene, trait}) => <div key={`${id}-${gene.title}-${trait.title}-${name}`} className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
+                                            morphs.map( ({gene, trait}) => <div key={`${id}-${gene.title}-${trait.title}-${name}`} className={`morph-indicator morph-${gene.type}-${toTraitClass(trait.trait_group ? trait.trait_group.label : trait.title)} d-inline-block`}>{compareMorph(trait.title, gene.title)}</div>)
                                         }
                                     </div>
                                 </li>
