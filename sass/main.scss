@@ -139,6 +139,12 @@
     }
 }
 
+.cursor {
+    &-pointer {
+        cursor: pointer !important;
+    }
+}
+
 .text-corp {
     font-family: "Franklin Gothic Heavy", "Roboto", sans-serif;
     color: $main-color;
