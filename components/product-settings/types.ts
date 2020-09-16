@@ -42,7 +42,20 @@ export interface IStateProps {
         previews: Array<string>,
         searchResult: Array<any>,
         searchRequest: boolean,
-        selectedMorphs: Array<any>,
+        selectedMorphs: Array<{
+            gene: {
+                id: number|string
+                type: string,
+                title: string
+            },
+            trait: {
+                title: string,
+                type: string,
+                trait_group: {
+                    label: string
+                }|null
+            }
+        }>,
         deletedMorphsKind: Array<any>, //here morphs who deleted where info kindId is changed
         localities: Array<any>,
         getRequest: boolean,

@@ -82,14 +82,14 @@ const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab,
                             ) : null
                     }
                     {
-                        morphs.map( ({ traitTitle, geneTitle, type }) => (
+                        morphs.map( ({ traitTitle, geneTitle, type, label }) => (
                             <Link
                                 key={`shop-morph-${traitTitle}-${type}-${geneTitle}`}
                                 href="/[group]/[kind]/morphs/[morph]"
                                 as={`${groupAndKindUrl}/morphs/${pipes.toUrl(`${traitTitle}-${geneTitle}`)}?shop=${shopName}`}
                             >
                                 <a
-                                    className={`morph-indicator d-inline-block morph-${type}-${pipes.toTraitClass(traitTitle)}`}
+                                    className={`morph-indicator d-inline-block morph-${type}-${pipes.toTraitClass(label ? label : traitTitle)}`}
                                     onClick={() => setActiveKind(kinds[activeTab])}
                                 >
                                     {compareMorph(traitTitle, geneTitle)}
