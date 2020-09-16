@@ -164,36 +164,70 @@ class Morphs extends Component {
                         <div className="feather-shadow p--20">
                             <h3 className="text-center">Обозначения в таблице</h3>
                             <div>
-                                <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
-                                    <p className="w-100 text-center text-md-left">Частично доминантные гены</p>
+                                <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100 mb--5">
+                                    <p
+                                        className="w-100 text-center text-md-left mb--5"
+                                        style={{
+                                            lineHeight: 1.1
+                                        }}
+                                    >
+                                        Доминантные и Ко-доминантные гены<br/>
+                                        <span
+                                            style={{
+                                                fontSize: 12
+                                            }}
+                                        >(Dominant and Co-dominant genes)</span>
+                                    </p>
                                     <div className="morphs-table morphs justify-content-center">
                                         <div className="morph-indicator"></div>
                                         <div className="morph-indicator morph-dominant-normal">Visual</div>
                                         <div className="morph-indicator morph-dominant-super">Super</div>
                                     </div>
                                 </div>
-                                <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
-                                    <p className="w-100 text-center text-md-left">Рецесивные гены</p>
+                                <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100 mb--5">
+                                    <p
+                                        className="w-100 text-center text-md-left mb--5"
+                                        style={{
+                                            lineHeight: 1.1
+                                        }}
+                                    >
+                                        Рецессивные гены&nbsp;
+                                        <span
+                                            style={{
+                                                fontSize: 12
+                                            }}
+                                        >(Recessive genes)</span>
+                                    </p>
                                     <div className="morphs-table morphs justify-content-center">
-                                        <div className="morph-indicator morph-recessive-possible-het">poss. Het</div>
-                                        <div className="morph-indicator morph-recessive-het">Het</div>
+                                        <div className="morph-indicator morph-recessive-possible-het">poss. Het.</div>
+                                        <div className="morph-indicator morph-recessive-het">100% Het.</div>
                                         <div className="morph-indicator morph-recessive-visual">Visual</div>
                                     </div>
                                 </div>
                                 <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
-                                    <p className="w-100 text-center text-md-left" style={{
+                                    <p className="w-100 text-center text-md-left mb--5" style={{
                                         lineHeight: 1.1
                                     }}>Другие визуальные признаки<br/><span style={{
                                         fontSize: 12
                                     }}>(селекционные, природные и генетические)</span></p>
                                     <div className="morphs-table morphs justify-content-center">
-                                        <div className="morph-indicator morph-other-possible">Possible</div>
+                                        <div className="morph-indicator morph-other-possible">possible</div>
                                         <div className="morph-indicator morph-other-normal">Visual</div>
                                         <div className="morph-indicator"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </Col>
+                    <Col xs={12} lg={7}>
+                        <Link
+                            href={"/[group]/[kind]"}
+                            as={`/${group}/${kind}`}
+                        >
+                            <a className="d-block feather-shadow text-center h3 btn-second-bn p--10 mt--10">
+                                Показать всех животных в категории {activeKind.title_rus}
+                            </a>
+                        </Link>
                     </Col>
                 </Row>
             </div>
