@@ -280,7 +280,7 @@ const Profile = ({
                                         (
                                             <div>
                                                 <GroupFormControl
-                                                    label="Старый пороль"
+                                                    label="Старый пароль"
                                                     errors={errors}
                                                     controls={{
                                                         type: "password",
@@ -294,7 +294,7 @@ const Profile = ({
                                                     }}
                                                 />
                                                 <GroupFormControl
-                                                    label="Новый пороль"
+                                                    label="Новый пароль"
                                                     errors={errors}
                                                     controls={{
                                                         type: "password",
@@ -308,7 +308,7 @@ const Profile = ({
                                                     }}
                                                 />
                                                 <GroupFormControl
-                                                    label="Подтвердите пороль"
+                                                    label="Подтвердите пароль"
                                                     errors={errors}
                                                     controls={{
                                                         type: "password",

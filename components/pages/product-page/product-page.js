@@ -199,7 +199,7 @@ class ProductPage extends Component  {
                         <div className="product-card-body feather-shadow">
                             <ul className="product-card-info">
                                 <li className="product-card-info-item">
-                                    <h3 className="title-sex">{article ? 'Уникальный индификатор' : 'Номер в системе'}:</h3>
+                                    <h3 className="title-sex">{article ? 'Уникальный идентификатор' : 'Номер в системе'}:</h3>
                                     <h3 className="info info-text">{article ? article : id}</h3>
                                 </li>
                                 <li className="product-card-info-item">
@@ -239,9 +239,9 @@ class ProductPage extends Component  {
                                                 <h3 className="title title-sex">Морфы:</h3>
                                                 <div className="info morphs">
                                                     {
-                                                        morphs.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle}}, idx) => (
+                                                        morphs.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle, trait_group}}, idx) => (
                                                             <Link key={"morph-" + idx} href="/[group]/[kind]/morphs/[morph]" as={`/${group}/${kind}/morphs/${this.pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
-                                                                <a className={`morph-indicator morph-${type}-${this.pipes.toUrl(traitTitle)}`}>
+                                                                <a className={`morph-indicator morph-${type}-${this.pipes.toUrl(trait_group ? trait_group.label : traitTitle)}`}>
                                                                     {compareMorph(traitTitle, geneTitle)}
                                                                 </a>
                                                             </Link>

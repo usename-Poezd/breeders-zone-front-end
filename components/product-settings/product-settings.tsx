@@ -49,7 +49,7 @@ const ProductSettings = ({
          error,
          previews = [],
          acceptedFiles = [],
-         selectedMorphs = [],
+         selectedMorphs,
          searchRequest = false,
          searchResult = [],
          deletedMorphsKind = [],
@@ -226,10 +226,10 @@ const ProductSettings = ({
                            }}
                        />
                        <GroupFormControl
-                           label="Уинкальный индификатор"
+                           label="Уинкальный идентификатор"
                            info={{
                                isInfo: true,
-                               text: 'Уинкальный индификатор животного (не обязательно)'
+                               text: 'Уинкальный идентификатор животного (не обязательно)'
                            }}
                            errors={errors}
                            controls={{
@@ -353,7 +353,7 @@ const ProductSettings = ({
                                                                        clearSearchInput();
                                                                    }}
                                                                >
-                                                                   <div className={`morph-indicator morph-${toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
+                                                                   <div className={`morph-indicator morph-${gene.type}-${toTraitClass(gene.trait.trait_group ? gene.trait.trait_group.label : gene.trait.title)} d-inline-block`}>
                                                                        {compareMorph(gene.trait.title, gene.title)}
                                                                    </div>
                                                                </li>
@@ -369,7 +369,7 @@ const ProductSettings = ({
                                                selectedMorphs.map( ({gene, trait}, idx) => (
                                                    <div
                                                        key={`morphs-${gene.title}-${trait.title}-${gene.id}`}
-                                                       className={`morph-indicator morph-${toTraitClass(`${gene.type}-${trait.title}`)} d-inline-block`}
+                                                       className={`morph-indicator morph-${gene.type}-${toTraitClass(trait.trait_group ? trait.trait_group.label : trait.title)} d-inline-block`}
                                                    >
                                                        {compareMorph(trait.title, gene.title)}
                                                        <FontAwesomeIcon

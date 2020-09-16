@@ -15,12 +15,12 @@ const RenderMorphs = ({ title, traits, router: { query: { group, kind } } }) => 
             </Link>
             <div className="morph-counts">
                 {
-                    traits.map( ({title: traitTitle, type, products_count}) => {
+                    traits.map( ({title: traitTitle, label, type, products_count}) => {
                         if(products_count > 0) {
                             return (
                                 <Link key={title + '-' + traitTitle} href="/[group]/[kind]/morphs/[morph]"
-                                      as={`/${group}/${kind}/morphs/${toUrl(`${traitTitle}-${title}`)}`}>
-                                    <a className={`morph-indicator-count morph-${toUrl(type + '-' + traitTitle)}`}>
+                                      as={`/${group}/${kind}/morphs/${toUrl(`${label ? label : traitTitle}-${title}`)}`}>
+                                    <a className={`morph-indicator-count morph-${toUrl(type) + '-' + toUrl(label ? label : traitTitle)}`}>
                                         <span>{products_count}</span>
                                     </a>
                                 </Link>
