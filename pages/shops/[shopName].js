@@ -361,8 +361,8 @@ class ShopPage extends Component {
                                     }
                                     <Col xs={12}>
                                         <Link href={"/reptiles?shop=" + company_name}>
-                                            <a>
-                                                <h3 className="my-3 p-3 feather-shadow text-center">Показать всех животный от {company_name}</h3>
+                                            <a className="d-block feather-shadow text-center h3 btn-second-bn p--15">
+                                                Показать всех животных от {company_name}
                                             </a>
                                         </Link>
                                     </Col>
