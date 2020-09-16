@@ -101,7 +101,7 @@ const TraitItem = (props) => {
                     </a>
                 </Link>
                 <div className="item-body">
-                    <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${article ? article : id}`}>
+                    <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${id}`}>
                         <a className="item-img">
                             {
                                 preview ?
@@ -120,7 +120,7 @@ const TraitItem = (props) => {
                         </a>
                     </Link>
                     <div className="item-info">
-                        <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${article ? article : id}`}>
+                        <Link href="/[group]/[kind]/[id]" as={`/${group}/${toUrl(kindTitle)}/${id}`}>
                             <a className="item-title h3">
                                 {name}
                             </a>
