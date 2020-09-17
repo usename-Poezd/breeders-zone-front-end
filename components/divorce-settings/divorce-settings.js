@@ -10,7 +10,6 @@ import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
 import {withRouter} from "next/router";
 import DayPickerInput from "react-day-picker/DayPickerInput";
-import MomentLocaleUtils, {formatDate, parseDate} from "react-day-picker/moment";
 import {
     clearDivorceError,
     clearDivorceSearchResultFemale,
@@ -42,7 +41,7 @@ import {
 } from "../../actions";
 import {useDropzone} from "react-dropzone";
 import Reports from "../reports";
-import {compareMorph} from "../../utils";
+import {compareMorph, formatDate, parseDate} from "../../utils";
 import moment from "moment";
 import Link from "next/link";
 import DateInput from "../date-input";
@@ -314,8 +313,7 @@ const DivorceSettings = ({
                             format="DD.MM.YYYY"
                             placeholder={`${moment().format('DD.MM.YY')}`}
                             dayPickerProps={{
-                                locale: 'ru',
-                                localeUtils: MomentLocaleUtils
+                                locale: 'ru'
                             }}
                             inputProps={{
                                 name: "cb"
