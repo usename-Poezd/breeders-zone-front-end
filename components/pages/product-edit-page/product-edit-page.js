@@ -17,11 +17,12 @@ import {Col, Container, Row} from "react-bootstrap";
 import Spinner from "../../spinner";
 import {withRouter} from "next/router";
 import Head from "next/head";
+import moment from "moment";
 
 class ProductEditPage extends Component{
     UNSAFE_componentWillMount() {
         const {productSSR, setProductInfo} = this.props;
-        const cb = new Date(productSSR.cb);
+        const cb = moment(productSSR.cb).toISOString();
 
         setProductInfo({
             info:{
@@ -50,7 +51,7 @@ class ProductEditPage extends Component{
         setGetProductRequest();
         getProduct(router.query.id)
             .then( data => {
-                const cb = new Date(data.cb);
+                const cb = moment(data.cb).toISOString();
                 setProductInfo({
                     info:{
                         ...data,
