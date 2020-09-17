@@ -7,7 +7,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMars, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {HandelError, HandelSuccess} from "../handels";
-import MomentLocaleUtils from 'react-day-picker/moment';
 import {DataService, Pipes} from "../../services";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import {
@@ -25,14 +24,14 @@ import {
 import {initialState} from "../../reducers"
 import {connect} from "react-redux";
 import Reports from "../reports";
-import {compareMorph} from "../../utils";
+import {compareMorph, formatDate, parseDate} from "../../utils";
 import {withRouter} from "next/router";
 import Switch from "react-switch";
 import Link from "next/link";
 import moment from "moment";
 import PriceInput from "../price-input";
 import DateInput from "../date-input";
-import {IDispatchProps, IStateProps, ProductSettingsProps} from "./types";
+import {IStateProps, ProductSettingsProps} from "./types";
 import {mainColorHover, secondColor} from "../../variables/style-variables";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
@@ -475,13 +474,12 @@ const ProductSettings = ({
                                        component={DateInput}
                                        value={value}
                                        onDayChange={(day) => setProductCb(day)}
-                                       formatDate={MomentLocaleUtils.formatDate}
-                                       parseDate={MomentLocaleUtils.parseDate}
+                                       formatDate={formatDate}
+                                       parseDate={parseDate}
                                        format="DD.MM.YYYY"
                                        placeholder={`${moment().format('DD.MM.YY')}`}
                                        dayPickerProps={{
-                                           locale: 'ru',
-                                           localeUtils: MomentLocaleUtils
+                                           locale: 'ru'
                                        }}
                                    />
                                    {   errors.cb &&

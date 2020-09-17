@@ -11,6 +11,7 @@ import compareMorph from "./compare-morph";
 import toUrl from "./to-url";
 import checkMobile from "./check-mobile";
 import currencyOptions from "./currency-options";
+import { parseDate, formatDate } from "./date-utils";
 export {
     compose,
     isLogin,
@@ -24,5 +25,7 @@ export {
     compareMorph,
     toUrl,
     checkMobile,
-    currencyOptions
+    currencyOptions,
+    parseDate,
+    formatDate
 };
