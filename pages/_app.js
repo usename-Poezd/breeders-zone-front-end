@@ -132,6 +132,9 @@ class MyApp extends Component {
             }
         });
 
+        console.log(nookies.get());
+        console.log(isLogin);
+
         if(isLogin) {
             window.Echo.private(`App.User.${user.id}`)
                 .notification((notification) => {

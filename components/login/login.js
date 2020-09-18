@@ -4,7 +4,7 @@ import { Form } from 'react-bootstrap';
 import {withGetData} from '../hoc-helpers';
 import { useForm } from "react-hook-form";
 import {connect} from "react-redux";
-import {getUser} from "../../actions";
+import {getUser, setIsLogin} from "../../actions";
 import GroupFormControl from "../group-form-control";
 import {withRouter} from 'next/router'
 
@@ -13,9 +13,10 @@ const Login = (props) => {
     const {register, handleSubmit, errors} = useForm();
 
     const login = data => {
-        const { postLogin, getUser, router } = props;
+        const { postLogin, getUser, setIsLogin,  router } = props;
         postLogin(data)
             .then( () => {
+                setIsLogin(true);
                 router.push('/');
                 getUser();
             })
@@ -87,7 +88,7 @@ const mapStateToProps = ({auth: {isLogin}}) => ({
 });
 
 
-export default connect(mapStateToProps, {getUser})(
+export default connect(mapStateToProps, {getUser, setIsLogin})(
    withRouter(
        withGetData(
            Login,
