@@ -86,7 +86,7 @@ class ShopsPage extends Component {
                         }
                         {
                             shops.data.map( (item) => (
-                                <Col xs={12} sm={6} ms={4} lg={3} className="item">
+                                <Col key={item.id} xs={12} sm={6} ms={4} lg={3} className="item">
                                     <div className="list-item">
                                         <div className="item-body">
                                             <Link href="/shops/[shopName]" as={`/shops/${item.company_name}`}>

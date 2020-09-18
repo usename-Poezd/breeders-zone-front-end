@@ -19,6 +19,11 @@ const auth = (state, action) => {
                 ...action.payload.auth,
                 isLogin: wasBumpedOnClient ? state.isLogin : action.payload.auth.isLogin
             };
+        case 'SET_IS_LOGIN':
+            return {
+                ...state,
+                isLogin: payload,
+            };
         case 'LOGIN_REQUEST':
             return {
                 ...state,
