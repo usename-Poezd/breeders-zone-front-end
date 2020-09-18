@@ -46,6 +46,7 @@ class MyApp extends Component {
     static async getInitialProps({ctx}) {
         const state = await ctx.store.getState();
         const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset|\/documents)/gi;
+        let serverToken = nookies.get(ctx).token;
 
         if (ctx.req) {
             if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
@@ -103,11 +104,12 @@ class MyApp extends Component {
             ctx.store.dispatch(logout())
         }
 
-        return {store: ctx.store, isLogin: ctx.store.getState().auth.isLogin, user: ctx.store.getState().profile.user, isSecondHeader: ctx.pathname.match(regExp) === null};
+        return {serverToken: serverToken, store: ctx.store, isLogin: ctx.store.getState().auth.isLogin, user: ctx.store.getState().profile.user, isSecondHeader: ctx.pathname.match(regExp) === null};
     }
 
     componentDidMount() {
         const {
+            serverToken,
             isLogin,
             user,
             receivedMessage,
@@ -132,7 +134,7 @@ class MyApp extends Component {
             }
         });
 
-        console.log(nookies.get());
+        console.log(serverToken);
         console.log(isLogin);
 
         if(isLogin) {
