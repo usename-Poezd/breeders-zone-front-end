@@ -152,11 +152,11 @@ const Registration = ({ postRegister, setRegError, isLogin, regError, router: {q
                                                 ref={register({ required: true })}
                                             />
                                             <Form.Label className="w-75" htmlFor="user_accepted">
-                                                Я ознокомился и принимаю условия{' '}
+                                                Я ознокомился и принимаю {' '}
                                                 {
                                                     documents.agree.map((item, idx) => (
                                                         <React.Fragment key={item.label}>
-                                                            <a href={`/documents/${item.label}`}>{item.morph_rus}</a>{idx + 1 !== documents.agree.length ? ', ' : ''}
+                                                            <a href={`/documents/${item.label}`}>{item.title}</a>{idx + 1 !== documents.agree.length ? ', ' : ''}
                                                         </React.Fragment>
                                                     ))
                                                 }
