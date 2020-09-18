@@ -212,7 +212,7 @@ class ShopPage extends Component {
                                             <div className="shop-contact-social">
                                                 {
                                                     vk ? (
-                                                        <a className="social-item" href={vk}>
+                                                        <a className="social-item" target="_blank" href={vk}>
                                                             <FontAwesomeIcon icon={faVk} size="lg" className="social-vk"/>
                                                         </a>
                                                     ) : null
@@ -220,7 +220,7 @@ class ShopPage extends Component {
 
                                                 {
                                                     instagram ? (
-                                                        <a className="social-item" href={instagram}>
+                                                        <a className="social-item" target="_blank" href={instagram}>
                                                             <img src="/images/logos/inst_logo.svg" alt="instagram"/>
                                                         </a>
                                                     ) : null
@@ -228,7 +228,7 @@ class ShopPage extends Component {
 
                                                 {
                                                     facebook ? (
-                                                        <a className="social-item" href={facebook}>
+                                                        <a className="social-item" target="_blank" href={facebook}>
                                                             <FontAwesomeIcon icon={faFacebookF} size="lg" className="social-facebook"/>
                                                         </a>
                                                     ) : null
@@ -236,7 +236,7 @@ class ShopPage extends Component {
 
                                                 {
                                                     youtube ? (
-                                                        <a className="social-item" href={youtube}>
+                                                        <a className="social-item" target="_blank" href={youtube}>
                                                             <FontAwesomeIcon icon={faYoutube} size="2x" className="social-youtube"/>
                                                         </a>
                                                     ) : null
@@ -247,7 +247,7 @@ class ShopPage extends Component {
 
                                             {
                                                 website ? (
-                                                    <a className="shop-website h3" href={website}>
+                                                    <a className="shop-website h3" target="_blank" href={website}>
                                                         {website}
                                                     </a>
                                                 ) : null
@@ -289,17 +289,19 @@ class ShopPage extends Component {
                                                 <Slider {...sliderOptions} className="category">
                                                     {
                                                         kinds.map((item, idx) => (
-                                                            <Link key={"category-" + idx} href="/[group]/[kind]" as={`/${item.group}/${this.pipes.toUrl( item.title_eng)}?shop=${company_name}`}>
-                                                                <a
-                                                                    className="home-card"
-                                                                    onClick={() => setActiveKind(item)}
-                                                                >
-                                                                    <LazyImg src={item.logo_square} className="home-card-img img-fluid" alt="main"/>
-                                                                    <div className="home-card-info">
-                                                                        <h3>{item.title_rus}</h3>
-                                                                    </div>
-                                                                </a>
-                                                            </Link>
+                                                            <div key={"category-" + idx}>
+                                                                <Link href="/[group]/[kind]" as={`/${item.group}/${this.pipes.toUrl( item.title_eng)}?shop=${company_name}`}>
+                                                                    <a
+                                                                        className="home-card"
+                                                                        onClick={() => setActiveKind(item)}
+                                                                    >
+                                                                        <LazyImg src={item.logo_square} className="home-card-img img-fluid" alt="main"/>
+                                                                        <div className="home-card-info">
+                                                                            <h3>{item.title_rus}</h3>
+                                                                        </div>
+                                                                    </a>
+                                                                </Link>
+                                                            </div>
                                                         ))
                                                     }
                                                 </Slider>
