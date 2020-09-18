@@ -1,11 +1,18 @@
 import DataService from "../services/dataService";
 import Echo from "laravel-echo";
 import {receivedMessage, setRoomsCountWithNewMessages, updateCheckMessage} from "./chat";
-
-const dataService = new DataService();
 import {addNotification} from "./profile";
 import nookies from "nookies";
 import {push} from "connected-next-router";
+
+declare global {
+    interface Window {
+        Echo: Echo,
+        io: any
+    }
+}
+
+const dataService = new DataService();
 
 
 export const loginRequest = () => {
@@ -97,5 +104,13 @@ export const setRegError = (payload) => {
     return {
         type: 'REG_ERROR',
         payload: payload
+    }
+};
+
+
+export const setIsLogin = (payload: boolean) => {
+    return {
+        type: 'SET_IS_LOGIN',
+        payload
     }
 };
