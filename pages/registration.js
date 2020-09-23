@@ -169,7 +169,7 @@ const Registration = ({ postRegister, setRegError, isLogin, regError, router: {q
                                         : null
                                 }
 
-                                <input type="submit" value="Зарегестрироваться" className="btn btn-main"/>
+                                <input type="submit" value="Зарегистрироваться" className="btn btn-main"/>
                             </Form>
                         </div>
                     </Col>

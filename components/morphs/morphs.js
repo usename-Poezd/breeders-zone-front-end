@@ -121,7 +121,7 @@ class Morphs extends Component {
                                                <Col key={item.title} xs={12} md={4} className="subcategories-item">
                                                    <div className="subcategories-title">
                                                        <Link href="/[group]/[kind]/subcategories/[subcategoryTitle]" as={`/${group}/${kind}/subcategories/${this.pipes.toUrl(item.title)}`}>
-                                                           <a className="d-flex justify-content-between w-100">
+                                                           <a className="d-flex justify-content-between align-items-center w-100">
                                                                <h3>{item.title}</h3>
                                                                <div className="morph-indicator-count morph-other-normal ml-2">{item.products_count}</div>
                                                            </a>
@@ -137,7 +137,7 @@ class Morphs extends Component {
                                                                                return (
                                                                                    <li className="localities-item">
                                                                                        <Link key={locality.title} href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
-                                                                                           <a className="d-flex justify-content-between">
+                                                                                           <a className="d-flex justify-content-between align-items-center">
                                                                                                <h3>{locality.title}</h3>
                                                                                                <div className="morph-indicator-count morph-other-normal ml-2">{locality.products_count}</div>
                                                                                            </a>

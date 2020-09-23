@@ -53,7 +53,7 @@ const ContinueRegistration = (props) => {
                         })
                     }}
                 />
-                <input type="submit" value="Продолжить регестрацию" className="btn btn-success btn-bn w-100"/>
+                <input type="submit" value="Продолжить регистрацию" className="btn btn-success btn-bn w-100"/>
             </Form>
         </div>
     )
