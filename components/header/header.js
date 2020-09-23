@@ -286,7 +286,7 @@ class Header extends Component {
                     </Link>
                     <Link href="/registration">
                         <Nav.Link as="a"  className="btn btn-main">
-                            Зарегестрироваться
+                            Зарегистрироваться
                         </Nav.Link>
                     </Link>
                 </React.Fragment>
