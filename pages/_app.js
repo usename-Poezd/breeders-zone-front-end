@@ -104,12 +104,11 @@ class MyApp extends Component {
             ctx.store.dispatch(logout())
         }
 
-        return {serverToken: serverToken, store: ctx.store, isLogin: ctx.store.getState().auth.isLogin, user: ctx.store.getState().profile.user, isSecondHeader: ctx.pathname.match(regExp) === null};
+        return {store: ctx.store, isLogin: ctx.store.getState().auth.isLogin, user: ctx.store.getState().profile.user, isSecondHeader: ctx.pathname.match(regExp) === null};
     }
 
     componentDidMount() {
         const {
-            serverToken,
             isLogin,
             user,
             receivedMessage,
@@ -133,9 +132,6 @@ class MyApp extends Component {
                 }
             }
         });
-
-        console.log(serverToken);
-        console.log(isLogin);
 
         if(isLogin) {
             window.Echo.private(`App.User.${user.id}`)
