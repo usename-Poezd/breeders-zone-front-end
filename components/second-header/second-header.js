@@ -182,7 +182,7 @@ class SecondHeader extends Component {
 
                 <div className="bg">
                     <div className="bg-img">
-                        <img src={activeKind.logo_header ? activeKind.logo_header : '/images/img.jpg'} alt={activeKind.title_rus}/>
+                        <img src={activeKind.logo_header ? activeKind.logo_header : 'https://breeders-zone.s3.us-east-2.amazonaws.com/static/images/header.jpg'} alt={activeKind.title_rus}/>
                     </div>
                 </div>
             </nav>
