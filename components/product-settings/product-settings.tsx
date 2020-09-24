@@ -24,7 +24,7 @@ import {
 import {initialState} from "../../reducers"
 import {connect} from "react-redux";
 import Reports from "../reports";
-import {compareMorph, formatDate, parseDate} from "../../utils";
+import {compareMorph} from "../../utils";
 import {withRouter} from "next/router";
 import Switch from "react-switch";
 import Link from "next/link";
@@ -33,6 +33,7 @@ import PriceInput from "../price-input";
 import DateInput from "../date-input";
 import {IStateProps, ProductSettingsProps} from "./types";
 import {mainColorHover, secondColor} from "../../variables/style-variables";
+import MomentLocaleUtils from 'react-day-picker/moment';
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
@@ -474,8 +475,8 @@ const ProductSettings = ({
                                        component={DateInput}
                                        value={value}
                                        onDayChange={(day) => setProductCb(day)}
-                                       formatDate={formatDate}
-                                       parseDate={parseDate}
+                                       formatDate={MomentLocaleUtils.formatDate}
+                                       parseDate={MomentLocaleUtils.parseDate}
                                        format="DD.MM.YYYY"
                                        placeholder={`${moment().format('DD.MM.YY')}`}
                                        dayPickerProps={{
