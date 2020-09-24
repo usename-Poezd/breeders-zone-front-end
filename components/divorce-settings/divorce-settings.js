@@ -41,7 +41,8 @@ import {
 } from "../../actions";
 import {useDropzone} from "react-dropzone";
 import Reports from "../reports";
-import {compareMorph, formatDate, parseDate} from "../../utils";
+import {compareMorph} from "../../utils";
+import MomentLocaleUtils from 'react-day-picker/moment';
 import moment from "moment";
 import Link from "next/link";
 import DateInput from "../date-input";
@@ -308,8 +309,8 @@ const DivorceSettings = ({
                             component={DateInput}
                             value={value}
                             onDayChange={(day) => setDivorceCb(day)}
-                            formatDate={formatDate}
-                            parseDate={parseDate}
+                            formatDate={MomentLocaleUtils.formatDate}
+                            parseDate={MomentLocaleUtils.parseDate}
                             format="DD.MM.YYYY"
                             placeholder={`${moment().format('DD.MM.YY')}`}
                             dayPickerProps={{
