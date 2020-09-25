@@ -156,7 +156,7 @@ const BreederRegOptions = ({register, errors, control, countries, watch}) => {
                 nec={true}
                 info={{
                     isInfo: true,
-                    text: "Здесь в должны указать всю информацию котораю должен знать клиент (правила доставки, оплаты и тд.)"
+                    text: "Здесь вы должны указать всю информацию которую должен знать клиент (правила доставки, оплаты и тд.)"
                 }}
                 textArea = {true}
                 errors = {errors}
