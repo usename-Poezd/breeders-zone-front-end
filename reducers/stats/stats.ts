@@ -14,7 +14,7 @@ const stats = (state = initialState, action: IStatsAction) => {
 
     switch (action.type) {
         case HYDRATE:
-            const stateDiff = diff(state, action.payload.stats);
+            const stateDiff = diff(state, payload.stats);
             const wasBumpedOnClient = stateDiff?.isMobile?.[0] === true;
             return {
                 ...state,
