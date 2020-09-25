@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import Link from "next/link";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFacebook, faVk} from "@fortawesome/free-brands-svg-icons";
 import {Modal} from "react-bootstrap";
+import {ISocial} from "../../reducers/socials/types";
 
 const Footer = (props) => {
-    const {auth} = props;
+    const {auth, socials} = props;
 
     const [show, setShow] = useState(false);
 
@@ -50,20 +50,22 @@ const Footer = (props) => {
                     }
                 </div>
                 <div className="d-flex flex-wrap justify-content-center">
-                    <a href="https://fb.com" className="footer-item">
-                        <FontAwesomeIcon icon={faFacebook} className="social-facebook" size="lg"/>
-                    </a>
-                    <a href="https://vk.com" className="footer-item">
-                        <FontAwesomeIcon icon={faVk} className="social-vk" size="lg"/>
-                    </a>
+                    {
+                        socials.all.map((item: ISocial) => (
+                            <a href={item.url} target="_blank" className="footer-item">
+                                <FontAwesomeIcon icon={["fab", item.fa_icon]} size="lg"/>
+                            </a>
+                        ))
+                    }
                 </div>
             </div>
         </div>
     )
 };
 
-const mapStateToProps = ({auth}) => ({
-    auth
+const mapStateToProps = ({auth, socials}) => ({
+    auth,
+    socials
 });
 
 export default connect(mapStateToProps)(Footer);
