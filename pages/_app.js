@@ -15,7 +15,8 @@ import {
 } from "../actions";
 import {GetDataProvider} from "../components/data-service-context";
 import {DataService} from "../services";
-import { config } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { config, library } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import Echo from "laravel-echo";
 import {ConnectedRouter} from "connected-next-router";
@@ -31,6 +32,8 @@ import withYM from "next-ym";
 import Footer from "../components/footer";
 import NextNProgress from "../components/progress-bar";
 import {toUrl, checkMobile} from "../utils";
+import {setSocials} from "../actions/socials";
+library.add(fab);
 config.autoAddCss = false;
 const dataService = new DataService();
 
@@ -49,6 +52,12 @@ class MyApp extends Component {
         let serverToken = nookies.get(ctx).token;
 
         if (ctx.req) {
+            if (state.socials.all.length === 0) {
+                const kinds = await dataService.getSocials();
+
+                ctx.store.dispatch(setSocials(kinds));
+            }
+
             if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {
                 const kinds = await dataService.getKinds();
 
