@@ -1,6 +1,8 @@
 import Axios from "axios";
 import {toFormData} from "../utils";
 import nookies from "nookies";
+import {ISocial} from "../reducers/socials/types";
+import {OutgoingHttpHeaders} from "http";
 
 Axios.interceptors.response.use(undefined, function (err) {
     const cookies = nookies.get();
@@ -42,7 +44,7 @@ export default class  DataService {
             token = nookies.get(ctx).token
         }
 
-        const headers = {
+        const headers: OutgoingHttpHeaders = {
             'Content-Type': 'application/json',
             Accept: 'application/json'
         };
@@ -59,7 +61,7 @@ export default class  DataService {
             .then( (resp) => resp.data);
     };
 
-    getGuards = (data = {}) => {
+    getGuards = (data = {sort: ''}) => {
         data.sort = 'guards';
         const query = this.qs.stringify(data);
         return Axios.get(`${process.env.API_URL}/api/users?${query}`, {
@@ -136,7 +138,7 @@ export default class  DataService {
         if (ctx) {
             token = nookies.get(ctx).token
         }
-        const headers = {
+        const headers: OutgoingHttpHeaders = {
             'Content-Type': 'application/json',
             Accept: 'application/json'
         };
@@ -753,6 +755,19 @@ export default class  DataService {
             }
         )
             .then( (res) => res.data)
+    };
+
+    //Socials
+
+    getSocials = (options = {}): Promise<Array<ISocial>> => {
+        const query = this.qs.stringify(options);
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/socials?' +  query, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            }
+        })
+            .then((res) => res.data);
     };
 }
 
