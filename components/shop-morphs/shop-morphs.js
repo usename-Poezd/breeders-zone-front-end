@@ -86,7 +86,7 @@ const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab,
                             <Link
                                 key={`shop-morph-${traitTitle}-${type}-${geneTitle}`}
                                 href="/[group]/[kind]/morphs/[morph]"
-                                as={`${groupAndKindUrl}/morphs/${pipes.toUrl(`${traitTitle}-${geneTitle}`)}?shop=${shopName}`}
+                                as={`${groupAndKindUrl}/morphs/${pipes.toUrl(label ? label : traitTitle)}-${pipes.toUrl(geneTitle)}?shop=${shopName}`}
                             >
                                 <a
                                     className={`morph-indicator d-inline-block morph-${type}-${pipes.toTraitClass(label ? label : traitTitle)}`}
