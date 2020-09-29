@@ -49,12 +49,12 @@ const TraitItem = (props) => {
                                 logo_img_url ?
                                     <LazyImg
                                         src={logo_img_url}
-                                        alt="asd"
+                                        alt={name + ' | Breeders Zone'}
                                         className="img-fluid"
                                     />
                                     : <LazyImg
                                         src={'/images/icons/error-snake.svg'}
-                                        alt="asd"
+                                        alt="error-snake"
                                         className="img-fluid"
                                     />
                             }
