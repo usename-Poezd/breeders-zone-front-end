@@ -240,7 +240,7 @@ class ProductPage extends Component  {
                                                 <div className="info morphs">
                                                     {
                                                         morphs.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle, trait_group}}, idx) => (
-                                                            <Link key={"morph-" + idx} href="/[group]/[kind]/morphs/[morph]" as={`/${group}/${kind}/morphs/${this.pipes.toUrl(traitTitle + '-' + geneTitle)}`}>
+                                                            <Link key={"morph-" + idx} href="/[group]/[kind]/morphs/[morph]" as={`/${group}/${kind}/morphs/${this.pipes.toUrl(trait_group ? trait_group.label : traitTitle)}-${this.pipes.toUrl(geneTitle)}`}>
                                                                 <a className={`morph-indicator morph-${type}-${this.pipes.toUrl(trait_group ? trait_group.label : traitTitle)}`}>
                                                                     {compareMorph(traitTitle, geneTitle)}
                                                                 </a>
