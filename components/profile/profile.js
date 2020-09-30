@@ -324,7 +324,7 @@ const Profile = ({
                                                 />
                                             </div>
                                         )
-                                        :   <span>Пороль</span>
+                                        :   <span>Пароль</span>
 
                                 }
 
