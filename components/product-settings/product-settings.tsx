@@ -515,6 +515,7 @@ const ProductSettings = ({
                                            })}
                                        >
                                            <option value="Baby">Baby</option>
+                                           <option value="Junior">Junior</option>
                                            <option value="Subadult">Subadult</option>
                                            <option value="Adult">Adult</option>
                                        </Form.Control>
