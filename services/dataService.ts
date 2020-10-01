@@ -397,18 +397,22 @@ export default class  DataService {
             .then( resp => resp.data );
     };
 
-    updateShop = (shopName, data) => {
+    updateShop = (shopName, data, isFormData = false) => {
         const cookies = nookies.get();
         const token = cookies.token;
+        let formData = null;
 
-        const formData = toFormData(data);
-        formData.append('_method', 'PUT');
-        return Axios.post(
+        if (isFormData) {
+            formData = toFormData(data);
+            formData.append('_method', 'PUT');
+        }
+
+        return Axios[isFormData ? 'post' : 'put'](
             `/api/shops/${shopName}`,
-            formData,
+            isFormData ? formData : data,
             {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': isFormData ? 'multipart/form-data' : 'application/json',
                     Accept: 'application/json',
                     'Authorization': `Bearer ${token}`
                 }

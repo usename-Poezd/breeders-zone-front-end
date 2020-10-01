@@ -10,10 +10,27 @@
 }
 
 .shop-logo-preview {
-    display: flex;
+    display: inline-block;
+    position: relative;
     border: 1px solid #ddd;
     border-radius: 5px;
     min-height: 100px;
+
+    .edit {
+        cursor: pointer;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: $main-color-hover;
+        padding: 0 5px;
+        background: #fff;
+        border-radius: $border-radius;
+        transition: 0.5s;
+
+        &:hover {
+            color: $main-color;
+        }
+    }
 
     span {
         padding: 5px;
