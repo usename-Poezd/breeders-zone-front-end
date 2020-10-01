@@ -1,11 +1,11 @@
-import React, {useCallback} from "react";
-import {Col, Form, Row} from "react-bootstrap";
+import React, {useCallback, useState} from "react";
+import {Col, Form, Modal, Row} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
 import {Controller, useForm} from "react-hook-form";
 import {connect} from "react-redux";
 import Spinner from "../spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCar, faHelicopter, faTruck} from "@fortawesome/free-solid-svg-icons";
+import {faCar, faHelicopter, faPen, faTruck} from "@fortawesome/free-solid-svg-icons";
 import {useDropzone} from "react-dropzone";
 import {withGetData} from "../hoc-helpers";
 import {
@@ -21,6 +21,7 @@ import HandelError from "../handels/handel-error";
 import {useRouter} from "next/router";
 import LazyImg from "../lazy-img";
 import InputMask from "react-input-mask";
+import ImageCrop from "../image-crop";
 
 const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdateClear, setShopUpdateSuccess, setShopUpdateError, shop, setShopPreview, isLogin, countries, loginRequest}) => {
 
@@ -74,7 +75,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
         const { company_name } = user;
 
         setShopUpdateRequest();
-        updateShop(company_name, { ...data, logo: acceptedFiles[0]})
+        updateShop(company_name, { ...data})
             .then( data => {
                 getUser()
                     .then( () => {
@@ -131,8 +132,44 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
 
     const { update } = shop;
 
+    const [changeLogo, setChangeLogo] = useState(false);
+    const [isImageCrop, setIsImageCrop] = useState(true);
+
     return (
-        <Row className="justify-content-center">
+        <Row className="flex-column flex-column-reverse flex-md-row justify-content-center">
+            <Modal show={changeLogo} onHide={() => setChangeLogo(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Загрузка новой фотографии</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {
+                        isImageCrop &&
+                            <ImageCrop
+                                aspect={1}
+                                onComplete={(corp => {
+                                    setShopUpdateRequest();
+                                    updateShop(company_name, {logo: corp}, true)
+                                        .then(data => {
+                                            getUser()
+                                                .then(() => {
+                                                    setShopUpdateSuccess(data.success);
+                                                    setTimeout(() => shopUpdateClear(), 5000);
+                                                })
+                                        })
+                                        .catch((error) => {
+                                            setShopUpdateError({errors: error.response.data.errors, status: error.status});
+                                            setTimeout(() => shopUpdateClear(), 5000);
+                                        });
+                                    setIsImageCrop(false);
+                                    setChangeLogo(false);
+                                })}
+                            />
+                    }
+                </Modal.Body>
+                <Modal.Footer>
+                    <p className="w-100 text-center">Если у Вас возникают проблемы с загрузкой, попробуйте выбрать фотографию меньшего размера.</p>
+                </Modal.Footer>
+            </Modal>
             <Col xs={12} md={9}>
                 <Form className="form-container" onSubmit={handleSubmit(submitUpdate)} encType="multipart/form-data">
                     <HandelSuccess success={update.success}/>
@@ -277,38 +314,6 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                         />
                     </Form.Group>
 
-
-                    <Row className="drag-and-drop">
-                        <Col xs={12} md={8}>
-                            <div {...getRootProps({ className: 'drag-and-drop-container feather-shadow'})}>
-                                <input {...getInputProps({
-                                    name: 'logo',
-                                    className: 'drag-and-drop-input'
-                                })}/>
-                                <div className="d-flex outline">
-                                    {
-                                        acceptedFiles[0] ?
-                                            update.previews.map( (item, idx) => (
-                                                <div className="preview" key={`prew-${idx}`}>
-                                                    <LazyImg src={item} alt={`prew-${idx}`} className="img-fluid"/>
-                                                </div>
-                                            ))
-                                            : <span className="m-auto">Перетащите файлы сюда,<br/>либо кликните для выбора</span>
-                                    }
-                                </div>
-                            </div>
-                        </Col>
-                        <Col xs={12} md={4}>
-                            <div className="shop-logo-preview">
-                                {
-                                    logo_img_url ?
-                                        <LazyImg src={logo_img_url} alt="preview" className="img-fluid"/> :
-                                        <span>Вы пока не загрузили ваш логотип</span>
-                                }
-                            </div>
-                        </Col>
-                    </Row>
-
                     <GroupFormControl
                         label="Описание магазина"
                         textArea = {true}
@@ -423,6 +428,25 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
 
                     <input type="submit" value="Сохранить" className="btn btn-main"/>
                 </Form>
+            </Col>
+            <Col xs={12} md={3}>
+                <div className="feather-shadow form-container">
+                    <Row>
+                        <Col xs={12}>
+                            <h3 className="mb--5">Ваш логотип:</h3>
+                            <div className="shop-logo-preview">
+                                <span className="edit" onClick={() => setChangeLogo(true)}>
+                                    <FontAwesomeIcon icon={faPen}/>
+                                </span>
+                                {
+                                    logo_img_url ?
+                                        <LazyImg src={logo_img_url} alt="preview" className="img-fluid"/> :
+                                        <span>Вы пока не загрузили ваш логотип</span>
+                                }
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
             </Col>
         </Row>
     )
