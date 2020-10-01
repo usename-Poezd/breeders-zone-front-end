@@ -226,10 +226,10 @@ const ProductSettings = ({
                            }}
                        />
                        <GroupFormControl
-                           label="Уинкальный идентификатор"
+                           label="Уникальный идентификатор"
                            info={{
                                isInfo: true,
-                               text: 'Уинкальный идентификатор животного (не обязательно)'
+                               text: 'Уникальный идентификатор животного (не обязательно)'
                            }}
                            errors={errors}
                            controls={{
@@ -293,7 +293,7 @@ const ProductSettings = ({
                            selectedKind && selectedKind.localities.length !== 0 ?
                                (
                                    <Form.Group className="d-flex flex-column locality">
-                                       <Form.Label>Добавте локалитет:</Form.Label>
+                                       <Form.Label>Добавтье локалитет:</Form.Label>
                                        <div className="select-wrap w-100">
                                            <Form.Control
                                                as="select"
@@ -391,7 +391,12 @@ const ProductSettings = ({
                                type="radio"
                                name="sex"
                                value={1}
-                               label={<FontAwesomeIcon icon={faMars} className="sex sex-male" size="lg"/>}
+                               label={(
+                                   <React.Fragment>
+                                       <FontAwesomeIcon icon={faMars} className="sex sex-male" size="lg"/>
+                                       Самец(Male)
+                                   </React.Fragment>
+                               )}
                                ref={
                                    register({
                                        required: true
@@ -403,7 +408,12 @@ const ProductSettings = ({
                                type="radio"
                                name="sex"
                                value={0}
-                               label={<FontAwesomeIcon icon={faVenus} className="sex sex-female" size="lg"/>}
+                               label={(
+                                    <React.Fragment>
+                                        <FontAwesomeIcon icon={faVenus} className="sex sex-female" size="lg"/>
+                                        Самка(Female)
+                                    </React.Fragment>
+                                )}
                                ref={
                                    register({
                                        required: true
