@@ -190,7 +190,7 @@ class Pagination extends PureComponent {
         this.changePaginationState(newActivePage);
     };
 
-    changePaginationState = (newActivePage = (this.props.router.query.page ?  ++this.props.router.query.page :  2), scrollToTop = true) => {
+    changePaginationState = (newActivePage = (this.props.router.query.page ?  Number(this.props.router.query.page) + 1 :  2), scrollToTop = true) => {
         const {router, routerOptions, pathname, changeRequest} = this.props;
         const {query} = router;
         this.activePage = newActivePage;
@@ -213,7 +213,7 @@ class Pagination extends PureComponent {
             <React.Fragment>
                 {
                     isMobile && (totalItems !== activePageInRouter ) ?
-                        <button className="btn btn-gray h3 mb--10 p--10 w-100" onClick={() => this.changePaginationState(this.props.router.query.page ?  ++this.props.router.query.page :  2, false)}>
+                        <button className="btn btn-gray h3 mb--10 p--10 w-100" onClick={() => this.changePaginationState(this.props.router.query.page ?  Number(this.props.router.query.page) + 1 :  2, false)}>
                             {
                                 request ?
                                     <BootstrapSpinner animation="border" className="color-main"/>
