@@ -52,7 +52,7 @@ const Footer = (props) => {
                 <div className="d-flex flex-wrap justify-content-center">
                     {
                         socials.all.map((item: ISocial) => (
-                            <a href={item.url} target="_blank" className="footer-item">
+                            <a key={item.url} href={item.url} target="_blank" className="footer-item">
                                 <FontAwesomeIcon icon={["fab", item.fa_icon]} size="lg"/>
                             </a>
                         ))
