@@ -3,6 +3,7 @@ import Head from 'next/head'
 import {connect} from "react-redux";
 import "../sass/app.scss";
 import 'react-day-picker/lib/style.css';
+import 'react-image-crop/dist/ReactCrop.css';
 import 'lazysizes';
 import 'lazysizes/plugins/attrchange/ls.attrchange';
 import Axios from "axios";
