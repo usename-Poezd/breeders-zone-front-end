@@ -775,13 +775,13 @@ export default class  DataService {
     };
 
     getCountryByIp = () => {
-        return Axios.get('http://ip-api.com/json', {
+        return Axios.get('https://api.ipgeolocation.io/ipgeo?apiKey=' + process.env.GEO_API_KEY, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
             }
         })
-            .then((res) => res.data.countryCode);
+            .then((res) => res.data.country_code2);
     };
 }
 
