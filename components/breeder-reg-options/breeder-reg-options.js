@@ -1,11 +1,22 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Form, Col, Row} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
 import {connect} from "react-redux";
 import InputMask from "react-input-mask";
 import {Controller} from "react-hook-form";
+import {DataService} from "../../services";
 
-const BreederRegOptions = ({register, errors, control, countries, watch}) => {
+const BreederRegOptions = ({register, errors, control, countries, watch, setValue}) => {
+    const dataService = new DataService();
+    useEffect(() => {
+        dataService.getCountryByIp()
+            .then((countryCode) => {
+                const country = countries.all.find((item) => item.iso_3166_2 === countryCode);
+                if (country) {
+                    setValue('country', country.name);
+                }
+            })
+    }, []);
     const {country} = watch();
     const countryCallCode = countries.all.find((item) => item.name === country)?.calling_code;
     const countryCallCodeMask = countryCallCode?.replace('9', '\\9');
