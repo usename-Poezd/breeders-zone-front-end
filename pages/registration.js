@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Spinner from "../components/spinner";
 import {HandelError} from "../components/handels";
 import UserRegOptions from "../components/user-reg-options";
@@ -136,6 +136,7 @@ const Registration = ({ postRegister, setRegError, isLogin, regError, router: {q
                                             errors={errors}
                                             watch={watch}
                                             control={control}
+                                            setValue={setValue}
                                         />
                                         : null
                                 }
