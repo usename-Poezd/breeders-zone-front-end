@@ -773,5 +773,15 @@ export default class  DataService {
         })
             .then((res) => res.data);
     };
+
+    getCountryByIp = () => {
+        return Axios.get('http://ip-api.com/json', {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            }
+        })
+            .then((res) => res.data.countryCode);
+    };
 }
 
