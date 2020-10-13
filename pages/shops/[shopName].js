@@ -209,7 +209,7 @@ class ShopPage extends Component {
                                     (
                                         <div className="shop-contact">
                                             <h3 className="shop-contact-title">Контакты:</h3>
-                                            <div className="shop-contact-social">
+                                            <div className={`shop-contact-social ${vk && instagram && facebook && youtube && 'justify-content-between'}`}>
                                                 {
                                                     vk ? (
                                                         <a className="social-item" target="_blank" href={vk}>
@@ -220,7 +220,7 @@ class ShopPage extends Component {
 
                                                 {
                                                     instagram ? (
-                                                        <a className="social-item" target="_blank" href={instagram}>
+                                                        <a className={`social-item ${!vk || !instagram || !facebook || !youtube ? 'ml--10' : ''}`} target="_blank" href={instagram}>
                                                             <img src="/images/logos/inst_logo.svg" alt="instagram"/>
                                                         </a>
                                                     ) : null
@@ -228,7 +228,7 @@ class ShopPage extends Component {
 
                                                 {
                                                     facebook ? (
-                                                        <a className="social-item" target="_blank" href={facebook}>
+                                                        <a className={`social-item ${!vk || !instagram || !facebook || !youtube ? 'ml--10' : ''}`} target="_blank" href={facebook}>
                                                             <FontAwesomeIcon icon={faFacebookF} size="lg" className="social-facebook"/>
                                                         </a>
                                                     ) : null
@@ -236,7 +236,7 @@ class ShopPage extends Component {
 
                                                 {
                                                     youtube ? (
-                                                        <a className="social-item" target="_blank" href={youtube}>
+                                                        <a className={`social-item ${!vk || !instagram || !facebook || !youtube ? 'ml--10' : ''}`} target="_blank" href={youtube}>
                                                             <FontAwesomeIcon icon={faYoutube} size="2x" className="social-youtube"/>
                                                         </a>
                                                     ) : null
