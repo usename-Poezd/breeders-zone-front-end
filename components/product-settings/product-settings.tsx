@@ -394,7 +394,7 @@ const ProductSettings = ({
                                label={(
                                    <React.Fragment>
                                        <FontAwesomeIcon icon={faMars} className="sex sex-male" size="lg"/>
-                                       Самец(Male)
+                                       <span className="ml-1">Самец(Male)</span>
                                    </React.Fragment>
                                )}
                                ref={
@@ -411,7 +411,7 @@ const ProductSettings = ({
                                label={(
                                     <React.Fragment>
                                         <FontAwesomeIcon icon={faVenus} className="sex sex-female" size="lg"/>
-                                        Самка(Female)
+                                        <span className="ml-1">Самка(Female)</span>
                                     </React.Fragment>
                                 )}
                                ref={

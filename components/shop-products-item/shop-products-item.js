@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMars, faPen, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
+import {faGenderless, faMars, faPen, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import {withGetData} from "../hoc-helpers";
 import {activeShopProduct, deleteShopProduct, getKinds} from "../../actions";
 import Link from "next/link";
@@ -79,7 +79,11 @@ const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, p
                     }
                     <li className="product-card-info-item flex-row align-items-center">
                         <h3 className="title-sex">Пол:</h3>
-                        <FontAwesomeIcon icon={sex ? faMars : faVenus} size="lg" className={"info sex-" + (sex ? 'male' : 'female') } />
+                        {
+                            sex === null ?
+                                <FontAwesomeIcon icon={faGenderless} className="info" size="lg"/>
+                                : <FontAwesomeIcon icon={sex ? faMars : faVenus} size="lg" className={"info sex-" + (sex ? 'male' : 'female') } />
+                        }
                     </li>
                     <li className="product-card-info-item">
                         <h3 className="title">Дата рождения:</h3>
