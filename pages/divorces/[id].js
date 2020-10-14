@@ -154,7 +154,7 @@ const DivorcePage = (props) => {
                                     (
                                         <Col xs={12} md={6} className="product-card-info-item">
                                             <h3 className="title">Подкатегория:</h3>
-                                            <Link href="/[group]/[kind]/subcategories/[subcategoryTitle]" as={`/${pipes.toUrl(divorce.kind.group + '/' + divorce.kind.title_eng)}/subcategories/${pipes.toUrl(divorce.subcategory.title)}`}>
+                                            <Link href="/[group]/[kind]/subcategories/[subcategoryTitle]" as={`/${pipes.toUrl(divorce.kind.group)}/${pipes.toUrl(divorce.kind.title_eng)}/subcategories/${pipes.toUrl(divorce.subcategory.title)}`}>
                                                 <a className="subcategory-title">
                                                     <h3 className="info info-text">{divorce.subcategory.title}</h3>
                                                 </a>
