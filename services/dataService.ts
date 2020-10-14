@@ -64,7 +64,7 @@ export default class  DataService {
     getGuards = (data = {sort: ''}) => {
         data.sort = 'guards';
         const query = this.qs.stringify(data);
-        return Axios.get(`${process.env.API_URL}/api/users?${query}`, {
+        return Axios.get(`${process.env.API_URL}/api/guards?${query}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
