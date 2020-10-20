@@ -19,6 +19,7 @@ import {setChatAct, setChatProduct, setReportModalProductId, setReportModalShow}
 import {compareMorph, currencyOptions} from "../../../utils";
 import moment from "moment";
 import currency from "currency.js";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 class ProductPage extends Component  {
 
@@ -228,7 +229,7 @@ class ProductPage extends Component  {
                                     {
                                         sex !== null ?
                                             <div className="info d-flex align-items-center">
-                                                <FontAwesomeIcon icon={ sex ? faMars : faVenus } size="2x" className={`sex-` + (sex ? 'male' : 'female')} />
+                                                <FontAwesomeIcon icon={ sex ? faMars : faVenus } size="2x" className={`sex-` + (sex ? 'male' : 'female')} />&nbsp;
                                                 {sex ? "Самец(Male)" : "Самка(Female)"}
                                             </div>
                                             : <h3 className="info info-text">Не определён</h3>
@@ -327,9 +328,20 @@ class ProductPage extends Component  {
                         </div>
 
                         <div className="in-cart-container feather-shadow">
-                            <div className="price-container d-flex justify-content-center align-items-center">
-                                <h2 className="price">{currency(price, currencyOptions).format()}</h2>
-                                <FontAwesomeIcon icon={faRubleSign} size="2x" className="ruble-icon"/>
+                            <div className="price-container d-flex flex-column flex-sm-row justify-content-center align-items-center">
+                                <h2 className="price mr-sm-4 mr-0">
+                                    {currency(price.find((item) => item.type === 'main').amount, currencyOptions).format()}
+                                    {getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}
+                                </h2>
+                                <div className="d-flex flex-column">
+                                    {
+                                        price.map((item) => {
+                                            if (item.type !== 'main') {
+                                                return <spn className="price-small mb--5">&asymp;{currency(item.amount, {...currencyOptions, precision: 2}).format()}{getSymbolFromCurrency(item.currency)}</spn>
+                                            }
+                                        })
+                                    }
+                                </div>
                             </div>
                             <div className="btn btn-main btn-in-cart m-0" onClick={() => this.sendMessage()}>
                                 <h3>Написать о покупке</h3>

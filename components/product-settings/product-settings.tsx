@@ -63,6 +63,7 @@ const ProductSettings = ({
      clearSearchResult,
      setProductSearchResult,
      allKinds,
+     currencies,
      deleteMorphsKind,
      clearDeletedMorphsKind,
      setProductSearchRequest,
@@ -541,7 +542,21 @@ const ProductSettings = ({
                                    <Form.Label>Цена:</Form.Label>
                                    <div className="d-flex align-items-center">
                                        <PriceInput errors={errors} control={control}/>
-                                       <FontAwesomeIcon icon={faRubleSign} className="ml-1"/>
+                                       <div className="select-wrap w-100 ml--5">
+                                           <Form.Control
+                                               id="currency"
+                                               name="currency"
+                                               as="select"
+                                               ref={register({
+                                                   required: true
+                                               })}
+                                           >
+                                               <option value="RUB">RUB</option>
+                                               {
+                                                   currencies.all.map((item) => <option value={item}>{item}</option>)
+                                               }
+                                           </Form.Control>
+                                       </div>
                                    </div>
                                </Form.Group>
                            </Col>
@@ -637,11 +652,12 @@ const ProductSettings = ({
     )
 };
 
-const mapStateToProps = ({auth: {loginRequest}, product, profile: {user}, kinds: {all: allKinds}}: typeof initialState): IStateProps => ({
+const mapStateToProps = ({auth: {loginRequest}, product, profile: {user}, kinds: {all: allKinds}, currencies}: typeof initialState): IStateProps => ({
     user,
     product,
     allKinds,
-    loginRequest
+    loginRequest,
+    currencies
 });
 
 export default connect(mapStateToProps, {

@@ -12,6 +12,7 @@ import {
     clearDeletedMorphsKind,
     setProductSearchRequest,
 } from "../../actions";
+import {ICurrenciesState} from "../../reducers/currencies/types";
 
 export interface IStateProps {
     user: any,
@@ -67,6 +68,7 @@ export interface IStateProps {
         }
     },
     allKinds,
+    currencies: ICurrenciesState
     loginRequest
 }
 

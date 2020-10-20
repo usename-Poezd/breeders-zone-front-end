@@ -27,6 +27,7 @@ class ProductEditPage extends Component{
         setProductInfo({
             info:{
                 ...productSSR,
+                price: productSSR.price.find((item) => item.type === 'main').amount,
                 sex: String(productSSR.sex),
                 kindId: productSSR.kind_id,
                 cb,
