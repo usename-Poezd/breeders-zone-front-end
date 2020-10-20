@@ -1,3 +1,3 @@
-const currencyOptions = {symbol: '', separator: ' ', fromCents: true, precision: 0};
+const currencyOptions = {symbol: '', separator: ' ', fromCents: false, precision: 0};
 
 export default currencyOptions;
