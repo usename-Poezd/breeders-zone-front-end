@@ -15,7 +15,9 @@ import countries from "./countries";
 import documents from "./documents";
 import stats from "./stats/stats";
 import socials from "./socials/socials";
+import currencies from "./currencies/currencies";
 const createRootReducer = () => combineReducers({
+    currencies,
     socials,
     stats,
     modals,

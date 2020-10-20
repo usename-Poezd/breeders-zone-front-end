@@ -774,6 +774,19 @@ export default class  DataService {
             .then((res) => res.data);
     };
 
+    // Currencies
+
+    getCurrencies = (options = {}): Promise<Array<string>> => {
+        const query = this.qs.stringify(options);
+        return Axios.get('https://www.cbr-xml-daily.ru/daily_json.js?' +  query, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            }
+        })
+            .then((res) => Object.keys(res.data.Valute));
+    };
+
     getCountryByIp = () => {
         return Axios.get('https://api.ipgeolocation.io/ipgeo?apiKey=' + process.env.GEO_API_KEY, {
             headers: {
