@@ -18,6 +18,7 @@
     "bootstrap": "^4.4.1",
     "connected-next-router": "^1.0.2",
     "cookie": "^0.4.1",
+    "currency-symbol-map": "^4.0.4",
     "currency.js": "^2.0.3",
     "dotenv-load": "^2.0.0",
     "framer-motion": "^1.10.3",

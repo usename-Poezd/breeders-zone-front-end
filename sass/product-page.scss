@@ -204,6 +204,12 @@
                 @media (max-width: 576px) {
                     font-size: 30px;
                 }
+
+                &-small {
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 21px;
+                }
             }
 
         }
