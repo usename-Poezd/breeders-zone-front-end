@@ -8,6 +8,7 @@ import {withRouter} from "next/router";
 import LazyImg from "../lazy-img";
 import {withGetData} from "../hoc-helpers";
 import {connect} from "react-redux";
+import getSymbolFromCurrency from 'currency-symbol-map'
 import currency from "currency.js";
 import {setChatProduct, setReportModalProductId, setReportModalShow} from "../../actions";
 import {currencyOptions} from "../../utils";
@@ -140,8 +141,8 @@ const TraitItem = (props) => {
                                 <div className="rating"></div>
                             </div>
                             <span className="price">
-                                {currency(price, currencyOptions).format()}
-                                <FontAwesomeIcon icon={faRubleSign} size="sm" />
+                                {currency(price.find((item) => item.type === 'main').amount, currencyOptions).format()}&nbsp;
+                                {getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}
                             </span>
 
                         </div>

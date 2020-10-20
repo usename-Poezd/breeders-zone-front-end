@@ -12,6 +12,7 @@ import AwesomeDebouncePromise from "awesome-debounce-promise";
 import moment from "moment";
 import currency from "currency.js";
 import {mainColor, mainColorHover, secondColor} from "../../variables/style-variables";
+import getSymbolFromCurrency from "currency-symbol-map";
 const dataService = new DataService();
 const debounceUpdate = AwesomeDebouncePromise(
     dataService.updateProduct,
@@ -92,8 +93,8 @@ const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, p
                     <li className="product-card-info-item flex-row">
                         <h3 className="title">Цена:</h3>
                         <h3 className="info">
-                            {currency(price, currencyOptions).format()}
-                            <FontAwesomeIcon icon={faRubleSign} size="sm" className="ml-1"/>
+                            {currency(price.find((item) => item.type === 'main').amount, currencyOptions).format()}
+                            {getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}
                         </h3>
                     </li>
                     {

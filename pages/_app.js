@@ -12,7 +12,7 @@ import {
     setKinds, setRoomsCountWithNewMessages,
     receivedMessage,
     updateCheckMessage,
-    addNotification, logout, setIsMobile
+    addNotification, logout, setIsMobile, setCurrencies
 } from "../actions";
 import {GetDataProvider} from "../components/data-service-context";
 import {DataService} from "../services";
@@ -50,13 +50,18 @@ class MyApp extends Component {
     static async getInitialProps({ctx}) {
         const state = await ctx.store.getState();
         const regExp = /(\/profile|\/guard|\/guards|\/login|\/registration|\/products|\/divorces|\/chat|\/verify|\/reset|\/documents)/gi;
-        let serverToken = nookies.get(ctx).token;
 
         if (ctx.req) {
-            if (state.socials.all.length === 0) {
-                const kinds = await dataService.getSocials();
+            if (state.currencies.all.length === 0) {
+                const currencies = await dataService.getCurrencies();
 
-                ctx.store.dispatch(setSocials(kinds));
+                ctx.store.dispatch(setCurrencies(currencies));
+            }
+
+            if (state.socials.all.length === 0) {
+                const socials = await dataService.getSocials();
+
+                ctx.store.dispatch(setSocials(socials));
             }
 
             if (state.kinds.all.length === 0 && state.kinds.active.length === 0) {

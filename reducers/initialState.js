@@ -91,6 +91,7 @@ const initialState = {
             user_id: null,
             name: '',
             price: '',
+            currency: 'RUB',
             sex: true,
             cb: null,
             is_active: true,

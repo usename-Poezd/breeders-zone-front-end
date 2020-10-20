@@ -11,3 +11,4 @@ export * from './modals';
 export * from './countries';
 export * from './documents';
 export * from './stats';
+export * from './currencies';
