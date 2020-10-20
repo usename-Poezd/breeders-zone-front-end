@@ -40,6 +40,27 @@ const debounceSearch = AwesomeDebouncePromise(
     500
 );
 
+type Inputs = {
+    id: string,
+    article: string,
+    user_id: number|null,
+    name: string,
+    price: number|string,
+    sex: boolean|string,
+    cb: string,
+    is_active: boolean,
+    reports: Array<any>,
+    description: string,
+    locality_id: number|string|null,
+    subcategory_id: number|string|null,
+    kind_id: number|string|null,
+    preview: {
+        img_src: string
+    }|null,
+    morph: string,
+    previewOfPreview: string
+}
+
 const ProductSettings = ({
      submit,
      product: {
@@ -148,13 +169,13 @@ const ProductSettings = ({
         setPreviewOfPreview(URL.createObjectURL(acceptedFiles[0]))
     }, []);
 
-    const { register, handleSubmit, watch, setValue, control, errors } = useForm({
+    const { register, handleSubmit, watch, setValue, control, errors } = useForm<Inputs>({
         defaultValues: {
             ...info,
             article: info.article ? info.article : '',
             kind_id: info.kind_id ? info.kind_id : allKinds[0].id,
             subcategory_id: info.subcategory_id ? info.subcategory_id : (allKinds[0].subcategories !== null && allKinds[0].subcategories.length !== 0 ? allKinds[0].subcategories[0].id : null),
-            locality_id: info.locality_id ? info.locality_id : 'none',
+            locality_id: info.locality_id ? String(info.locality_id) : 'none',
             morph: '',
             previewOfPreview: '123'
         }

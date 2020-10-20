@@ -23,7 +23,7 @@ export interface IStateProps {
             user_id: number|null,
             name: string,
             price: number|string,
-            sex: boolean,
+            sex: boolean|string,
             cb: string,
             is_active: boolean,
             reports: Array<any>,
