@@ -331,7 +331,7 @@ const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdat
                         label="Политика магазина"
                         info={{
                             isInfo: true,
-                            text: "Здесь в должны указать всю информацию котораю должен знать клиент (правила доставки, оплаты и тд.)"
+                            text: "Здесь в должны указать всю информацию которую должен знать клиент (правила доставки, оплаты и тд.)"
                         }}
                         textArea = {true}
                         errors = {errors}
