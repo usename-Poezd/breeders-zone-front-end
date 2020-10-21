@@ -4,7 +4,7 @@ import GroupFormControl from "../group-form-control";
 import {useForm} from "react-hook-form";
 import Dropzone, {useDropzone} from "react-dropzone";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMars, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
+import {faMars, faQuestionCircle, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {HandelError, HandelSuccess} from "../handels";
 import {DataService, Pipes} from "../../services";
@@ -39,6 +39,27 @@ const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,
     500
 );
+
+type Inputs = {
+    id: string,
+    article: string,
+    user_id: number|null,
+    name: string,
+    price: number|string,
+    sex: boolean|string,
+    cb: string,
+    is_active: boolean,
+    reports: Array<any>,
+    description: string,
+    locality_id: number|string|null,
+    subcategory_id: number|string|null,
+    kind_id: number|string|null,
+    preview: {
+        img_src: string
+    }|null,
+    morph: string,
+    previewOfPreview: string
+}
 
 const ProductSettings = ({
      submit,
@@ -148,13 +169,13 @@ const ProductSettings = ({
         setPreviewOfPreview(URL.createObjectURL(acceptedFiles[0]))
     }, []);
 
-    const { register, handleSubmit, watch, setValue, control, errors } = useForm({
+    const { register, handleSubmit, watch, setValue, control, errors } = useForm<Inputs>({
         defaultValues: {
             ...info,
             article: info.article ? info.article : '',
             kind_id: info.kind_id ? info.kind_id : allKinds[0].id,
             subcategory_id: info.subcategory_id ? info.subcategory_id : (allKinds[0].subcategories !== null && allKinds[0].subcategories.length !== 0 ? allKinds[0].subcategories[0].id : null),
-            locality_id: info.locality_id ? info.locality_id : 'none',
+            locality_id: info.locality_id ? String(info.locality_id) : 'none',
             morph: '',
             previewOfPreview: '123'
         }
@@ -539,7 +560,16 @@ const ProductSettings = ({
                        <Row className="align-items-center">
                            <Col xs={12} md={6}>
                                <Form.Group>
-                                   <Form.Label>Цена:</Form.Label>
+                                   <Form.Label>
+                                       Цена:
+                                       <span className="info">
+                                            <FontAwesomeIcon icon={faQuestionCircle}/>
+                                            <p className="info-text">
+                                                Оплата за товар производится в рублях, но вы можете указать цену в другой валюте из представленных, стоимость будет автоматически пересчитываться по курсу&nbsp;
+                                                <a href="https://www.cbr.ru/" target="_blank">ЦБ РФ</a>
+                                            </p>
+                                        </span>
+                                   </Form.Label>
                                    <div className="d-flex align-items-center">
                                        <PriceInput errors={errors} control={control}/>
                                        <div className="select-wrap w-100 ml--5">
@@ -552,9 +582,8 @@ const ProductSettings = ({
                                                })}
                                            >
                                                <option value="RUB">RUB</option>
-                                               {
-                                                   currencies.all.map((item) => <option value={item}>{item}</option>)
-                                               }
+                                               <option value="USD">USD</option>
+                                               <option value="EUR">EUR</option>
                                            </Form.Control>
                                        </div>
                                    </div>
