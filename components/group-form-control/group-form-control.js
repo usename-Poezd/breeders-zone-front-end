@@ -56,9 +56,9 @@ const GroupFormControl = ({
                         info.isInfo ?
                             (
                                 <span className="info">
-                                <FontAwesomeIcon icon={faQuestionCircle}/>
-                                <p className="info-text">{info.text}</p>
-                            </span>
+                                    <FontAwesomeIcon icon={faQuestionCircle}/>
+                                    <p className="info-text">{info.text}</p>
+                                </span>
                             )
 
                             : null
