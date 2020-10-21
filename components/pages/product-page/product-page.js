@@ -333,7 +333,7 @@ class ProductPage extends Component  {
                                     {getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}
                                 </h2>
                                 <div>
-                                    <p>Эквиволент по курсу <a href="https://www.cbr.ru/" target="_blank">ЦБ РФ</a></p>
+                                    <p>Эквивалент по курсу <a href="https://www.cbr.ru/" target="_blank">ЦБ РФ</a></p>
                                     <div className="d-flex justify-content-between">
                                         {
                                             price.map((item) => {
