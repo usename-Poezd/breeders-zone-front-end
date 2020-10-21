@@ -4,7 +4,7 @@ import GroupFormControl from "../group-form-control";
 import {useForm} from "react-hook-form";
 import Dropzone, {useDropzone} from "react-dropzone";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMars, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
+import {faMars, faQuestionCircle, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {HandelError, HandelSuccess} from "../handels";
 import {DataService, Pipes} from "../../services";
@@ -560,7 +560,16 @@ const ProductSettings = ({
                        <Row className="align-items-center">
                            <Col xs={12} md={6}>
                                <Form.Group>
-                                   <Form.Label>Цена:</Form.Label>
+                                   <Form.Label>
+                                       Цена:
+                                       <span className="info">
+                                            <FontAwesomeIcon icon={faQuestionCircle}/>
+                                            <p className="info-text">
+                                                Оплата за товар производится в рублях, но вы можете указать цену в другой валюте из представленных, стоимость будет автоматически пересчитываться по курсу&nbsp;
+                                                <a href="https://www.cbr.ru/" target="_blank">ЦБ РФ</a>
+                                            </p>
+                                        </span>
+                                   </Form.Label>
                                    <div className="d-flex align-items-center">
                                        <PriceInput errors={errors} control={control}/>
                                        <div className="select-wrap w-100 ml--5">
@@ -573,9 +582,8 @@ const ProductSettings = ({
                                                })}
                                            >
                                                <option value="RUB">RUB</option>
-                                               {
-                                                   currencies.all.map((item) => <option value={item}>{item}</option>)
-                                               }
+                                               <option value="USD">USD</option>
+                                               <option value="EUR">EUR</option>
                                            </Form.Control>
                                        </div>
                                    </div>
