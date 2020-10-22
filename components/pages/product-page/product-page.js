@@ -333,15 +333,24 @@ class ProductPage extends Component  {
                                     {getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}
                                 </h2>
                                 <div>
-                                    <p>Эквивалент по курсу <a href="https://www.cbr.ru/" target="_blank">ЦБ РФ</a></p>
+                                    <p
+                                        className="text-center"
+                                        style={{
+                                            fontSize: 12
+                                        }}
+                                    >
+                                        Эквивалент по курсу <a href="https://www.cbr.ru/" target="_blank">ЦБ РФ</a>
+                                    </p>
                                     <div className="d-flex justify-content-between">
                                         {
                                             price.map((item) => {
                                                 if (item.type !== 'main') {
-                                                    return <span className={"mb--5" + (item.currency === 'USD' ? ' color-main' : ' text-primary')}>
+                                                    return <span
+                                                        className={"price-small mb--5 font-weight-bold" + (item.currency === 'USD' ? ' color-main' : ' ml-2 text-primary')}
+                                                    >
                                                     {
                                                         item.currency === 'USD' ?
-                                                            `US${getSymbolFromCurrency(item.currency)} ${currency(item.amount, {...currencyOptions, precision: 2}).format()}`
+                                                            `${currency(item.amount, {...currencyOptions, precision: 2}).format()} US${getSymbolFromCurrency(item.currency)}`
                                                             : `${currency(item.amount, {...currencyOptions, precision: 2}).format()}${getSymbolFromCurrency(item.currency)}`
                                                     }
                                                 </span>
