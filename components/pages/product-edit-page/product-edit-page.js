@@ -27,7 +27,7 @@ class ProductEditPage extends Component{
         setProductInfo({
             info:{
                 ...productSSR,
-                price: productSSR.price.find((item) => item.type === 'main').amount,
+                price: productSSR.price.find((item) => item.currency === productSSR.currency).amount,
                 sex: String(productSSR.sex),
                 kindId: productSSR.kind_id,
                 cb,
@@ -46,29 +46,6 @@ class ProductEditPage extends Component{
         productUpdateClearSuccess();
     }
 
-    getStateProduct = () => {
-        const {router, getProduct, setGetProductRequest, clearGetProductRequest, setProductInfo } = this.props;
-
-        setGetProductRequest();
-        getProduct(router.query.id)
-            .then( data => {
-                const cb = moment(data.cb).toISOString();
-                setProductInfo({
-                    info:{
-                        ...data,
-                        sex: String(data.sex),
-                        kindId: data.kind_id,
-                        cb,
-                        age: data.age.title
-                    },
-                    product_images: data.product_images,
-                    selectedMorphs: data.morphs,
-                    localities: data.localities
-                });
-                clearGetProductRequest();
-            });
-    };
-
     submit = (data) => {
         const {
             setProductUpdateRequest,
@@ -80,6 +57,8 @@ class ProductEditPage extends Component{
             productUpdateClearSuccess,
             productUpdateClearError,
             getKinds,
+            setProductInfo,
+            clearGetProductRequest
         } = this.props;
 
         const options = {
@@ -101,7 +80,22 @@ class ProductEditPage extends Component{
             .then( async (data) => {
                 setProductUpdateSuccess(data.success);
                 getKinds();
-                this.getStateProduct();
+                const cb = moment(data.cb).toISOString();
+                setProductInfo({
+                    info:{
+                        ...data.data,
+                        price: data.data.price.find((item) => item.currency === data.data.currency).amount,
+                        sex: String(data.data.sex),
+                        kindId: data.data.kind_id,
+                        cb,
+                        age: data.data.age.title
+                    },
+                    product_images: data.data.product_images,
+                    selectedMorphs: data.data.morphs,
+                    localities: data.data.localities
+                });
+                clearGetProductRequest();
+
                 setTimeout(() => productUpdateClearSuccess(), 5000);
             })
             .catch( error => {
