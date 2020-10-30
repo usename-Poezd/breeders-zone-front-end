@@ -154,7 +154,7 @@ class Morphs extends Component {
                 </div>
                 <Row className="justify-content-center mt--15">
                     {
-                        genes.length === 0 &&
+                        genes.length > 0 &&
                         <Col xs={12} lg={7}>
                             <div className="feather-shadow p--20">
                                 <h3 className="text-center">Обозначения в таблице</h3>
