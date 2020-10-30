@@ -6,7 +6,6 @@ import 'react-day-picker/lib/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
 import 'lazysizes';
 import 'lazysizes/plugins/attrchange/ls.attrchange';
-import Axios from "axios";
 import {
     getUserData, loginSuccess, setActiveKind,
     setKinds, setRoomsCountWithNewMessages,
@@ -17,7 +16,7 @@ import {
 import {GetDataProvider} from "../components/data-service-context";
 import {DataService} from "../services";
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { config, library } from '@fortawesome/fontawesome-svg-core'
+import { config, library, icon } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import Echo from "laravel-echo";
 import {ConnectedRouter} from "connected-next-router";
@@ -194,7 +193,6 @@ class MyApp extends Component {
                         />
                         <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
                         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-                        <script src="https://kit.fontawesome.com/438eed2481.js" crossOrigin="anonymous"></script>
                     </Head>
 
                     <CookiesBanner/>
@@ -215,16 +213,6 @@ class MyApp extends Component {
                             <Footer/>
                             : null
                     }
-
-                    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-                            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-                            crossOrigin="anonymous"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-                            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-                            crossOrigin="anonymous"></script>
-                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-                            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-                            crossOrigin="anonymous"></script>
             </GetDataProvider>
         </ConnectedRouter>
         )

@@ -48,7 +48,7 @@ class Morphs extends Component {
     }
 
     render() {
-        const { morphs: {genes, subcategories},  activeKind} = this.props;
+        const { morphs: {genes, subcategories},  activeKind, activeKinds} = this.props;
         const { kind, group } = this.props.router.query;
         const { request } = this.state;
 
@@ -56,7 +56,7 @@ class Morphs extends Component {
             return <Spinner/>;
         }
 
-        if(genes.length === 0 && subcategories.length === 0 && !request && activeKind.title_eng) {
+        if(genes.length === 0 && subcategories.length === 0 && !request && !activeKinds.find((item) => item.id === activeKind.id)) {
             return (
                 <React.Fragment>
                     <Head>
@@ -65,21 +65,6 @@ class Morphs extends Component {
                     <Row className="mt-5">
                         <Col xs={12} className="text-center d-flex h-100">
                             <h2 className="m-auto">Похоже в категории {activeKind.title_rus} нет активных морф</h2>
-                        </Col>
-                    </Row>
-                </React.Fragment>
-            )
-        }
-
-        if(genes.length === 0 && subcategories.length === 0 && !request && !activeKind.title_eng) {
-            return (
-                <React.Fragment>
-                    <Head>
-                        <title>Похоже в категории {activeKind.title_rus} нет животных</title>
-                    </Head>
-                    <Row className="mt-5">
-                        <Col xs={12} className="text-center d-flex h-100">
-                            <h2 className="m-auto">Похоже в категории {activeKind.title_rus} нет животных</h2>
                         </Col>
                     </Row>
                 </React.Fragment>
