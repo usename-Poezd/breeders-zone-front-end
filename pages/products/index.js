@@ -7,7 +7,7 @@ import {DataService} from "../../services";
 import wrapper from "../../store";
 import {setShopProducts} from "../../actions";
 
-const ProductsPage = () => {
+export default () => {
     return (
         <React.Fragment>
             <Head>
@@ -27,5 +27,3 @@ export const getServerSideProps = wrapper.getServerSideProps( async (ctx) => {
 
     ctx.store.dispatch(setShopProducts(products));
 });
-
-export default ProductsPage;

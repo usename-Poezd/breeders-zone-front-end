@@ -163,13 +163,12 @@ class MyApp extends Component {
                 });
         }
 
-        this.setState({prevUrl: router.asPath}, () => {
-            router.events.on('routeChangeComplete', (url) => {
-                if (url.match(regExp) === null)
-                    this.setState({isSecondHeader: true});
-                else
-                    this.setState({isSecondHeader: false});
-            });
+        this.setState({prevUrl: router.asPath});
+        router.events.on('routeChangeComplete', (url) => {
+            if (url.match(regExp) === null)
+                this.setState({isSecondHeader: true});
+            else
+                this.setState({isSecondHeader: false});
         });
     }
 
