@@ -11,6 +11,8 @@ import qs from 'qs';
 
 const ShopProducts = (props) => {
 
+    const { products, allKinds, user,  loginRequest, productsRequest, router, isLogin, isMobile } = props;
+    
     const [q, setQuery] = useState('');
     const [kind, setKind] = useState(router.query.kindId | 'all');
 
@@ -47,8 +49,6 @@ const ShopProducts = (props) => {
     const setSearch = (e) => {
         setQuery(e.target.value);
     };
-
-    const { products, allKinds, user,  loginRequest, productsRequest, router, isLogin, isMobile } = props;
 
     if(loginRequest){
         return (
