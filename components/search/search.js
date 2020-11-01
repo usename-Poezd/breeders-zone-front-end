@@ -342,7 +342,7 @@ const Search = ({
                                                             clearSearchInput(true);
                                                         }}
                                                     >
-                                                        <div className={`morph-indicator morph-${pipes.toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
+                                                        <div className={`morph-indicator morph-${gene.type}-${pipes.toTraitClass(gene.trait.trait_group ? gene.trait.trait_group.label : gene.trait.title)} d-inline-block`}>
                                                             {compareMorph(gene.trait.title, gene.title)}
                                                         </div>
                                                     </li>
@@ -358,7 +358,7 @@ const Search = ({
                                     morphsIn.map( (gene, idx) => (
                                         <div
                                             key={`morphs-${gene.title}-${gene.trait.title}-${gene.id}`}
-                                            className={`morph-indicator morph-${pipes.toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}
+                                            className={`morph-indicator morph-${gene.type}-${pipes.toTraitClass(gene.trait.trait_group ? gene.trait.trait_group.label : gene.trait.title)} d-inline-block`}
                                         >
                                            {compareMorph(gene.trait.title, gene.title)}
                                             <FontAwesomeIcon
@@ -404,7 +404,7 @@ const Search = ({
                                                             clearSearchInput(false);
                                                         }}
                                                     >
-                                                        <div className={`morph-indicator morph-${pipes.toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}>
+                                                        <div className={`morph-indicator morph-${gene.type}-${pipes.toTraitClass(gene.trait.trait_group ? gene.trait.trait_group.label : gene.trait.title)} d-inline-block`}>
                                                            {compareMorph(gene.trait.title, gene.title)}
                                                         </div>
                                                     </li>
@@ -420,7 +420,7 @@ const Search = ({
                                     morphsOut.map( (gene, idx) => (
                                         <div
                                             key={`morphs-${gene.title}-${gene.trait.title}-${gene.id}`}
-                                            className={`morph-indicator morph-${pipes.toTraitClass(`${gene.type}-${gene.trait.title}`)} d-inline-block`}
+                                            className={`morph-indicator morph-${gene.type}-${pipes.toTraitClass(gene.trait.trait_group ? gene.trait.trait_group.label : gene.trait.title)} d-inline-block`}
                                         >
                                            {compareMorph(gene.trait.title, gene.title)}
                                             <FontAwesomeIcon

@@ -182,7 +182,7 @@ class TopFilterAndResult extends Component {
                                                     <div
                                                         key={"morph-exists" + idx}
                                                         className={
-                                                            `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitleUrl    ) : 'normal'}`
+                                                            `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitleUrl) : 'normal'}`
                                                         }
                                                     >
                                                         {
@@ -214,7 +214,8 @@ class TopFilterAndResult extends Component {
                                     >
                                         <Slider {...sliderOptions}>
                                             {
-                                                morphs.map( ({geneTitle, traitTitle, type}, idx) => {
+                                                morphs.map( ({geneTitle, traitTitle, type, label}, idx) => {
+                                                    const traitTitleUrl = label ? label : traitTitle;
                                                     if (activeKind.title_eng) {
                                                         return (
                                                             <Link
@@ -224,7 +225,7 @@ class TopFilterAndResult extends Component {
                                                             >
                                                                 <a
                                                                     className={
-                                                                        `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
+                                                                        `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitleUrl) : 'normal'}`
                                                                     }
                                                                 >
                                                                     {
@@ -241,7 +242,7 @@ class TopFilterAndResult extends Component {
                                                         <div
                                                             key={"morph-exists" + idx}
                                                             className={
-                                                                `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitle) : 'normal'}`
+                                                                `morph-indicator text-nowrap morph-${type && traitTitle ? type : 'other' }-${traitTitle ? this.pipes.toUrl(traitTitleUrl) : 'normal'}`
                                                             }
                                                         >
                                                             {
