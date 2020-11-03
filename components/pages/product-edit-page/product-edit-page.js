@@ -80,7 +80,7 @@ class ProductEditPage extends Component{
             .then( async (data) => {
                 setProductUpdateSuccess(data.success);
                 getKinds();
-                const cb = moment(data.cb).toISOString();
+                const cb = moment(data.data.cb).toISOString();
                 setProductInfo({
                     info:{
                         ...data.data,
