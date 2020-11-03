@@ -89,7 +89,7 @@ const DivorcesListItem = (props) => {
                 </Link>
                 <div className="item-body">
                     <Link href="/divorces/[id]" as={`/divorces/${props.id}`}>
-                        <a className="item-img">
+                        <a className="item-img divorce-img">
                             {
                                 props.exit_photos[0] ?
                                     <LazyImg
@@ -106,7 +106,7 @@ const DivorcesListItem = (props) => {
                             }
                         </a>
                     </Link>
-                    <div className="item-info d-flex flex-column align-items-center">
+                    <div className="item-info">
                         <Link href="/divorces/[id]" as={`/divorces/${props.id}`}>
                             <a className="item-title h3">
                                 {props.title}
