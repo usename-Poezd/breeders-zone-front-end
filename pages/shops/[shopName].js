@@ -267,7 +267,7 @@ class ShopPage extends Component {
                         divorces.length > 0 ?
                             (
                                 <React.Fragment>
-                                    <h2 className="shop-title">Разводы:</h2>
+                                    <h2 className="shop-title">Разведения:</h2>
                                     <div className="divorces">
                                         {
                                             divorces.map( (item) => <ShopDivorcesItem key={`divorce-${item.id}`} {...item}/>)
@@ -275,6 +275,19 @@ class ShopPage extends Component {
                                     </div>
                                 </React.Fragment>
                             ) : null
+                    }
+
+                    {
+                        divorces.length > 0 &&
+                        <Row className="shop-items justify-content-center">
+                            <Col xs={12}>
+                                <Link href={"/divorces?shop=" + company_name}>
+                                    <a className="d-block feather-shadow text-center h3 btn-second-bn p--15">
+                                        Показать все разведения от {company_name}
+                                    </a>
+                                </Link>
+                            </Col>
+                        </Row>
                     }
 
                     {

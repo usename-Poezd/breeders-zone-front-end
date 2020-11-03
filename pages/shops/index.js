@@ -159,9 +159,6 @@ const mapStateToProps = ({router: {location: {search, pathname}}, kinds: {active
 
 export const getServerSideProps = async (ctx) => {
     const  dataService = await new DataService();
-    if (ctx.query.kind) {
-        ctx.query.kind = await ctx.query.kind.replace('-', ' ');
-    }
     const shops = await dataService.getShops(ctx.query);
 
     return {

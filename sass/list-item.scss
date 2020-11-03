@@ -37,6 +37,14 @@
             object-fit: cover;
             width: 600px;
         }
+
+        &.divorce-img {
+            img {
+                object-fit: cover;
+                width: 600px;
+                height: 190px;
+            }
+        }
     }
 
     &-body {
