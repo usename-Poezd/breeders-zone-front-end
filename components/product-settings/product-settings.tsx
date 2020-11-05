@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
 import {useForm} from "react-hook-form";
@@ -92,7 +92,6 @@ const ProductSettings = ({
 }: ProductSettingsProps) => {
     const [selectMorphIdx, setSelectMorphIdx] = useState(0);
     const searchList = useRef();
-
     const { toTraitClass } = new Pipes();
 
     const handleChange = (e) => {
@@ -180,6 +179,11 @@ const ProductSettings = ({
             previewOfPreview: '123'
         }
     });
+
+    useEffect(() => {
+        setValue('price', info.price)
+    }, [info.price]);
+
     const [isActive, setActive] = useState(info.is_active);
 
     const {getRootProps, getInputProps} = useDropzone({
