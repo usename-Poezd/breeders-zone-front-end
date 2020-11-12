@@ -22,15 +22,7 @@
 
         .nec{
             position: relative;
-
-            &::after{
-                content: "*";
-                position: absolute;
-                top: 0;
-                right: -10px;
-
-                color: #dc3545;
-            }
+            color: #dc3545;
         }
 
         &-title {
