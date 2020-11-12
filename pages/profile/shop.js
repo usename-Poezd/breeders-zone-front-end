@@ -3,7 +3,7 @@ import {Container} from "react-bootstrap";
 import ShopProfile from "../../components/shop-profile";
 import wrapper from "../../store";
 import {DataService} from "../../services";
-import {setCountries} from "../../actions";
+import {setCountries} from "../../redux/actions";
 import Head from "next/head";
 import {serverRedirect} from "../../utils";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import Error from "../../../_error";
 import {DivorceEditPage} from "../../../../components/pages";
-import DataService from "../../../../services/dataService";
+import DataService from "../../../../services/DataService";
 import {serverRedirect} from "../../../../utils";
 
 export default ({divorceSSR, statusCode}) => {

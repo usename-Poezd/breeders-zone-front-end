@@ -36,7 +36,7 @@ export default ({documents}) => {
 
 export const getServerSideProps = async (ctx) => {
     const dataService = await new DataService();
-    const documents = await dataService.getDocuments();
+    const reducer = await dataService.getDocuments();
 
     return {
         props: {

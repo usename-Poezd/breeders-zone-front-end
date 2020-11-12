@@ -61,7 +61,7 @@ const Guards = (props) => {
                     <Form onSubmit={onSubmit} className="dashboard-filter d-flex">
                         <div className="dashboard-search-container">
                             <Form.Control
-                                className="dashboard-search feather-shadow"
+                                className="dashboard-reducer feather-shadow"
                                 placeholder="Поиск..."
                                 onChange={setSearch}
                             />

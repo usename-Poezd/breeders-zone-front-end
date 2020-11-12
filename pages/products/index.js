@@ -5,7 +5,7 @@ import Head from "next/head";
 import {serverRedirect} from "../../utils";
 import {DataService} from "../../services";
 import wrapper from "../../store";
-import {setShopProducts} from "../../actions";
+import {setShopProducts} from "../../redux/actions";
 
 export default () => {
     return (

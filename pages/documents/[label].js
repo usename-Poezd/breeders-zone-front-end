@@ -20,7 +20,7 @@ const DocumentPage = ({statusCode, documents, document}) => {
             </Head>
             <Row className="justify-content-center">
                 <div className="d-flex d-md-none justify-content-between align-items-center overflow-hidden sticky-top py-2 px-4 bg-white border-bottom">
-                    <Link href={"/documents"}>
+                    <Link href={"/reducer"}>
                         <a>
                             <FontAwesomeIcon icon={faArrowLeft} size="2x" className="color-main"/>
                         </a>
@@ -52,7 +52,7 @@ export default DocumentPage;
 export const getServerSideProps = async (ctx) => {
     try {
         const dataService = await new DataService();
-        const documents = await dataService.getDocuments();
+        const reducer = await dataService.getDocuments();
         const document = await dataService.getDocument(ctx.query.label);
 
         return {

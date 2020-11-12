@@ -1,9 +1,9 @@
 import React from "react";
 import {Col, Row, Container} from "react-bootstrap";
-import Login from "../components/login";
-import ContinueRegistration from "../components/continue-reg";
+import {Login} from "../Login";
 import Head from "next/head";
-import nookies from "nookies";
+import * as Cookie from "es-cookie";
+import {NextPageContext} from "next";
 
 export default () => {
     return (
@@ -18,21 +18,20 @@ export default () => {
                 </Col>
                 <Col xs={12} lg={4}>
                     <Login/>
-                    <ContinueRegistration/>
                 </Col>
             </Row>
         </Container>
     )
 };
 
-export const getServerSideProps = (ctx) => {
-    if (nookies.get(ctx).token && ctx.res) {
-        ctx.res.setHeader("location", "/");
-        ctx.res.statusCode = 301;
-        ctx.res.end();
-    }
-
-    return {
-        props: {}
-    }
-};
+// export const getServerSideProps = (ctx: NextPageContext) => {
+//     if (Cookie.parse(ctx.req.headers.cookie).token && ctx.res) {
+//         ctx.res.setHeader("location", "/");
+//         ctx.res.statusCode = 301;
+//         ctx.res.end();
+//     }
+//
+//     return {
+//         props: {}
+//     }
+// };

@@ -8,9 +8,9 @@ import {
     clearDivorceSuccess, setDivorceError,
     setDivorceSuccess,
     setDivorceUpdateRequest
-} from "../../../actions";
+} from "../../../redux/actions";
 import DivorceSettings from "../../../components/divorce-settings";
-import {withGetData} from "../../../components/hoc-helpers";
+import {withDataService} from "../../../components/HOC";
 import {withRouter} from "next/router";
 import {serverRedirect} from "../../../utils";
 
@@ -120,5 +120,5 @@ export default connect(mapStateToProps, {
     setDivorceError,
     clearDivorceError,
 })(
-    withRouter(withGetData(AddDivorcePage, mapMethodsToProps))
+    withRouter(withDataService(AddDivorcePage, mapMethodsToProps))
 );

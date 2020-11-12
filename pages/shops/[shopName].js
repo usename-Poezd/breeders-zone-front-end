@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {DataService, Pipes} from "../../services";
-import {withGetData} from "../../components/hoc-helpers";
+import {withDataService} from "../../components/HOC";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCar, faHelicopter, faTruck} from "@fortawesome/free-solid-svg-icons";
 import {faFacebookF, faVk, faYoutube} from "@fortawesome/free-brands-svg-icons";
@@ -12,7 +12,7 @@ import {withRouter} from "next/router";
 import Link from "next/link";
 import ShopDivorcesItem from "../../components/shop-divorces-item";
 import ShopMorphs from "../../components/shop-morphs";
-import {setActiveKind} from "../../actions";
+import {setActiveKind} from "../../redux/actions";
 import {connect} from "react-redux";
 import Head from "next/head";
 import TraitItem from "../../components/trait-item/trait-item";
@@ -424,6 +424,6 @@ const mapMethodsToProps = (getData) => {
 
 export default connect(null, {setActiveKind})(
     withRouter(
-        withGetData(ShopPage, mapMethodsToProps)
+        withDataService(ShopPage, mapMethodsToProps)
     ))
 ;

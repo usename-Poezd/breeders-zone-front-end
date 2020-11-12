@@ -6,9 +6,9 @@ import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBan, faCheck} from "@fortawesome/free-solid-svg-icons";
 import Carousel, {Modal as ImageModal, ModalGateway} from "react-images";
-import {setReportModalDivorceId, setReportModalShow} from "../../actions";
+import {setReportModalDivorceId, setReportModalShow} from "../../redux/actions";
 import {connect} from "react-redux";
-import {withGetData} from "../../components/hoc-helpers";
+import {withDataService} from "../../components/HOC";
 import Link from "next/link";
 import {formatDate} from "react-day-picker/moment";
 import LazyImg from "../../components/lazy-img";
@@ -328,5 +328,5 @@ export const getServerSideProps = async (ctx) => {
 
 
 export default connect(mapStateToProps, {setReportModalDivorceId, setReportModalShow})(
-    withGetData(DivorcePage, mapMethodsToProps)
+    withDataService(DivorcePage, mapMethodsToProps)
 );

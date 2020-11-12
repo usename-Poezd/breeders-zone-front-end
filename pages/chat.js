@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/header";
+import Header from "../components/Header";
 import {Container} from "react-bootstrap";
 import Chat from "../components/chat";
 import Head from "next/head";

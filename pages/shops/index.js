@@ -67,7 +67,7 @@ class ShopsPage extends Component {
                     <Form onSubmit={this.onSubmit} className="dashboard-filter d-flex justify-content-center">
                         <div className="dashboard-search-container">
                             <Form.Control
-                                className="dashboard-search feather-shadow"
+                                className="dashboard-reducer feather-shadow"
                                 placeholder="Поиск..."
                                 onChange={this.setSearch}
                                 ref={this.searchInput}

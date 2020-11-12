@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {DataService} from "../../services";
 import {Col, Container, Row} from "react-bootstrap";
-import {withGetData} from "../../components/hoc-helpers";
+import {withDataService} from "../../components/HOC";
 import {motion} from "framer-motion";
 import Head from "next/head";
 
@@ -95,4 +95,4 @@ const mapMethodsToProps = ({sendVerifyMail}) => ({
     sendVerifyMail
 });
 
-export default withGetData(VerificationPage, mapMethodsToProps);
+export default withDataService(VerificationPage, mapMethodsToProps);

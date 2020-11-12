@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import ProductSettings from "../../components/product-settings";
-import {withGetData} from "../../components/hoc-helpers";
+import {withDataService} from "../../components/HOC";
 import {
     getKinds,
     productUpdateClear,
@@ -10,7 +10,7 @@ import {
     setProductUpdateError,
     setProductUpdateRequest,
     setProductUpdateSuccess,
-} from "../../actions";
+} from "../../redux/actions";
 import {connect} from "react-redux";
 import {Col, Container, Row} from "react-bootstrap";
 import Spinner from "../../components/spinner";
@@ -143,6 +143,6 @@ export default connect(mapStateToProps, {
     productUpdateClearError,
 })(
     withRouter(
-        withGetData(ProductSettingsPage, mapMethodsToProps)
+        withDataService(ProductSettingsPage, mapMethodsToProps)
     )
 );
