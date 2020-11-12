@@ -18,13 +18,6 @@ module.exports = {
 
         return config;
     },
-    webpackDevMiddleware: config => {
-        config.watchOptions = {
-            poll: 1000,
-            aggregateTimeout: 300,
-        };
-        return config
-    },
     env: {
         GEO_API_KEY: process.env.GEO_API_KEY,
         API_URL: process.env.API_URL,
