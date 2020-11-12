@@ -3,7 +3,7 @@ import Link from "next/link";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Modal} from "react-bootstrap";
-import {ISocial} from "../../reducers/socials/types";
+import {ISocial} from "../../types";
 
 const Footer = (props) => {
     const {auth, socials} = props;
