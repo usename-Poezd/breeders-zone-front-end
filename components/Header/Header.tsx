@@ -5,24 +5,9 @@ import {Navbar, Nav, Form, Container, NavDropdown} from 'react-bootstrap';
 import Link from 'next/link';
 import {connect} from "react-redux";
 import {
-    clearSearch,
-    clearSearchMorphResultIn,
-    clearSearchMorphResultOut,
-    deleteMorphIn,
-    deleteMorphOut,
-    setSearchAge,
-    setSearchLocality, setSearchMaxMorphs,
-    setSearchMinMorphs,
-    setSearchMorphResultIn,
-    setSearchMorphResultOut,
-    setSearchPriceFrom,
-    setSearchPriceTo,
-    setSearchQuery,
-    setSearchSelectedKind, setSearchSex, setSearchSubcategoryId,
-    setSelectedMorphIn,
-    setSelectedMorphOut,
-    search as searchState, logout, clearUserNotificationsCount
-} from "../../actions";
+    clearUserNotificationsCount
+} from "../../redux/Profile";
+import {logout} from "../../redux/Auth";
 import Spinner from "../spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faComments} from "@fortawesome/free-regular-svg-icons";
@@ -35,11 +20,15 @@ import {
     faUserCircle
 } from "@fortawesome/free-solid-svg-icons";
 import Pipes from "../../services/pipes";
-import Search from "../search/search";
+import {Search} from "./components/Search";
 import LazyImg from "../lazy-img";
 import Notifications from "../notifications/notifications";
+import {IRootState} from "../../redux/store";
+import {HeaderPropsType, IHeaderStateProps} from "./types";
+import {IHeaderDispatchProps} from "./types";
+import {search as searchAction, setSearchQuery} from "../../redux/Search";
 
-class Header extends Component {
+class Header extends Component<HeaderPropsType> {
 
     state = {
         isToggle: false,
@@ -57,7 +46,6 @@ class Header extends Component {
     pipes = new Pipes();
 
     componentDidMount() {
-        this.onResize();
         window.addEventListener('resize', this.onResize);
     }
 
@@ -87,7 +75,7 @@ class Header extends Component {
     };
 
     renderNav = () => {
-        const {isLogin, user, loginRequest, roomsWithNewMessages, logout, clearUserNotificationsCount, deleteToken} = this.props;
+        const {isLogin, user, loginRequest, rooms_with_new_messages, logout, clearUserNotificationsCount} = this.props;
         const {isMobile, isNotifications} = this.state;
 
         if (isLogin && !isMobile) {
@@ -110,7 +98,7 @@ class Header extends Component {
                        title={(
                            <React.Fragment>
                                {
-                                   user.unread_notifications_count > 0 ?
+                                   user?.unread_notifications_count > 0 ?
                                        <span className="message-count" style={{right: -3}}>{user.unread_notifications_count}</span>
                                        : null
                                }
@@ -123,14 +111,14 @@ class Header extends Component {
                    <Link href="/chat">
                        <a className="chat-link nav-link">
                            {
-                               roomsWithNewMessages > 0 ?
-                                   <span className="message-count">{roomsWithNewMessages}</span>
+                               rooms_with_new_messages > 0 ?
+                                   <span className="message-count">{rooms_with_new_messages}</span>
                                    : null
                            }
                            <FontAwesomeIcon icon={faComments} size="lg"/>
                        </a>
                    </Link>
-                   <NavDropdown title={user.name ? user.name : 'Вы'} id="nav-dropdown">
+                   <NavDropdown title={user ? user.name : 'Вы'} id="nav-dropdown">
                        {
                            loginRequest ?
                                <Spinner size={15}/>
@@ -143,7 +131,7 @@ class Header extends Component {
                                        </Link>
 
                                             {
-                                                user.is_breeder ?
+                                                user?.is_breeder ?
                                                     (
                                                         <React.Fragment>
                                                             <Link href="/profile/shop">
@@ -160,7 +148,7 @@ class Header extends Component {
                                                     : null
                                             }
                                             {
-                                                user.is_guard ?
+                                                user?.is_guard ?
                                                     <Link href="/guard/dashboard">
                                                         <NavDropdown.Item as="a" eventKey="4.5">Рабочий стол хранителя</NavDropdown.Item>
                                                     </Link>
@@ -198,7 +186,7 @@ class Header extends Component {
                         </Nav.Link>
                     </Link>
                     {
-                        user.is_breeder ?
+                        user?.is_breeder ?
                             (
                                 <React.Fragment>
                                     <Link href="/profile/shop">
@@ -224,7 +212,7 @@ class Header extends Component {
                             : null
                     }
                     {
-                        user.is_guard ?
+                        user?.is_guard ?
                             <Link href="/guard/dashboard">
                                 <Nav.Link as="a" onClick={() => this.setState({isToggle: false})}>
                                     <span className="icon"><FontAwesomeIcon icon={faDesktop} size="lg"/></span>
@@ -241,7 +229,7 @@ class Header extends Component {
             )
         }
 
-        if (!deleteToken && isMobile) {
+        if (isMobile) {
             return (
                 <React.Fragment>
                     <Link href="/faq" >
@@ -270,7 +258,7 @@ class Header extends Component {
             )
         }
 
-        if (deleteToken || !isLogin) {
+        if (!isLogin) {
             return (
                 <React.Fragment>
                     <Link href="/faq">
@@ -297,12 +285,12 @@ class Header extends Component {
     render(){
         const { isToggle, isToggleSearch, isNotifications } = this.state;
         const {
-            roomsWithNewMessages,
-            setSearchQuery,
-            query,
-            searchState,
+            rooms_with_new_messages,
             user,
-            isLogin
+            isLogin,
+            search,
+            setSearchQuery,
+            searchAction
         } = this.props;
 
 
@@ -323,8 +311,8 @@ class Header extends Component {
                                         <Link href="/chat">
                                             <a className="chat-icon">
                                                 {
-                                                    roomsWithNewMessages > 0 ?
-                                                        <span className="message-count">{roomsWithNewMessages}</span>
+                                                    rooms_with_new_messages > 0 ?
+                                                        <span className="message-count">{rooms_with_new_messages}</span>
                                                         : null
                                                 }
                                                 <FontAwesomeIcon icon={faComments} size="lg"/>
@@ -341,7 +329,7 @@ class Header extends Component {
                                             title={(
                                                 <React.Fragment>
                                                     {
-                                                        user.unread_notifications_count > 0 ?
+                                                        user?.unread_notifications_count > 0 ?
                                                             <span className="message-count"></span>
                                                             : null
                                                     }
@@ -361,16 +349,16 @@ class Header extends Component {
                     </div>
 
 
-                    <Navbar.Collapse id="basic-navbar-nav">
+                    <Navbar.Collapse as={"form"} id="basic-navbar-nav">
                         <Nav className="d-flex align-items-center">
                             <Form.Group className="m-md-0">
                                 <Form.Control
                                     type="text"
                                     placeholder="Поиск по..."
-                                    value={query} className="form-control-border"
+                                    value={search.query} className="form-control-border"
                                     onKeyDown={
                                         (e) => e.key === 'Enter' ?
-                                            searchState()
+                                            searchAction()
                                             : null
                                     }
                                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -382,7 +370,7 @@ class Header extends Component {
                                     <span
                                         className="search-icon d-flex"
                                         onClick={() => {
-                                            searchState()
+                                            searchAction()
                                         }}
                                     >
                                         <img src="/images/search.svg" alt="Поиск" className="img-fluid" />
@@ -391,7 +379,7 @@ class Header extends Component {
                             </Form.Group>
                         </Nav>
 
-                        <Nav className="ml-auto d-flex align-items-start align-items-lg-center">
+                        <Nav as="nav" className="ml-auto d-flex align-items-start align-items-lg-center">
                             {
                                 this.renderNav()
                             }
@@ -408,68 +396,19 @@ class Header extends Component {
 const mapStateToProps = ({
      auth: {isLogin, loginRequest},
      profile: {user},
-     chat: {roomsWithNewMessages},
-     search: {
-         query,
-         selectedKind,
-         selectedLocalities,
-         priceFrom,
-         priceTo,
-         searchMorphResultIn,
-         morphsIn,
-         searchMorphResultOut,
-         morphsOut,
-         minMorphs,
-         maxMorphs,
-         age,
-         sex,
-         subcategoryId
-     },
-     kinds: {all: allKinds}
-}) => ({
+     chat: {rooms_with_new_messages},
+    search,
+}: IRootState): IHeaderStateProps => ({
     isLogin,
     loginRequest,
     user,
-    roomsWithNewMessages,
-    allKinds,
-
-    query,
-    selectedKind,
-    selectedLocalities,
-    priceFrom,
-    priceTo,
-    searchMorphResultIn,
-    morphsIn,
-    searchMorphResultOut,
-    morphsOut,
-    minMorphs,
-    maxMorphs,
-    age,
-    sex,
-    subcategoryId
+    rooms_with_new_messages,
+    search
 });
 
-export default connect(mapStateToProps, {
-    setSearchQuery,
-    setSearchSelectedKind,
-    setSearchLocality,
-    setSearchPriceFrom,
-    setSearchPriceTo,
-    setSearchMorphResultIn,
-    setSelectedMorphIn,
-    deleteMorphIn,
-    clearSearchMorphResultIn,
-    setSearchMorphResultOut,
-    setSelectedMorphOut,
-    deleteMorphOut,
-    clearSearchMorphResultOut,
-    setSearchMinMorphs,
-    setSearchMaxMorphs,
-    setSearchSex,
-    setSearchAge,
-    setSearchSubcategoryId,
-    clearSearch,
-    searchState,
+export default connect<IHeaderStateProps, IHeaderDispatchProps>(mapStateToProps, {
     logout,
-    clearUserNotificationsCount
+    clearUserNotificationsCount,
+    setSearchQuery,
+    searchAction
 })(Header);
