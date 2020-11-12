@@ -12,7 +12,7 @@ import AwesomeDebouncePromise from "awesome-debounce-promise";
 import {
     clearDeletedMorphsKind, clearGetProductRequest, clearSearchResult,
     deleteAcceptedFile, deleteMorphsKind,
-    deleteProductStateImg, deleteSelectedMorph, getKinds,
+    deleteProductStateImg, deleteSelectedMorph,
     productUpdateClear, productUpdateClearError, productUpdateClearSuccess,
     setAcceptedFiles, setGetProductRequest,
     setProductCb,
@@ -20,8 +20,11 @@ import {
     setProductUpdateError,
     setProductUpdateRequest,
     setProductUpdateSuccess, setSelectedMorph
-} from "../../actions";
-import {initialState} from "../../reducers"
+} from "../../redux/actions";
+import {
+    getKinds
+} from "../../redux/Kinds";
+import {IRootState} from "../../redux/store"
 import {connect} from "react-redux";
 import Reports from "../reports";
 import {compareMorph} from "../../utils";
@@ -373,7 +376,7 @@ const ProductSettings = ({
                                                            searchResult.map( (gene, idx) => (
                                                                <li
                                                                    key={`${gene.title}-${gene.trait.title}-${gene.id}`}
-                                                                   className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
+                                                                   className={"reducer-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
                                                                    onMouseDown={() => {
                                                                        setSelectedMorph(idx);
                                                                        clearSearchInput();
@@ -685,7 +688,7 @@ const ProductSettings = ({
     )
 };
 
-const mapStateToProps = ({auth: {loginRequest}, product, profile: {user}, kinds: {all: allKinds}, currencies}: typeof initialState): IStateProps => ({
+const mapStateToProps = ({auth: {loginRequest}, product, profile: {user}, kinds: {all: allKinds}, currencies}: IRootState): IStateProps => ({
     user,
     product,
     allKinds,

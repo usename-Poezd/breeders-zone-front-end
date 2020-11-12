@@ -11,8 +11,8 @@ import {
     deleteMorphsKind,
     clearDeletedMorphsKind,
     setProductSearchRequest,
-} from "../../actions";
-import {ICurrenciesState} from "../../reducers/currencies/types";
+} from "../../redux/actions";
+import {ICurrenciesState} from "../../redux/Currencies";
 
 export interface IStateProps {
     user: any,
