@@ -1,47 +1,58 @@
 import Axios from "axios";
-import {toFormData} from "../utils";
-import nookies from "nookies";
-import {ISocial} from "../reducers/socials/types";
+import * as Cookie from "es-cookie";
+import {toFormData} from "../../utils";
+import {IRegistrationData, ISocial} from "../../types";
 import {OutgoingHttpHeaders} from "http";
+import {NextPageContext} from "next";
+import {
+    GetCountriesReturnType, GetDocumentsDataType,
+    GetDocumentsReturnType,
+    GetUserReturnType, IApiSuccessReturn,
+    PostLoginDataType,
+    PostLoginReturnType, SearchMorphsReturnType
+} from "./types";
+import {Api} from "../Api";
 
 Axios.interceptors.response.use(undefined, function (err) {
-    const cookies = nookies.get();
-    const token = cookies.token;
-    if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-        return Axios.post(
-            '/api/auth/refresh',
-            {},
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Authorization': `Bearer ${token}`
+    if (typeof window !== 'undefined') {
+        const cookies = Cookie.getAll();
+        const token = cookies.token;
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+            return Axios.post(
+                '/api/auth/refresh',
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
                 }
-            }
-        )
-            .catch(function (error) {
-                throw error;
-            });
+            )
+                .catch(function (error) {
+                    throw error;
+                });
+        }
     }
 
     return Promise.reject(err);
 });
 
-export default class  DataService {
+export class  DataService {
 
     qs = require('qs');
 
-    getCountries = () => {
-        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/countries`)
+    getCountries = (): Promise<GetCountriesReturnType> => {
+        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/v2/countries`)
             .then( (resp) => resp.data);
     };
 
-    getProduct = (productId, isBreeder = false, ctx) => {
-        const cookies = nookies.get();
+    getProduct = (productId, isBreeder = false, ctx: NextPageContext) => {
+        const cookies = Cookie.getAll();
         let token = cookies.token;
 
         if (ctx) {
-            token = nookies.get(ctx).token
+            token = Cookie.parse(ctx.req.headers.cookie).token
         }
 
         const headers: OutgoingHttpHeaders = {
@@ -94,10 +105,10 @@ export default class  DataService {
             .then((resp)=> resp.data);
     };
 
-    getShopProducts = (options, ctx) => {
-        let cookies = nookies.get();
+    getShopProducts = (options, ctx: NextPageContext) => {
+        let cookies = Cookie.getAll();
         if(ctx) {
-            cookies = nookies.get(ctx)
+            cookies = Cookie.parse(ctx.req.headers.cookie)
         }
         options = this.qs.stringify(options);
         const token = cookies.token;
@@ -132,11 +143,11 @@ export default class  DataService {
     * |========================
     * */
 
-    getDivorce = (divorceId, isBreeder = false, ctx) => {
-        const cookies = nookies.get();
+    getDivorce = (divorceId, isBreeder = false, ctx: NextPageContext) => {
+        const cookies = Cookie.getAll();
         let token = cookies.token;
         if (ctx) {
-            token = nookies.get(ctx).token
+            token = Cookie.parse(ctx.req.headers.cookie).token
         }
         const headers: OutgoingHttpHeaders = {
             'Content-Type': 'application/json',
@@ -156,8 +167,7 @@ export default class  DataService {
     };
 
     updateDivorce = (data, divorceId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
         const formData = toFormData(data);
         formData.append('_method', 'PUT');
 
@@ -177,8 +187,7 @@ export default class  DataService {
     };
 
     setDivorce = (data) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
         const formData = toFormData(data);
         return Axios.post(
             '/api/divorces',
@@ -196,8 +205,7 @@ export default class  DataService {
     };
 
     deleteDivorce = (divorceId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
         return Axios.delete(
             `/api/divorces/${divorceId}`,
             {
@@ -211,14 +219,10 @@ export default class  DataService {
             .then((resp) => resp.data)
     };
 
-    getDivorces = (options, searchStringify = '', cancelToken, prevCancelToken, ctx) => {
-        let cookies = nookies.get();
-        if (ctx) {
-            cookies = nookies.get(ctx);
-        }
+    getDivorces = (options, searchStringify = '', cancelToken, prevCancelToken, ctx: NextPageContext) => {
         searchStringify = searchStringify.replace('?', '');
         const params = this.qs.stringify(options);
-        const token = cookies.token;
+        const token = ctx ? Cookie.parse(ctx.req.headers.cookie).token : Cookie.get('token');
 
         if (prevCancelToken)
             prevCancelToken.cancel();
@@ -236,8 +240,7 @@ export default class  DataService {
     };
 
     verifyDivorce = (divorceId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
 
         return Axios.post(
             '/api/verify-divorce',
@@ -256,9 +259,8 @@ export default class  DataService {
     };
 
     searchRoom = (userId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
-        return Axios.post('/api/search/room',
+        const token = Cookie.get('token');
+        return Axios.post('/api/reducer/room',
         {userId},
         {
             headers: {
@@ -271,8 +273,8 @@ export default class  DataService {
     };
 
     getRoom = (roomId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
+
         return Axios.get(`/api/room/${roomId}`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -288,14 +290,14 @@ export default class  DataService {
             .then((resp) => resp.data);
     };
 
-    getProducts = (options, searchStringify = '', cancelToken, prevCancelToken = null) => {
+    getProducts = (options, searchStringify = '', cancelToken = null, prevCancelToken = null) => {
         searchStringify = searchStringify.replace('?', '');
 
         if (prevCancelToken)
             prevCancelToken.cancel();
 
         const params = this.qs.stringify(options);
-        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
+        return Api.get(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_URL}/api/v2/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
             {
                 cancelToken,
                 headers: {
@@ -307,8 +309,7 @@ export default class  DataService {
     };
 
     postLogout = () => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
 
         if(token){
             return Axios.post(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/auth/logout`, {}, {
@@ -319,26 +320,21 @@ export default class  DataService {
                 }
             })
                 .then(() => {
-                    nookies.destroy(null, 'token');
+                    delete Api.defaults.headers.Authorization;
+                    Cookie.remove('token');
                 });
         }
     };
 
-    getUserData = (token) => {
-        return Axios.post(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/auth/me`,{},{
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
+    getUser = (): Promise<GetUserReturnType> => {
+        return Api.post(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_URL }/api/v2/auth/me`)
             .then((resp)=> resp.data);
     };
 
-    postLogin = (user) => {
+    postLogin = (data: PostLoginDataType): Promise<PostLoginReturnType> => {
         return Axios.post(
-            '/api/auth/login',
-            JSON.stringify(user),
+            process.env.API_URL + '/api/v2/auth/login',
+            data,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -348,19 +344,23 @@ export default class  DataService {
         )
             .then(resp => resp.data)
             .then(data => {
-                if (!data.error && data.access_token) {
-                    nookies.set(null,'token', data.access_token, {
+                if (data.ok) {
+                    const date = new Date();
+                    date.setSeconds(date.getSeconds() + data.data.expires_in);
+                    Api.defaults.headers.Authorization = `${data.data.token_type} ${data.data.expires_in}`;
+                    Cookie.set('token', data.data.access_token, {
                         path: '/',
-                        sameSite: true,
-                        maxAge: data.expires_in
+                        sameSite: 'strict',
+                        expires: date,
                     });
                 }
+
+                return data;
             });
     };
 
     updateProfile = (userId, data) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
 
         const formData = toFormData(data);
         formData.append('_method', 'PUT');
@@ -381,8 +381,7 @@ export default class  DataService {
     };
 
     deleteProfile = (userId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
 
         return Axios.delete(
             `/api/users/${userId}`,
@@ -398,8 +397,8 @@ export default class  DataService {
     };
 
     updateShop = (shopName, data, isFormData = false) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
+
         let formData = null;
 
         if (isFormData) {
@@ -421,23 +420,14 @@ export default class  DataService {
             .then( resp => resp.data );
     };
 
-    postRegister = (data) => {
-        return Axios.post('/api/auth/register',  JSON.stringify(data), {
+    postRegister = (data: IRegistrationData): Promise<IApiSuccessReturn> => {
+        return Api.post(process.env.API_URL + '/api/v2/auth/registration',  data, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
             }
         })
-            .then((resp) => resp.data)
-            .then(data => {
-                if (!data.message && data.access_token) {
-                    nookies.set(null,'token', data.access_token, {
-                        path: '/',
-                        sameSite: true,
-                        maxAge: data.expires_in
-                    });
-                }
-            });
+            .then((resp) => resp.data);
     };
 
     sendResetEmail = (data) => {
@@ -454,8 +444,7 @@ export default class  DataService {
     };
 
     setProduct = (data) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
         const formData = toFormData(data);
         return Axios.post(
             '/api/products',
@@ -473,12 +462,11 @@ export default class  DataService {
     };
 
     updateProduct = (data, productId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
         const formData = toFormData(data);
         formData.append('_method', 'PUT');
         return Axios.post(
-            `/api/products/${productId}`,
+            `${process.env.API_URL}/api/products/${productId}`,
             formData,
             {
                 headers: {
@@ -493,10 +481,9 @@ export default class  DataService {
     };
 
     deleteProduct = (productId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
         return Axios.delete(
-            `/api/products/${productId}`,
+            `${process.env.API_URL}/api/products/${productId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -508,19 +495,14 @@ export default class  DataService {
             .then((resp) => resp.data)
     };
 
-    searchMorphs = (data = {q: '', options: []}) => {
-        return Axios.post(
-            '/api/search/morphs',
-            {
-                q: data.q,
-                options: data.options
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                }
-            }
+    searchMorphs = (q = '', options= []): Promise<SearchMorphsReturnType> => {
+        const data = {
+            q,
+            options
+        };
+        const query = this.qs.stringify(data);
+        return Api.get(
+            `${process.env.API_URL}/api/v2/search/morphs?${query}`
         )
             .then((resp) => resp.data)
     };
@@ -547,8 +529,7 @@ export default class  DataService {
 
 
     setNewRoom = (data) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
 
         return Axios.post(
             '/api/room',
@@ -565,9 +546,7 @@ export default class  DataService {
     };
 
     setMessage = (data) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
-
+        const token = Cookie.get('token');
         return Axios.post(
             '/api/message',
             data,
@@ -584,8 +563,8 @@ export default class  DataService {
     };
 
     checkMessages = (roomId) =>  {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
+
         Axios.post(
             '/api/check-messages',
             {
@@ -602,7 +581,7 @@ export default class  DataService {
 
     getKinds = () => {
         return Axios.get(
-            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/kinds`,
+            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/v2/kinds`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -626,8 +605,7 @@ export default class  DataService {
     };
 
     setReport = (data) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
 
         return Axios.post(
             '/api/reports',
@@ -643,29 +621,17 @@ export default class  DataService {
             .then((resp) => resp.data)
     };
 
-    verifyProduct = (productId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
-
-        return Axios.post(
+    verifyProduct = (productId: number) => {
+        return Api.post(
             '/api/verify-product',
             {
                 productId
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            }
-        )
+            })
             .then((resp) => resp.data)
     };
 
     sendVerifyEmail = () => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
 
         return Axios.get('/api/auth/send-verify-mail', {
             headers: {
@@ -688,8 +654,7 @@ export default class  DataService {
     };
 
     checkNotifications = () => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
 
         return Axios.put('/api/notifications', {
             headers: {
@@ -702,8 +667,7 @@ export default class  DataService {
     };
 
     checkReport = (reportId) => {
-        const cookies = nookies.get();
-        const token = cookies.token;
+        const token = Cookie.get('token');
 
         return Axios.put(`/api/reports/${reportId}`, {
             headers: {
@@ -738,9 +702,9 @@ export default class  DataService {
             .then( (res) => res.data)
     };
 
-    getDocuments = (options) => {
+    getDocuments = (options: GetDocumentsDataType): Promise<GetDocumentsReturnType> => {
         const query = this.qs.stringify(options);
-        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/documents?' +  query, {
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/v2/documents?' +  query, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -750,7 +714,7 @@ export default class  DataService {
     };
 
     getDocument = (label) => {
-        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/documents/' + label,
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/reducer/' + label,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -765,7 +729,7 @@ export default class  DataService {
 
     getSocials = (options = {}): Promise<Array<ISocial>> => {
         const query = this.qs.stringify(options);
-        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/socials?' +  query, {
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/reducer?' +  query, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

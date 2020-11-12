@@ -1,8 +1,9 @@
-import DataService from './dataService';
+import {DataService} from './DataService';
 import Pipes from './pipes';
-
+import {Api} from './Api';
 
 export {
     Pipes,
-    DataService
+    DataService,
+    Api
 }
