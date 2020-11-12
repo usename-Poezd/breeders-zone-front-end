@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {Alert, Col, Form, Row} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
-import {withGetData, withHookForm} from "../hoc-helpers";
+import {withDataService} from "../../HOC";
 import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
-import {resetPasswordRequest, setResetPasswordError, setResetPasswordSuccess} from "../../actions";
+import {resetPasswordRequest, setResetPasswordError, setResetPasswordSuccess} from "../../redux/actions";
 import Spinner from "../spinner";
 import {HandelSuccess, HandelError} from "../handels";
 import {withRouter} from "next/router";
@@ -187,7 +187,7 @@ const mapStateToProps = ({resetPassword: resetPasswordState}) => ({
 
 export default connect(mapStateToProps, { resetPasswordRequest, setResetPasswordSuccess, setResetPasswordError})(
     withRouter(
-        withGetData(
+        withDataService(
             ResetPassword,
             mapMethodsToProps
         )

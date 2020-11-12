@@ -4,7 +4,7 @@ import {Container} from "react-bootstrap";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faExclamationTriangle, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {withGetData} from "../hoc-helpers";
+import {withDataService} from "../../HOC";
 import {withRouter} from "next/router";
 
 class VerifyEmailBanner extends Component{
@@ -132,4 +132,4 @@ const mapStateToProps = ({auth: {loginRequest, isLogin}, profile: {user}}) => ({
     isLogin
 });
 
-export default connect(mapStateToProps)(withGetData(withRouter(VerifyEmailBanner), mapMethodsToProps));
+export default connect(mapStateToProps)(withDataService(withRouter(VerifyEmailBanner), mapMethodsToProps));

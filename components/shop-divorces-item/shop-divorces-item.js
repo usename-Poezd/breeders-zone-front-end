@@ -3,7 +3,7 @@ import {Col, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPen, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Pipes} from "../../services";
-import {deleteShopDivorce} from "../../actions";
+import {deleteShopDivorce} from "../../redux/actions";
 import {connect} from 'react-redux';
 import Link from "next/link";
 import {compareMorph} from "../../utils";

@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {withGetData} from "../hoc-helpers";
+import {withDataService} from "../HOC";
 import {
     clearShopDivorces,
     setShopDivorcesRequest
-} from "../../actions";
+} from "../../redux/actions";
 import Spinner from "../spinner";
 import {Pipes} from "../../services";
 import ShopDivorcesItem from "../shop-divorces-item";
@@ -245,6 +245,6 @@ const mapStateToProps = ({auth: {isLogin}, shop: {divorces, divorcesRequest}, ki
 
 export default connect(mapStateToProps, { setShopDivorcesRequest, clearShopDivorces })(
     withRouter(
-        withGetData(ShopDivorces, mapMethodsToProps)
+        withDataService(ShopDivorces, mapMethodsToProps)
     )
 );

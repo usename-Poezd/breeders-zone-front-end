@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBan, faCheck, faMars, faVenus} from "@fortawesome/free-solid-svg-icons";
 import {Pipes} from "../../../services";
 import Link from "next/link";
-import {setReportModalProductId, setReportModalShow} from "../../../actions";
+import {setReportModalProductId, setReportModalShow} from "../../../redux/actions";
 import {connect} from "react-redux";
 import moment from "moment";
 

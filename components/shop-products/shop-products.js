@@ -3,16 +3,16 @@ import ShopProductsItem from "../shop-products-item";
 import Link from "next/link";
 import {withRouter} from "next/router";
 import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
-import withGetData from "../hoc-helpers/with-get-data";
+import {withDataService} from "../../HOC";
 import {connect} from "react-redux";
-import {clearShopProducts, setShopProducts, setShopProductsRequest} from "../../actions";
+import {clearShopProducts, setShopProducts, setShopProductsRequest} from "../../redux/actions";
 import Spinner from "../spinner";
 import qs from 'qs';
 
 const ShopProducts = (props) => {
 
     const { products, allKinds, user,  loginRequest, productsRequest, router, isLogin, isMobile } = props;
-    
+
     const [q, setQuery] = useState('');
     const [kind, setKind] = useState(router.query.kindId | 'all');
 
@@ -86,7 +86,7 @@ const ShopProducts = (props) => {
                     <Form onSubmit={onSubmit} className="d-flex flex-column flex-md-row justify-content-end w-75">
                         <div className="dashboard-search-container">
                             <Form.Control
-                                className="dashboard-search feather-shadow"
+                                className="dashboard-reducer feather-shadow"
                                 placeholder="Поиск..."
                                 value={q}
                                 onChange={setSearch}
@@ -151,4 +151,4 @@ const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, shop: 
     isMobile
 });
 
-export default connect(mapStateToProps, {setShopProducts, setShopProductsRequest, clearShopProducts})(withRouter(withGetData(ShopProducts, mapMethodsToProps)));
+export default connect(mapStateToProps, {setShopProducts, setShopProductsRequest, clearShopProducts})(withRouter(withDataService(ShopProducts, mapMethodsToProps)));

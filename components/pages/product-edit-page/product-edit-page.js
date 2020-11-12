@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import ProductSettings from "../../product-settings";
-import {withGetData} from "../../hoc-helpers";
+import {withDataService} from "../../../HOC";
 import {
     clearGetProductRequest,
-    getKinds,
     productUpdateClear,
     productUpdateClearError,
     productUpdateClearSuccess, setGetProductRequest,
@@ -11,7 +10,10 @@ import {
     setProductUpdateError,
     setProductUpdateRequest,
     setProductUpdateSuccess,
-} from "../../../actions";
+} from "../../../redux/actions";
+import {
+    getKinds
+} from "../../../redux/Kinds"
 import {connect} from "react-redux";
 import {Col, Container, Row} from "react-bootstrap";
 import Spinner from "../../spinner";
@@ -81,10 +83,11 @@ class ProductEditPage extends Component{
                 setProductUpdateSuccess(data.success);
                 getKinds();
                 const cb = moment(data.data.cb).toISOString();
+                const price = data.data.price.find((item) => item.currency === data.data.currency).amount;
                 setProductInfo({
                     info:{
                         ...data.data,
-                        price: data.data.price.find((item) => item.currency === data.data.currency).amount,
+                        price,
                         sex: String(data.data.sex),
                         kindId: data.data.kind_id,
                         cb,
@@ -184,6 +187,6 @@ export default connect(mapStateToProps, {
     productUpdateClearError,
 })(
     withRouter(
-        withGetData(ProductEditPage, mapMethodsToProps)
+        withDataService(ProductEditPage, mapMethodsToProps)
     )
 );

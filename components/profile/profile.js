@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Alert, Col, Form, Modal, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
-import {withGetData} from "../hoc-helpers";
+import {withDataService} from "../../HOC";
 import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
 import {
@@ -10,7 +10,7 @@ import {
     setProfileChangePassword, setProfilePreview,
     setProfileUpdateError,
     setProfileUpdateSuccess
-} from "../../actions";
+} from "../../redux/actions";
 import Spinner from "../spinner";
 import {HandelSuccess} from "../handels";
 import HandelError from "../handels/handel-error";
@@ -439,7 +439,7 @@ export default connect(mapStateToProps, {
     deleteProductPreview,
     logout
 })(
-    withGetData(
+    withDataService(
         Profile,
         mapMethodsToProps
     )

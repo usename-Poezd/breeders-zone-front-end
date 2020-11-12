@@ -38,7 +38,7 @@ import {
     setSearchMaleRequest,
     setSelectedMorphFemale,
     setSelectedMorphMale
-} from "../../actions";
+} from "../../redux/actions";
 import {useDropzone} from "react-dropzone";
 import Reports from "../reports";
 import {compareMorph} from "../../utils";
@@ -360,7 +360,7 @@ const DivorceSettings = ({
                                                         divorce.searchResultMale.map( (gene, idx) => (
                                                             <li
                                                                 key={`${gene.title}-${gene.trait.title}-${gene.id}`}
-                                                                className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
+                                                                className={"reducer-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
                                                                 onClick={() => {
                                                                     setSelectedMorphMale(idx);
                                                                     clearSearchInput();
@@ -423,7 +423,7 @@ const DivorceSettings = ({
                                                         divorce.searchResultFemale.map( (gene, idx) => (
                                                             <li
                                                                 key={`${gene.title}-${gene.trait.title}-${gene.id}`}
-                                                                className={"search-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
+                                                                className={"reducer-morphs-item " + (selectMorphIdx === idx ? "selected" : "")}
                                                                 onClick={() => {
                                                                     setSelectedMorphFemale(idx);
                                                                     clearSearchInput();

@@ -4,8 +4,8 @@ import {Col} from "react-bootstrap";
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBan, faCheck} from "@fortawesome/free-solid-svg-icons";
-import {setReportModalDivorceId, setReportModalShow} from "../../actions";
-import {withGetData} from "../hoc-helpers";
+import {setReportModalDivorceId, setReportModalShow} from "../../redux/actions";
+import {withDataService} from "../../HOC";
 import {connect} from "react-redux";
 import moment from "moment";
 
@@ -132,5 +132,5 @@ const mapStateToProps = ({profile}) => ({
 });
 
 export default connect(mapStateToProps, {setReportModalDivorceId, setReportModalShow})(
-    withGetData(DivorcesListItem, mapMethodsToProps)
+    withDataService(DivorcesListItem, mapMethodsToProps)
 );

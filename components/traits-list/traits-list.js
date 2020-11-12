@@ -1,7 +1,7 @@
  import React, { Component } from 'react';
 import TraitItem from '../trait-item';
 import {Col, Modal, Row, Spinner as BootstrapSpinner} from 'react-bootstrap';
-import { withGetData } from '../hoc-helpers';
+import { withDataService } from '../../HOC';
 import Chat from "../chat";
 import Spinner from "../spinner";
 import TopFilterAndResult from "../top-filter-and-result";
@@ -11,7 +11,7 @@ import {connect} from "react-redux";
  import Link from "next/link";
  import ReportModal from "../report-modal/report-modal";
  import Pagination from "../../components/pagination";
- import {setChatAct} from "../../actions";
+ import {setChatAct} from "../../redux/Chat";
 const qs = require('qs');
 
 class TraitsList extends Component {
@@ -115,5 +115,5 @@ const mapMethodsToProps = ({getProducts}) => ({
 });
 
 export default connect(mapStateToProps, {setChatAct})(
-    withRouter(withGetData(TraitsList, mapMethodsToProps))
+    withRouter(withDataService(TraitsList, mapMethodsToProps))
 );

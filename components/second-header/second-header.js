@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { connect } from 'react-redux';
 import {Pipes} from "../../services";
 import {withRouter} from "next/router";
-import {setActiveKind} from "../../actions";
+import {setActiveKind} from "../../redux/Kinds";
 import {ucFirst} from "../../utils";
 import Dropdown, {DropdownItem} from "../dropdown";
 
@@ -53,7 +53,7 @@ class SecondHeader extends Component {
         const { pathname } = this.props.router;
 
         switch(pathname){
-            case "/[group]/[kind]/home":
+            case "/[group]/[Kinds]/home":
                 this.setState( ()=> {
                     return {
                         location: {
@@ -63,7 +63,7 @@ class SecondHeader extends Component {
                 });
                 break;
 
-            case "/[group]/[kind]/morphs":
+            case "/[group]/[Kinds]/morphs":
                 this.setState( ()=> {
                     return {
                         location: {
@@ -109,8 +109,8 @@ class SecondHeader extends Component {
         return (
             <nav className="nav flex-column">
                 <div className="titles">
-                    <h1 className="title">{activeKind.title_rus  ? activeKind.title_rus : query.group ? ucFirst(query.group) : 'Рептилии'}</h1>
-                    <h1 className="title_latina">{activeKind.title_eng ? activeKind.title_eng : `${query.group ? `${ucFirst(query.group)} в продаже` : ''}`}</h1>
+                    <h1 className="title">{activeKind  ? activeKind.title_rus : query.group ? ucFirst(query.group) : 'Рептилии'}</h1>
+                    <h1 className="title_latina">{activeKind ? activeKind.title_eng : `${query.group ? `${ucFirst(query.group)} в продаже` : ''}`}</h1>
                 </div>
 
                 <Container>
@@ -118,7 +118,7 @@ class SecondHeader extends Component {
                         <Col xs={12} sm={8} md={6} className="select-block mx-auto">
                             <Dropdown
                                 label={
-                                    activeKind.title_rus ?
+                                    activeKind ?
                                         activeKind.title_rus
                                         : 'Выберите категорию'
                                 }
@@ -145,12 +145,12 @@ class SecondHeader extends Component {
                         </Col>
 
                         {
-                            pathname !== '/' && activeKind.title_eng ?
+                            pathname !== '/' && activeKind ?
                                 (
                                     <Col xs={12} lg={6} as={Row} className="nav-main m-auto justify-content-center">
                                         {/*<Col xs={4}>*/}
                                         {/*    <div className={"nav-main-item " + (home ? "actived" : "")}>*/}
-                                        {/*        <Link href="/[group]/[kind]/home" as={`/${activeKind.group}/${this.pipes.toUrl(activeKind.title_eng)}/home`}>*/}
+                                        {/*        <Link href="/[group]/[Kinds]/home" as={`/${activeKind.group}/${this.pipes.toUrl(activeKind.title_eng)}/home`}>*/}
                                         {/*            <a className="h3">*/}
                                         {/*                На главную*/}
                                         {/*            </a>*/}
@@ -168,7 +168,7 @@ class SecondHeader extends Component {
                                         </Col>
                                         <Col xs={4}>
                                             <div className={"nav-main-item " + (shops ? "actived" : "")}>
-                                                <Link href={"/shops?kind=" + this.pipes.toUrl(activeKind.title_eng)}>
+                                                <Link href={"/shops?Kinds=" + this.pipes.toUrl(activeKind.title_eng)}>
                                                     <a className="h3">Магазины</a>
                                                 </Link>
                                             </div>
@@ -182,7 +182,7 @@ class SecondHeader extends Component {
 
                 <div className="bg">
                     <div className="bg-img">
-                        <img src={activeKind.logo_header ? activeKind.logo_header : 'https://breeders-zone.s3.us-east-2.amazonaws.com/static/images/header.jpg'} alt={activeKind.title_rus}/>
+                        <img src={activeKind && activeKind.logo_header ? activeKind.logo_header : 'https://breeders-zone.s3.us-east-2.amazonaws.com/static/images/header.jpg'} alt={activeKind ? activeKind.title_rus : 'Breeders Zone'}/>
                     </div>
                 </div>
             </nav>

@@ -3,7 +3,7 @@ import {Col, Row, Spinner as BootstrapSpinner} from 'react-bootstrap';
 import {connect} from "react-redux";
 
 import RenderMorphs from '../render-morphs';
-import { withGetData, withErrorBoundry } from '../hoc-helpers';
+import { withDataService } from '../../HOC';
 import {Pipes} from "../../services";
 import Spinner from "../spinner";
 import Link from "next/link";
@@ -217,7 +217,7 @@ class Morphs extends Component {
                     }
                     <Col xs={12} lg={7}>
                         <Link
-                            href={"/[group]/[kind]"}
+                            href={"/[group]/[Kinds]"}
                             as={`/${group}/${kind}`}
                         >
                             <a className="d-block feather-shadow text-center h3 btn-second-bn p--10 mt--10">
@@ -239,4 +239,4 @@ const mapStateToProps = ({kinds: {active: activeKinds, activeKind}}) => ({
 const mapMethodsToProps = ({getActiveGenes}) => ({
     getActiveGenes
 });
-export default connect(mapStateToProps)(withRouter(withErrorBoundry(withGetData(Morphs, mapMethodsToProps))));
+export default connect(mapStateToProps)(withRouter(withDataService(Morphs, mapMethodsToProps)));

@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGenderless, faMars, faPen, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
-import {withGetData} from "../hoc-helpers";
-import {activeShopProduct, deleteShopProduct, getKinds} from "../../actions";
+import {withDataService} from "../../HOC";
+import {activeShopProduct, deleteShopProduct, getKinds} from "../../redux/actions";
 import Link from "next/link";
 import {connect} from "react-redux";
 import {DataService, Pipes} from "../../services";
@@ -149,4 +149,4 @@ const mapMethodsToProps = ({deleteProduct}) => ({
     deleteProduct
 });
 
-export default connect(null, {deleteShopProduct, getKinds, activeShopProduct})(withGetData(ShopProductsItem, mapMethodsToProps));
+export default connect(null, {deleteShopProduct, getKinds, activeShopProduct})(withDataService(ShopProductsItem, mapMethodsToProps));

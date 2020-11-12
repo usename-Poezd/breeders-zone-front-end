@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
-import {withGetData} from "../../hoc-helpers";
+import {withDataService} from "../../HOC";
 import GuardDashboardProductItem from "../guard-dashboard-product-item";
 
 import Spinner from "../../spinner";
 import {connect} from "react-redux";
-import {setUserGuardXP} from "../../../actions";
+import {setUserGuardXP} from "../../../redux/actions";
 import {isLogin} from "../../../utils";
 import shop from "../../../reducers/shop";
 import ShopDivorcesItem from "../../shop-divorces-item/shop-divorces-item";
@@ -254,7 +254,7 @@ class GuardDashboard extends Component {
                     <Form onSubmit={this.onSubmit} className="dashboard-filter d-flex">
                         <div className="dashboard-search-container">
                             <Form.Control
-                                className="dashboard-search feather-shadow"
+                                className="dashboard-reducer feather-shadow"
                                 placeholder="Поиск..."
                                 onChange={this.setSearch}
                                 ref={this.searchInput}
@@ -373,6 +373,6 @@ const mapStateToProps = ({profile: {user}, auth: {loginRequest, isLogin}}) => ({
 
 export default connect(mapStateToProps, {setUserGuardXP})(
     withRouter(
-        withGetData(GuardDashboard, mapMethodsToProps)
+        withDataService(GuardDashboard, mapMethodsToProps)
     )
 );

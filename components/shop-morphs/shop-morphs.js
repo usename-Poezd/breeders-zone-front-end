@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Spinner as BootstrapSpinner} from "react-bootstrap";
 import { Pipes } from '../../services';
 import Link from "next/link";
-import {setActiveKind} from "../../actions";
+import {setActiveKind} from "../../redux/actions";
 import {connect} from "react-redux";
 import {compareMorph} from "../../utils";
 import Dropdown, {DropdownItem} from "../dropdown";

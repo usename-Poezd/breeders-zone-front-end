@@ -4,7 +4,7 @@ import {Alert} from "react-bootstrap";
 import LazyImg from "../lazy-img";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {deleteDivorceReport, deleteProductReport} from "../../actions";
+import {deleteDivorceReport, deleteProductReport} from "../../redux/actions";
 
 const Reports = (props) => {
     const {reports} = props;

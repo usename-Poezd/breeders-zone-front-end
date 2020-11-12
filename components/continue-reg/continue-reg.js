@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
-import { withHookForm } from '../hoc-helpers';
 import GroupFormControl from "../group-form-control";
-import Router, {withRouter} from 'next/router'
+import {withRouter} from 'next/router'
 
 const ContinueRegistration = (props) => {
     const registerContinue = data => {

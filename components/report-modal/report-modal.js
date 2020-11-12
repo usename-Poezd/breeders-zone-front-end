@@ -6,11 +6,11 @@ import {
     setReportModalRequest,
     setReportModalShow,
     setReportModalSuccess,
-    setUserGuardXP
-} from "../../actions";
+} from "../../redux/actions";
+import {setUserGuardXP} from "../../redux/Profile";
 import {useForm} from "react-hook-form";
 import GroupFormControl from "../group-form-control";
-import {withGetData} from "../hoc-helpers";
+import {withDataService} from "../../HOC";
 
 const ReportModal = (props) => {
     const {report, user} = props;
@@ -124,5 +124,5 @@ export default connect(mapStateToProps, {
     setReportModalRequest,
     setUserGuardXP
 })(
-    withGetData(ReportModal, mapMethodsToProps)
+    withDataService(ReportModal, mapMethodsToProps)
 );

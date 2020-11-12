@@ -5,7 +5,7 @@ import {formatDate} from "react-day-picker/moment";
 import {Pipes} from "../../../services";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBan, faCheck} from "@fortawesome/free-solid-svg-icons";
-import {setReportModalDivorceId, setReportModalShow} from "../../../actions";
+import {setReportModalDivorceId, setReportModalShow} from "../../../redux/actions";
 import {connect} from "react-redux";
 
 const GuardDashboardDivorceItem = (props) => {

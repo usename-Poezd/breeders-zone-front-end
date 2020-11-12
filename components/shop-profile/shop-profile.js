@@ -7,7 +7,7 @@ import Spinner from "../spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCar, faHelicopter, faPen, faTruck} from "@fortawesome/free-solid-svg-icons";
 import {useDropzone} from "react-dropzone";
-import {withGetData} from "../hoc-helpers";
+import {withDataService} from "../../HOC";
 import {
     getUser,
     setShopPreview,
@@ -15,7 +15,7 @@ import {
     setShopUpdateRequest,
     setShopUpdateSuccess,
     shopUpdateClear
-} from "../../actions";
+} from "../../redux/actions";
 import {HandelSuccess} from "../handels";
 import HandelError from "../handels/handel-error";
 import {useRouter} from "next/router";
@@ -464,4 +464,4 @@ const mapMethodsToProps = (getData) => ({
     updateShop: getData.updateShop
 });
 
-export default connect(mapStateToProps, { getUser, setShopUpdateRequest, setShopUpdateSuccess, shopUpdateClear, setShopUpdateError, setShopPreview })( withGetData(ShopProfile, mapMethodsToProps));
+export default connect(mapStateToProps, { getUser, setShopUpdateRequest, setShopUpdateSuccess, shopUpdateClear, setShopUpdateError, setShopPreview })( withDataService(ShopProfile, mapMethodsToProps));

@@ -11,8 +11,8 @@ import {
     receivedMessage,
     selectRoom, setChatAct, setChatProduct,
     setSelectedRoomMessage, updateCheckMessage, updateLoadMessage
-} from "../../actions";
-import {withGetData, withHookForm} from "../hoc-helpers";
+} from "../../redux/Chat";
+import {withDataService} from "../../HOC";
 import {connect} from "react-redux";
 import TextareaAutosize from "react-autosize-textarea";
 import {randomString} from "../../utils";
@@ -481,5 +481,5 @@ export default connect(mapStateToProps, {
     addRooms,
     setChatAct,
     setChatProduct
-})(withHookForm(withGetData(withRouter(Chat), mapMethodsToProps)));
+})(withDataService(withRouter(Chat), mapMethodsToProps));
 

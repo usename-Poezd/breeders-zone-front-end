@@ -6,11 +6,12 @@ import { Pipes } from '../../services';
 import Link from "next/link";
 import {withRouter} from "next/router";
 import LazyImg from "../lazy-img";
-import {withGetData} from "../hoc-helpers";
+import {withDataService} from "../../HOC";
 import {connect} from "react-redux";
 import getSymbolFromCurrency from 'currency-symbol-map'
 import currency from "currency.js";
-import {setChatProduct, setReportModalProductId, setReportModalShow} from "../../actions";
+import {setReportModalProductId, setReportModalShow} from "../../redux/actions";
+import {setChatProduct} from "../../redux/Chat";
 import {currencyOptions} from "../../utils";
 
 const TraitItem = (props) => {
@@ -180,6 +181,6 @@ const TraitItem = (props) => {
 
 export default connect(mapStateToProps, {setReportModalProductId, setReportModalShow, setChatProduct})(
     withRouter(
-        withGetData(TraitItem, mapMethodsToProps)
+        withDataService(TraitItem, mapMethodsToProps)
     )
 );

@@ -5,9 +5,9 @@ import Spinner from "../../../components/spinner";
 import Carousel, {Modal as ImageModal, ModalGateway} from "react-images";
 import Chat from "../../../components/chat";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBan, faCheck, faMars, faRubleSign, faVenus} from "@fortawesome/free-solid-svg-icons";
+import {faBan, faCheck, faMars, faVenus} from "@fortawesome/free-solid-svg-icons";
 import Slider from "react-slick";
-import {withErrorBoundry, withGetData} from "../../../components/hoc-helpers";
+import {withDataService} from "../../../HOC";
 import {withRouter} from "next/router";
 import Link from "next/link";
 import {connect} from "react-redux";
@@ -15,7 +15,8 @@ import Head from "next/head";
 import comparer from "../../../utils/comparer-by-id";
 import LazyImg from "../../../components/lazy-img";
 import ReportModal from "../../../components/report-modal/report-modal";
-import {setChatAct, setChatProduct, setReportModalProductId, setReportModalShow} from "../../../actions";
+import {setReportModalProductId, setReportModalShow} from "../../../redux/actions";
+import {setChatAct, setChatProduct} from "../../../redux/Chat";
 import {compareMorph, currencyOptions} from "../../../utils";
 import moment from "moment";
 import currency from "currency.js";
@@ -426,8 +427,8 @@ const mapStateToProps = ({router: {location: {pathname, search}}, profile}) => (
 
 export default connect(mapStateToProps, {setReportModalShow, setReportModalProductId, setChatAct, setChatProduct})(
     withRouter(
-        withGetData(
-            withErrorBoundry(ProductPage),
+        withDataService(
+            ProductPage,
             mapMethodsToProps
         )
     )
