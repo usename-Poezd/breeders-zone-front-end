@@ -12,6 +12,8 @@ import toUrl from "./to-url";
 import checkMobile from "./check-mobile";
 import currencyOptions from "./currency-options";
 import { parseDate, formatDate } from "./date-utils";
+import {transformCb} from "./transformCb";
+
 export {
     compose,
     isLogin,
@@ -27,5 +29,6 @@ export {
     checkMobile,
     currencyOptions,
     parseDate,
-    formatDate
+    formatDate,
+    transformCb
 };
