@@ -1,13 +1,13 @@
 User-agent: *
 Disallow: /registration
 Disallow: /login
-Disallow: /search
+Disallow: /reducer
 Disallow: /profile
 Disallow: /products
 Disallow: /chat
 Disallow: /guard
 Disallow: /verify
 Disallow: /reset
-Disallow: /search
+Disallow: /reducer
 Disallow: *q=
 Disallow: *room=
