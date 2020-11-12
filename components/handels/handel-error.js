@@ -25,7 +25,7 @@ class HandelError extends Component {
         if(this.props.error.errors){
             const arr = Object.values(this.props.error.errors);
             this.setState({isToggle: true, error: arr}, () => {
-                setTimeout(() => this.setState({isToggle: false}), 3000)
+                setTimeout(() => this.setState({isToggle: false}), 5000)
             });
         }
     };
