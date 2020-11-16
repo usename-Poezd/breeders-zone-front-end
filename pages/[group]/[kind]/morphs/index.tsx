@@ -1,10 +1,13 @@
 import React from "react";
 import {Container} from "react-bootstrap";
-import Morphs from "../../../../components/morphs";
+import {Morphs} from "../../../../Morphs";
 import {DataService} from "../../../../services";
 import Head from "next/head";
 import {connect} from "react-redux";
 import Error from "../../../_error";
+import {setActiveKind, setKinds} from "../../../../redux/Kinds";
+import {toUrl} from "../../../../utils";
+import {wrapper} from "../../../../redux/store";
 
 const MorphsPage = ({morphs, activeKind, statusCode}) => {
     if (statusCode && statusCode !== 200) {
@@ -23,11 +26,22 @@ const MorphsPage = ({morphs, activeKind, statusCode}) => {
     )
 };
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     try {
-        const { group, kind } = await ctx.query;
+        const { kind } = await ctx.query;
         const dataService = await new DataService();
-        const morphs = await dataService.getActiveGenes({group, kindTitle: kind.replace('-', ' ') });
+
+        const {data} = await dataService.getKinds();
+        ctx.store.dispatch(setKinds(data));
+
+        const state = await ctx.store.getState();
+
+        const activeKind = await state.kinds.all.find((item) => toUrl(item.title_eng) === toUrl(String(kind)));
+        if (activeKind)
+            ctx.store.dispatch(setActiveKind(activeKind));
+
+
+        const {data: morphs} = await dataService.getActiveProps(String(kind));
 
         return {
             props: {
@@ -43,7 +57,7 @@ export const getServerSideProps = async (ctx) => {
             }
         };
     }
-};
+});
 
 const mapStateToProps = ({kinds: {activeKind}}) => ({
     activeKind
