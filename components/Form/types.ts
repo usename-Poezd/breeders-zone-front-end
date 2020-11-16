@@ -6,6 +6,7 @@ export interface IFormComponentProps {
     className?: string
     group?: boolean
     description?: string
+    loadOptions?: (inputValue: string, callback: (options: any) => void) => void
     value?: any
     options?: Array<{
         label: string
