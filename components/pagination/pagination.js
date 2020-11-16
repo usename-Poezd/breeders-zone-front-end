@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import memoize from 'memoize-one';
 import {withRouter} from "next/router";
 import qs from "qs";
+import {checkMobile} from "../../utils";
 
 class Pagination extends PureComponent {
     state = {
@@ -207,14 +208,14 @@ class Pagination extends PureComponent {
     };
 
     render() {
-        const {isMobile, totalItems, search} = this.props;
+        const {totalItems, search} = this.props;
         const {activePageInRouter, request} = this.state;
         const query = qs.parse(search.replace('?', ''));
         const newPage = Number(query.page) + 1;
         return (
             <React.Fragment>
                 {
-                    isMobile && (totalItems !== activePageInRouter ) ?
+                    checkMobile() && (totalItems !== activePageInRouter ) ?
                         <button className="btn btn-gray h3 mb--10 p--10 w-100" onClick={() => this.changePaginationState( query.page ? newPage : 2, false)}>
                             {
                                 request ?
@@ -240,9 +241,8 @@ Pagination.defaultProps = {
     routerOptions: {}
 };
 
-const mapStateToProps = ({router: {location: {pathname, search}}, stats: {isMobile}}) => ({
+const mapStateToProps = ({router: {location: {pathname, search}}}) => ({
     pathname,
-    search,
-    isMobile
+    search
 });
 export default connect(mapStateToProps)(withRouter(Pagination))
