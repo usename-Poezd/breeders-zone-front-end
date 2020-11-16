@@ -1,6 +1,7 @@
 import React, {Component, FC, useState} from "react";
 import {Modal, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import Chat from "../chat";
+import Pagination from "../pagination";
 import {setChatAct} from "../../redux/Chat";
 import {IRootState} from "../../redux/store";
 import {IProductListDispatchProps, IProductListStateProps, ProductListProps} from "./types";
@@ -44,7 +45,12 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
         setModal(false);
     };
 
-    const {products: {data: products, meta: {total, current_page, last_page, selected_morphs, selected_localities}}, } = props;
+    const {
+        products,
+        meta,
+        isFilter = true,
+        hasRow = true
+    } = props;
 
 
     if (request && products.length === 0) {
@@ -54,34 +60,62 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
     return (
         <React.Fragment>
             {/*<ReportModal/>*/}
-            <FilterResult total={total} morphs={selected_morphs} localities={selected_localities} changeRequest={changeRequest}/>
-            {/*<TopFilterAndResult total={total} morphs={selectedMorphs} localities={localities} changeRequest={changeRequest}/>*/}
-            <Row className="position-relative">
-                <Modal show={isModal} onHide={modalClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Сообщения</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Chat newUser={modalUser}/>
-                    </Modal.Body>
-                </Modal>
-                {
-                    request && products.length > 0 &&
-                    <div className="load">
-                        <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
-                    </div>
-                }
-                {
-                    products.map( (item) => (
-                        <ProductListItem key={item.id} {...item} sendMessage={sendMessage}/>
-                    ))
-                }
-            </Row>
-            {/*{*/}
-            {/*    last_page !== 1 ?*/}
-            {/*        <Pagination className="d-flex justify-content-center mb-2" totalItems={last_page} pageSize={1} defaultActivePage={current_page} changeRequest={changeRequest}/>*/}
-            {/*        : null*/}
-            {/*}*/}
+            {
+                isFilter &&
+                    <FilterResult total={meta?.total} morphs={meta?.selected_morphs} localities={meta?.selected_localities} changeRequest={changeRequest}/>
+            }
+            {
+                hasRow ?
+                    <Row className="position-relative">
+                        <Modal show={isModal} onHide={modalClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Сообщения</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Chat newUser={modalUser}/>
+                            </Modal.Body>
+                        </Modal>
+                        {
+                            request && products.length > 0 &&
+                            <div className="load">
+                                <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
+                            </div>
+                        }
+                        {
+                            products.map( (item) => (
+                                <ProductListItem key={item.id} {...item} sendMessage={sendMessage}/>
+                            ))
+                        }
+                    </Row>
+                    : (
+                        <React.Fragment>
+                            <Modal show={isModal} onHide={modalClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Сообщения</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Chat newUser={modalUser}/>
+                                </Modal.Body>
+                            </Modal>
+                            {
+                                request && products.length > 0 &&
+                                <div className="load">
+                                    <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
+                                </div>
+                            }
+                            {
+                                products.map( (item) => (
+                                    <ProductListItem key={item.id} {...item} sendMessage={sendMessage}/>
+                                ))
+                            }
+                        </React.Fragment>
+                    )
+            }
+            {
+                meta && meta?.last_page !== 1 ?
+                    <Pagination className="d-flex justify-content-center mb-2" totalItems={meta?.last_page} pageSize={1} defaultActivePage={meta?.current_page} changeRequest={changeRequest}/>
+                    : null
+            }
         </React.Fragment>
     );
 };

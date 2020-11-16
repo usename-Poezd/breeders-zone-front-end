@@ -1,8 +1,21 @@
 import {setChatAct} from "../../redux/Chat";
-import {GetProductsDataType} from "../../types";
+import {ILocality, IProduct, ISelectedMorph, ISubcategory} from "../../types";
 
 export interface IProductListProps {
-    products: GetProductsDataType
+    products: Array<IProduct>
+    meta?: {
+        current_page: number,
+        last_page: number
+        from: number
+        to: number
+        per_page: number
+        total: number
+        selected_morphs: Array<ISelectedMorph>
+        selected_localities: Array<ILocality>
+        selected_subcategory: ISubcategory|null
+    }
+    isFilter?: boolean
+    hasRow?: boolean
 }
 
 export interface IProductListStateProps {
