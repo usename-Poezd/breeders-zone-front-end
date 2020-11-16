@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {DataService} from "../../services";
 import {Col, Container, Row} from "react-bootstrap";
-import {withDataService} from "../../components/HOC";
-import {motion} from "framer-motion";
 import Head from "next/head";
+import {useDataService} from "../../hooks";
 
-const VerificationPage = ({verification, sendVerifyMail}) => {
+const VerificationPage = ({verification}) => {
     const [sendMail, setSendMail] = useState(false);
+    const dataService = useDataService();
     const variants = {
         successMail: {
             height: '100%',
@@ -31,11 +31,8 @@ const VerificationPage = ({verification, sendVerifyMail}) => {
             </Head>
             <Row style={{marginTop: 20}}>
                 <Col xs={12}>
-                    <motion.div
+                    <div
                         className="shop-container"
-                        initial={false}
-                        animate={sendMail ? "successMail" : "default"}
-                        variants={variants}
                     >
                         {
                             !sendMail ?
@@ -58,7 +55,7 @@ const VerificationPage = ({verification, sendVerifyMail}) => {
                                                                 (e) => {
                                                                     e.preventDefault();
                                                                     setSendMail(true);
-                                                                    sendVerifyMail();
+                                                                    dataService.sendVerifyEmail();
                                                                 }
                                                             }
                                                         >сюда</a>
@@ -71,7 +68,7 @@ const VerificationPage = ({verification, sendVerifyMail}) => {
                                 : <h3 style={{color: "#fff"}}>Письмо успешно отправленно.</h3>
                         }
 
-                    </motion.div>
+                    </div>
                 </Col>
             </Row>
         </Container>
@@ -91,8 +88,4 @@ export const getServerSideProps = async (ctx) => {
     }
 };
 
-const mapMethodsToProps = ({sendVerifyMail}) => ({
-    sendVerifyMail
-});
-
-export default withDataService(VerificationPage, mapMethodsToProps);
+export default VerificationPage;

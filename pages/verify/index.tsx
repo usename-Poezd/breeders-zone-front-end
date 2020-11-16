@@ -2,8 +2,8 @@ import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle} from "@fortawesome/free-regular-svg-icons";
-import nookies from "nookies";
 import Head from "next/head";
+import * as Cookie from "es-cookie";
 
 export default () => {
     return (
@@ -25,9 +25,9 @@ export default () => {
 };
 
 export const getServerSideProps = (ctx) => {
-    if (nookies.get(ctx).token && ctx.res) {
+    if (Cookie.parse(ctx.req.headers.cookie).token && ctx.res) {
         ctx.res.setHeader("location", "/");
-        ctx.res.statusCode = 302;
+        ctx.res.statusCode = 301;
         ctx.res.end();
     }
 
