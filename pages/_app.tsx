@@ -19,7 +19,7 @@ import UserActivityBanner from "../components/user-activity-banner";
 import Echo from "laravel-echo";
 import {wrapper} from "../redux/store";
 import withYM from "next-ym";
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
 import NextNProgress from "../components/progress-bar";
 import {AppProps} from "next/app";
 import {DataServiceProvider} from "../contexts/DataServiceConext";
