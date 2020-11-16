@@ -1,13 +1,13 @@
 import Axios from "axios";
 import * as Cookie from "es-cookie";
 import {toFormData} from "../../utils";
-import {IRegistrationData, ISocial} from "../../types";
+import {IRegistrationData, ISocial, ApiSuccessReturnType, IShop} from "../../types";
 import {OutgoingHttpHeaders} from "http";
 import {NextPageContext} from "next";
 import {
     GetCountriesReturnType, GetDocumentsDataType,
     GetDocumentsReturnType,
-    GetUserReturnType, IApiSuccessReturn,
+    GetUserReturnType,
     PostLoginDataType,
     PostLoginReturnType, SearchMorphsReturnType
 } from "./types";
@@ -84,24 +84,14 @@ export class  DataService {
             .then((resp)=> resp.data);
     };
 
-    getShops = (data) => {
+    getShops = (data: any): Promise<ApiSuccessReturnType<Array<IShop>>> => {
         const query = this.qs.stringify(data);
-        return Axios.get(`${process.env.API_URL}/api/shops?${query}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            }
-        })
+        return Api.get(`${process.env.API_URL}/api/v2/shops?${query}`)
             .then((resp)=> resp.data);
     };
 
-    getShop = (shopName) => {
-        return Axios.get(`${process.env.API_URL}/api/shops/` + encodeURIComponent(shopName), {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            }
-        })
+    getShop = (shopName: string): Promise<ApiSuccessReturnType<IShop>> => {
+        return Api.get(`${process.env.API_URL}/api/v2/shops/` + encodeURIComponent(shopName))
             .then((resp)=> resp.data);
     };
 
@@ -124,19 +114,11 @@ export class  DataService {
                 .then(resp => resp.data);
     };
 
-    getShopMorphs = (options) => {
-
-        options = this.qs.stringify(options);
-
-        return Axios.get('/api/shop-morphs?' + options,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                }
-            })
+    getShopMorphs = (shop: string, kind: number) => {
+        return Api.get(`${process.env.API_URL}/api/v2/shops/${encodeURI(shop)}/morphs?kind=${kind}`)
             .then(resp => resp.data);
     };
+
 
     /*|========================
     * |DIVORCES
@@ -420,7 +402,7 @@ export class  DataService {
             .then( resp => resp.data );
     };
 
-    postRegister = (data: IRegistrationData): Promise<IApiSuccessReturn> => {
+    postRegister = (data: IRegistrationData): Promise<ApiSuccessReturnType<any>> => {
         return Api.post(process.env.API_URL + '/api/v2/auth/registration',  data, {
             headers: {
                 'Content-Type': 'application/json',
@@ -521,9 +503,8 @@ export class  DataService {
             .then((resp) => resp.data)
     };
 
-    getActiveGenes = (options) => {
-        const params = this.qs.stringify(options);
-        return Axios.get(`${process.env.API_URL}/api/active-genes-subcategories?${params}`)
+    getActiveProps = (kind: string) => {
+        return Api.get(`${process.env.API_URL}/api/v2/kinds/active-props?kind=${kind}`)
             .then( (resp) => resp.data);
     };
 
@@ -580,15 +561,7 @@ export class  DataService {
     };
 
     getKinds = () => {
-        return Axios.get(
-            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/v2/kinds`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                }
-            }
-        )
+        return Api.get(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_URL}/api/v2/kinds`)
             .then((resp) => resp.data)
     };
 
@@ -644,12 +617,7 @@ export class  DataService {
     };
 
     verify = (verifyCode) => {
-        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/verifications/${verifyCode}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            }
-        })
+        return Api.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/v2/verifications/${verifyCode}`)
             .then((resp) => resp.data)
     };
 
