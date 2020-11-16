@@ -24,14 +24,14 @@ export default () => {
     )
 };
 
-// export const getServerSideProps = (ctx: NextPageContext) => {
-//     if (Cookie.parse(ctx.req.headers.cookie).token && ctx.res) {
-//         ctx.res.setHeader("location", "/");
-//         ctx.res.statusCode = 301;
-//         ctx.res.end();
-//     }
-//
-//     return {
-//         props: {}
-//     }
-// };
+export const getServerSideProps = (ctx: NextPageContext) => {
+    if (Cookie.parse(ctx.req.headers.cookie).token && ctx.res) {
+        ctx.res.setHeader("location", "/");
+        ctx.res.statusCode = 301;
+        ctx.res.end();
+    }
+
+    return {
+        props: {}
+    }
+};
