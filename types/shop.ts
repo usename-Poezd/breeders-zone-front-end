@@ -1,6 +1,7 @@
-import {ILevel} from "./level";
 import {IKind} from "./kind";
 import {ICountry} from "./country";
+import {IProduct} from "./product";
+import {IDivorce} from "./divorce";
 
 export interface IShop {
     id: number,
@@ -30,5 +31,9 @@ export interface IShop {
     guard_level: number
     guard_XP: number
     breeder_XP: number
+    products_count?: number
     country: ICountry
+    kinds?: Array<IKind>
+    products?: Array<IProduct>
+    divorces?: Array<IDivorce>
 }

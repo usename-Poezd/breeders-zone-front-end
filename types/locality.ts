@@ -1,4 +1,5 @@
 export interface ILocality {
-    id: number,
+    id: number
     title: string
+    products_count?: number
 }

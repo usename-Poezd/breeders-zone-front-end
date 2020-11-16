@@ -14,3 +14,7 @@ export * from "./morph";
 export * from "./product";
 export * from "./getProductsData";
 export * from "./morphSearch";
+export * from "./trait";
+export * from "./gene";
+export * from "./apiSuccessReturn";
+export * from "./divorce";
