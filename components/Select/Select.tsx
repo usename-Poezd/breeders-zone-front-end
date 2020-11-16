@@ -11,7 +11,7 @@ const DropdownIndicator = props => {
 };
 
 const Select: FC<any> = ({components = {}, ...props}) => {
-    const SelectComponent = props.async ? (props) => <AsyncSelect {...props}/> : (props) => <ReactSelect {...props}/>;
+    const SelectComponent = props.async ? (props) => <AsyncSelect {...props} id={props.id} instanceId={props.id}/> : (props) => <ReactSelect {...props} id={props.id} instanceId={props.id}/>;
 
     return (
         <SelectComponent
