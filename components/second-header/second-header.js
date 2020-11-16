@@ -168,7 +168,7 @@ class SecondHeader extends Component {
                                         </Col>
                                         <Col xs={4}>
                                             <div className={"nav-main-item " + (shops ? "actived" : "")}>
-                                                <Link href={"/shops?Kinds=" + this.pipes.toUrl(activeKind.title_eng)}>
+                                                <Link href={"/shops?kind=" + this.pipes.toUrl(activeKind.title_eng)}>
                                                     <a className="h3">Магазины</a>
                                                 </Link>
                                             </div>
