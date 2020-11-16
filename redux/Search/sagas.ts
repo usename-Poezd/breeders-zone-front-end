@@ -1,7 +1,6 @@
 import {put, select, takeEvery} from "redux-saga/effects";
 import {ISearchAction, SEARCH} from "./types";
 import {IRootState} from "../store";
-import {IKind} from "../../types";
 import {clearSearch} from "./actions";
 import {push} from "connected-next-router";
 const qs = require('qs');
