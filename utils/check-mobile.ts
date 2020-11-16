@@ -1,13 +1,23 @@
 import {NextPageContext} from "next";
 
 const checkMobile = (ctx?: NextPageContext): boolean => {
-    const isMobileView = (ctx.req
-        ? ctx.req.headers['user-agent']
-        : navigator.userAgent).match(
-        /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
-    );
+    let agent: string|null = null;
 
-    return Boolean(isMobileView);
+    if (ctx) {
+        agent = ctx.req.headers['user-agent'];
+    }
+
+    if (typeof window !== 'undefined') {
+        agent = navigator.userAgent;
+    }
+
+
+    if (agent !== null) {
+        const isMobileView = agent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
+        return Boolean(isMobileView);
+    }
+
+    return false
 };
 
 export default checkMobile;
