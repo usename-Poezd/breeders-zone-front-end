@@ -386,7 +386,10 @@ class Header extends Component<HeaderPropsType> {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                <Search isToggle={isToggleSearch} onToggleBurger={this.onToggleBurger}/>
+                {
+                    isToggleSearch &&
+                        <Search isToggle={isToggleSearch} onToggleBurger={this.onToggleBurger}/>
+                }
             </Container>
         );
     }

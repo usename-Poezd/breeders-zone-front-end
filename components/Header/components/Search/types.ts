@@ -1,5 +1,6 @@
 import {IKind, IMorph} from "../../../../types";
 import {search} from "../../../../redux/Search";
+import {setKinds} from "../../../../redux/Kinds";
 
 export interface ISearchFormInitialValues {
     kind: string
@@ -25,7 +26,8 @@ export interface ISearchStateProps {
 }
 
 export interface ISearchDispatchProps {
-    search: typeof search;
+    search: typeof search
+    setKinds: typeof setKinds
 }
 
 export type SearchPropsType = ISearchProps & ISearchStateProps & ISearchDispatchProps
