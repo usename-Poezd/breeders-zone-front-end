@@ -1,17 +1,11 @@
 import React, {FC} from "react";
 import {Container} from "react-bootstrap";
-import TraitItems from "../components/traits-list";
 import {DataService} from "../services";
 import Head from "next/head";
 import {ProductList} from "../components/ProductList";
-import {GetProductsDataType} from "../types";
-const qs = require('qs');
-
-type SearchPagePropsType = {
-    products: GetProductsDataType
-}
-
-const SearchPage: FC<SearchPagePropsType> = ({products}) => {
+import {NextPageContext} from "next";
+import {ProductsPagePropsType} from "../types";
+const SearchPage: FC<ProductsPagePropsType> = ({products}) => {
     return (
         <Container>
             <Head>
@@ -23,7 +17,7 @@ const SearchPage: FC<SearchPagePropsType> = ({products}) => {
     )
 };
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async (ctx: NextPageContext) => {
     const dataService = await new DataService();
     const {query} = await ctx;
     const products = await dataService.getProducts(query);

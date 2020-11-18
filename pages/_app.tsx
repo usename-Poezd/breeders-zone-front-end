@@ -1,4 +1,4 @@
-import React, {Component, FC} from "react";
+import React, {FC, useEffect} from "react";
 import Head from 'next/head'
 import "../sass/app.scss";
 import 'react-day-picker/lib/style.css';
@@ -7,23 +7,26 @@ import 'lazysizes';
 import 'lazysizes/plugins/attrchange/ls.attrchange';
 import {DataService} from "../services";
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { config, library, icon } from '@fortawesome/fontawesome-svg-core'
+import { config, library } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import {ConnectedRouter} from "connected-next-router";
-import Header from "../components/Header/Header";
+import {Header} from "../components/Header";
 import SecondHeader from "../components/second-header";
-import {Router, withRouter} from "next/router";
-import CookiesBanner from "../components/cookies-banner/cookies-banner";
-import VerifyEmailBanner from "../components/verify-email-banner/verify-email-banner";
-import UserActivityBanner from "../components/user-activity-banner";
+import {Router} from "next/router";
+// import CookiesBanner from "../components/cookies-banner/cookies-banner";
+// import VerifyEmailBanner from "../components/verify-email-banner/verify-email-banner";
+// import UserActivityBanner from "../components/user-activity-banner";
 import Echo from "laravel-echo";
-import {wrapper} from "../redux/store";
+import {IRootState, wrapper} from "../redux/store";
 import withYM from "next-ym";
 import Footer from "../components/Footer";
 import NextNProgress from "../components/progress-bar";
 import {AppProps} from "next/app";
 import {DataServiceProvider} from "../contexts/DataServiceConext";
 import {AuthProvider} from "../contexts/AuthContext";
+import {useDataService} from "../hooks";
+import {useDispatch, useStore} from "react-redux";
+import {setKinds} from "../redux/Kinds";
 library.add(fab);
 config.autoAddCss = false;
 
@@ -41,6 +44,17 @@ const excludeSecondHeader = [
 
 const MyApp: FC<AppProps> = (props) => {
     const { Component, pageProps, router } = props;
+    const dataService = useDataService();
+    const {kinds}: IRootState = useStore().getState();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (kinds.all.length === 0) {
+            dataService.getKinds()
+                .then(({data}) => {
+                    dispatch(setKinds(data))
+                })
+        }
+    });
 
     return (
         <ConnectedRouter>
@@ -90,6 +104,6 @@ export default wrapper.withRedux(
         process.env.NEXT_PUBLIC_YM_ACCOUNT,
         Router
     )(
-        withRouter(MyApp)
+        MyApp
     )
 );

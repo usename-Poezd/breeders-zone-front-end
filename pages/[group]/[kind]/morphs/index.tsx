@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import {Container} from "react-bootstrap";
 import {Morphs} from "../../../../Morphs";
 import {DataService} from "../../../../services";
@@ -7,9 +7,28 @@ import {connect} from "react-redux";
 import Error from "../../../_error";
 import {setActiveKind, setKinds} from "../../../../redux/Kinds";
 import {toUrl} from "../../../../utils";
-import {wrapper} from "../../../../redux/store";
+import {IRootState, wrapper} from "../../../../redux/store";
+import {IGene, IKind, ISubcategory} from "../../../../types";
 
-const MorphsPage = ({morphs, activeKind, statusCode}) => {
+type MorphsPagePropsType = {
+    morphs: {
+        genes: Array<IGene & {
+            traits: Array<{
+                title: string
+                label?: string
+                type: string
+                products_count: number
+            }>
+        }>
+        subcategories: Array<ISubcategory & {
+            products_count: number
+        }>
+    }
+    activeKind: IKind
+    statusCode: number
+}
+
+const MorphsPage: FC<MorphsPagePropsType> = ({morphs, activeKind, statusCode}) => {
     if (statusCode && statusCode !== 200) {
         return <Error statusCode={statusCode}/>
     }
@@ -34,7 +53,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
         const {data} = await dataService.getKinds();
         ctx.store.dispatch(setKinds(data));
 
-        const state = await ctx.store.getState();
+        const state: IRootState = await ctx.store.getState();
 
         const activeKind = await state.kinds.all.find((item) => toUrl(item.title_eng) === toUrl(String(kind)));
         if (activeKind)
@@ -59,7 +78,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     }
 });
 
-const mapStateToProps = ({kinds: {activeKind}}) => ({
+const mapStateToProps = ({kinds: {activeKind}}: IRootState) => ({
     activeKind
 });
 

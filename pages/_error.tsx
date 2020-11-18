@@ -1,8 +1,12 @@
 import {Container} from "react-bootstrap";
-import React from "react";
+import * as React from "react";
 import Head from "next/head";
+import {NextPageContext} from "next";
 
-function Error({ statusCode }) {
+type ErrorPropsType = {
+    statusCode: number
+}
+function Error({ statusCode }: ErrorPropsType){
     return (
         <Container>
             <Head>
@@ -33,9 +37,9 @@ function Error({ statusCode }) {
             </div>
         </Container>
     )
-}
+};
 
-Error.getInitialProps = ({ res, err }) => {
+Error.getInitialProps = ({ res, err }: NextPageContext) => {
     const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
     return { statusCode }
 };
