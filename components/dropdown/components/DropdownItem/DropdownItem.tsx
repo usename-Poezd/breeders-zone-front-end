@@ -1,7 +1,8 @@
-import React from "react";
+import * as React from "react";
+import {FC} from "react";
 import {Dropdown as BootstrapDropdown} from "react-bootstrap";
 
-const DropdownItem = ({children, className, ...props}) => {
+const DropdownItem: FC<any> = ({children, ...props}) => {
     return (
         <BootstrapDropdown.Item
             {...props}
@@ -12,4 +13,6 @@ const DropdownItem = ({children, className, ...props}) => {
     )
 };
 
-export default DropdownItem;
+export {
+    DropdownItem
+};

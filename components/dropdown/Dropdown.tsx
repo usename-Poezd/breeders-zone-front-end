@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import * as React from "react";
+import {FC} from "react";
 import {Dropdown as BootstrapDropdown} from "react-bootstrap";
 
-const CustomDropdownToggle = React.forwardRef(({children, onClick, variant}, ref) => {
+const CustomDropdownToggle = React.forwardRef<any>(({children, onClick, variant}: any, ref) => {
     return (
         <div
             className="dropdown-actived"
@@ -18,7 +19,8 @@ const CustomDropdownToggle = React.forwardRef(({children, onClick, variant}, ref
         </div>
     )
 });
-const CustomDropdownMenu = React.forwardRef(({children, className, style, labeledBy}, ref) => (
+
+const CustomDropdownMenu = React.forwardRef<any>(({children, className, style, labeledBy}: any, ref) => (
     <ul
         ref={ref}
         style={{
@@ -33,7 +35,7 @@ const CustomDropdownMenu = React.forwardRef(({children, className, style, labele
     </ul>
 ));
 
-const Dropdown = (props) => {
+const Dropdown: FC<any> = (props) => {
     const {label, variant = 'black', children} = props;
 
     return (
@@ -49,4 +51,6 @@ const Dropdown = (props) => {
     )
 };
 
-export default Dropdown;
+export {
+    Dropdown
+};
