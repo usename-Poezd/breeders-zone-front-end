@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import * as React from "react";
+import { Component, KeyboardEvent } from 'react';
 
 import {Navbar, Nav, Form, Container, NavDropdown} from 'react-bootstrap';
 
@@ -25,10 +26,9 @@ import LazyImg from "../lazy-img";
 import Notifications from "../notifications/notifications";
 import {IRootState} from "../../redux/store";
 import {HeaderPropsType, IHeaderStateProps} from "./types";
-import {IHeaderDispatchProps} from "./types";
 import {search as searchAction, setSearchQuery} from "../../redux/Search";
 
-class Header extends Component<HeaderPropsType> {
+class HeaderComponent extends Component<HeaderPropsType> {
 
     state = {
         isToggle: false,
@@ -357,7 +357,7 @@ class Header extends Component<HeaderPropsType> {
                                     placeholder="Поиск по..."
                                     value={search.query} className="form-control-border"
                                     onKeyDown={
-                                        (e) => e.key === 'Enter' ?
+                                        (e: KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' ?
                                             searchAction()
                                             : null
                                     }
@@ -409,9 +409,13 @@ const mapStateToProps = ({
     search
 });
 
-export default connect<IHeaderStateProps, IHeaderDispatchProps>(mapStateToProps, {
+const Header = connect(mapStateToProps, {
     logout,
     clearUserNotificationsCount,
     setSearchQuery,
     searchAction
-})(Header);
+})(HeaderComponent);
+
+export {
+    Header
+};

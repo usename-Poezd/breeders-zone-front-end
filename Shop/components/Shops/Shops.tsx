@@ -1,4 +1,5 @@
-import React, {FC, useEffect, useState} from "react";
+import * as React from "react";
+import {FC, useEffect, useState} from "react";
 import {Col, Container, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCar, faHelicopter, faTruck} from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +15,10 @@ import {FormInput} from "../../../components/Form/components/FormInput";
 
 const qs = require('qs');
 
+const initialValues = {
+    q: ''
+};
+
 const ShopsComponent: FC<ShopsPropsType> = (props) => {
     const [request, setRequest] = useState(false);
     const {shops, activeKind} = props;
@@ -27,7 +32,7 @@ const ShopsComponent: FC<ShopsPropsType> = (props) => {
         }
     }, [shops]);
 
-    const onSubmit = (data) => {
+    const onSubmit = (data: typeof initialValues) => {
         const {search: routerSearch} = props;
         const query = qs.parse(routerSearch.replace('?', ''));
         setRequest(true);
@@ -46,9 +51,7 @@ const ShopsComponent: FC<ShopsPropsType> = (props) => {
             </Head>
             <Container>
                 <Formik
-                    initialValues={{
-                        q: ''
-                    }}
+                    initialValues={initialValues}
                     onSubmit={onSubmit}
                 >
                     {
@@ -67,7 +70,7 @@ const ShopsComponent: FC<ShopsPropsType> = (props) => {
                         data.length === 0 ?
                             <Col xs={12} className="d-flex flex-column justify-content-center m-auto">
                                 <img src="/images/icons/error-snake.svg" alt="Пока что нет активных категорий"/>
-                                <h1 className="text-center">Похоже магазинов{activeKind.title_rus ? ` в категории ${activeKind.title_rus} ` : ' '}нет</h1>
+                                <h1 className="text-center">Похоже магазинов{activeKind ? ` в категории ${activeKind.title_rus} ` : ' '}нет</h1>
                             </Col>
                             : null
                     }
@@ -149,7 +152,7 @@ const mapStateToProps = ({router: {location: {search, pathname}}, kinds: {active
     activeKind
 });
 
-const Shops = connect<IShopsStateProps>(mapStateToProps)(ShopsComponent);
+const Shops = connect(mapStateToProps)(ShopsComponent);
 
 export {
     Shops

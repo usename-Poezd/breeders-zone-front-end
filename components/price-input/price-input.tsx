@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import * as React from "react";
 import { PriceInputProps } from "./types";
 import {Controller} from "react-hook-form";
 import NumberFormat from "react-number-format";

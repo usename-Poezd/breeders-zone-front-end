@@ -1,4 +1,5 @@
-import React, {FC, useEffect} from "react";
+import * as React from "react";
+import {FC} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCar, faHelicopter, faTruck} from "@fortawesome/free-solid-svg-icons";
 import {faFacebookF, faVk, faYoutube} from "@fortawesome/free-brands-svg-icons";
@@ -209,7 +210,7 @@ const ShopComponent: FC<ShopPropsType> = (props) => {
                 <ShopTextContainer text={policity} title="Политика магазина"/>
 
                 {
-                    divorces.length > 0 ?
+                    divorces && divorces.length > 0 ?
                         (
                             <React.Fragment>
                                 <h2 className="shop-title">Разведения:</h2>
@@ -223,7 +224,7 @@ const ShopComponent: FC<ShopPropsType> = (props) => {
                 }
 
                 {
-                    divorces.length > 0 &&
+                    divorces && divorces.length > 0 &&
                     <Row className="shop-items justify-content-center">
                         <Col xs={12}>
                             <Link href={"/divorces?shop=" + company_name}>
@@ -236,7 +237,7 @@ const ShopComponent: FC<ShopPropsType> = (props) => {
                 }
 
                 {
-                    kinds.length > 0 ?
+                    kinds && kinds.length > 0 ?
                         (
                             <React.Fragment>
                                 <h2 className="shop-title category-title">Категории:</h2>
@@ -296,7 +297,7 @@ const ShopComponent: FC<ShopPropsType> = (props) => {
                 }
 
                 {
-                    kinds.length > 0 ?
+                    kinds && kinds.length > 0 ?
                         <ShopMorphs
                             kinds={kinds}
                             shopName={company_name}
@@ -305,7 +306,7 @@ const ShopComponent: FC<ShopPropsType> = (props) => {
                 }
 
                 {
-                    shop.products.length > 0 ?
+                    shop.products && shop.products.length > 0 ?
                         <React.Fragment>
                             <h2 className="shop-title">Все товары:</h2>
                             <Row className="shop-items justify-content-center">

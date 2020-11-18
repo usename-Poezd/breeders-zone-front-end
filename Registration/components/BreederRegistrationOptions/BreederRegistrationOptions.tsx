@@ -32,7 +32,7 @@ const BreederRegistrationOptions: FC<FormikProps<IRegistrationData>> = (props) =
                 className="w-100"
                 required
                 label="Укажите страну"
-                options={countries.all.map((item, idx) => ({label: item.name, value: item.name}))}
+                options={countries.all.map((item) => ({label: item.name, value: item.name}))}
                 component={FormSelect}
             />
             <Field id="phone" name="phone" type="tel" required label="Телефон" description="Ваш телефон будет виден только вам" placeholder={`+${countryCallCode} 999 999 99 99`} mask={`+${countryCallCodeMask} 999 999 99 99`} component={FormMaskedInput}/>

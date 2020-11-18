@@ -36,8 +36,10 @@ export interface IClearSearchAction {
 }
 
 export interface ISearchState {
-    query: string|null
+    query: string
 }
+
+export type SearchActionsType = ISetSearchQueryAction | IClearSearchAction;
 
 export {
     SET_SEARCH_QUERY,

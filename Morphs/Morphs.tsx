@@ -36,15 +36,15 @@ const MorphsComponent: FC<MorphsPropsType> = (props) => {
         return <Spinner/>;
     }
 
-    if(genes.length === 0 && subcategories.length === 0 && !request && !activeKinds.find((item) => item.id === activeKind.id)) {
+    if(genes.length === 0 && subcategories.length === 0 && !request && !activeKinds.find((item) => item.id === activeKind?.id)) {
         return (
             <React.Fragment>
                 <Head>
-                    <title>Похоже в категории {activeKind.title_rus} нет активных морф</title>
+                    <title>Похоже в категории {activeKind?.title_rus} нет активных морф</title>
                 </Head>
                 <Row className="mt-5">
                     <Col xs={12} className="text-center d-flex h-100">
-                        <h2 className="m-auto">Похоже в категории {activeKind.title_rus} нет активных морф</h2>
+                        <h2 className="m-auto">Похоже в категории {activeKind?.title_rus} нет активных морф</h2>
                     </Col>
                 </Row>
             </React.Fragment>
@@ -65,7 +65,7 @@ const MorphsComponent: FC<MorphsPropsType> = (props) => {
                     genes.length === 0 && subcategories.length === 0 &&
                     <Row className="mt-5">
                         <Col xs={12} className="text-center d-flex h-100">
-                            <h2 className="m-auto">Похоже в категории {activeKind.title_rus} нет активных морф</h2>
+                            <h2 className="m-auto">Похоже в категории {activeKind?.title_rus} нет активных морф</h2>
                         </Col>
                     </Row>
                 }
@@ -201,7 +201,7 @@ const MorphsComponent: FC<MorphsPropsType> = (props) => {
                         as={`/${group}/${kind}`}
                     >
                         <a className="d-block feather-shadow text-center h3 btn-second-bn p--10 mt--10">
-                            Показать всех животных в категории {activeKind.title_rus}
+                            Показать всех животных в категории {activeKind?.title_rus}
                         </a>
                     </Link>
                 </Col>
@@ -216,7 +216,7 @@ const mapStateToProps = ({kinds: {active: activeKinds, activeKind}}: IRootState)
 });
 
 
-const Morphs = connect<IMorphsStateProps>(mapStateToProps)(MorphsComponent);
+const Morphs = connect(mapStateToProps)(MorphsComponent);
 
 export {
     Morphs

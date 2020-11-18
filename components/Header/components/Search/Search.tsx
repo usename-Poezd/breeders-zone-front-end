@@ -8,7 +8,7 @@ import {Formik, Form as FormikForm, Field, FormikProps} from "formik";
 import {FormSelect} from "../../../Form/components/FormSelect";
 import {FormInput} from "../../../Form/components/FormInput";
 import {IRootState} from "../../../../redux/store";
-import {ISearchDispatchProps, ISearchFormInitialValues, ISearchStateProps, SearchPropsType} from "./types";
+import {ISearchFormInitialValues, ISearchStateProps, SearchPropsType} from "./types";
 import {FormMorphSelect} from "../../../Form/components/FormMorphsSearch";
 import {setKinds} from "../../../../redux/Kinds";
 import {useDataService} from "../../../../hooks";
@@ -60,10 +60,15 @@ const SearchComponent: FC<SearchPropsType> = (props) => {
                             (props: FormikProps<ISearchFormInitialValues>) => {
                                 const {kind, subcategory} = props.values;
 
+                                let localities: { label: string; value: number; }[] = [];
                                 const selectedKind = allKinds.find((item) => item.id === Number(kind));
-                                const localities = selectedKind?.subcategories && selectedKind.subcategories.find( (item) => item.id === Number(subcategory)) ?
-                                    selectedKind?.subcategories.find( (item) => item.id === Number(subcategory)).localities.map( (locality) => ({label: locality.title, value: locality.id}))
-                                    : selectedKind?.localities.map( (locality) => ({label: locality.title, value: locality.id}));
+                                if (selectedKind !== undefined) {
+                                    const selectedSubcategory = selectedKind.subcategories.find( (item) => item.id === Number(subcategory));
+                                    localities = selectedSubcategory ?
+                                        selectedSubcategory.localities.map( (locality) => ({label: locality.title, value: locality.id}))
+                                        : selectedKind.localities.map( (locality) => ({label: locality.title, value: locality.id}));
+                                }
+
                                 return (
                                     <FormikForm>
                                         <Field
@@ -263,7 +268,7 @@ const mapStateToProps = ({kinds: {all: allKinds}}: IRootState): ISearchStateProp
     allKinds
 });
 
-const Search = connect<ISearchStateProps, ISearchDispatchProps>(mapStateToProps, {
+const Search = connect(mapStateToProps, {
     search,
     setKinds
 })(SearchComponent);

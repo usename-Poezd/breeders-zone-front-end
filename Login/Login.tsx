@@ -4,8 +4,8 @@ import {Spinner} from 'react-bootstrap';
 import {connect} from "react-redux";
 import {login} from "../redux/Auth";
 import {IRootState} from "../redux/store";
-import {ILoginDispatchProps, ILoginFormInitialValues, ILoginStateProps, LoginPropsType} from "./types";
-import {Formik, FormikProps, Field, Form as FormikForm} from "formik";
+import {ILoginFormInitialValues, ILoginStateProps, LoginPropsType} from "./types";
+import {Formik, Field, Form as FormikForm} from "formik";
 import * as Yup from "yup";
 
 import {FormInput} from "../components/Form";
@@ -19,7 +19,7 @@ const initialValues: ILoginFormInitialValues = {
 const LoginComponent:FC<LoginPropsType> = (props) => {
     const {loginRequest, loginError} = props;
 
-    const onSubmit = (data) => {
+    const onSubmit = (data: ILoginFormInitialValues) => {
         const { login } = props;
         login(data)
     };
@@ -47,7 +47,7 @@ const LoginComponent:FC<LoginPropsType> = (props) => {
                     })}
                 >
                     {
-                        (props: FormikProps<ILoginFormInitialValues>) => {
+                        () => {
                             if (loginRequest) {
                                 return (
                                     <div className="d-flex py-3">
@@ -86,7 +86,7 @@ const mapStateToProps = ({auth: {isLogin, loginRequest, loginError}}: IRootState
     loginRequest
 });
 
-const Login = connect<ILoginStateProps, ILoginDispatchProps>(mapStateToProps, {login})(LoginComponent);
+const Login = connect(mapStateToProps, {login})(LoginComponent);
 
 export {
     Login

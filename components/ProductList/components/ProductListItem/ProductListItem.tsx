@@ -1,4 +1,5 @@
-import React, {FC, useState} from 'react';
+import * as React from "react";
+import {FC, useState} from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faBan, faCheck, faGenderless, faMars, faVenus} from "@fortawesome/free-solid-svg-icons";
 import { Col } from 'react-bootstrap';
@@ -10,7 +11,7 @@ import currency from "currency.js";
 import {setReportModalProductId, setReportModalShow} from "../../../../redux/actions";
 import {setChatProduct} from "../../../../redux/Chat";
 import {currencyOptions, toUrl, transformCb} from "../../../../utils";
-import {IProductListItemDispatchProps, IProductListItemStateProps, ProductListItemPropsType} from "./types";
+import {IProductListItemStateProps, ProductListItemPropsType} from "./types";
 import {IRootState} from "../../../../redux/store";
 import {useDataService} from "../../../../hooks";
 
@@ -38,6 +39,7 @@ const ProductListItemComponent: FC<ProductListItemPropsType> = (props) => {
     } = props;
     const [isVerify, setVerify] = useState(!!guards.find((item) => item.id === user?.id));
     const {company_name, logo_img_url} = shop;
+    const mainPrice = price.find((item) => item.type === 'main');
     const dataService = useDataService();
     return (
         <Col xs={12} sm={6} md={4} lg={3} className="item">
@@ -49,7 +51,7 @@ const ProductListItemComponent: FC<ProductListItemPropsType> = (props) => {
                                 logo_img_url ?
                                     <LazyImg
                                         src={logo_img_url}
-                                        alt={name + ' | Breeders Zone'}
+                                        alt={company_name + ' | Breeders Zone'}
                                         className="img-fluid"
                                     />
                                     : <LazyImg
@@ -107,12 +109,12 @@ const ProductListItemComponent: FC<ProductListItemPropsType> = (props) => {
                                 preview ?
                                     <LazyImg
                                         src={preview.img_src}
-                                        alt="asd"
+                                        alt={name + ' | Breeders Zone'}
                                         className="img-fluid"
                                     />
                                     : <LazyImg
                                         src={'/images/icons/error-snake.svg'}
-                                        alt="asd"
+                                        alt={name + ' | Breeders Zone'}
                                         className="img-fluid"
                                     />
 
@@ -140,8 +142,14 @@ const ProductListItemComponent: FC<ProductListItemPropsType> = (props) => {
                                 <div className="rating"></div>
                             </div>
                             <span className="price">
-                                {currency(price.find((item) => item.type === 'main').amount, currencyOptions).format()}&nbsp;
-                                {getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}
+                                {
+                                    mainPrice &&
+                                        currency(mainPrice.amount, currencyOptions).format()
+                                }&nbsp;
+                                {
+                                    mainPrice &&
+                                        getSymbolFromCurrency(mainPrice.currency)
+                                }
                             </span>
 
                         </div>
@@ -173,7 +181,7 @@ const mapStateToProps = ({profile: {user}}: IRootState): IProductListItemStatePr
     user
 });
 
-const ProductListItem = connect<IProductListItemStateProps, IProductListItemDispatchProps>(mapStateToProps, {setReportModalProductId, setReportModalShow, setChatProduct})(ProductListItemComponent);
+const ProductListItem = connect(mapStateToProps, {setReportModalProductId, setReportModalShow, setChatProduct})(ProductListItemComponent);
 
 export {
     ProductListItem

@@ -1,9 +1,11 @@
-import React from 'react';
+import * as React from "react";
+import {Component, FC} from 'react';
 import {DataServiceConsumer} from "../contexts/DataServiceConext";
+import {DataService} from "../services";
 
-const withDataService = (Wrapped, mapMethodsToProps) => {
+const withDataService = (Wrapped: typeof Component|FC, mapMethodsToProps: (getData: DataService) => Object) => {
 
-    return (props) =>(
+    return (props: any) =>(
         <DataServiceConsumer>
             {
                 (getData) => {

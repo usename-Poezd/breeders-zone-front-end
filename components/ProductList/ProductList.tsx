@@ -1,10 +1,11 @@
-import React, {Component, FC, useState} from "react";
+import * as React from "react";
+import {FC, useEffect, useState} from "react";
 import {Modal, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import Chat from "../chat";
 import Pagination from "../pagination";
 import {setChatAct} from "../../redux/Chat";
 import {IRootState} from "../../redux/store";
-import {IProductListDispatchProps, IProductListStateProps, ProductListProps} from "./types";
+import {IProductListStateProps, ProductListProps} from "./types";
 import {connect} from "react-redux";
 import Spinner from "../spinner";
 import {IShop, IUser} from "../../types";
@@ -14,12 +15,21 @@ import {FilterResult} from "./components/FilterResult";
 const qs = require('qs');
 
 const ProductListComponent: FC<ProductListProps> = (props) => {
+    const {
+        products,
+        meta,
+        isFilter = true,
+        hasRow = true
+    } = props;
     const [isModal, setModal] = useState<boolean>(false);
     const [modalUser, setModalUser] = useState<IShop|IUser|null>(null);
     const [request, setRequest] = useState<boolean>(false);
     const { pathname, search } = props;
     const router = useRouter();
 
+    useEffect(() => {
+        setRequest(false);
+    }, [products]);
 
     const changeRequest = () => setRequest(true);
 
@@ -45,13 +55,6 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
         setModal(false);
     };
 
-    const {
-        products,
-        meta,
-        isFilter = true,
-        hasRow = true
-    } = props;
-
 
     if (request && products.length === 0) {
         return <Spinner/>;
@@ -61,8 +64,8 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
         <React.Fragment>
             {/*<ReportModal/>*/}
             {
-                isFilter &&
-                    <FilterResult total={meta?.total} morphs={meta?.selected_morphs} localities={meta?.selected_localities} changeRequest={changeRequest}/>
+                isFilter && meta &&
+                    <FilterResult total={meta.total} morphs={meta.selected_morphs} localities={meta.selected_localities} changeRequest={changeRequest}/>
             }
             {
                 hasRow ?
@@ -112,8 +115,8 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
                     )
             }
             {
-                meta && meta?.last_page !== 1 ?
-                    <Pagination className="d-flex justify-content-center mb-2" totalItems={meta?.last_page} pageSize={1} defaultActivePage={meta?.current_page} changeRequest={changeRequest}/>
+                meta && meta.last_page !== 1 ?
+                    <Pagination className="d-flex justify-content-center mb-2" totalItems={meta.last_page} pageSize={1} defaultActivePage={meta.current_page} changeRequest={changeRequest}/>
                     : null
             }
         </React.Fragment>
@@ -125,7 +128,7 @@ const mapStateToProps = ({router: {location: {pathname, search}}}: IRootState): 
     search
 });
 
-const ProductList =  connect<IProductListStateProps, IProductListDispatchProps>(mapStateToProps, {setChatAct})(ProductListComponent);
+const ProductList =  connect(mapStateToProps, {setChatAct})(ProductListComponent);
 export  {
     ProductList
 }

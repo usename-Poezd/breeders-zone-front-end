@@ -9,7 +9,7 @@ import {faQuestionCircle, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Select} from "../../../Select";
 import {FormErrorMessage} from "../FormErrorMessage";
 import {compareMorph, toUrl} from "../../../../utils";
-import {components, IndicatorProps} from "react-select";
+import {components} from "react-select";
 import {IMorph, MorphSearchType} from "../../../../types";
 
 const dataService = new DataService();
@@ -18,7 +18,7 @@ const debounceSearch = AwesomeDebouncePromise(
     500
 );
 
-    const DropdownIndicator = (props: IndicatorProps<any>) => {
+    const DropdownIndicator = (props: any) => {
     return (
         <components.DropdownIndicator {...props}>
             {
@@ -30,13 +30,13 @@ const debounceSearch = AwesomeDebouncePromise(
     );
 };
 
-const LoadingMessage = props => {
+const LoadingMessage = () => {
     return (
         <p className="p--10 text-center">Загрузка...</p>
     );
 };
 
-const NoOptionsMessage = props => {
+const NoOptionsMessage = (props: any) => {
     return  (
         <p className="p--10 text-center">
             {
@@ -51,7 +51,7 @@ const NoOptionsMessage = props => {
 
 
 const FormMorphSelect: FC<IFormComponentProps & FieldProps> = ({field, form, required, group = true, options, ...props}) => {
-    const loadOptions =  (inputValue: string, callback) => {
+    const loadOptions =  (inputValue: string, callback: (arg: any) => void) => {
         if (inputValue) {
             debounceSearch(inputValue)
                 .then((data) => {
@@ -87,7 +87,7 @@ const FormMorphSelect: FC<IFormComponentProps & FieldProps> = ({field, form, req
         }
     };
 
-    const onDeleteMorph = (idx) => {
+    const onDeleteMorph = (idx: number) => {
         const morphs = (form.values[field.name] as Array<MorphSearchType>);
         const morph = morphs[idx];
         if (morph.type === 'add') {

@@ -1,14 +1,14 @@
 import {
     CLEAR_SEARCH,
     SET_SEARCH_QUERY,
-    ISearchState,
+    ISearchState, SearchActionsType,
 } from "./types";
 
 const initialState: ISearchState = {
     query: '',
 };
 
-const searchReducer = (state = initialState, action) => {
+const searchReducer = (state = initialState, action: SearchActionsType) => {
     const payload = action.payload;
 
     switch (action.type) {

@@ -1,15 +1,15 @@
-import React, {FC, useState} from 'react';
-import {Col, Dropdown, Row} from 'react-bootstrap';
+import * as React from "react";
+import {FC, useState} from 'react';
+import {Col, Row} from 'react-bootstrap';
 import Link from "next/link";
 import Slider from "react-slick";
-import {connect, useStore} from "react-redux";
+import {useStore} from "react-redux";
 import {num2str, toUrl} from "../../../../utils";
 import LazyImg from "../../../lazy-img";
 import {compareMorph} from "../../../../utils";
 import {IRootState} from "../../../../redux/store";
 import {Filter, IOption} from "../../../Filter";
 import {FilterPropsType} from "./types";
-const qs = require('qs');
 
 const FilterResult: FC<FilterPropsType> = (props) => {
     const {kinds: {activeKind}}: IRootState = useStore().getState();
@@ -23,7 +23,7 @@ const FilterResult: FC<FilterPropsType> = (props) => {
     ];
 
 
-    const { morphs = [], localities = [], total } = props;
+    const { morphs = [], localities = [], total, changeRequest } = props;
     const sliderOptions = {
         dots: false,
         infinite: true,
@@ -186,6 +186,7 @@ const FilterResult: FC<FilterPropsType> = (props) => {
                     className="filter"
                     placeholder="Выберите фильтрацию"
                     options={filterOptions}
+                    onFilter={changeRequest}
                 />
             </Col>
         </Row>

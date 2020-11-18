@@ -5,7 +5,7 @@ import Link from "next/link";
 import {setActiveKind} from "../../redux/actions";
 import {connect} from "react-redux";
 import {compareMorph} from "../../utils";
-import Dropdown, {DropdownItem} from "../dropdown";
+import Dropdown, {DropdownItem} from "../Dropdown";
 
 const ShopMorphs = ({kinds, morphs, groupAndKindUrl, shopName, activeTab, onTab, loadingMorphs, setActiveKind}) => {
     const [isMobile, setIsMobile] = useState(false);

@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {SyntheticEvent, useCallback, useEffect, useRef, useState} from "react";
 import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import GroupFormControl from "../group-form-control";
 import {useForm} from "react-hook-form";
 import Dropzone, {useDropzone} from "react-dropzone";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMars, faQuestionCircle, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
+import {faMars, faQuestionCircle, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {HandelError, HandelSuccess} from "../handels";
 import {DataService, Pipes} from "../../services";
@@ -33,7 +33,7 @@ import Switch from "react-switch";
 import Link from "next/link";
 import moment from "moment";
 import PriceInput from "../price-input";
-import DateInput from "../date-input";
+import DateInput from "../DateInput";
 import {IStateProps, ProductSettingsProps} from "./types";
 import {mainColorHover, secondColor} from "../../variables/style-variables";
 import MomentLocaleUtils from 'react-day-picker/moment';
@@ -87,7 +87,6 @@ const ProductSettings = ({
      clearSearchResult,
      setProductSearchResult,
      allKinds,
-     currencies,
      deleteMorphsKind,
      clearDeletedMorphsKind,
      setProductSearchRequest,
@@ -97,8 +96,8 @@ const ProductSettings = ({
     const searchList = useRef();
     const { toTraitClass } = new Pipes();
 
-    const handleChange = (e) => {
-        setValue(e.target.name, e.target.value);
+    const handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
+        setValue(e.currentTarget.name, e.currentTarget.value);
     };
 
     const clearSearchInput = () => {
@@ -109,18 +108,15 @@ const ProductSettings = ({
 
 
 
-    const onSearchMorphs = (e) => {
-        if (!e.target.value) {
+    const onSearchMorphs = (e: SyntheticEvent<HTMLInputElement>) => {
+        if (!e.currentTarget.value) {
             clearSearchInput();
         }
-        if (e.target.value) {
+        if (e.currentTarget.value) {
             setSelectMorphIdx(0);
             setProductSearchRequest(true);
-            debounceSearch({
-                q: e.target.value,
-                options: [
-                    ['id', values.kind_id]
-                ]
+            debounceSearch(e.currentTarget.value, {
+                kind: values.kind_id
             })
                 .then((data) => {
                     const arr = [];

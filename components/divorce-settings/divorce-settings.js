@@ -45,7 +45,7 @@ import {compareMorph} from "../../utils";
 import MomentLocaleUtils from 'react-day-picker/moment';
 import moment from "moment";
 import Link from "next/link";
-import DateInput from "../date-input";
+import DateInput from "../DateInput";
 const dataService = new DataService();
 const debounceSearch = AwesomeDebouncePromise(
     dataService.searchMorphs,

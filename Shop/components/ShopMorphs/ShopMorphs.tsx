@@ -1,12 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import * as React from "react";
+import {FC, useEffect, useState} from 'react';
 import {Spinner as BootstrapSpinner} from "react-bootstrap";
 import Link from "next/link";
 import {setActiveKind} from "../../../redux/Kinds";
 import {compareMorph, toUrl} from "../../../utils";
-import Dropdown, {DropdownItem} from "../../../components/dropdown";
+import {Dropdown, DropdownItem} from "../../../components/Dropdown";
 import {useDataService} from "../../../hooks";
+import {ShopMorphsType} from "./types";
 
-const ShopMorphs = ({kinds, shopName}) => {
+const ShopMorphs: FC<ShopMorphsType> = (props) => {
+    const {kinds, shopName} = props;
     const dataService = useDataService();
     const [morphs, setMorphs] = useState([]);
     const [loadingMorphs, setLoadingMorphs] = useState(false);
@@ -25,13 +28,14 @@ const ShopMorphs = ({kinds, shopName}) => {
     };
 
     useEffect(() => {
-        setLoadingMorphs(true);
-        dataService.getShopMorphs(shopName, activeKind.id)
-            .then(({data}) => {
-                setMorphs(data);
-                setLoadingMorphs(false);
-            })
-
+        if (activeKind) {
+            setLoadingMorphs(true);
+            dataService.getShopMorphs(shopName, activeKind.id)
+                .then(({data}) => {
+                    setMorphs(data);
+                    setLoadingMorphs(false);
+                })
+        }
     }, [activeKind]);
 
     useEffect(() => {

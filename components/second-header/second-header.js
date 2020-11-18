@@ -8,7 +8,7 @@ import {Pipes} from "../../services";
 import {withRouter} from "next/router";
 import {setActiveKind} from "../../redux/Kinds";
 import {ucFirst} from "../../utils";
-import Dropdown, {DropdownItem} from "../dropdown";
+import {Dropdown, DropdownItem} from "../Dropdown";
 
 class SecondHeader extends Component {
     pipes = new Pipes();

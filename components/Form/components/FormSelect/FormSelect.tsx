@@ -6,6 +6,7 @@ import {IFormComponentProps} from "../../types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faQuestionCircle} from "@fortawesome/free-solid-svg-icons";
 import {FormErrorMessage} from "../FormErrorMessage";
+import {IOption} from "../../../Filter";
 
 const FormSelect: FC<IFormComponentProps & FieldProps> = ({field, form, required, group = true, options, ...props}) => {
     if (group) {
@@ -33,7 +34,7 @@ const FormSelect: FC<IFormComponentProps & FieldProps> = ({field, form, required
                     {...props} {...field}
                     options={options}
                     value={options ? options.find(option => option.value === field.value) : ''}
-                    onChange={(option) => form.setFieldValue(field.name, option.value)}
+                    onChange={(option: IOption) => form.setFieldValue(field.name, option.value)}
                 />
                 <ErrorMessage component={FormErrorMessage} name={field.name}/>
             </Form.Group>
@@ -64,7 +65,7 @@ const FormSelect: FC<IFormComponentProps & FieldProps> = ({field, form, required
                 {...props} {...field}
                 options={options}
                 value={options ? options.find(option => option.value === field.value) : ''}
-                onChange={(option) => form.setFieldValue(field.name, option.value)}
+                onChange={(option: IOption) => form.setFieldValue(field.name, option.value)}
             />
             <ErrorMessage component={FormErrorMessage} name={field.name}/>
         </React.Fragment>

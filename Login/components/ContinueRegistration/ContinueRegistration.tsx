@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {useRouter} from 'next/router'
-import {Formik, FormikProps, Field, Form as FormikForm} from "formik";
+import {Formik, Field, Form as FormikForm} from "formik";
 import {FormInput} from "../../../components/Form";
 import * as Yup from "yup";
 
@@ -12,7 +12,7 @@ const initialValues = {
 
 const ContinueRegistration: FC = () => {
     const router = useRouter();
-    const onSubmit = data => {
+    const onSubmit = (data: typeof initialValues) => {
         router.push(`/registration?name=${data.name}&surname=${data.surname}&email=${data.email}`)
     };
 

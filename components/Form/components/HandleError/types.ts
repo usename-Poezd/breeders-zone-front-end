@@ -1,7 +1,7 @@
 export type HandleErrorPropsType =  {
     error: {
-        message: string
-        errors: Array<any>
-        status: number
+        message: string|null
+        errors: Array<any>|null
+        status: number|null
     }
 }

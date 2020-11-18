@@ -1,15 +1,19 @@
 import {DataService} from "../../services";
 import {ISetActiveKindAction, ISetKindsAction, SET_ACTIVE_KIND, SET_KINDS} from "./types";
 import {IKind} from "../../types";
+import {Dispatch} from "redux";
 
 const dataService = new DataService();
 
-export const getKinds = () => (dispatch) => {
+export const getKinds = () => (dispatch: Dispatch) => {
     dataService.getKinds()
-        .then(data => dispatch(setKinds(data)));
+        .then(({data}) => dispatch(setKinds(data)));
 };
 
-export const setKinds = (payload): ISetKindsAction => {
+export const setKinds = (payload: {
+    kinds: Array<IKind>,
+    activeKinds: Array<IKind>
+}): ISetKindsAction => {
     return {
         type: SET_KINDS,
         payload

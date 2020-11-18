@@ -1,12 +1,13 @@
-import React, {useState} from "react";
+import React, {FC, useState} from "react";
 import Link from "next/link";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Modal} from "react-bootstrap";
-import {ISocial} from "../../types";
+import {IRootState} from "../../redux/store";
+import {FooterPropsType, IFooterStateProps} from "./types";
 
-const Footer = (props) => {
-    const {auth, socials} = props;
+const Footer: FC<FooterPropsType> = (props) => {
+    const {isLogin, socials} = props;
 
     const [show, setShow] = useState(false);
 
@@ -37,7 +38,7 @@ const Footer = (props) => {
                     </Link>
                     <p className="btn-link footer-item cursor-pointer" onClick={handleShow}>Помощь</p>
                     {
-                        !auth.isLogin ?
+                        !isLogin ?
                             <React.Fragment>
                                 <Link href="/login">
                                     <a className="footer-item">Войти</a>
@@ -51,7 +52,7 @@ const Footer = (props) => {
                 </div>
                 <div className="d-flex flex-wrap justify-content-center">
                     {
-                        socials.all.map((item: ISocial) => (
+                        socials.all.map((item) => (
                             <a key={item.url} href={item.url} target="_blank" className="footer-item">
                                 <FontAwesomeIcon icon={["fab", item.fa_icon]} size="lg"/>
                             </a>
@@ -63,8 +64,8 @@ const Footer = (props) => {
     )
 };
 
-const mapStateToProps = ({auth, socials}) => ({
-    auth,
+const mapStateToProps = ({auth: {isLogin}, socials}: IRootState): IFooterStateProps => ({
+    isLogin,
     socials
 });
 

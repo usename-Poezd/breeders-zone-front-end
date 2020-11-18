@@ -9,7 +9,7 @@ const MorphsItem: FC<IMorphsItemProps> = ({ title, traits}) => {
     const { query: { group, kind } } = useRouter();
     return (
         <Col xs={12} sm={6} md={4} lg={3} className="morph-item d-flex justify-content-between align-items-start">
-            <Link href="/[group]/[kind]/genes/[geneTitle]" as={`/${group}/${kind}/genes/${toUrl(title)}`}>
+            <Link href="/[group]/[kind]/genes/[gene]" as={`/${group}/${kind}/genes/${toUrl(title)}`}>
                 <a className="morph-title">
                     {title}
                 </a>

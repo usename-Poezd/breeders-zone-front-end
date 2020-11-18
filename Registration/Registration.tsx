@@ -1,8 +1,8 @@
-import React, {FC, useState} from "react";
+import React, {FC} from "react";
 import Spinner from "../components/spinner";
 import {HandleError} from "../components/Form";
 import {Form, Col, Row, Container} from "react-bootstrap";
-import {connect, useStore} from "react-redux";
+import {connect} from "react-redux";
 import {useRouter} from "next/router";
 import Head from "next/head";
 import {Formik, Form as FormikForm, Field, FormikProps, ErrorMessage} from "formik";
@@ -84,7 +84,7 @@ const RegistrationComponent: FC<RegistrationPropsType> = (props) => {
                                     .required('Пароль должен быть указан'),
                                 confirmPassword: Yup.string()
                                     .required('Пароли не совпадают')
-                                    .oneOf([Yup.ref('password'), null], 'Пароли не совпадают'),
+                                    .oneOf([Yup.ref('password'), ''], 'Пароли не совпадают'),
                                 user_accepted: Yup.boolean()
                                     .oneOf([true], 'Вы не можете зарегестрироваться, если не приняли условия'),
                                 company_name: Yup.string()
