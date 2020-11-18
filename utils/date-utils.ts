@@ -1,6 +1,6 @@
 import moment from "moment";
 
-function parseDate(str: string, format:string, locale:string):  Date|void {
+function parseDate(str: string, format:string):  Date|void {
     const parsed = moment(str, format);
     console.log(parsed.toString());
     if (parsed.isValid()) {
@@ -9,7 +9,7 @@ function parseDate(str: string, format:string, locale:string):  Date|void {
     return undefined;
 }
 
-function formatDate(date: Date, format: string, locale:string): string {
+function formatDate(date: Date, format: string): string {
     return moment(date).format(format).toString();
 }
 
