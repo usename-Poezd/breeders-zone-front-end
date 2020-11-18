@@ -18,3 +18,4 @@ export * from "./trait";
 export * from "./gene";
 export * from "./apiSuccessReturn";
 export * from "./divorce";
+export * from "./productsPageProps"

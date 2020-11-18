@@ -11,7 +11,7 @@ export interface IKind {
     logo_header: string,
     has_subcategories: boolean,
     guards?: Array<IShop>,
-    subcategories?: Array<ISubcategory>
-    localities?: Array<ILocality>
+    subcategories: Array<ISubcategory>
+    localities: Array<ILocality>
 }
 

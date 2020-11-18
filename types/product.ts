@@ -4,6 +4,11 @@ import {IShop} from "./shop";
 import {IMorph} from "./morph";
 import {ILocality} from "./locality";
 import {ISubcategory} from "./subcategory";
+interface IPrice {
+    amount: number
+    currency: string
+    type: 'main'|'converted'
+}
 
 export interface IProduct {
     id: number
@@ -14,11 +19,7 @@ export interface IProduct {
     age_id: number
     is_active: boolean
     name: string
-    price: Array<{
-        amount: number
-        currency: string
-        type: 'main'|'converted'
-    }>
+    price: Array<IPrice>
     currency: string
     sex: boolean|null
     description: string
