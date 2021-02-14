@@ -10,6 +10,7 @@ import {IChatState} from "../Chat";
 import {IProfileState} from "../Profile";
 import {ISearchState} from "../Search";
 import {RouterState} from "connected-next-router/types";
+import {IShopState} from "../Shop";
 
 export interface IRootState {
     kinds: IKindsState
@@ -22,6 +23,7 @@ export interface IRootState {
     profile: IProfileState
     search: ISearchState
     router: RouterState
+    shop: IShopState
 }
 
 export interface SagaStore extends Store {

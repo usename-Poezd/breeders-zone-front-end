@@ -14,16 +14,14 @@ import {
     USER_CLEAR
 } from "./types";
 
-const dataService = new DataService();
-
-export const profileUpdateSuccess = (payload: string): IProfileUpdateSuccessAction => {
+export const setProfileUpdateSuccess = (payload: string): IProfileUpdateSuccessAction => {
     return {
         type: PROFILE_UPDATE_SUCCESS,
         payload: payload
     }
 };
 
-export const profileUpdateError = (payload: {errors: any, status: number}): IProfileUpdateErrorAction => {
+export const setProfileUpdateError = (payload: {errors: any, status: number}): IProfileUpdateErrorAction => {
     return {
         type: PROFILE_UPDATE_ERROR,
         payload: payload
@@ -42,7 +40,8 @@ export const profileUpdateRequest = (): IProfileUpdateRequestAction => {
     }
 };
 
-export const setUserGuardXP = () => (dispatch, getState) => {
+export const setUserGuardXP = () => (dispatch: any, getState: any) => {
+    const dataService = new DataService();
     const state = getState();
     const payload = state.profile.user.guard_XP + 25;
 
@@ -63,6 +62,7 @@ export const setUserGuardXP = () => (dispatch, getState) => {
 };
 
 export const clearUserNotificationsCount = (): IClearUserNotificationsCountAction => {
+    const dataService = new DataService();
     dataService.checkNotifications();
 
     return {
@@ -70,7 +70,7 @@ export const clearUserNotificationsCount = (): IClearUserNotificationsCountActio
     }
 };
 
-export const addNotification = (payload): IAddNotificationAction => {
+export const addNotification = (payload: any): IAddNotificationAction => {
      return {
          type: ADD_NOTIFICATION,
          payload: {

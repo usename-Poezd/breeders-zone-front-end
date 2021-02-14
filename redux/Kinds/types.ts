@@ -19,7 +19,7 @@ export interface ISetActiveKindAction {
 export interface IKindsState {
     all: Array<IKind>,
     active: Array<IKind>,
-    activeKind: IKind
+    activeKind: IKind|null
 }
 
 export type KindsActionsType = ISetKindsAction | ISetActiveKindAction | AnyAction

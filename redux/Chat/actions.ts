@@ -1,7 +1,9 @@
 import Axios from "axios";
 import {Api, DataService} from "../../services";
 import UpgradedMassage from "../../utils/upgraded-message";
-const dataService = new DataService();
+import {ThunkAction} from "redux-thunk";
+import {AnyAction} from "redux";
+import {IRootState} from "../store";
 
 
 export const clearChat = () => {
@@ -10,7 +12,7 @@ export const clearChat = () => {
     }
 };
 
-export const getMessagesRequest = (payload) => {
+export const getMessagesRequest = (payload: any) => {
     return {
         type: 'GET_MESSAGE_REQUEST',
         payload
@@ -23,7 +25,7 @@ export const getMessagesRequestClear = () => {
     }
 };
 
-export const getMessages = (payload) => (dispatch, getState) => {
+export const getMessages = (payload: any): ThunkAction<void, IRootState, {}, AnyAction> => (dispatch, getState) => {
     const state = getState();
 
     const CancelToken = Axios.CancelToken;
@@ -47,14 +49,14 @@ export const getMessages = (payload) => (dispatch, getState) => {
     )
         .then( (res) => res.data)
         .then( (data) => {
-            data.map( (item) => {
+            data.map( (item: any) => {
                 dispatch(addMessage(item));
             });
             dispatch(getMessagesRequestClear());
         });
 };
 
-export const addMessage = (payload) => {
+export const addMessage = (payload: any) => {
     payload = new UpgradedMassage(payload);
     return {
         type: 'ADD_MESSAGE',
@@ -62,14 +64,14 @@ export const addMessage = (payload) => {
    }
 };
 
-export const updateLoadMessage = (payload) => {
+export const updateLoadMessage = (payload: any) => {
     return {
         type: 'UPDATE_LOAD_MESSAGE',
         payload
     }
 };
 
-export const updateCheckMessage = (payload) => {
+export const updateCheckMessage = (payload: any) => {
     return {
         type: 'UPDATE_CHECK_MESSAGE',
         payload
@@ -82,28 +84,28 @@ export const clearMessages = () => {
     }
 };
 
-export  const setRooms = (payload) => {
+export  const setRooms = (payload: any) => {
     return {
         type: 'SET_ROOMS',
         payload
     }
 };
 
-export  const addRooms = (payload) => {
+export  const addRooms = (payload: any) => {
     return {
         type: 'ADD_ROOMS',
         payload
     }
 };
 
-export const newRoom = (payload) => (dispatch) => {
+export const newRoom = (payload: any): ThunkAction<void, IRootState, any, AnyAction> => (dispatch) => {
     dispatch({
         type: 'NEW_ROOM',
         payload
     });
 };
 
-export const selectRoom = (payload) => (dispatch, getState) => {
+export const selectRoom = (payload: any): ThunkAction<void, IRootState, any, AnyAction> => (dispatch, getState) => {
     const state = getState();
     if(state.chat.selected_room_id !== null) {
         window.Echo.leaveChannel(`private-room.${state.chat.selected_room_id}`);
@@ -113,7 +115,7 @@ export const selectRoom = (payload) => (dispatch, getState) => {
         dispatch(clearMessages());
     }
 
-    if(state.chat.selected_room_id !== payload && !state.chat.rooms.find((item) => item.room.id === payload)) {
+    if(state.chat.selected_room_id !== payload && !state.chat.rooms.find((item) => item.id === payload)) {
         Api.get(`/api/room/${payload}`)
                 .then( (res) => res.data)
                 .then( (room) => {
@@ -134,13 +136,13 @@ export const selectRoom = (payload) => (dispatch, getState) => {
     }
 
     if(payload !== state.chat.selected_room_id ) {
-        const room = state.chat.rooms.filter( (item) => item.room.id === payload)[0];
-        let roomsWithNewMessages = state.chat.roomsWithNewMessages;
-        if (room.newMessage) {
+        const room = state.chat.rooms.filter( (item) => item.id === payload)[0];
+        let roomsWithNewMessages = state.chat.rooms_with_new_messages;
+        if (room.new_message) {
             roomsWithNewMessages--;
         }
-        room.newMessage = false;
-        room.newMessageCount = 0;
+        room.new_message = false;
+        room.new_message_count = 0;
 
         dispatch(getMessages(payload));
 
@@ -161,8 +163,7 @@ export const clearSelectedRoom = () => {
     }
 };
 
-export const getRooms = () => (dispatch, getState) => {
-    const store = getState();
+export const getRooms = (): ThunkAction<void, IRootState, any, AnyAction> => (dispatch) => {
     dispatch(setChatRequest(true));
     return Api.get('/api/rooms')
         .then( (res) => res.data)
@@ -172,10 +173,11 @@ export const getRooms = () => (dispatch, getState) => {
         });
 };
 
-export const receivedMessage = (payload) => (dispatch, getState) => {
+export const receivedMessage = (payload: any): ThunkAction<void, IRootState, any, AnyAction> => (dispatch, getState) => {
+    const dataService = new DataService();
     const state = getState();
     const rooms = state.chat.rooms;
-    const room = rooms.findIndex(({room}, idx) => room.id === payload.room_id);
+    const room = rooms.findIndex(({id}) => id === payload.room_id);
 
     if (payload.room_id !== state.chat.selected_room_id) {
         dispatch(getRoomsCountWithNewMessages());
@@ -185,7 +187,7 @@ export const receivedMessage = (payload) => (dispatch, getState) => {
         const tmp = rooms[room];
         tmp.message = payload.message;
         rooms.splice(room, 1);
-        rooms.unshift({...tmp, newMessage: true, newMessageCount: tmp.newMessageCount + 1});
+        rooms.unshift({...tmp, new_message: true, new_message_count: tmp.new_message_count ? tmp.new_message_count + 1 : 1});
         dispatch(setRooms([...rooms]));
     } else if (!rooms[room])  {
         dataService.getRoom(payload.room_id)
@@ -195,7 +197,7 @@ export const receivedMessage = (payload) => (dispatch, getState) => {
     }
 };
 
-export const getRoomsCountWithNewMessages = () => (dispatch) => {
+export const getRoomsCountWithNewMessages = (): ThunkAction<void, IRootState, any, AnyAction> => (dispatch) => {
     return Api.get('/api/rooms-with-new-message')
         .then( (res) => res.data)
         .then( (data) => {
@@ -203,35 +205,35 @@ export const getRoomsCountWithNewMessages = () => (dispatch) => {
         });
 };
 
-export const setRoomsCountWithNewMessages = (payload) => {
+export const setRoomsCountWithNewMessages = (payload: any) => {
     return {
         type: 'SET_ROOMS_COUNT_WITH_NEW_MESSAGES',
         payload
     }
 };
 
-export const setSelectedRoomMessage = (payload) => {
+export const setSelectedRoomMessage = (payload: any) => {
     return {
         type: 'SET_SELECTED_ROOM_MESSAGE',
         payload
     }
 };
 
-export const setChatAct = (payload) => {
+export const setChatAct = (payload: any) => {
     return {
         type: 'SET_CHAT_ACT',
         payload
     }
 };
 
-export const setChatRequest = (payload) => {
+export const setChatRequest = (payload: any) => {
     return {
         type: 'SET_CHAT_REQUEST',
         payload
     }
 };
 
-export const setChatProduct = (payload) => {
+export const setChatProduct = (payload: any) => {
     return {
         type: 'SET_CHAT_PRODUCT',
         payload

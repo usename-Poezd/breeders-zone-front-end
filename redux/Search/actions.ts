@@ -4,9 +4,6 @@ import {
     SEARCH,
     ISetSearchQueryAction, ISearchAction, IClearSearchAction, SearchActionPayloadType
 } from "./types";
-
-const qs = require('qs');
-
 export const setSearchQuery = (payload: string): ISetSearchQueryAction => {
     return  {
         type: SET_SEARCH_QUERY,

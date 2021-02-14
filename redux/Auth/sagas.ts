@@ -1,5 +1,5 @@
 import {call, put, takeEvery} from "redux-saga/effects";
-import {ILoginAction, LOGIN, GET_USER, REGISTRATION, IRegistrationAction} from "./types";
+import {ILoginAction, LOGIN, GET_USER, REGISTRATION, IRegistrationAction, IGetUserAction} from "./types";
 import {Api, DataService} from "../../services";
 import {loginRequest, loginSuccess, setIsLogin, setLoginError, setRegError, setUser} from "./actions";
 import {push} from "connected-next-router";
@@ -57,25 +57,25 @@ function* loginSaga(action: ILoginAction) {
     }
 }
 
-function* getUserSaga() {
+function* getUserSaga(action: IGetUserAction) {
     try {
-        const token = Cookie.get('token');
+        const token = action.payload || Cookie.get('token');
         if (token) {
             const dataService = yield new DataService();
 
             Api.defaults.headers.Authorization = `Bearer ${token}`;
-            window.io = require('socket.io-client');
-            window.Echo =  window.Echo = yield new Echo({
-                broadcaster: 'socket.io',
-                wsHost: window.location.hostname,
-                wsPort: 6001,
-                disableStats: false,
-                auth: {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            });
+            // window.io = require('socket.io-client');
+            // window.Echo =  window.Echo = yield new Echo({
+            //     broadcaster: 'socket.io',
+            //     wsHost: window.location.hostname,
+            //     wsPort: 6001,
+            //     disableStats: false,
+            //     auth: {
+            //         headers: {
+            //             Authorization: `Bearer ${token}`
+            //         }
+            //     }
+            // });
 
             yield put(setIsLogin(true));
             yield put(loginRequest());
@@ -98,7 +98,7 @@ function* registrationSaga(action: IRegistrationAction) {
         const dataService = yield new DataService();
 
         yield put(loginRequest());
-        const {message} = yield call(() => dataService.postRegister(action.payload));
+        yield call(() => dataService.postRegister(action.payload));
         yield put(loginSuccess());
 
     } catch (error) {

@@ -1,4 +1,4 @@
-import {IUser} from "../../types";
+import {IShop, IUser} from "../../types";
 import {AnyAction} from "redux";
 
 const SET_USER = 'SET_USER';
@@ -17,7 +17,7 @@ const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 
 export interface ISetUserAction {
     type: typeof SET_USER,
-    payload: IUser
+    payload: IUser|IShop
 }
 
 export interface IClearUserAction {
@@ -55,13 +55,13 @@ export interface IAddNotificationAction {
 
 
 export interface IProfileState {
-    user: IUser,
+    user: IUser|null,
     update: {
         request: boolean,
-        success: string,
+        success: string|null,
         error: {
             errors: Array<null>,
-            status: number
+            status: number|null
         }
     }
 }

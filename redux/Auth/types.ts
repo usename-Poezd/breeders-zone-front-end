@@ -34,7 +34,7 @@ export interface IRegistrationAction {
 
 export interface IGetUserAction {
     type: typeof GET_USER,
-    payload?: any
+    payload?: string
 }
 
 export interface ILoginAction {

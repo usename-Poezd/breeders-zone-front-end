@@ -11,9 +11,8 @@ import {
     LOGIN_REQUEST, LOGIN_ERROR,
     LOGIN_SUCCESS, LOGOUT, REG_ERROR, SET_IS_LOGIN, REGISTRATION, IRegistrationAction
 } from "./types";
-import {IRegistrationData} from "../../types";
-
-const dataService = new DataService();
+import {IRegistrationData, IShop, IUser} from "../../types";
+import {ISetUserAction, SET_USER} from "../Profile";
 
 export const registration = (data: IRegistrationData): IRegistrationAction => {
     return {
@@ -41,7 +40,8 @@ export const loginSuccess = (): ILoginSuccessAction => {
     }
 };
 
-export const logout = (tokenNotWork= false) => (dispatch, getState) => {
+export const logout = (tokenNotWork= false) => (dispatch: any, getState: any) => {
+    const dataService = new DataService();
     const state = getState();
     dispatch({ type: LOGOUT });
     if (!tokenNotWork)
@@ -52,20 +52,25 @@ export const logout = (tokenNotWork= false) => (dispatch, getState) => {
     dispatch({ type: 'USER_CLEAR'});
 };
 
-export const setUser = (payload) => {
+export const setUser = (payload: IUser|IShop): ISetUserAction => {
     return {
-        type: 'SET_USER',
+        type: SET_USER,
         payload: payload
     }
 };
 
-export const getUser = (): IGetUserAction => {
+export const getUser = (payload?: string): IGetUserAction => {
     return {
-        type: GET_USER
+        type: GET_USER,
+        payload
     }
 };
 
-export const setRegError = (payload): IAuthErrorAction => {
+export const setRegError = (payload: {
+    message: string,
+    status: boolean,
+    errors: any
+}): IAuthErrorAction => {
     return {
         type: REG_ERROR,
         payload: payload
@@ -73,7 +78,11 @@ export const setRegError = (payload): IAuthErrorAction => {
 };
 
 
-export const setLoginError = (payload): IAuthErrorAction => {
+export const setLoginError = (payload: {
+    message: string
+    status: boolean,
+    errors: any
+}): IAuthErrorAction => {
     return {
         type: LOGIN_ERROR,
         payload: payload

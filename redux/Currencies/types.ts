@@ -1,5 +1,4 @@
-import {AnyAction, Store} from "redux";
-import {Task} from "redux-saga";
+import {AnyAction} from "redux";
 
 const SET_CURRENCIES = 'SET_CURRENCIES';
 

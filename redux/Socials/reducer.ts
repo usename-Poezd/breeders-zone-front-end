@@ -1,7 +1,6 @@
 import {SocialsActionsType, ISocialsState, SET_SOCIALS} from "./types";
 import {HYDRATE} from "next-redux-wrapper";
 import {diff} from "jsondiffpatch";
-import {AnyAction} from "redux";
 
 const initialState: ISocialsState = {
    all: []

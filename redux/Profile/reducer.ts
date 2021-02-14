@@ -1,5 +1,3 @@
-import {HYDRATE} from "next-redux-wrapper";
-import {diff} from "jsondiffpatch";
 import {
     ADD_NOTIFICATION,
     CLEAR_USER_NOTIFICATIONS_COUNT,
@@ -30,7 +28,10 @@ const profileReducer = (state = initialState, action: ProfileActionsType) => {
         case SET_USER:
             return  {
                 ...state,
-                user: payload
+                user: {
+                    ...state.user,
+                    ...payload
+                }
             };
         case USER_CLEAR:
             return  {
@@ -109,14 +110,17 @@ const profileReducer = (state = initialState, action: ProfileActionsType) => {
                 }
             };
         case ADD_NOTIFICATION:
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    notifications: [payload, ...state.user.notifications],
-                    unread_notifications_count: ++state.user.unread_notifications_count
-                }
-            };
+            if (state.user) {
+                return {
+                    ...state,
+                    user: {
+                        ...state.user,
+                        notifications: [payload, ...state.user.notifications],
+                        unread_notifications_count: ++state.user.unread_notifications_count
+                    }
+                };
+            }
+            return state;
         default:
             return state;
     }

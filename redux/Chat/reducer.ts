@@ -24,7 +24,6 @@ const initialState: IChatState = {
     rooms: [],
     messages: [],
     getMessagesRequest: false,
-    messagesCancelToken: null,
     act: '',
     request: true
 };
@@ -69,7 +68,7 @@ const chatReducer = (state = initialState, action: ChatActionsType) => {
                 messages: [...state.messages]
             };
         case UPDATE_CHECK_MESSAGE:
-            payload.map( ({id}) => {
+            payload.map( ({id}: {id: number}) => {
                 const messageIdx = state.messages.findIndex((item) => item.id === id);
                 if (messageIdx >= 0) {
                     state.messages[messageIdx].checked = true;

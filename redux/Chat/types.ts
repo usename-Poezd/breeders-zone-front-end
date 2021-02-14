@@ -1,5 +1,6 @@
 import {IMessage, IRoom} from "../../types";
 import {AnyAction} from "redux";
+import {CancelTokenSource} from "axios";
 
 const GET_MESSAGE_REQUEST = 'GET_MESSAGE_REQUEST';
 const GET_MESSAGE_REQUEST_CLEAR = 'GET_MESSAGE_REQUEST_CLEAR';
@@ -27,7 +28,7 @@ export interface IChatState {
     rooms: Array<IRoom>,
     messages: Array<IMessage>,
     getMessagesRequest: boolean,
-    messagesCancelToken: string|null,
+    messagesCancelToken?: CancelTokenSource,
     act: string,
     request: boolean
 }

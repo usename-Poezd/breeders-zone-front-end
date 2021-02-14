@@ -3,9 +3,8 @@ import {ISetActiveKindAction, ISetKindsAction, SET_ACTIVE_KIND, SET_KINDS} from 
 import {IKind} from "../../types";
 import {Dispatch} from "redux";
 
-const dataService = new DataService();
-
 export const getKinds = () => (dispatch: Dispatch) => {
+    const dataService = new DataService();
     dataService.getKinds()
         .then(({data}) => dispatch(setKinds(data)));
 };

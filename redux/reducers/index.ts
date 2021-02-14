@@ -1,6 +1,5 @@
 import initialState from "./initialState";
 import resetPassword from "./reset-password";
-import shop from "./shop";
 import product from "./product";
 import {kindsReducer} from "../Kinds";
 import divorce from "./divorce";
@@ -15,6 +14,7 @@ import countriesReducer from "../Countries/reducer";
 import {chatReducer} from "../Chat";
 import {profileReducer} from "../Profile";
 import {searchReducer} from "../Search";
+import {shopReducer} from "../Shop";
 const createRootReducer = () => combineReducers({
     currencies: currenciesReducer,
     socials: socialsReducer,
@@ -22,7 +22,7 @@ const createRootReducer = () => combineReducers({
     auth: authReducer,
     resetPassword,
     profile: profileReducer,
-    shop,
+    shop: shopReducer,
     product,
     divorce,
     chat: chatReducer,
