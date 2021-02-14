@@ -3,11 +3,11 @@ import {setReportModalProductId, setReportModalShow} from "../../../../redux/act
 import {setChatProduct} from "../../../../redux/Chat";
 
 export interface IProductListItemProps {
-    sendMessage: (user: IUser|IShop) => void
+    sendMessage: (user: IUser|IShop|null) => void
 }
 
 export interface IProductListItemStateProps {
-    user: IUser
+    user: IUser|null
 }
 
 export interface IProductListItemDispatchProps {

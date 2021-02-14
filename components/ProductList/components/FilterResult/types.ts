@@ -5,4 +5,5 @@ export type FilterPropsType = {
     morphs: Array<ISelectedMorph>
     localities: Array<ILocality>
     changeRequest: () => void
+    request: boolean
 }

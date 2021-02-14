@@ -1,19 +1,25 @@
 import * as React from "react";
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import Link from "next/link";
 import Slider from "react-slick";
 import {useStore} from "react-redux";
-import {num2str, toUrl} from "../../../../utils";
+import {checkMobile, num2str, toUrl} from "../../../../utils";
 import LazyImg from "../../../lazy-img";
 import {compareMorph} from "../../../../utils";
 import {IRootState} from "../../../../redux/store";
 import {Filter, IOption} from "../../../Filter";
 import {FilterPropsType} from "./types";
+import Skeleton from "react-loading-skeleton";
 
 const FilterResult: FC<FilterPropsType> = (props) => {
     const {kinds: {activeKind}}: IRootState = useStore().getState();
-    const [sliderDrag, setSliderDrag] = useState<boolean>(false);
+    const [sliderDrag, setSliderDrag] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        setIsMobile(checkMobile())
+    }, []);
 
     const filterOptions: Array<IOption> = [
         {value: '-price', label: <div><LazyImg src={"/images/filter-up-icon.svg"} className="img-fluid"/>По цене</div>},
@@ -23,7 +29,7 @@ const FilterResult: FC<FilterPropsType> = (props) => {
     ];
 
 
-    const { morphs = [], localities = [], total, changeRequest } = props;
+    const { morphs = [], localities = [], total, changeRequest, request } = props;
     const sliderOptions = {
         dots: false,
         infinite: true,
@@ -36,9 +42,15 @@ const FilterResult: FC<FilterPropsType> = (props) => {
     };
 
     return (
-        <Row className="top-filter-and-result d-flex justify-content-between align-items-center">
-            <Col xs={12} md={6} className="result">
-                <h3>{num2str(total, ['Найден', 'Найденно', 'Найденно'])} {total} {num2str(total, ['результат', 'результата', 'результатов'])}</h3>
+        <Row className="top-filter-and-result d-flex justify-content-between align-items-start">
+            <Col xs={12} md={6} className="p-0">
+                <h3>
+                    {
+                        !request ?
+                            `${num2str(total, ['Найден', 'Найденно', 'Найденно'])} ${total} ${num2str(total, ['результат', 'результата', 'результатов'])}`
+                            : <Skeleton width={200}/>
+                    }
+                </h3>
 
                 {
                     morphs.length <= 2 && morphs.length !== 0?
@@ -111,7 +123,7 @@ const FilterResult: FC<FilterPropsType> = (props) => {
                                         {
                                             morphs.map( ({gene_title, trait_title, type, label}, idx) => {
                                                 const traitTitleUrl = label ? label : trait_title;
-                                                if (activeKind.title_eng) {
+                                                if (activeKind) {
                                                     return (
                                                         <Link
                                                             key={"morph-exists" + idx}
@@ -178,12 +190,12 @@ const FilterResult: FC<FilterPropsType> = (props) => {
                 }
             </Col>
 
-            <Col xs={12} md={6} className="d-flex justify-content-md-end justify-content-start filter-container">
+            <Col xs={12} md={6} className="d-flex justify-content-md-end justify-content-start filter-container p-0">
                 <Filter
                     name="sort"
                     id="filter"
-                    autoSize
-                    className="filter"
+                    autoSize={!isMobile}
+                    className={`filter ${isMobile && 'w-100'}`}
                     placeholder="Выберите фильтрацию"
                     options={filterOptions}
                     onFilter={changeRequest}

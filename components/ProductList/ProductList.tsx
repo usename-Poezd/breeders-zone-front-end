@@ -1,8 +1,8 @@
 import * as React from "react";
 import {FC, useEffect, useState} from "react";
-import {Modal, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
+import {Modal, Row} from "react-bootstrap";
 import Chat from "../chat";
-import Pagination from "../pagination";
+import Pagination from "../Pagination";
 import {setChatAct} from "../../redux/Chat";
 import {IRootState} from "../../redux/store";
 import {IProductListStateProps, ProductListProps} from "./types";
@@ -12,6 +12,7 @@ import {IShop, IUser} from "../../types";
 import {useRouter} from "next/router";
 import {ProductListItem} from "./components/ProductListItem";
 import {FilterResult} from "./components/FilterResult";
+import {ProductListItemSkeleton} from "./components/ProductListItemSkeleton";
 const qs = require('qs');
 
 const ProductListComponent: FC<ProductListProps> = (props) => {
@@ -34,7 +35,11 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
     const changeRequest = () => setRequest(true);
 
 
-    const sendMessage = (user: IShop|IUser) => {
+    const sendMessage = (user: IShop|IUser|null) => {
+        if (user === null) {
+            return router.push('/login');
+        }
+
         const {setChatAct} = props;
         setChatAct('new');
         setModal(true);
@@ -60,12 +65,14 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
         return <Spinner/>;
     }
 
+    console.log(meta);
+
     return (
         <React.Fragment>
             {/*<ReportModal/>*/}
             {
                 isFilter && meta &&
-                    <FilterResult total={meta.total} morphs={meta.selected_morphs} localities={meta.selected_localities} changeRequest={changeRequest}/>
+                    <FilterResult total={meta.total} morphs={meta.selected_morphs} localities={meta.selected_localities} changeRequest={changeRequest} request={request}/>
             }
             {
                 hasRow ?
@@ -79,13 +86,17 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
                             </Modal.Body>
                         </Modal>
                         {
-                            request && products.length > 0 &&
-                            <div className="load">
-                                <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
-                            </div>
+                            request &&
+                                <React.Fragment>
+                                    <ProductListItemSkeleton/>
+                                    <ProductListItemSkeleton/>
+                                    <ProductListItemSkeleton/>
+                                    <ProductListItemSkeleton/>
+                                </React.Fragment>
                         }
+
                         {
-                            products.map( (item) => (
+                            !request && products.map( (item) => (
                                 <ProductListItem key={item.id} {...item} sendMessage={sendMessage}/>
                             ))
                         }
@@ -101,13 +112,17 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
                                 </Modal.Body>
                             </Modal>
                             {
-                                request && products.length > 0 &&
-                                <div className="load">
-                                    <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
-                                </div>
+                                request &&
+                                <React.Fragment>
+                                    <ProductListItemSkeleton/>
+                                    <ProductListItemSkeleton/>
+                                    <ProductListItemSkeleton/>
+                                    <ProductListItemSkeleton/>
+                                </React.Fragment>
                             }
+
                             {
-                                products.map( (item) => (
+                                !request && products.map( (item) => (
                                     <ProductListItem key={item.id} {...item} sendMessage={sendMessage}/>
                                 ))
                             }
@@ -115,7 +130,7 @@ const ProductListComponent: FC<ProductListProps> = (props) => {
                     )
             }
             {
-                meta && meta.last_page !== 1 ?
+                !request && meta && meta.last_page !== 1 ?
                     <Pagination className="d-flex justify-content-center mb-2" totalItems={meta.last_page} pageSize={1} defaultActivePage={meta.current_page} changeRequest={changeRequest}/>
                     : null
             }
