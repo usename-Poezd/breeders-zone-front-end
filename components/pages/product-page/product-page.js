@@ -45,7 +45,7 @@ class ProductPage extends Component  {
 
     checkVerify = () => {
         const {product, profile} = this.props;
-        if (product.guards.find((item) => item.id === profile.user.id)) {
+        if (profile.user && product.guards.find((item) => item.id === profile.user.id)) {
             this.setState({isVerify: true});
         }
     };
@@ -85,7 +85,7 @@ class ProductPage extends Component  {
             cb,
             morphs,
             guards,
-            user: {
+            shop: {
                 company_name,
                 location,
                 logo_img_url,
@@ -160,7 +160,7 @@ class ProductPage extends Component  {
                     <Col xs={12} className="text-center position-relative">
                         <h2 className="product-card-title"><span className="morph">{name}</span></h2>
                         {
-                            profile.user.is_guard && profile.user.guardians_kinds.find((item) => item.id === kindId) ?
+                            profile.user && profile.user.is_guard && profile.user.guardians_kinds.find((item) => item.id === kindId) ?
                                 <div className="rate-block ml-auto" style={{
                                     position: 'absolute',
                                     left: 'auto',
