@@ -38,6 +38,9 @@ declare global {
 }
 
 const excludeSecondHeader = [
+    '/products',
+    '/profile/shop',
+    '/profile',
     '/login',
     '/registration'
 ];
@@ -84,12 +87,12 @@ const MyApp: FC<AppProps> = (props) => {
                     <Header/>
                     {
                          !excludeSecondHeader.find(item => item === router.pathname) &&
-                        <SecondHeader/>
+                            <SecondHeader/>
                     }
                     <Component {...pageProps}/>
                     {
-                        router.pathname !== '/reducer'
-                        && router.pathname !== '/reducer/[label]' ?
+                        router.pathname !== '/document'
+                        && router.pathname !== '/document/[label]' ?
                             <Footer/>
                             : null
                     }

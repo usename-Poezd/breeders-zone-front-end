@@ -9,19 +9,9 @@ import {Registration} from "../Registration";
 
 export default () => <Registration/>;
 
-const mapMethodsToProps = (getData) => ({
-    postRegister: getData.postRegister
-});
-
-const mapStateToProps = ({auth: {isLogin, regError}, documents}) => ({
-    isLogin,
-    regError,
-    documents
-});
-
 export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     const {store, req} = await ctx;
-    if (Cookie.parse(ctx.req.headers.cookie).token && ctx.req) {
+    if (Cookie.parse(String(ctx.req?.headers.cookie)).token && ctx.req) {
         ctx.res.setHeader("location", "/");
         ctx.res.statusCode = 301;
         ctx.res.end();

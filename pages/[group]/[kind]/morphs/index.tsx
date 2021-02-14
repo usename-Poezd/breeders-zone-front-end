@@ -5,8 +5,7 @@ import {DataService} from "../../../../services";
 import Head from "next/head";
 import {connect} from "react-redux";
 import Error from "../../../_error";
-import {setActiveKind, setKinds} from "../../../../redux/Kinds";
-import {toUrl} from "../../../../utils";
+import {serverSetKinds} from "../../../../utils";
 import {IRootState, wrapper} from "../../../../redux/store";
 import {IGene, IKind, ISubcategory} from "../../../../types";
 
@@ -48,16 +47,8 @@ const MorphsPage: FC<MorphsPagePropsType> = ({morphs, activeKind, statusCode}) =
 export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     try {
         const { kind } = await ctx.query;
-        const dataService = await new DataService();
-
-        const {data} = await dataService.getKinds();
-        ctx.store.dispatch(setKinds(data));
-
-        const state: IRootState = await ctx.store.getState();
-
-        const activeKind = await state.kinds.all.find((item) => toUrl(item.title_eng) === toUrl(String(kind)));
-        if (activeKind)
-            ctx.store.dispatch(setActiveKind(activeKind));
+        const dataService = new DataService();
+        await serverSetKinds(ctx, true);
 
 
         const {data: morphs} = await dataService.getActiveProps(String(kind));

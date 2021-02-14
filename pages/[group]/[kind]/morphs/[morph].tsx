@@ -4,8 +4,8 @@ import React from "react";
 import Head from "next/head";
 import {ProductsPagePropsType} from "../../../../types";
 import {ProductList} from "../../../../components/ProductList";
-import {NextPageContext} from "next";
-import {compareMorph} from "../../../../utils";
+import {compareMorph, serverSetKinds} from "../../../../utils";
+import {wrapper} from "../../../../redux/store";
 const qs = require('qs');
 
 export default (props: ProductsPagePropsType) => {
@@ -26,10 +26,12 @@ export default (props: ProductsPagePropsType) => {
     )
 };
 
-export const getServerSideProps = async (ctx: NextPageContext) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     const dataService = await new DataService();
     const {query} = await ctx;
     const { morph } = await query;
+
+    await serverSetKinds(ctx, true);
 
     const regex = /(het|possible-het|possible|visual|normal|super)?-?(.+)/gmi;
     const regExpExecArray = regex.exec(String(morph));
@@ -54,4 +56,4 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
             products
         }
     }
-};
+});

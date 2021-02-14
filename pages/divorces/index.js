@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {DataService} from "../../services";
 import {Col, Container, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
-import Pagination from "../../components/pagination";
+import Pagination from "../../components/Pagination";
 import {withRouter} from "next/router";
 import Spinner from "../../components/spinner";
 import DivorcesListItem from "../../components/divorces-list-item";

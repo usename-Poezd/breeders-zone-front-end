@@ -3,9 +3,9 @@ import {DataService} from "../../../../services";
 import React from "react";
 import Head from "next/head";
 import {ProductsPagePropsType} from "../../../../types";
-import {compareMorph} from "../../../../utils";
+import {compareMorph, serverSetKinds} from "../../../../utils";
 import {ProductList} from "../../../../components/ProductList";
-import {NextPageContext} from "next";
+import {wrapper} from "../../../../redux/store";
 const qs = require('qs');
 
 export default (props: ProductsPagePropsType) => {
@@ -26,9 +26,11 @@ export default (props: ProductsPagePropsType) => {
     )
 };
 
-export const getServerSideProps = async (ctx: NextPageContext) => {
+export const getServerSideProps = wrapper.getServerSideProps( async (ctx) => {
     const dataService = await new DataService();
     const {query} = await ctx;
+
+    await serverSetKinds(ctx, true);
 
     const products = await dataService.getProducts({}, qs.stringify(query));
 
@@ -37,4 +39,4 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
             products
         }
     }
-};
+});

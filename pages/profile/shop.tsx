@@ -1,13 +1,13 @@
 import React from "react";
 import {Container} from "react-bootstrap";
-import ShopProfile from "../../components/shop-profile";
-import wrapper from "../../store";
+import {wrapper} from "../../redux/store";
 import {DataService} from "../../services";
-import {setCountries} from "../../redux/actions";
+import {setCountries} from "../../redux/Countries";
 import Head from "next/head";
 import {serverRedirect} from "../../utils";
+import {ShopProfile} from "../../Profile";
 
-const ShopProfilePage = (props) => {
+const ShopProfilePage = () => {
     return (
         <Container>
             <Head>
@@ -22,7 +22,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     serverRedirect(ctx);
     if(ctx.store.getState().countries.all.length === 0) {
         const dataService = await new DataService();
-        const data = await dataService.getCountries();
+        const {data} = await dataService.getCountries();
         ctx.store.dispatch(setCountries(data))
     }
 });

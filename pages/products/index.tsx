@@ -1,11 +1,11 @@
-import React, {Component} from "react";
+import React from "react";
 import {Container} from "react-bootstrap";
-import ShopProducts from "../../components/shop-products";
+import {ShopProducts} from "../../Shop";
 import Head from "next/head";
 import {serverRedirect} from "../../utils";
 import {DataService} from "../../services";
-import wrapper from "../../store";
-import {setShopProducts} from "../../redux/actions";
+import {wrapper} from "../../redux/store";
+import {setShopProducts} from "../../redux/Shop";
 
 export default () => {
     return (
@@ -23,7 +23,7 @@ export default () => {
 export const getServerSideProps = wrapper.getServerSideProps( async (ctx) => {
     serverRedirect(ctx);
     const dataService = new DataService();
-    const {products} = await dataService.getShopProducts(ctx.query, ctx);
+    const data = await dataService.getShopProducts(ctx.query, ctx);
 
-    ctx.store.dispatch(setShopProducts(products));
+    ctx.store.dispatch(setShopProducts(data));
 });

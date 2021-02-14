@@ -1,50 +1,56 @@
 import {Container} from "react-bootstrap";
-import TraitItems from "../../components/traits-list";
 import {DataService} from "../../services";
 import React from "react";
 import Head from "next/head";
-import {num2str, ucFirst} from "../../utils";
-import {withRouter} from "next/router";
+import {compareMorph, num2str, serverSetKinds, ucFirst} from "../../utils";
 import Error from "../_error";
+import {wrapper} from "../../redux/store";
+import {ProductsPagePropsType} from "../../types";
+import {useRouter} from "next/router";
+import {ProductList} from "../../components/ProductList";
 
 const qs = require('qs');
 
-export default withRouter(({ products = {selectedMorphs: []}, router, statusCode}) => {
+export default ({ products , statusCode}: ProductsPagePropsType) => {
     if (statusCode && statusCode !== 200) {
         return <Error statusCode={statusCode}/>;
     }
 
-    const {selectedMorphs} = products;
+    const {meta: {selected_morphs}} = products;
+    const router = useRouter();
+
     return (
         <React.Fragment>
             <Head>
                 <title>
                     {
-                        selectedMorphs && selectedMorphs.length === 0 ?
+                        selected_morphs && selected_morphs.length === 0 ?
                             `Животные в группе ${ucFirst(router.query.group)} | Breeders Zone`
-                            : `${num2str(selectedMorphs.length, ['Морфа', 'Морфы'])} ${selectedMorphs.map((item) => `${item.traitTitle === 'Normal' || item.traitTitle === 'Visual' ? `${item.geneTitle}, ` : `${item.traitTitle} ${item.geneTitle}, `}`)}в группе ${ucFirst(router.query.group)} купить | Breeders Zone`
+                            : `${num2str(selected_morphs.length, ['Морфа', 'Морфы'])} ${selected_morphs.map( ({gene_title, trait_title}) => ` ${trait_title ? compareMorph(trait_title, gene_title) : gene_title}`)}в группе ${ucFirst(router.query.group)} купить | Breeders Zone`
                     }
                 </title>
                 <meta
                     name="description"
                     content={
-                        selectedMorphs && selectedMorphs.length === 0 ?
+                        selected_morphs && selected_morphs.length === 0 ?
                             `Купить рептилию в группе ${ucFirst(router.query.group)}`
-                            : `Купить рептилию с ${num2str(selectedMorphs.length, ['морфой', 'морффми'])} ${selectedMorphs.map((item) => `${item.traitTitle === 'Normal' || item.traitTitle === 'Visual' ? `${item.geneTitle}, ` : `${item.traitTitle} ${item.geneTitle}, `}`)}в группе ${ucFirst(router.query.group)}`
+                            : `Купить рептилию с ${num2str(selected_morphs.length, ['морфой', 'морффми'])} ${selected_morphs.map( ({gene_title, trait_title}) => ` ${trait_title ? compareMorph(trait_title, gene_title) : gene_title}`)}в группе ${ucFirst(router.query.group)}`
                     }
                 />
             </Head>
             <Container>
-                <TraitItems {...products}/>
+                <ProductList products={products.data} meta={products.meta}/>
             </Container>
         </React.Fragment>
     )
-})
-export const getServerSideProps = async (ctx) => {
+}
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     try {
         const dataService = await new DataService();
         const {query} = await ctx;
         const products = await dataService.getProducts({}, qs.stringify(query));
+
+        await serverSetKinds(ctx, true);
 
         return {
             props: {
@@ -65,4 +71,4 @@ export const getServerSideProps = async (ctx) => {
             }
         };
     }
-};
+});

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle} from "@fortawesome/free-regular-svg-icons";
 import Head from "next/head";
 import * as Cookie from "es-cookie";
+import {NextPageContext} from "next";
 
 export default () => {
     return (
@@ -24,8 +25,8 @@ export default () => {
     )
 };
 
-export const getServerSideProps = (ctx) => {
-    if (Cookie.parse(ctx.req.headers.cookie).token && ctx.res) {
+export const getServerSideProps = (ctx: NextPageContext) => {
+    if (Cookie.parse(String(ctx.req?.headers.cookie)).token && ctx.res) {
         ctx.res.setHeader("location", "/");
         ctx.res.statusCode = 301;
         ctx.res.end();

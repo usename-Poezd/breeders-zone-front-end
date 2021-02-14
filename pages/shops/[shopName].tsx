@@ -1,13 +1,14 @@
 import React from "react";
 import {DataService} from "../../services";
 import {Shop} from "../../Shop";
-export default (props) => <Shop {...props}/>;
+import {NextPageContext} from "next";
+export default (props: any) => <Shop {...props}/>;
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async (ctx: NextPageContext) => {
     try {
         const dataService = await new DataService();
         const {shopName} = await ctx.query;
-        const {data: shop} = await dataService.getShop(shopName);
+        const {data: shop} = await dataService.getShop(String(shopName));
 
 
         return {
@@ -17,11 +18,13 @@ export const getServerSideProps = async (ctx) => {
             }
         }
     } catch (error) {
-        ctx.res.statusCode = error.response.status;
-        return {
-            props: {
-                statusCode: error.response.status
-            }
-        };
+        if (ctx.res) {
+            ctx.res.statusCode = error.response.status;
+            return {
+                props: {
+                    statusCode: error.response.status
+                }
+            };
+        }
     }
 };

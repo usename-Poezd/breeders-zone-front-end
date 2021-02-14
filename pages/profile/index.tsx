@@ -1,27 +1,24 @@
 import React from "react";
 import {Container} from "react-bootstrap";
-import Profile from "../../components/profile";
 import Head from "next/head";
 import {serverRedirect} from "../../utils";
+import {wrapper} from "../../redux/store";
+import {UserProfile} from "../../Profile";
 
 
-const ProfilePage = (props) => {
+const ProfilePage = () => {
     return (
         <Container>
             <Head>
                 <title>Профиль | Breeders Zone</title>
             </Head>
-            <Profile/>
+            <UserProfile/>
         </Container>
     )
 };
 
-export const getServerSideProps = (ctx) => {
+export const getServerSideProps = wrapper.getServerSideProps((ctx) => {
     serverRedirect(ctx);
-
-    return {
-        props: {}
-    }
-};
+});
 
 export default ProfilePage;

@@ -3,26 +3,18 @@ import {DataService} from "../../services";
 import {Col, Container, Row} from "react-bootstrap";
 import Head from "next/head";
 import {useDataService} from "../../hooks";
+import {NextPageContext} from "next";
 
-const VerificationPage = ({verification}) => {
+interface IVerificationPageProps {
+    verification: {
+        success: boolean
+        message: string
+    }
+}
+
+const VerificationPage = ({verification}: IVerificationPageProps) => {
     const [sendMail, setSendMail] = useState(false);
     const dataService = useDataService();
-    const variants = {
-        successMail: {
-            height: '100%',
-            background: '#3ED04D',
-            transition: {
-                duration: 0.5
-            }
-        },
-        default: {
-            height: '100%',
-            background: '#fff',
-            transition: {
-                duration: 0.5
-            }
-        }
-    };
 
     return (
         <Container>
@@ -75,10 +67,10 @@ const VerificationPage = ({verification}) => {
     )
 };
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async (ctx: NextPageContext) => {
     const {verificationCode} = await ctx.query;
     const dataService = await new DataService();
-    const verification = await dataService.verify(verificationCode)
+    const verification = await dataService.verify(String(verificationCode))
         .catch((err) => err.response.data);
 
     return {

@@ -2,8 +2,13 @@ import {ProductPage} from "../../../components/pages";
 import {DataService} from "../../../services";
 import Error from '../../_error';
 import React from "react";
+import {NextPageContext} from "next";
+import {IProduct} from "../../../types";
 
-export default ({product, statusCode}) => {
+export default ({product, statusCode}: {
+    product: IProduct
+    statusCode: number
+}) => {
     if (statusCode && statusCode !== 200) {
         return <Error statusCode={statusCode}/>;
     }
@@ -11,10 +16,10 @@ export default ({product, statusCode}) => {
     return <ProductPage product={product}/>
 };
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async (ctx: NextPageContext) => {
     try {
         const dataService = await new DataService();
-        const product = await dataService.getProduct(ctx.query.id);
+        const {data: product} = await dataService.getProduct(String(ctx.query.id), false, ctx);
 
         return {
             props: {
@@ -23,7 +28,9 @@ export const getServerSideProps = async (ctx) => {
             }
         }
     } catch (e) {
-        ctx.res.statusCode = e.response.status;
+        if (ctx.res) {
+            ctx.res.statusCode = e.response.status;
+        }
         return {
             props: {
                 statusCode: e.response.status
