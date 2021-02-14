@@ -250,6 +250,7 @@ ul{
 @include list-loop('.pb--', 'padding-bottom');
 @include list-loop('.pl--', 'padding-left');
 @include list-loop('.p--', 'padding');
+@include list-loop('.w--', 'width', 100, 5, "%");
 
 .select {
     &-arrow {

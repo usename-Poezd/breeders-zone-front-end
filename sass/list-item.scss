@@ -33,6 +33,20 @@
     &-img {
         object-fit: cover;
 
+        & > span {
+            width: 100%;
+            span {
+                height: 208px;
+
+                @media (max-width: 1200px) {
+                    height: 171px;
+                }
+                @media (max-width: 756px) {
+                    height: 195px;
+                }
+            }
+        }
+
         img {
             object-fit: cover;
             width: 600px;
@@ -64,7 +78,7 @@
             margin-bottom: 15px;
 
             .sex{
-                span{
+                 & > span{
                     font-weight: normal;
                     font-size: 16px;
                     line-height: 16px;

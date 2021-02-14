@@ -15,11 +15,7 @@
     white-space: nowrap!important;
 }
 
-//MARGIN AND PADDING
-$max: 50;
-$offset: 5;
-$unit: 'px'; // Feel free to change the unit.
-@mixin list-loop($className, $styleName) {
+@mixin list-loop($className, $styleName, $max: 50, $offset: 5, $unit: 'px') {
     $i: 0;
     @while $i <= $max {
         #{$className + $i} {

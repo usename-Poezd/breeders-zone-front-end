@@ -1,5 +1,6 @@
 header{
     background: #fff;
+    border-bottom: 1px solid #D3D9DE;
 
     .morph-box{
         margin-bottom: 10px;
@@ -8,7 +9,6 @@ header{
     .advance-search{
         overflow: hidden;
         transition: 0.5s;
-        border-bottom: 1px solid #D3D9DE;
         max-height: 2000px;
 
         &.hidden{
