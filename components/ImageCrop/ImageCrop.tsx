@@ -1,5 +1,5 @@
-import React, {PureComponent, useCallback, useState} from "react";
-import Dropzone, {useDropzone} from "react-dropzone";
+import React, {PureComponent} from "react";
+import Dropzone from "react-dropzone";
 import ReactCrop from "react-image-crop";
 import {Crop, ImageCropProps, ImageCropState} from "./types";
 
@@ -7,16 +7,16 @@ class ImageCrop extends PureComponent<ImageCropProps, ImageCropState>{
 
     state: Readonly<ImageCropState> = {
         src: '',
-        file: null,
         croppedImageUrl: '',
         realCrop: null,
+        file: null,
         crop:  {
             unit: '%',
             width: 30,
             aspect: this.props.aspect,
         } as Crop
     };
-    imageRef = null;
+    imageRef: HTMLImageElement|null = null;
     fileUrl = '';
 
     clearState = () => {
@@ -33,7 +33,7 @@ class ImageCrop extends PureComponent<ImageCropProps, ImageCropState>{
         });
     };
 
-    onDrop = acceptedFiles => {
+    onDrop = (acceptedFiles: Array<File>) => {
         this.setState({
             file: acceptedFiles[0],
             src: URL.createObjectURL(acceptedFiles[0])
@@ -41,15 +41,13 @@ class ImageCrop extends PureComponent<ImageCropProps, ImageCropState>{
     };
 
     // If you setState the crop in here you should return false.
-    onImageLoaded = image => {
+    onImageLoaded = (image: HTMLImageElement) => {
         this.imageRef = image;
     };
 
-    onCropComplete = crop => this.makeClientCrop(crop);
+    onCropComplete = (crop: Crop) => this.makeClientCrop(crop);
 
-    onCropChange = (crop, percentCrop) => {
-        // You could also use percentCrop:
-        // this.setState({ crop: percentCrop });
+    onCropChange = (crop: Crop) => {
         this.setState({ crop: crop });
     };
 
@@ -57,8 +55,7 @@ class ImageCrop extends PureComponent<ImageCropProps, ImageCropState>{
         if (this.imageRef && crop.width && crop.height) {
             const croppedImageUrl = await this.getCroppedImg(
                 this.imageRef,
-                crop,
-                'newFile.jpeg'
+                crop
             );
 
             const scaleX = this.imageRef.naturalWidth / this.imageRef.width;
@@ -78,7 +75,7 @@ class ImageCrop extends PureComponent<ImageCropProps, ImageCropState>{
         }
     }
 
-    getCroppedImg(image, crop, fileName): Promise<string> {
+    getCroppedImg(image: HTMLImageElement, crop: Crop): Promise<string> {
         const canvas = document.createElement('canvas');
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
@@ -86,19 +83,21 @@ class ImageCrop extends PureComponent<ImageCropProps, ImageCropState>{
         canvas.height = crop.height;
         const ctx = canvas.getContext('2d');
 
-        ctx.drawImage(
-            image,
-            crop.x * scaleX,
-            crop.y * scaleY,
-            crop.width * scaleX,
-            crop.height * scaleY,
-            0,
-            0,
-            crop.width,
-            crop.height
-        );
+        if (ctx) {
+            ctx.drawImage(
+                image,
+                crop.x * scaleX,
+                crop.y * scaleY,
+                crop.width * scaleX,
+                crop.height * scaleY,
+                0,
+                0,
+                crop.width,
+                crop.height
+            );
+        }
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             canvas.toBlob(blob => {
                 if (!blob) {
                     //reject(new Error('Canvas is empty'));
@@ -112,7 +111,7 @@ class ImageCrop extends PureComponent<ImageCropProps, ImageCropState>{
         });
     }
 
-   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+   render() {
        const {src, crop, realCrop} = this.state;
        return (
            <React.Fragment>

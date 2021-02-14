@@ -6,12 +6,12 @@ export interface Crop {
     y: number,
     width: number,
     height: number,
-    src: File
+    src: File|null
 }
 
 export interface ImageCropProps {
     aspect: number,
-    onComplete: (corp: Crop) => void,
+    onComplete: (crop: Crop|null) => void,
 }
 
 export interface ImageCropState {
