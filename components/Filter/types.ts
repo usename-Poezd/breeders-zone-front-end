@@ -1,6 +1,6 @@
 export interface IOption {
     label: any
-    value: string
+    value: string|number|any
 }
 
 export type FilterPropsType = {
