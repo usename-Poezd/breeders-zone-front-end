@@ -28,9 +28,9 @@ import {IRootState} from "../../redux/store";
 import {HeaderPropsType, IHeaderStateProps} from "./types";
 import {search as searchAction, setSearchQuery} from "../../redux/Search";
 
-class HeaderComponent extends Component<HeaderPropsType> {
+class HeaderComponent extends Component<HeaderPropsType, any> {
 
-    state = {
+    state: any = {
         isToggle: false,
         isToggleSearch: false,
         selectMorphIdx: 0,
@@ -98,7 +98,7 @@ class HeaderComponent extends Component<HeaderPropsType> {
                        title={(
                            <React.Fragment>
                                {
-                                   user?.unread_notifications_count > 0 ?
+                                   user && user?.unread_notifications_count > 0 ?
                                        <span className="message-count" style={{right: -3}}>{user.unread_notifications_count}</span>
                                        : null
                                }
@@ -329,9 +329,8 @@ class HeaderComponent extends Component<HeaderPropsType> {
                                             title={(
                                                 <React.Fragment>
                                                     {
-                                                        user?.unread_notifications_count > 0 ?
+                                                        user && user?.unread_notifications_count > 0 &&
                                                             <span className="message-count"></span>
-                                                            : null
                                                     }
                                                     <FontAwesomeIcon icon={faBell}/>
                                                 </React.Fragment>

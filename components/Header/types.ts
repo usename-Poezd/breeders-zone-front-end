@@ -6,7 +6,7 @@ import {ISearchState, setSearchQuery, search} from "../../redux/Search";
 export interface IHeaderStateProps {
     isLogin: boolean
     loginRequest: boolean
-    user: IUser
+    user: IUser|null
     rooms_with_new_messages: number
     search: ISearchState
 }
