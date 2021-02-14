@@ -14,6 +14,8 @@ import currencyOptions from "./currency-options";
 import { parseDate, formatDate } from "./date-utils";
 import {transformCb} from "./transformCb";
 
+export * from "./serverSetKinds";
+
 export {
     compose,
     isLogin,
@@ -30,5 +32,5 @@ export {
     currencyOptions,
     parseDate,
     formatDate,
-    transformCb
+    transformCb,
 };
