@@ -10,7 +10,7 @@ import {connect} from "react-redux";
  import Head from "next/head";
  import Link from "next/link";
  import ReportModal from "../report-modal/report-modal";
- import Pagination from "../../components/pagination";
+ import Pagination from "../Pagination";
  import {setChatAct} from "../../redux/Chat";
 const qs = require('qs');
 

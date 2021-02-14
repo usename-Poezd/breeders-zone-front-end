@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGenderless, faMars, faPen, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import {withDataService} from "../../HOC";
-import {activeShopProduct, deleteShopProduct, getKinds} from "../../redux/actions";
+import {activeShopProduct, deleteShopProduct} from "../../redux/actions";
+import {getKinds} from "../../redux/Kinds";
 import Link from "next/link";
 import {connect} from "react-redux";
 import {DataService, Pipes} from "../../services";
@@ -100,7 +101,7 @@ const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, p
                     {
                         morphs.length !== 0 ?
                             (
-                                <li className="product-card-info-item flex-row align-items-center">
+                                <li className="product-card-info-item flex-row align-items-start">
                                     <h3 className="title-sex">Морфы:</h3>
                                     <div className="info morphs d-inline-block">
                                         {

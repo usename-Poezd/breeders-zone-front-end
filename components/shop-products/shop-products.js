@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {useState} from "react";
 import ShopProductsItem from "../shop-products-item";
 import Link from "next/link";
 import {withRouter} from "next/router";
@@ -8,10 +8,13 @@ import {connect} from "react-redux";
 import {clearShopProducts, setShopProducts, setShopProductsRequest} from "../../redux/actions";
 import Spinner from "../spinner";
 import qs from 'qs';
+import {checkMobile} from "../../utils";
+import {Filter} from "../Filter";
+import Pagination from "../Pagination";
 
 const ShopProducts = (props) => {
 
-    const { products, allKinds, user,  loginRequest, productsRequest, router, isLogin, isMobile } = props;
+    const { products, allKinds, user,  loginRequest, productsRequest, router, isLogin } = props;
 
     const [q, setQuery] = useState('');
     const [kind, setKind] = useState(router.query.kindId | 'all');
@@ -50,20 +53,6 @@ const ShopProducts = (props) => {
         setQuery(e.target.value);
     };
 
-    if(loginRequest){
-        return (
-            <Row className="justify-content-center">
-                <Col xs={12} md={8} className="feather-shadow mt-3 py-5">
-                    <Spinner/>
-                </Col>
-            </Row>
-        )
-    }
-
-    if ((!user.is_breeder || !isLogin) && typeof window !== 'undefined'){
-        router.push('/');
-    }
-
     return (
         <div className="products">
             <div className="feather-shadow p--20">
@@ -71,15 +60,15 @@ const ShopProducts = (props) => {
                     <h1>Ваши товары:</h1>
                     <Link href="products/add">
                         <a className="btn btn-main">
-                            <h3>{!isMobile ? 'Добавить' : '+'}</h3>
+                            <h3>{!checkMobile() ? 'Добавить' : '+'}</h3>
                         </a>
                     </Link>
                 </div>
                 <div className="products-filter-and-result">
                     <h2 className="products-result">
                         {
-                            products.length > 0 ?
-                                `Всего: ${products.length}`
+                            products.meta?.total > 0 ?
+                                `Всего: ${products.meta.total}`
                                 : 'Вы пока не добавили ни одного товара'
                         }
                     </h2>
@@ -93,33 +82,26 @@ const ShopProducts = (props) => {
                             />
                             <img src="/images/search_alt.svg" alt="" className="search-btn" onClick={onSubmit}/>
                         </div>
-                        <div className="select-wrap">
-                            <Form.Control as="select" value={kind} onChange={onChangeKinds}>
-                                <option value="all">Все</option>
-                                {
-                                    !allKinds ?
-                                        <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
-                                        : null
-                                }
-                                {
-                                    allKinds.map( (item) => <option key={item.title_eng} value={item.id}>{item.title_rus}</option> )
-                                }
-                            </Form.Control>
-                        </div>
+                        <Filter
+                            id="kind"
+                            name="kind"
+                            className="w--30"
+                            options={allKinds.map((item) => ({label: item.title_rus, value: item.id}))}
+                        />
                     </Form>
                 </div>
             </div>
 
             <div className="products-container position-relative d-flex flex-column mt--10">
                 {
-                    productsRequest && products.length === 0 ?
+                    productsRequest && products.data.length === 0 ?
                         <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
                         : null
 
                 }
 
                 {
-                    productsRequest && products.length > 0 ?
+                    productsRequest && products.data.length > 0 ?
                         <div className="load">
                             <BootstrapSpinner animation="border" variant="dark" className="m-auto"/>
                         </div>
@@ -128,7 +110,13 @@ const ShopProducts = (props) => {
                 }
 
                 {
-                    products.map( (product, idx) => <ShopProductsItem key={`product-${product.name}-${idx}`} {...product} idx={idx}/>)
+                    products.data.map( (product, idx) => <ShopProductsItem key={`product-${product.name}-${idx}`} {...product} idx={idx}/>)
+                }
+
+                {
+                    products.meta && products.meta.last_page !== 1 ?
+                        <Pagination className="d-flex justify-content-center mb-2" totalItems={products.meta.last_page} pageSize={1} defaultActivePage={products.meta.current_page} changeRequest={() => {}}/>
+                        : null
                 }
             </div>
         </div>
@@ -139,7 +127,7 @@ const mapMethodsToProps = ({getShopProducts}) => ({
     getShopProducts
 });
 
-const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, shop: {products, productsRequest}, kinds: {all: allKinds}, router: {location: {search, pathname}}, stats: {isMobile}}) => ({
+const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, shop: {products, productsRequest}, kinds: {all: allKinds}, router: {location: {search, pathname}}}) => ({
     isLogin,
     loginRequest,
     user,
@@ -147,8 +135,7 @@ const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, shop: 
     productsRequest,
     allKinds,
     search,
-    pathname,
-    isMobile
+    pathname
 });
 
 export default connect(mapStateToProps, {setShopProducts, setShopProductsRequest, clearShopProducts})(withRouter(withDataService(ShopProducts, mapMethodsToProps)));

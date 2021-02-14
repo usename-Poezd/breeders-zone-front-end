@@ -11,7 +11,7 @@ import ShopDivorcesItem from "../shop-divorces-item";
 import {Col, Form, Row, Spinner as BootstrapSpinner} from "react-bootstrap";
 import {withRouter} from "next/router";
 import Link from "next/link";
-import Pagination from "../pagination";
+import Pagination from "../Pagination";
 import qs from "qs";
 
 class ShopDivorces extends Component{

@@ -21,7 +21,7 @@ import HandelError from "../handels/handel-error";
 import {useRouter} from "next/router";
 import LazyImg from "../lazy-img";
 import InputMask from "react-input-mask";
-import ImageCrop from "../image-crop";
+import ImageCrop from "../ImageCrop";
 
 const ShopProfile = ({user, getUser, updateShop, setShopUpdateRequest, shopUpdateClear, setShopUpdateSuccess, setShopUpdateError, shop, setShopPreview, isLogin, countries, loginRequest}) => {
 
