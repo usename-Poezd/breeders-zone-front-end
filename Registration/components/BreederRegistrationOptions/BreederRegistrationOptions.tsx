@@ -53,8 +53,8 @@ const BreederRegistrationOptions: FC<FormikProps<IRegistrationData>> = (props) =
                 </Col>
             </Row>
 
-            <Field id="about" name="about" label="О себе:" placeholder="Что-то о себе, чем вы занимаетесь?" component={FormTextArea}/>
-            <Field id="policity" name="policity" required label="Политика:" description="Здесь вы должны указать всю информацию которую должен знать клиент (правила доставки, оплаты и тд.)" placeholder="Здесь вы должны указать всю информацию которую должен знать клиент (правила доставки, оплаты и тд.)" component={FormTextArea}/>
+            <Field id="description" name="description" label="О себе" placeholder="Что-то о себе, чем вы занимаетесь?" component={FormTextArea}/>
+            <Field id="policity" name="policity" required label="Политика" description="Здесь вы должны указать всю информацию которую должен знать клиент (правила доставки, оплаты и тд.)" placeholder="Здесь вы должны указать всю информацию которую должен знать клиент (правила доставки, оплаты и тд.)" component={FormTextArea}/>
         </React.Fragment>
     )
 };

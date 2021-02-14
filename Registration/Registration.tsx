@@ -29,7 +29,7 @@ const RegistrationComponent: FC<RegistrationPropsType> = (props) => {
         email: '',
         is_breeder: false,
         password: '',
-        confirmPassword: '',
+        password_confirmation: '',
         user_accepted: false,
         //Breeder options
         company_name: '',
@@ -41,7 +41,7 @@ const RegistrationComponent: FC<RegistrationPropsType> = (props) => {
         instagram: '',
         facebook: '',
         youtube: '',
-        about: '',
+        description: '',
         policity: ''
     };
 
@@ -82,7 +82,7 @@ const RegistrationComponent: FC<RegistrationPropsType> = (props) => {
                                 password: Yup.string()
                                     .min(8, 'Пароль должен состоять из 8 символов')
                                     .required('Пароль должен быть указан'),
-                                confirmPassword: Yup.string()
+                                password_confirmation: Yup.string()
                                     .required('Пароли не совпадают')
                                     .oneOf([Yup.ref('password'), ''], 'Пароли не совпадают'),
                                 user_accepted: Yup.boolean()
