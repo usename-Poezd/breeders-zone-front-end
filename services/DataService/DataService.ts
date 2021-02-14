@@ -1,7 +1,7 @@
 import Axios, {CancelToken, CancelTokenSource} from "axios";
 import * as Cookie from "es-cookie";
 import {toFormData} from "../../utils";
-import {IRegistrationData, ISocial, ApiSuccessReturnType, IShop, IKind} from "../../types";
+import {IRegistrationData, ISocial, ApiSuccessReturnType, IShop, IKind, IUser, IProduct} from "../../types";
 import {OutgoingHttpHeaders} from "http";
 import {NextPageContext} from "next";
 import {
@@ -12,6 +12,7 @@ import {
     PostLoginReturnType, SearchMorphsReturnType
 } from "./types";
 import {Api} from "../Api";
+import {GetServerSidePropsContext} from "next-redux-wrapper";
 
 Axios.interceptors.response.use(undefined, function (err) {
     if (typeof window !== 'undefined') {
@@ -47,13 +48,15 @@ export class  DataService {
             .then( (resp) => resp.data);
     };
 
-    getProduct = (productId: string|number, isBreeder = false, ctx: NextPageContext) => {
-        const cookies = Cookie.getAll();
-        let token = cookies.token;
-
-        if (ctx) {
-            token = Cookie.parse(String(ctx.req?.headers.cookie)).token
+    getProduct = (productId: string|number, isBreeder?: boolean, ctx?: NextPageContext): Promise<ApiSuccessReturnType<IProduct>> => {
+        let cookies: { [p: string]: string };
+        if(ctx) {
+            cookies = Cookie.parse(String(ctx.req?.headers.cookie))
+        } else {
+            cookies = Cookie.getAll();
         }
+
+        const token = cookies.token;
 
         const headers: OutgoingHttpHeaders = {
             'Content-Type': 'application/json',
@@ -65,8 +68,8 @@ export class  DataService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return Axios.get(
-            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/products/${encodeURI(String(productId))}`,
+        return Api.get(
+            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/v2/products/${encodeURI(String(productId))}`,
             headers
         )
             .then( (resp) => resp.data);
@@ -95,15 +98,20 @@ export class  DataService {
             .then((resp)=> resp.data);
     };
 
-    getShopProducts = (options: Object, ctx: NextPageContext) => {
-        let cookies = Cookie.getAll();
+    getShopProducts = (options: Object, ctx: NextPageContext|GetServerSidePropsContext): Promise<ApiSuccessReturnType<Array<IProduct>>> => {
+        let cookies: { [p: string]: string };
         if(ctx) {
             cookies = Cookie.parse(String(ctx.req?.headers.cookie))
+        } else {
+            cookies = Cookie.getAll();
         }
-        options = this.qs.stringify(options);
+        options = this.qs.stringify({
+            ...options,
+            only_breeder: true
+        });
         const token = cookies.token;
 
-        return Axios.get( (typeof window === 'undefined' ? process.env.API_URL : '') + '/api/shop-products?' + options,
+        return Api.get( (typeof window === 'undefined' ? process.env.API_URL : '') + '/api/v2/products?' + options,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -272,7 +280,7 @@ export class  DataService {
             .then((resp) => resp.data);
     };
 
-    getProducts = (options: object, searchStringify = '', cancelToken?: CancelToken, prevCancelToken?: CancelTokenSource) => {
+    getProducts = (options: object, searchStringify = '', cancelToken?: CancelToken, prevCancelToken?: CancelTokenSource): Promise<ApiSuccessReturnType<Array<IProduct>>> => {
         searchStringify = searchStringify.replace('?', '');
 
         if (prevCancelToken)
@@ -341,14 +349,14 @@ export class  DataService {
             });
     };
 
-    updateProfile = (userId: string|number, data: Object) => {
+    updateProfile = (userId: string|number, data: Object): Promise<ApiSuccessReturnType<IUser>> => {
         const token = Cookie.get('token');
 
         const formData = toFormData(data);
-        formData.append('_method', 'PUT');
+        formData.append('_method', 'PATCH');
 
         return Axios.post(
-            `/api/users/${userId}`,
+            `${process.env.API_URL}/api/v2/users/${userId}`,
             formData,
             {
                 headers: {
@@ -378,24 +386,21 @@ export class  DataService {
             .then( resp => resp.data );
     };
 
-    updateShop = (shopName: string|number, data: Object, isFormData = false) => {
-        const token = Cookie.get('token');
-
+    updateShop = (shopName: string|number, data: Object, isFormData = false): Promise<ApiSuccessReturnType<IShop>> => {
         let formData = null;
 
         if (isFormData) {
             formData = toFormData(data);
-            formData.append('_method', 'PUT');
+            formData.append('_method', 'PATCH');
         }
 
-        return Axios[isFormData ? 'post' : 'put'](
-            `/api/shops/${shopName}`,
+        return Api[isFormData ? 'post' : 'patch'](
+            `${process.env.API_URL}/api/v2/shops/${shopName}`,
             isFormData ? formData : data,
             {
                 headers: {
                     'Content-Type': isFormData ? 'multipart/form-data' : 'application/json',
-                    Accept: 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    Accept: 'application/json'
                 }
             }
         )
@@ -443,19 +448,17 @@ export class  DataService {
             .then((resp) => resp.data)
     };
 
-    updateProduct = (data: Object, productId: string|number) => {
-        const token = Cookie.get('token');
+    updateProduct = (data: Object, productId: string|number): Promise<ApiSuccessReturnType<IProduct>> => {
         const formData = toFormData(data);
-        formData.append('_method', 'PUT');
-        return Axios.post(
-            `${process.env.API_URL}/api/products/${productId}`,
+        formData.append('_method', 'PATCH');
+        return Api.post(
+            `${process.env.API_URL}/api/v2/products/${productId}`,
             formData,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Accept: 'application/json',
                     boundary: Math.random().toString().substr(2),
-                    'Authorization': `Bearer ${token}`
                 }
             }
         )
