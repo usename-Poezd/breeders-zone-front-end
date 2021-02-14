@@ -12,7 +12,7 @@ class HandleError extends Component<HandleErrorPropsType> {
         this.checkForErrors();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: HandleErrorPropsType) {
         if(prevProps !== this.props) {
             this.checkForErrors();
         }

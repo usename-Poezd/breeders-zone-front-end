@@ -7,7 +7,7 @@ import {IFormComponentProps} from "../../types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faQuestionCircle} from "@fortawesome/free-solid-svg-icons";
 
-const FormInput: FC<IFormComponentProps & FieldProps> = ({field, form, className, required, group, ...props}) => {
+const FormInput: FC<IFormComponentProps & FieldProps> = ({field, form, className, required, group = true, ...props}) => {
     if (group) {
         return (
             <Form.Group>

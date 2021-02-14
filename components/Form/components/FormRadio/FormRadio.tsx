@@ -1,10 +1,6 @@
 import React, {FC} from "react";
 import {IFormComponentProps} from "../../types";
-import {ErrorMessage, FieldProps} from "formik";
-import {Form} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faQuestionCircle} from "@fortawesome/free-solid-svg-icons";
-import {FormErrorMessage} from "../FormErrorMessage";
+import {FieldProps} from "formik";
 
 const FormRadio: FC<IFormComponentProps & FieldProps> = ({field, form, required, ...props}) => {
     return (

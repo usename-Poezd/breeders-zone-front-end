@@ -6,3 +6,5 @@ export * from "./FormTextArea";
 export * from "./FormRadio";
 export * from "./HandleError";
 export * from "./FormMorphsSearch";
+export * from "./FormDropzone";
+export * from "./FormCheckbox";

@@ -1,6 +1,5 @@
 import React, {FC} from "react";
-import {IFormComponentProps} from "../../types";
-import {ErrorMessage, FieldProps} from "formik";
+import {ErrorMessage} from "formik";
 import {Form} from "react-bootstrap";
 import {FormErrorMessage} from "../FormErrorMessage";
 import InputMask from "react-input-mask";
