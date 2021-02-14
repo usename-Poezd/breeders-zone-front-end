@@ -6,7 +6,7 @@ import {faCar, faHelicopter, faTruck} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {connect} from "react-redux";
-import Pagination from "../../../components/pagination";
+import Pagination from "../../../components/Pagination";
 import Head from "next/head";
 import {IRootState} from "../../../redux/store";
 import {IShopsStateProps, ShopsPropsType} from "./types";

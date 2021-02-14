@@ -17,7 +17,7 @@ const ShopMorphs: FC<ShopMorphsType> = (props) => {
     const [isMobile, setIsMobile] = useState(false);
 
     const [activeTab, setActiveTab] = useState(0);
-    const activeKind = kinds.find((item, idx) => activeTab === idx);
+    const activeKind = kinds[activeTab];
 
     const onResize = () => {
         if (window.innerWidth < 992) {
