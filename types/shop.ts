@@ -4,6 +4,7 @@ import {IProduct} from "./product";
 import {IDivorce} from "./divorce";
 
 export interface IShop {
+    phone?: string;
     id: number,
     name: string
     surname: string

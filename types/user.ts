@@ -21,6 +21,8 @@ export interface IUser {
     owner: string
     location: string
     description: string
+    profile_img: string|null
+    about: string
     policity: string
     website: string
     vk: string

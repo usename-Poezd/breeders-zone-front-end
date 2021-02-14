@@ -1,5 +1,6 @@
 import {GetProductsDataType} from "./getProductsData";
 
 export type ProductsPagePropsType = {
-    products: GetProductsDataType
+    products: GetProductsDataType,
+    statusCode?: number
 }

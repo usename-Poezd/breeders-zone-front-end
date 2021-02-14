@@ -5,7 +5,7 @@ export interface IRegistrationData {
     is_breeder: boolean
     email: string
     password: string
-    confirmPassword: string
+    password_confirmation: string
     user_accepted: boolean
     //Breeder options
     company_name: string
@@ -17,6 +17,6 @@ export interface IRegistrationData {
     instagram: string
     facebook: string
     youtube: string
-    about: string
+    description: string
     policity: string
 }

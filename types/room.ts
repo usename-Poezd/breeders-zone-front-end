@@ -9,4 +9,6 @@ export interface IRoom {
     users: Array<IUser>
     messages: Array<IMessage>
     message?: string
+    new_message?: boolean
+    new_message_count?: number
 }
