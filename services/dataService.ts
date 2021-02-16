@@ -9,7 +9,7 @@ Axios.interceptors.response.use(undefined, function (err) {
     const token = cookies.token;
     if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
         return Axios.post(
-            '/api/auth/refresh',
+            `${process.env.API_PUBLIC_URL}/api/auth/refresh`,
             {},
             {
                 headers: {
@@ -32,7 +32,7 @@ export default class  DataService {
     qs = require('qs');
 
     getCountries = () => {
-        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/countries`)
+        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL}/api/countries`)
             .then( (resp) => resp.data);
     };
 
@@ -55,8 +55,10 @@ export default class  DataService {
         }
 
         return Axios.get(
-            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/products/${encodeURI(productId)}`,
-            headers
+            `${typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL}/api/products/${encodeURI(productId)}`,
+            {
+                headers: headers
+            }
         )
             .then( (resp) => resp.data);
     };
@@ -102,7 +104,7 @@ export default class  DataService {
         options = this.qs.stringify(options);
         const token = cookies.token;
 
-        return Axios.get( (typeof window === 'undefined' ? process.env.API_URL : '') + '/api/shop-products?' + options,
+        return Axios.get( (typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL) + '/api/shop-products?' + options,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -117,7 +119,7 @@ export default class  DataService {
 
         options = this.qs.stringify(options);
 
-        return Axios.get('/api/shop-morphs?' + options,
+        return Axios.get(`${process.env.API_PUBLIC_URL}/api/shop-morphs?` + options,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -148,7 +150,7 @@ export default class  DataService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '') + `/api/divorces/${encodeURI(divorceId)}`,
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL) + `/api/divorces/${encodeURI(divorceId)}`,
             {
                 headers
             })
@@ -162,7 +164,7 @@ export default class  DataService {
         formData.append('_method', 'PUT');
 
         return Axios.post(
-            `/api/divorces/${divorceId}`,
+            `${process.env.API_PUBLIC_URL}/api/divorces/${divorceId}`,
             formData,
             {
                 headers: {
@@ -181,7 +183,7 @@ export default class  DataService {
         const token = cookies.token;
         const formData = toFormData(data);
         return Axios.post(
-            '/api/divorces',
+            `${process.env.API_PUBLIC_URL}/api/divorces`,
             formData,
             {
                 headers: {
@@ -199,7 +201,7 @@ export default class  DataService {
         const cookies = nookies.get();
         const token = cookies.token;
         return Axios.delete(
-            `/api/divorces/${divorceId}`,
+            `${process.env.API_PUBLIC_URL}/api/divorces/${divorceId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -223,7 +225,7 @@ export default class  DataService {
         if (prevCancelToken)
             prevCancelToken.cancel();
 
-        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/divorces?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
+        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL}/api/divorces?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
             {
                 cancelToken,
                 headers: {
@@ -240,7 +242,7 @@ export default class  DataService {
         const token = cookies.token;
 
         return Axios.post(
-            '/api/verify-divorce',
+            `${process.env.API_PUBLIC_URL}/api/verify-divorce`,
             {
                 divorceId
             },
@@ -258,7 +260,7 @@ export default class  DataService {
     searchRoom = (userId) => {
         const cookies = nookies.get();
         const token = cookies.token;
-        return Axios.post('/api/search/room',
+        return Axios.post(`${process.env.API_PUBLIC_URL}/api/search/room`,
         {userId},
         {
             headers: {
@@ -273,7 +275,7 @@ export default class  DataService {
     getRoom = (roomId) => {
         const cookies = nookies.get();
         const token = cookies.token;
-        return Axios.get(`/api/room/${roomId}`, {
+        return Axios.get(`${process.env.API_PUBLIC_URL}/api/room/${roomId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -284,7 +286,7 @@ export default class  DataService {
     };
 
     countRoom = () => {
-        return Axios.get('/api/rooms-count')
+        return Axios.get(`${process.env.API_PUBLIC_URL}/api/rooms-count`)
             .then((resp) => resp.data);
     };
 
@@ -295,7 +297,7 @@ export default class  DataService {
             prevCancelToken.cancel();
 
         const params = this.qs.stringify(options);
-        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
+        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL}/api/products?${params}${searchStringify && params !== '' ? '&' + searchStringify : searchStringify}`,
             {
                 cancelToken,
                 headers: {
@@ -311,7 +313,7 @@ export default class  DataService {
         const token = cookies.token;
 
         if(token){
-            return Axios.post(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/auth/logout`, {}, {
+            return Axios.post(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL}/api/auth/logout`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
@@ -325,7 +327,7 @@ export default class  DataService {
     };
 
     getUserData = (token) => {
-        return Axios.post(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/auth/me`,{},{
+        return Axios.post(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL}/api/auth/me`,{},{
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -337,7 +339,7 @@ export default class  DataService {
 
     postLogin = (user) => {
         return Axios.post(
-            '/api/auth/login',
+            `${process.env.API_PUBLIC_URL}/api/auth/login`,
             JSON.stringify(user),
             {
                 headers: {
@@ -366,7 +368,7 @@ export default class  DataService {
         formData.append('_method', 'PUT');
 
         return Axios.post(
-            `/api/users/${userId}`,
+            `${process.env.API_PUBLIC_URL}/api/users/${userId}`,
             formData,
             {
                 headers: {
@@ -385,7 +387,7 @@ export default class  DataService {
         const token = cookies.token;
 
         return Axios.delete(
-            `/api/users/${userId}`,
+            `${process.env.API_PUBLIC_URL}/api/users/${userId}`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -408,7 +410,7 @@ export default class  DataService {
         }
 
         return Axios[isFormData ? 'post' : 'put'](
-            `/api/shops/${shopName}`,
+            `${process.env.API_PUBLIC_URL}/api/shops/${shopName}`,
             isFormData ? formData : data,
             {
                 headers: {
@@ -422,7 +424,7 @@ export default class  DataService {
     };
 
     postRegister = (data) => {
-        return Axios.post('/api/auth/register',  JSON.stringify(data), {
+        return Axios.post(`${process.env.API_PUBLIC_URL}/api/auth/register`,  JSON.stringify(data), {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -442,7 +444,7 @@ export default class  DataService {
 
     sendResetEmail = (data) => {
         return Axios.get(
-            '/api/auth/send-password-reset-link' + '?' + this.qs.stringify(data),
+            `${process.env.API_PUBLIC_URL}/api/auth/send-password-reset-link` + '?' + this.qs.stringify(data),
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -458,7 +460,7 @@ export default class  DataService {
         const token = cookies.token;
         const formData = toFormData(data);
         return Axios.post(
-            '/api/products',
+            `${process.env.API_PUBLIC_URL}/api/products`,
             formData,
             {
                 headers: {
@@ -478,7 +480,7 @@ export default class  DataService {
         const formData = toFormData(data);
         formData.append('_method', 'PUT');
         return Axios.post(
-            `/api/products/${productId}`,
+            `${process.env.API_PUBLIC_URL}/api/products/${productId}`,
             formData,
             {
                 headers: {
@@ -496,7 +498,7 @@ export default class  DataService {
         const cookies = nookies.get();
         const token = cookies.token;
         return Axios.delete(
-            `/api/products/${productId}`,
+            `${process.env.API_PUBLIC_URL}/api/products/${productId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -510,7 +512,7 @@ export default class  DataService {
 
     searchMorphs = (data = {q: '', options: []}) => {
         return Axios.post(
-            '/api/search/morphs',
+            `${process.env.API_PUBLIC_URL}/api/search/morphs`,
             {
                 q: data.q,
                 options: data.options
@@ -527,7 +529,7 @@ export default class  DataService {
 
     changePassword = (data) => {
         return Axios.post(
-            '/api/auth/reset-password/' + data.resetToken,
+            `${process.env.API_PUBLIC_URL}/api/auth/reset-password/` + data.resetToken,
             data,
             {
                 headers: {
@@ -551,7 +553,7 @@ export default class  DataService {
         const token = cookies.token;
 
         return Axios.post(
-            '/api/room',
+            `${process.env.API_PUBLIC_URL}/api/room`,
             data,
             {
                 headers: {
@@ -569,7 +571,7 @@ export default class  DataService {
         const token = cookies.token;
 
         return Axios.post(
-            '/api/message',
+            `${process.env.API_PUBLIC_URL}/api/message`,
             data,
             {
                 headers: {
@@ -587,7 +589,7 @@ export default class  DataService {
         const cookies = nookies.get();
         const token = cookies.token;
         Axios.post(
-            '/api/check-messages',
+            `${process.env.API_PUBLIC_URL}/api/check-messages`,
             {
                 roomId
             },
@@ -602,7 +604,7 @@ export default class  DataService {
 
     getKinds = () => {
         return Axios.get(
-            `${typeof window === 'undefined' ? process.env.API_URL : ''}/api/kinds`,
+            `${typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL}/api/kinds`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -615,7 +617,7 @@ export default class  DataService {
 
     getGuardLevel = (level) => {
         return Axios.get(
-            `/api/guard-levels/${level}`,
+            `${process.env.API_PUBLIC_URL}/api/guard-levels/${level}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -630,7 +632,7 @@ export default class  DataService {
         const token = cookies.token;
 
         return Axios.post(
-            '/api/reports',
+            `${process.env.API_PUBLIC_URL}/api/reports`,
             data,
             {
                 headers: {
@@ -648,7 +650,7 @@ export default class  DataService {
         const token = cookies.token;
 
         return Axios.post(
-            '/api/verify-product',
+            `${process.env.API_PUBLIC_URL}/api/verify-product`,
             {
                 productId
             },
@@ -667,7 +669,7 @@ export default class  DataService {
         const cookies = nookies.get();
         const token = cookies.token;
 
-        return Axios.get('/api/auth/send-verify-mail', {
+        return Axios.get(`${process.env.API_PUBLIC_URL}/api/auth/send-verify-mail`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -678,7 +680,7 @@ export default class  DataService {
     };
 
     verify = (verifyCode) => {
-        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : ''}/api/verifications/${verifyCode}`, {
+        return Axios.get(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL}/api/verifications/${verifyCode}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -691,7 +693,7 @@ export default class  DataService {
         const cookies = nookies.get();
         const token = cookies.token;
 
-        return Axios.put('/api/notifications', {
+        return Axios.put(`${process.env.API_PUBLIC_URL}/api/notifications`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -705,7 +707,7 @@ export default class  DataService {
         const cookies = nookies.get();
         const token = cookies.token;
 
-        return Axios.put(`/api/reports/${reportId}`, {
+        return Axios.put(`${process.env.API_PUBLIC_URL}/api/reports/${reportId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -717,7 +719,7 @@ export default class  DataService {
 
     getFaqs = (options) => {
         const query = this.qs.stringify(options);
-        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/faq?' +  query, {
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL ) + '/api/faq?' +  query, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -727,7 +729,7 @@ export default class  DataService {
     };
 
     getFaq = (label) => {
-        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/faq/' + label,
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL ) + '/api/faq/' + label,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -740,7 +742,7 @@ export default class  DataService {
 
     getDocuments = (options) => {
         const query = this.qs.stringify(options);
-        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/documents?' +  query, {
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL ) + '/api/documents?' +  query, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -750,7 +752,7 @@ export default class  DataService {
     };
 
     getDocument = (label) => {
-        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/documents/' + label,
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL ) + '/api/documents/' + label,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -765,7 +767,7 @@ export default class  DataService {
 
     getSocials = (options = {}): Promise<Array<ISocial>> => {
         const query = this.qs.stringify(options);
-        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : '' ) + '/api/socials?' +  query, {
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL ) + '/api/socials?' +  query, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

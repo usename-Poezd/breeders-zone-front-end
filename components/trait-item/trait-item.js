@@ -16,11 +16,11 @@ import {currencyOptions} from "../../utils";
 const TraitItem = (props) => {
      const {
          id,
-         article,
          product_images,
          name,
          price,
          guards,
+         ask_price,
          sex,
          cb,
          user,
@@ -141,8 +141,11 @@ const TraitItem = (props) => {
                                 <div className="rating"></div>
                             </div>
                             <span className="price">
-                                {currency(price.find((item) => item.type === 'main').amount, currencyOptions).format()}&nbsp;
-                                {getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}
+                                {
+                                    !ask_price ?
+                                        `${currency(price.find((item) => item.type === 'main').amount, currencyOptions).format()} ${getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}`
+                                        : 'Цена по запросу'
+                                }
                             </span>
 
                         </div>

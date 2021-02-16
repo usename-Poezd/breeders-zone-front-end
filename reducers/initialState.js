@@ -95,6 +95,7 @@ const initialState = {
             sex: true,
             cb: null,
             is_active: true,
+            ask_price: false,
             kind_id: null,
             subcategory_id: null,
             locality_id: null,

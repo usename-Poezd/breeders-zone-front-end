@@ -38,7 +38,7 @@ export const getMessages = (payload) => (dispatch, getState) => {
 
     dispatch(getMessagesRequest(source));
     Axios.get(
-        '/api/messages?roomId=' + payload,
+        `${process.env.API_PUBLIC_URL}/api/messages?roomId=` + payload,
         {
             cancelToken: source.token,
             headers: {
@@ -119,7 +119,7 @@ export const selectRoom = (payload) => (dispatch, getState) => {
     }
 
     if(state.chat.selected_room_id !== payload && !state.chat.rooms.find((item) => item.room.id === payload)) {
-        Axios.get(`/api/room/${payload}`,
+        Axios.get(`${process.env.API_PUBLIC_URL}/api/room/${payload}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -179,7 +179,7 @@ export const getRooms = () => (dispatch, getState) => {
     const store = getState();
     dispatch(setChatRequest(true));
     return Axios.get(
-        '/api/rooms',
+        `${process.env.API_PUBLIC_URL}/api/rooms`,
         {
             headers: {
                 'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ export const getRoomsCountWithNewMessages = () => (dispatch) => {
     const cookies = nookies.get();
     const token = cookies.token;
     return Axios.get(
-        '/api/rooms-with-new-message',
+        `${process.env.API_PUBLIC_URL}/api/rooms-with-new-message`,
         {
             headers: {
                 'Content-Type': 'application/json',
