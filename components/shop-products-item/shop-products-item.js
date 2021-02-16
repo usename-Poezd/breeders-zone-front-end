@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGenderless, faMars, faPen, faRubleSign, faTimes, faVenus} from "@fortawesome/free-solid-svg-icons";
 import {withGetData} from "../hoc-helpers";
-import {activeShopProduct, deleteShopProduct, getKinds} from "../../actions";
+import {activeShopProduct, deleteShopProduct, getKinds, toggleAskPriceShopProduct} from "../../actions";
 import Link from "next/link";
 import {connect} from "react-redux";
 import {DataService, Pipes} from "../../services";
@@ -16,19 +16,47 @@ import getSymbolFromCurrency from "currency-symbol-map";
 const dataService = new DataService();
 const debounceUpdate = AwesomeDebouncePromise(
     dataService.updateProduct,
-    300
+    400
 );
 
-const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, price, kind, subcategory, locality, preview, deleteProduct, deleteShopProduct, activeShopProduct, getKinds}) => {
+const ShopProductsItem = (props) => {
+    const {
+        id,
+        idx,
+        article,
+        name,
+        sex,
+        cb,
+        is_active,
+        ask_price,
+        morphs,
+        price,
+        kind,
+        subcategory,
+        locality,
+        preview,
+        deleteProduct,
+        deleteShopProduct,
+        activeShopProduct,
+        getKinds,
+        toggleAskPriceShopProduct
+    } = props;
+
     const delProduct = () => {
         deleteShopProduct({idx});
         getKinds();
         deleteProduct(id);
     };
-    const handleSwitch = () => {
+    const handleActiveSwitch = () => {
         activeShopProduct(id);
         debounceUpdate({is_active: !is_active}, id);
     };
+
+    const handleAskPriceSwitch = () => {
+        toggleAskPriceShopProduct(id);
+        debounceUpdate({ask_price: !ask_price}, id);
+    };
+
 
     const { toTraitClass } = new Pipes();
 
@@ -118,7 +146,23 @@ const ShopProductsItem = ({id, idx, article, name, sex, cb, is_active, morphs, p
                     <h3 className="mr--5">Активен:</h3>
                     <Switch
                         checked={is_active}
-                        onChange={handleSwitch}
+                        onChange={handleActiveSwitch}
+                        onColor={secondColor}
+                        onHandleColor={mainColorHover}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 3px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 5px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                    />
+                </div>
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                    <h3 className="mr--5">Цена по запросу:</h3>
+                    <Switch
+                        checked={ask_price}
+                        onChange={handleAskPriceSwitch}
                         onColor={secondColor}
                         onHandleColor={mainColorHover}
                         handleDiameter={30}
@@ -149,4 +193,4 @@ const mapMethodsToProps = ({deleteProduct}) => ({
     deleteProduct
 });
 
-export default connect(null, {deleteShopProduct, getKinds, activeShopProduct})(withGetData(ShopProductsItem, mapMethodsToProps));
+export default connect(null, {deleteShopProduct, getKinds, activeShopProduct, toggleAskPriceShopProduct})(withGetData(ShopProductsItem, mapMethodsToProps));

@@ -79,6 +79,11 @@ const shop = (state, action) => {
                 ...state,
                 products: [...payload]
             };
+        case 'TOGGLE_ASK_PRICE_SHOP_PRODUCT':
+            return {
+                ...state,
+                products: [...payload]
+            };
         case 'SET_SHOP_PRODUCTS_REQUEST':
             return {
                 ...state,
