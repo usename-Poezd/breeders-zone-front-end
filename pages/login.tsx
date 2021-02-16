@@ -1,11 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Col, Row, Container} from "react-bootstrap";
 import {Login} from "../Login";
 import Head from "next/head";
-import * as Cookie from "es-cookie";
-import {NextPageContext} from "next";
+import {useAuth} from "../hooks";
+import {useRouter} from "next/router";
 
-export default () => {
+const LoginPage = () => {
+    const {isLogin} = useAuth();
+    const router = useRouter();
+
+
+    useEffect(() => {
+        if (isLogin) {
+            router.push('/');
+        }
+    }, [isLogin]);
+
     return (
         <Container className="body-second-container">
             <Head>
@@ -24,14 +34,4 @@ export default () => {
     )
 };
 
-export const getServerSideProps = (ctx: NextPageContext) => {
-    if (Cookie.parse(String(ctx.req?.headers.cookie)).token && ctx.res) {
-        ctx.res.setHeader("location", "/");
-        ctx.res.statusCode = 301;
-        ctx.res.end();
-    }
-
-    return {
-        props: {}
-    }
-};
+export default LoginPage;
