@@ -75,6 +75,21 @@ export const activeShopProduct = (id) => (dispatch, getState) => {
     }
 };
 
+export const toggleAskPriceShopProduct = (id) => (dispatch, getState) => {
+    const products = getState().shop.products;
+
+    const productIdx = products.findIndex((item) => item.id === id);
+
+    if (productIdx >= 0) {
+        products[productIdx].ask_price = !products[productIdx].ask_price;
+
+        dispatch({
+            type: 'TOGGLE_ASK_PRICE_SHOP_PRODUCT',
+            payload: products
+        });
+    }
+};
+
 export const deleteShopProduct = (payload) => {
     return {
         type: 'DELETE_PRODUCT',
