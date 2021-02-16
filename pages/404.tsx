@@ -2,7 +2,7 @@ import React from "react";
 import {Container} from "react-bootstrap";
 import Head from "next/head";
 
-export default () => {
+const NotFoundPage = () => {
     return (
         <Container>
             <Head>
@@ -14,4 +14,6 @@ export default () => {
             </div>
         </Container>
     )
-}
+};
+
+export default NotFoundPage;

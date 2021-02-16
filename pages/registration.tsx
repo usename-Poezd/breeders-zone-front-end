@@ -7,7 +7,9 @@ import * as Cookie from "es-cookie";
 import {Registration} from "../Registration";
 
 
-export default () => <Registration/>;
+const RegistrationPage = () => <Registration/>;
+
+export default RegistrationPage;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     const {store, req} = await ctx;
