@@ -33,7 +33,7 @@ const RegistrationComponent: FC<RegistrationPropsType> = (props) => {
         user_accepted: false,
         //Breeder options
         company_name: '',
-        country: countries.all[0].name,
+        country: countries.all.length > 0 ? countries.all[0].name : '',
         phone: '',
         location: '',
         website: '',
