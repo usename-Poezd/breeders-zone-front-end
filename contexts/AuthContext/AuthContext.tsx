@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {IRootState} from "../../redux/store";
 import {getUser} from "../../redux/Auth";
 
-const AuthContext = createContext({});
+const AuthContext = createContext({isLogin: false, loading: false});
 
 const AuthConsumer = AuthContext.Consumer;
 
