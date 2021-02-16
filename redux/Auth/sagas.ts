@@ -89,6 +89,11 @@ function* getUserSaga(action: IGetUserAction) {
             yield put(push('/verify'))
         }
 
+        if (error.response.status === 401) {
+            yield delete Api.defaults.headers.Authorization;
+            yield Cookie.remove('token');
+        }
+
         yield put(setIsLogin(false))
     }
 }
