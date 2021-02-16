@@ -16,7 +16,7 @@ const Filter: FC<FilterPropsType > = ({autoSize, isSearchable = false, onFilter,
             delete newQuery.page;
         }
         newQuery[props.name] = option.value;
-        router.push(router.pathname, router.asPath.split("?")[0]  + '?' + qs.stringify(newQuery));
+        router.push(router.asPath.split("?")[0]  + '?' + qs.stringify(newQuery));
         if (onFilter) {
             onFilter(option);
         }
