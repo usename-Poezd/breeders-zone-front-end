@@ -317,7 +317,7 @@ export class  DataService {
     };
 
     getUser = (): Promise<GetUserReturnType> => {
-        return Api.post(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_URL }/api/v2/auth/me`)
+        return Api.post(`${typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL }/api/v2/auth/me`)
             .then((resp)=> resp.data);
     };
 
@@ -507,7 +507,7 @@ export class  DataService {
     };
 
     getActiveProps = (kind: string) => {
-        return Api.get(`${process.env.API_URL}/api/v2/kinds/active-props?kind=${kind}`)
+        return Api.get(`${process.env.API_URL}/api/v2/kinds/active-props?kind=${encodeURI(kind)}`)
             .then( (resp) => resp.data);
     };
 
