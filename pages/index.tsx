@@ -45,7 +45,7 @@ const Index = ({activeKinds, setActiveKind}: IIndexPageProps) =>  (
                         className="mb-3" key={'Kinds-' + item.id}
                         onClick={() => setActiveKind(item)}
                     >
-                        <Link href="/[group]/[kind]/morphs" as={`${item.group}/${toUrl(item.title_eng)}/morphs`}>
+                        <Link href="/[group]/[kind]/morphs" as={`/${item.group}/${toUrl(item.title_eng)}/morphs`}>
                             <a className="home-card">
                                 <div className="home-card-img">
                                     <div className="img-container">

@@ -40,7 +40,7 @@ const ShopProductsComponent: FC<ShopProductsPropsType> = (props) => {
             <div className="feather-shadow p--20">
                 <div className="products-title d-flex justify-content-between align-items-start">
                     <h1>Ваши товары:</h1>
-                    <Link href="products/add">
+                    <Link href="/products/add">
                         <a className="btn btn-main">
                             <h3>{!checkMobile() ? 'Добавить' : '+'}</h3>
                         </a>
@@ -70,7 +70,13 @@ const ShopProductsComponent: FC<ShopProductsPropsType> = (props) => {
                             name="kind"
                             className="w--30"
                             onFilter={() => setShopProductsRequest(true)}
-                            options={allKinds.map((item): IOption => ({label: item.title_rus, value: item.id}))}
+                            options={[
+                                {
+                                    label: 'Все',
+                                    value: ''
+                                },
+                                ...allKinds.map((item): IOption => ({label: item.title_rus, value: item.id})),
+                            ]}
                         />
                     </Form>
                 </div>
