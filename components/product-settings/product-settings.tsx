@@ -49,6 +49,7 @@ type Inputs = {
     sex: boolean|string,
     cb: string,
     is_active: boolean,
+    ask_price: boolean,
     reports: Array<any>,
     description: string,
     locality_id: number|string|null,
@@ -185,6 +186,7 @@ const ProductSettings = ({
     }, [info.price]);
 
     const [isActive, setActive] = useState(info.is_active);
+    const [isAskPrice, setIsAskPrice] = useState(info.ask_price);
 
     const {getRootProps, getInputProps} = useDropzone({
         onDrop,
@@ -233,6 +235,7 @@ const ProductSettings = ({
                <Col xs={12} lg={9}>
                    <Form className="feather-shadow form-container" onSubmit={handleSubmit((data, ...args) => {
                        data.is_active = isActive;
+                       data.ask_price = isAskPrice;
                        data.preview = preview;
                        submit(data, ...args)
                    })}>
@@ -609,6 +612,23 @@ const ProductSettings = ({
                                        height={20}
                                        width={48}
                                        name="is_active"
+                                   />
+                               </div>
+                               <div className="d-flex justify-content-between justify-content-md-start align-items-center mb-2">
+                                   <h3 className="mr--5">Цена по запросу:</h3>
+                                   <Switch
+                                       checked={isAskPrice}
+                                       onChange={() => setIsAskPrice(!isAskPrice)}
+                                       onColor={secondColor}
+                                       onHandleColor={mainColorHover}
+                                       handleDiameter={30}
+                                       uncheckedIcon={false}
+                                       checkedIcon={false}
+                                       boxShadow="0px 1px 3px rgba(0, 0, 0, 0.6)"
+                                       activeBoxShadow="0px 0px 1px 5px rgba(0, 0, 0, 0.2)"
+                                       height={20}
+                                       width={48}
+                                       name="ask_price"
                                    />
                                </div>
                            </Col>

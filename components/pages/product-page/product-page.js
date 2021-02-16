@@ -80,6 +80,7 @@ class ProductPage extends Component  {
             article,
             name,
             price,
+            ask_price,
             sex,
             cb,
             morphs,
@@ -328,37 +329,44 @@ class ProductPage extends Component  {
 
                         <div className="in-cart-container feather-shadow">
                             <div className="price-container">
-                                <h2 className="price mr-sm-4 mr-0">
-                                    {currency(price.find((item) => item.type === 'main').amount, currencyOptions).format()}
-                                    {getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}
+                                <h2 className={`price mr-sm-4 mr-0 ${ask_price && 'text-center w-100'}`}>
+                                    {
+                                        !ask_price ?
+                                            `${currency(price.find((item) => item.type === 'main').amount, currencyOptions).format()} ${getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}`
+                                            : 'Цена по запросу'
+                                    }
+
                                 </h2>
-                                <div>
-                                    <p
-                                        className="text-center"
-                                        style={{
-                                            fontSize: 12
-                                        }}
-                                    >
-                                        Эквивалент по курсу <a href="https://www.cbr.ru/" target="_blank">ЦБ РФ</a>
-                                    </p>
-                                    <div className="d-flex justify-content-between">
-                                        {
-                                            price.map((item) => {
-                                                if (item.type !== 'main') {
-                                                    return <span
-                                                        className={"price-small mb--5 font-weight-bold" + (item.currency === 'USD' ? ' color-main' : ' ml-2 text-primary')}
-                                                    >
+                                {
+                                    !ask_price &&
+                                        <div>
+                                        <p
+                                            className="text-center"
+                                            style={{
+                                                fontSize: 12
+                                            }}
+                                        >
+                                            Эквивалент по курсу <a href="https://www.cbr.ru/" target="_blank">ЦБ РФ</a>
+                                        </p>
+                                        <div className="d-flex justify-content-between">
+                                            {
+                                                price.map((item) => {
+                                                    if (item.type !== 'main') {
+                                                        return <span
+                                                            className={"price-small mb--5 font-weight-bold" + (item.currency === 'USD' ? ' color-main' : ' ml-2 text-primary')}
+                                                        >
                                                     {
                                                         item.currency === 'USD' ?
                                                             `${currency(item.amount, {...currencyOptions, precision: 2}).format()} US${getSymbolFromCurrency(item.currency)}`
                                                             : `${currency(item.amount, {...currencyOptions, precision: 2}).format()}${getSymbolFromCurrency(item.currency)}`
                                                     }
                                                 </span>
-                                                }
-                                            })
-                                        }
+                                                    }
+                                                })
+                                            }
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             </div>
                             <div className="btn btn-main btn-in-cart m-0" onClick={() => this.sendMessage()}>
                                 <h3>Написать о покупке</h3>
@@ -367,9 +375,12 @@ class ProductPage extends Component  {
                             {/*    <h3>Забронировать</h3>*/}
                             {/*</div>*/}
                         </div>
-                        <p className="text-center" style={{
-                            fontSize: 11
-                        }}>*Оплата за товар производится в рублях</p>
+                        {
+                            !ask_price &&
+                                <p className="text-center" style={{
+                                    fontSize: 11
+                                }}>*Оплата за товар производится в рублях</p>
+                        }
                     </Col>
                     <Col xs={12} lg={6}>
                         <div className="product-card-img">

@@ -15,7 +15,7 @@ const PriceInput = (props: PriceInputProps) => {
                 name="price"
                 rules={{
                     required: true,
-                    pattern: /\d+\.?\d+$/
+                    pattern: /\d+(\.\d+)?$/
                 }}
             />
             {   errors.price &&

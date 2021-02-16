@@ -78,7 +78,6 @@ class ProductEditPage extends Component{
         setProductUpdateRequest();
         updateProduct(options, router.query.id)
             .then( async (data) => {
-                setProductUpdateSuccess(data.success);
                 getKinds();
                 const cb = moment(data.data.cb).toISOString();
                 setProductInfo({
@@ -94,6 +93,7 @@ class ProductEditPage extends Component{
                     selectedMorphs: data.data.morphs,
                     localities: data.data.localities
                 });
+                setProductUpdateSuccess(data.success);
                 clearGetProductRequest();
 
                 setTimeout(() => productUpdateClearSuccess(), 5000);

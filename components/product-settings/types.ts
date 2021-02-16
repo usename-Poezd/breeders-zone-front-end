@@ -26,6 +26,7 @@ export interface IStateProps {
             sex: boolean|string,
             cb: string,
             is_active: boolean,
+            ask_price: boolean,
             reports: Array<any>,
             description: string,
             locality_id: number|string|null,
