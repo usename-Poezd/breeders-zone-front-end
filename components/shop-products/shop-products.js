@@ -8,11 +8,22 @@ import {connect} from "react-redux";
 import {clearShopProducts, setShopProducts, setShopProductsRequest} from "../../actions";
 import Spinner from "../spinner";
 import qs from 'qs';
+import HandelSuccess from "../handels/handel-success";
 
 const ShopProducts = (props) => {
 
-    const { products, allKinds, user,  loginRequest, productsRequest, router, isLogin, isMobile } = props;
-    
+    const {
+        products,
+        allKinds,
+        user,
+        loginRequest,
+        productsRequest,
+        router,
+        isLogin,
+        isMobile,
+        success
+    } = props;
+
     const [q, setQuery] = useState('');
     const [kind, setKind] = useState(router.query.kindId | 'all');
 
@@ -66,6 +77,8 @@ const ShopProducts = (props) => {
 
     return (
         <div className="products">
+            <HandelSuccess success={success}/>
+
             <div className="feather-shadow p--20">
                 <div className="products-title d-flex justify-content-between align-items-start">
                     <h1>Ваши товары:</h1>
@@ -139,7 +152,7 @@ const mapMethodsToProps = ({getShopProducts}) => ({
     getShopProducts
 });
 
-const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, shop: {products, productsRequest}, kinds: {all: allKinds}, router: {location: {search, pathname}}, stats: {isMobile}}) => ({
+const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, product: {success}, shop: {products, productsRequest}, kinds: {all: allKinds}, router: {location: {search, pathname}}, stats: {isMobile}}) => ({
     isLogin,
     loginRequest,
     user,
@@ -148,7 +161,8 @@ const mapStateToProps = ({auth: {isLogin, loginRequest}, profile: {user}, shop: 
     allKinds,
     search,
     pathname,
-    isMobile
+    isMobile,
+    success
 });
 
 export default connect(mapStateToProps, {setShopProducts, setShopProductsRequest, clearShopProducts})(withRouter(withGetData(ShopProducts, mapMethodsToProps)));
