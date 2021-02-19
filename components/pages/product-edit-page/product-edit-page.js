@@ -93,6 +93,7 @@ class ProductEditPage extends Component{
                     selectedMorphs: data.data.morphs,
                     localities: data.data.localities
                 });
+                router.back();
                 setProductUpdateSuccess(data.success);
                 clearGetProductRequest();
 
