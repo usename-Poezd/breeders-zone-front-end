@@ -3,6 +3,7 @@ import ChatBabble from "../chat-bubble";
 import ScrollBars from "react-custom-scrollbars";
 import BubbleGroup from "../bubble-group";
 import styles from "./styles";
+import * as moment from "moment";
 
 class ChatFeed extends Component {
 
@@ -27,8 +28,27 @@ class ChatFeed extends Component {
 
         let group = [];
 
+        let minDate = moment();
+        moment.locale('ru');
+
         // return nodes
         return messages.map((message, index) => {
+            if (index === 0) {
+                minDate = moment(message.created_at);
+                group.push({
+                    type: 'date',
+                    date: minDate.format('DD MMMM YYYY')
+                })
+            }
+
+            if (moment(message.created_at).diff(minDate, 'days') > 0) {
+                minDate = moment(message.created_at);
+                group.push({
+                    type: 'date',
+                    date: minDate.format('DD MMMM YYYY')
+                });
+            }
+
             group.push(message);
             // Find diff in message type or no more messages
             if (index === messages.length - 1 || messages[index + 1].id !== message.id) {

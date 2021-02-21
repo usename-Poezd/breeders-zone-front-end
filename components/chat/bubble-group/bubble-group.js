@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import styles from "./styles";
+import * as moment from "moment";
 
 class BubbleGroup extends Component {
     /**
@@ -18,13 +19,23 @@ class BubbleGroup extends Component {
         const sampleMessage = messages[0];
 
         const messageNodes = messages.map((message, i) => {
+
+            if (message.type === 'date') {
+                return (
+                    <div key={`date${message.date}`} className="d-flex justify-content-center mt-4">
+                        <p style={{fontSize: '14px'}}>{message.date}</p>
+                    </div>
+                )
+            }
+
             return (
-                <ChatBubble
-                    key={i}
-                    message={message}
-                    bubblesCentered={bubblesCentered}
-                    bubbleStyles={bubbleStyles}
-                />
+                <React.Fragment key={i}>
+                    <ChatBubble
+                        message={message}
+                        bubblesCentered={bubblesCentered}
+                        bubbleStyles={bubbleStyles}
+                    />
+                </React.Fragment>
             );
         });
 
