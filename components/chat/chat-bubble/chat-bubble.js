@@ -6,6 +6,7 @@ import LazyImg from "../../lazy-img";
 import Linkify from "react-linkify";
 import React from "react";
 import {withRouter} from "next/router";
+import * as moment from "moment";
 
 const ChatBubble = (props) => {
     const {product} = props.message;
@@ -66,6 +67,7 @@ const ChatBubble = (props) => {
                 }
                 <Linkify>
                     <p className={props.message.id === 1 ? 'text-left' : 'text-right'}>{props.message.message}</p>
+                    <p className={props.message.id === 1 ? 'text-left text-white-50' : 'text-right text-white-50'} style={{fontSize: '11px'}}>{moment(props.message.created_at).format('HH:mm')}</p>
                 </Linkify>
             </div>
         </div>

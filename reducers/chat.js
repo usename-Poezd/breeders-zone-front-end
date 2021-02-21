@@ -102,6 +102,7 @@ const chat = (state, action) => {
             return {
                 ...state,
                 selected_room: {},
+                messages: [],
                 selected_room_id: null
             };
         case 'SET_ROOMS_COUNT_WITH_NEW_MESSAGES':

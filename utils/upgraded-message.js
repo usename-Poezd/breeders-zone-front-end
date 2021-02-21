@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export default class UpgradedMassage{
     constructor(data) {
         this.id = data.id;
@@ -7,6 +9,7 @@ export default class UpgradedMassage{
         this.status = data.status;
         this.messageId = data.messageId;
         this.checked = data.checked;
+        this.created_at = data.created_at ? data.created_at : moment().toISOString();
         this.newMessageKey = data.newMessageKey;
     }
 }
