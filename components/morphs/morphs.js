@@ -131,7 +131,7 @@ class Morphs extends Component {
                                                                                    <li className="localities-item">
                                                                                        <Link key={locality.title} href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
                                                                                            <a className="d-flex justify-content-between align-items-center">
-                                                                                               <h3>{locality.title}</h3>
+                                                                                               <p className="font-bold" style={{fontSize: "16px", fontFamily: "Roboto, sans-serif"}}>({locality.title})</p>
                                                                                                <div className="morph-indicator-count morph-other-normal ml-2">{locality.products_count}</div>
                                                                                            </a>
                                                                                        </Link>
