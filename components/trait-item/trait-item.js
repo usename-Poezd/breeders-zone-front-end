@@ -28,7 +28,8 @@ const TraitItem = (props) => {
          kind: {
              group,
              title_eng: kindTitle,
-             id: kindId
+             id: kindId,
+             only_text
          },
          sendMessage,
          verifyProduct,
@@ -127,19 +128,23 @@ const TraitItem = (props) => {
                             </a>
                         </Link>
                         <div className="item-info-container d-flex justify-content-between align-items-center">
-                            <div className="cb-and-raiting">
-                                <div className="cb">
-                                    <div className="sex">
-                                        {
-                                            sex !== null ?
-                                                <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
-                                                : <FontAwesomeIcon icon={faGenderless} size="lg"/>
-                                        }
-                                        <span>'{transformCb(cb)}</span>
+                            {
+                                !only_text &&
+                                <div className="cb-and-raiting">
+                                    <div className="cb">
+                                        <div className="sex">
+                                            {
+                                                sex !== null ?
+                                                    <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
+                                                    : <FontAwesomeIcon icon={faGenderless} size="lg"/>
+                                            }
+                                            <span>'{transformCb(cb)}</span>
+                                        </div>
                                     </div>
+                                    <div className="rating"></div>
                                 </div>
-                                <div className="rating"></div>
-                            </div>
+                            }
+
                             <span className="price">
                                 {
                                     !ask_price ?

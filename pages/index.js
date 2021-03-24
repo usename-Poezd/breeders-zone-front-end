@@ -1,14 +1,15 @@
 import Link from "next/link";
 import {Col, Row, Container} from "react-bootstrap";
 import {connect} from "react-redux";
-import React from "react";
+import React, {useState} from "react";
 import {Pipes} from "../services";
 import {setActiveKind} from "../actions";
 import LazyImg from "../components/lazy-img";
 import Head from "next/head";
 
-const Index = ({activeKinds, setActiveKind}) => {
+const Index = ({kinds, setActiveKind}) => {
     const pipes = new Pipes();
+    const [showNotActive, setShowNotActive] = useState(false);
 
     return (
         <Container className="body-container">
@@ -23,7 +24,7 @@ const Index = ({activeKinds, setActiveKind}) => {
             </Row>
             <Row className="justify-content-center align-items-center" style={{marginTop: 10}}>
                 {
-                    activeKinds.length === 0 ?
+                    kinds.active.length === 0 ?
                         <Col xs={12} className="d-flex flex-column justify-content-center m-auto">
                             <img src="/images/icons/error-snake.svg" alt="Пока что нет активных категорий"/>
                             <h1 className="text-center">Пока что нет активных категорий</h1>
@@ -31,7 +32,7 @@ const Index = ({activeKinds, setActiveKind}) => {
                         : null
                 }
                 {
-                    activeKinds.map( (item) => (
+                    kinds.active.map( (item) => (
                         <Col
                             xs={12}
                             sm={6}
@@ -56,12 +57,46 @@ const Index = ({activeKinds, setActiveKind}) => {
                     ))
                 }
             </Row>
+
+            <Row className={"justify-content-center align-items-center" + (!showNotActive && ' d-none')} style={{marginTop: 10}}>
+                <Col xs={12} className="text-center mb-3"><h2>Неактивные категории</h2></Col>
+                {
+                    kinds.all.filter(item => !kinds.active.find(i => item.id === i.id)).map((item) => (
+                        <Col
+                            xs={12}
+                            sm={6}
+                            md={4}
+                            lg={3}
+                            className="mb-3" key={'kind-not-' + item.id}
+                            onClick={() => setActiveKind(item)}
+                        >
+                            <a className="home-card disabled">
+                                <div className="home-card-img">
+                                    <div className="img-container">
+                                        <LazyImg
+                                            src={item.logo_square ? item.logo_square : '/images/icons/error-snake.svg'}
+                                            alt={item.title_rus} className="img-fluid"/>
+                                    </div>
+                                </div>
+                                <div className="home-card-info">
+                                    <h3>{item.title_rus}</h3>
+                                </div>
+                            </a>
+                        </Col>
+                    ))
+                }
+            </Row>
+            <Row>
+                <Col xs={12} className="d-flex justify-content-center">
+                    <button className="btn btn-main" onClick={() => setShowNotActive(!showNotActive)}>{!showNotActive ? 'Показать неактивные категории' : 'Скрыть'}</button>
+                </Col>
+            </Row>
         </Container>
     );
 };
 
-const mapStateToProps = ({kinds: {active: activeKinds}}) => ({
-    activeKinds
+const mapStateToProps = ({kinds}) => ({
+    kinds
 });
 
 export default connect(mapStateToProps, {setActiveKind})(Index);

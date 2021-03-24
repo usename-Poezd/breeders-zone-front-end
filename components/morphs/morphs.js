@@ -115,7 +115,7 @@ class Morphs extends Component {
                                                    <div className="subcategories-title">
                                                        <Link href="/[group]/[kind]/subcategories/[subcategoryTitle]" as={`/${group}/${kind}/subcategories/${this.pipes.toUrl(item.title)}`}>
                                                            <a className="d-flex justify-content-between align-items-center w-100">
-                                                               <h3>{item.title}</h3>
+                                                               <h3 className="w-75 text-right">{item.title}</h3>
                                                                <div className="morph-indicator-count morph-other-normal ml-2">{item.products_count}</div>
                                                            </a>
                                                        </Link>
@@ -131,7 +131,7 @@ class Morphs extends Component {
                                                                                    <li className="localities-item">
                                                                                        <Link key={locality.title} href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
                                                                                            <a className="d-flex justify-content-between align-items-center">
-                                                                                               <p className="font-bold" style={{fontSize: "16px", fontFamily: "Roboto, sans-serif"}}>({locality.title})</p>
+                                                                                               <p className="font-bold w-75 text-right" style={{fontSize: "16px", fontFamily: "Roboto, sans-serif"}}>({locality.title})</p>
                                                                                                <div className="morph-indicator-count morph-other-normal ml-2">{locality.products_count}</div>
                                                                                            </a>
                                                                                        </Link>
