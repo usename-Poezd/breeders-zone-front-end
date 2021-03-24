@@ -92,7 +92,7 @@ class ProductPage extends Component  {
                 country
             },
             age,
-            kind: {title_rus, title_eng, guards: kindGuards, id: kindId},
+            kind: {title_rus, title_eng, guards: kindGuards, id: kindId, only_text},
             locality,
             description,
             product_images,
@@ -224,18 +224,21 @@ class ProductPage extends Component  {
                                         )
                                         : null
                                 }
-                                <li className="product-card-info-item flex-row align-items-center">
-                                    <h3 className={"title" + (sex !== null ? ' title-sex' : '')}>Пол:</h3>
-                                    {
-                                        sex !== null ?
-                                            <div className="info d-flex align-items-center">
-                                                <FontAwesomeIcon icon={ sex ? faMars : faVenus } size="2x" className={`sex-` + (sex ? 'male' : 'female')} />&nbsp;
-                                                {sex ? "Самец (Male)" : "Самка (Female)"}
-                                            </div>
-                                            : <h3 className="info info-text">Не определён</h3>
-                                    }
+                                {
+                                    !only_text &&
+                                    <li className="product-card-info-item flex-row align-items-center">
+                                        <h3 className={"title" + (sex !== null ? ' title-sex' : '')}>Пол:</h3>
+                                        {
+                                            sex !== null ?
+                                                <div className="info d-flex align-items-center">
+                                                    <FontAwesomeIcon icon={ sex ? faMars : faVenus } size="2x" className={`sex-` + (sex ? 'male' : 'female')} />&nbsp;
+                                                    {sex ? "Самец (Male)" : "Самка (Female)"}
+                                                </div>
+                                                : <h3 className="info info-text">Не определён</h3>
+                                        }
 
-                                </li>
+                                    </li>
+                                }
                                 {
                                     morphs.length > 0 ?
                                         (
@@ -272,34 +275,42 @@ class ProductPage extends Component  {
                                         )
                                         : null
                                 }
-                                <li className="product-card-info-item">
-                                    <h3 className="title">Дата рождения:</h3>
-                                    <h3 className="info info-text">{moment(cb).format('DD.MM.YYYY')}</h3>
-                                </li>
-                                <li className="product-card-info-item">
-                                    <h3 className="title">Возраст:</h3>
-                                    <h3 className="info info-text">{age.title}</h3>
-                                </li>
                                 {
-                                    guards.length > 0 ?
-                                        (
-                                            <li className="product-card-info-item align-items-sm-center flex-sm-row">
-                                                <h3 className="title">Рейтинг у хранителей:</h3>
-                                                <div className="info rate d-flex align-items-center">
-                                                    <div className="rating">
-                                                        {
-                                                            guards.map( () => <div className="rating-star"></div>)
-                                                        }
-                                                        {
-                                                            comparer(kindGuards, guards).map( () => <div className="rating-star empty"></div>)
-                                                        }
-                                                    </div>
-                                                    <span className="rating-count">({guards.length}/{kindGuards.length})</span>
-                                                </div>
+                                    !only_text &&
+                                    (
+                                        <React.Fragment>
+                                            <li className="product-card-info-item">
+                                                <h3 className="title">Дата рождения:</h3>
+                                                <h3 className="info info-text">{moment(cb).format('DD.MM.YYYY')}</h3>
                                             </li>
-                                        )
-                                        : null
+                                            <li className="product-card-info-item">
+                                                <h3 className="title">Возраст:</h3>
+                                                <h3 className="info info-text">{age.title}</h3>
+                                            </li>
+                                            {
+                                                guards.length > 0 ?
+                                                    (
+                                                        <li className="product-card-info-item align-items-sm-center flex-sm-row">
+                                                            <h3 className="title">Рейтинг у хранителей:</h3>
+                                                            <div className="info rate d-flex align-items-center">
+                                                                <div className="rating">
+                                                                    {
+                                                                        guards.map( () => <div className="rating-star"></div>)
+                                                                    }
+                                                                    {
+                                                                        comparer(kindGuards, guards).map( () => <div className="rating-star empty"></div>)
+                                                                    }
+                                                                </div>
+                                                                <span className="rating-count">({guards.length}/{kindGuards.length})</span>
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                    : null
+                                            }
+                                        </React.Fragment>
+                                    )
                                 }
+
                                 <li className="product-card-info-item shop flex-column">
                                     <div className="shop-title mt-0 d-flex">
                                         <h3 className="title">Производитель:</h3>

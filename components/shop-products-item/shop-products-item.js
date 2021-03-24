@@ -106,18 +106,25 @@ const ShopProductsItem = (props) => {
                             )
                             : null
                     }
-                    <li className="product-card-info-item flex-row align-items-center">
-                        <h3 className="title-sex">Пол:</h3>
-                        {
-                            sex === null ?
-                                <FontAwesomeIcon icon={faGenderless} className="info" size="lg"/>
-                                : <FontAwesomeIcon icon={sex ? faMars : faVenus} size="lg" className={"info sex-" + (sex ? 'male' : 'female') } />
-                        }
-                    </li>
-                    <li className="product-card-info-item">
-                        <h3 className="title">Дата рождения:</h3>
-                        <h3 className="info info-text">{moment(cb).format('DD.MM.YYYY')}</h3>
-                    </li>
+                    {
+                        !kind.only_text &&
+                        (
+                            <React.Fragment>
+                                <li className="product-card-info-item flex-row align-items-center">
+                                    <h3 className="title-sex">Пол:</h3>
+                                    {
+                                        sex === null ?
+                                            <FontAwesomeIcon icon={faGenderless} className="info" size="lg"/>
+                                            : <FontAwesomeIcon icon={sex ? faMars : faVenus} size="lg" className={"info sex-" + (sex ? 'male' : 'female') } />
+                                    }
+                                </li>
+                                <li className="product-card-info-item">
+                                    <h3 className="title">Дата рождения:</h3>
+                                    <h3 className="info info-text">{moment(cb).format('DD.MM.YYYY')}</h3>
+                                </li>
+                            </React.Fragment>
+                        )
+                    }
                     <li className="product-card-info-item flex-row">
                         <h3 className="title">Цена:</h3>
                         <h3 className="info">

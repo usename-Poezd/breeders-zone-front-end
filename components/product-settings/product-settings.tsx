@@ -237,6 +237,14 @@ const ProductSettings = ({
                        data.is_active = isActive;
                        data.ask_price = isAskPrice;
                        data.preview = preview;
+
+                       if (selectedKind.only_text) {
+                           data.sex = 'null';
+                           // @ts-ignore
+                           data.age = 'Baby';
+                           setProductCb(new Date());
+                       }
+
                        submit(data, ...args)
                    })}>
                        <HandelSuccess success={success}/>
@@ -413,59 +421,62 @@ const ProductSettings = ({
                                    </Form.Group>
                                ) : null
                        }
-                       <Form.Group>
-                           <Form.Label>Пол:</Form.Label>
-                           <Form.Check
-                               id="male"
-                               type="radio"
-                               name="sex"
-                               value={1}
-                               label={(
-                                   <React.Fragment>
-                                       <FontAwesomeIcon icon={faMars} className="sex sex-male" size="lg"/>
-                                       <span className="ml-1">Самец(Male)</span>
-                                   </React.Fragment>
-                               )}
-                               ref={
-                                   register({
-                                       required: true
-                                   })
+                       {
+                           !selectedKind.only_text &&
+                           <Form.Group>
+                               <Form.Label>Пол:</Form.Label>
+                               <Form.Check
+                                   id="male"
+                                   type="radio"
+                                   name="sex"
+                                   value={1}
+                                   label={(
+                                       <React.Fragment>
+                                           <FontAwesomeIcon icon={faMars} className="sex sex-male" size="lg"/>
+                                           <span className="ml-1">Самец(Male)</span>
+                                       </React.Fragment>
+                                   )}
+                                   ref={
+                                       register({
+                                           required: true
+                                       })
+                                   }
+                               />
+                               <Form.Check
+                                   id="female"
+                                   type="radio"
+                                   name="sex"
+                                   value={0}
+                                   label={(
+                                       <React.Fragment>
+                                           <FontAwesomeIcon icon={faVenus} className="sex sex-female" size="lg"/>
+                                           <span className="ml-1">Самка(Female)</span>
+                                       </React.Fragment>
+                                   )}
+                                   ref={
+                                       register({
+                                           required: true
+                                       })
+                                   }
+                               />
+                               <Form.Check
+                                   id="non-sex"
+                                   type="radio"
+                                   name="sex"
+                                   value={'null'}
+                                   label={"Пол не определен"}
+                                   ref={
+                                       register({
+                                           required: true
+                                       })
+                                   }
+                               />
+                               {   errors.sex &&
+                               errors.sex.type === 'required' &&
+                               <p className="form-err text-danger">Пожалуйста укажите пол.</p>
                                }
-                           />
-                           <Form.Check
-                               id="female"
-                               type="radio"
-                               name="sex"
-                               value={0}
-                               label={(
-                                    <React.Fragment>
-                                        <FontAwesomeIcon icon={faVenus} className="sex sex-female" size="lg"/>
-                                        <span className="ml-1">Самка(Female)</span>
-                                    </React.Fragment>
-                                )}
-                               ref={
-                                   register({
-                                       required: true
-                                   })
-                               }
-                           />
-                           <Form.Check
-                               id="non-sex"
-                               type="radio"
-                               name="sex"
-                               value={'null'}
-                               label={"Пол не определен"}
-                               ref={
-                                   register({
-                                       required: true
-                                   })
-                               }
-                           />
-                           {   errors.sex &&
-                           errors.sex.type === 'required' &&
-                           <p className="form-err text-danger">Пожалуйста укажите пол.</p>
-                           }
-                       </Form.Group>
+                           </Form.Group>
+                       }
                        <Form.Group>
                            <Form.Label>Детальные фото:</Form.Label>
                            {
@@ -506,52 +517,55 @@ const ProductSettings = ({
                                </div>
                            </div>
                        </Form.Group>
-                       <Row>
-                           <Col xs={12} md={6}>
-                               <Form.Group>
-                                   <Form.Label>Дата рождения:</Form.Label>
-                                   <DayPickerInput
-                                       component={DateInput}
-                                       value={value}
-                                       onDayChange={(day) => setProductCb(day)}
-                                       formatDate={MomentLocaleUtils.formatDate}
-                                       parseDate={MomentLocaleUtils.parseDate}
-                                       format="DD.MM.YYYY"
-                                       placeholder={`${moment().format('DD.MM.YY')}`}
-                                       dayPickerProps={{
-                                           locale: 'ru'
-                                       }}
-                                   />
-                                   {   errors.cb &&
-                                   errors.cb.type === 'required' &&
-                                   <p className="form-err text-danger">Пожалуйста запполните это поле</p>
-                                   }
-                                   {   errors.cb &&
-                                   errors.cb.type === 'pattern' &&
-                                   <p className="form-err text-danger">Пожалуйста запполните это поле правильно</p>
-                                   }
-                               </Form.Group>
-                           </Col>
-                           <Col xs={12} md={6}>
-                               <Form.Group>
-                                   <Form.Label>Возраст:</Form.Label>
-                                   <div className="select-wrap">
-                                       <Form.Control
-                                           as="select"
-                                           name="age"
-                                           ref={register({
-                                               required: true
-                                           })}
-                                       >
-                                           <option value="Baby">Baby</option>
-                                           <option value="Junior">Junior</option>
-                                           <option value="Subadult">Subadult</option>
-                                           <option value="Adult">Adult</option>
-                                       </Form.Control>
-                                   </div>
-                               </Form.Group>
-                           </Col>
-                       </Row>
+                       {
+                           !selectedKind.only_text &&
+                               <Row>
+                                   <Col xs={12} md={6}>
+                                       <Form.Group>
+                                           <Form.Label>Дата рождения:</Form.Label>
+                                           <DayPickerInput
+                                               component={DateInput}
+                                               value={value}
+                                               onDayChange={(day) => setProductCb(day)}
+                                               formatDate={MomentLocaleUtils.formatDate}
+                                               parseDate={MomentLocaleUtils.parseDate}
+                                               format="DD.MM.YYYY"
+                                               placeholder={`${moment().format('DD.MM.YY')}`}
+                                               dayPickerProps={{
+                                                   locale: 'ru'
+                                               }}
+                                           />
+                                           {   errors.cb &&
+                                           errors.cb.type === 'required' &&
+                                           <p className="form-err text-danger">Пожалуйста запполните это поле</p>
+                                           }
+                                           {   errors.cb &&
+                                           errors.cb.type === 'pattern' &&
+                                           <p className="form-err text-danger">Пожалуйста запполните это поле правильно</p>
+                                           }
+                                       </Form.Group>
+                                   </Col>
+                                   <Col xs={12} md={6}>
+                                       <Form.Group>
+                                           <Form.Label>Возраст:</Form.Label>
+                                           <div className="select-wrap">
+                                               <Form.Control
+                                                   as="select"
+                                                   name="age"
+                                                   ref={register({
+                                                       required: true
+                                                   })}
+                                               >
+                                                   <option value="Baby">Baby</option>
+                                                   <option value="Junior">Junior</option>
+                                                   <option value="Subadult">Subadult</option>
+                                                   <option value="Adult">Adult</option>
+                                               </Form.Control>
+                                           </div>
+                                       </Form.Group>
+                                   </Col>
+                               </Row>
+                       }
                        <GroupFormControl
                            label="Описание"
                            textArea = {true}
