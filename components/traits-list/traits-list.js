@@ -60,7 +60,7 @@ class TraitsList extends Component {
 
     render() {
         const { sendMessageModal, modalUser, request } = this.state;
-        const {products: {data: items, total, current_page, last_page}, selectedMorphs, localities} = this.props;
+        const {data: items, total, current_page, last_page, selectedMorphs, localities} = this.props;
 
 
         if (request && items.length === 0) {
