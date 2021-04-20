@@ -231,7 +231,13 @@ class ProductPage extends Component  {
                                         <h3 className={"title" + (sex !== null ? ' title-sex' : '')}>Пол:</h3>
                                         {
                                             groupSex !== null &&
-                                            <p className="info info-text">{groupSex.male}.{groupSex.female}</p>
+                                            <div className="info d-flex align-items-center">
+                                                <span className="ml-0 mr-1">{groupSex.male}</span>
+                                                <FontAwesomeIcon icon={faMars} size="lg" className="sex-male"/>
+                                                <span className="ml-0">.</span>
+                                                <span className="ml-0 mr-1">{groupSex.female}</span>
+                                                <FontAwesomeIcon icon={faVenus} size="lg" className="sex-female"/>
+                                            </div>
                                         }
                                         {
                                             sex === null && groupSex === null &&
