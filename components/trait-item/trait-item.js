@@ -22,6 +22,7 @@ const TraitItem = (props) => {
          guards,
          ask_price,
          sex,
+         group: groupSex,
          cb,
          user,
          preview,
@@ -134,9 +135,16 @@ const TraitItem = (props) => {
                                     <div className="cb">
                                         <div className="sex">
                                             {
-                                                sex !== null ?
-                                                    <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
-                                                    : <FontAwesomeIcon icon={faGenderless} size="lg"/>
+                                                groupSex !== null &&
+                                                <span>{groupSex.male}.{groupSex.female}</span>
+                                            }
+                                            {
+                                                sex === null && groupSex === null &&
+                                                <FontAwesomeIcon icon={faGenderless} size="lg"/>
+                                            }
+                                            {
+                                                sex !== null && groupSex === null &&
+                                                <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
                                             }
                                             <span>'{transformCb(cb)}</span>
                                         </div>

@@ -24,7 +24,7 @@ import {
 import {initialState} from "../../reducers"
 import {connect} from "react-redux";
 import Reports from "../reports";
-import {compareMorph} from "../../utils";
+import {compareMorph, num2str} from "../../utils";
 import {withRouter} from "next/router";
 import Switch from "react-switch";
 import Link from "next/link";
@@ -47,6 +47,8 @@ type Inputs = {
     name: string,
     price: number|string,
     sex: boolean|string,
+    group_male: number|null,
+    group_female: number|null,
     cb: string,
     is_active: boolean,
     ask_price: boolean,
@@ -172,6 +174,9 @@ const ProductSettings = ({
     const { register, handleSubmit, watch, setValue, control, errors } = useForm<Inputs>({
         defaultValues: {
             ...info,
+            sex: info.group !== null ? 'group' : info.sex,
+            group_male: info.group !== null ? info.group.male : null,
+            group_female: info.group !== null ? info.group.female : null,
             article: info.article ? info.article : '',
             kind_id: info.kind_id ? info.kind_id : allKinds[0].id,
             subcategory_id: info.subcategory_id ? info.subcategory_id : (allKinds[0].subcategories !== null && allKinds[0].subcategories.length !== 0 ? allKinds[0].subcategories[0].id : null),
@@ -243,6 +248,13 @@ const ProductSettings = ({
                            // @ts-ignore
                            data.age = 'Baby';
                            setProductCb(new Date());
+                       }
+
+                       if (data.sex === 'group') {
+                           data.sex = 'null';
+                       } else {
+                           data.group_male = 0;
+                           data.group_female = 0;
                        }
 
                        submit(data, ...args)
@@ -471,11 +483,60 @@ const ProductSettings = ({
                                        })
                                    }
                                />
-                               {   errors.sex &&
-                               errors.sex.type === 'required' &&
-                               <p className="form-err text-danger">Пожалуйста укажите пол.</p>
+                               <Form.Check
+                                   id="group"
+                                   type="radio"
+                                   name="sex"
+                                   value={'group'}
+                                   label={"Я продаю группой"}
+                                   ref={
+                                       register({
+                                           required: true
+                                       })
+                                   }
+                               />
+                               {
+                                   errors.sex &&
+                                   errors.sex.type === 'required' &&
+                                        <p className="form-err text-danger">Пожалуйста укажите пол.</p>
                                }
                            </Form.Group>
+                       }
+                       {
+                           values.sex === 'group' &&
+                               <Form.Group>
+                                   <Form.Label>Укажите количество животных:</Form.Label>
+                                   <div>
+                                       <div className="d-flex align-items-center w-25 mb-2">
+                                           <Form.Control
+                                               className="mr-2"
+                                               id="group_male"
+                                               type="number"
+                                               name="group_male"
+                                               ref={
+                                                   register({
+                                                       required: true
+                                                   })
+                                               }
+                                           />
+                                           <p>{num2str(values.group_male, ['Самец', 'Самца', 'Самцов'])}</p>
+                                       </div>
+                                       <div className="d-flex align-items-center w-25">
+                                           <Form.Control
+                                               className="mr-2"
+                                               id="group_female"
+                                               type="number"
+                                               name="group_female"
+                                               ref={
+                                                   register({
+                                                       required: true
+                                                   })
+                                               }
+                                           />
+                                           <p>{num2str(values.group_female, ['Самка', 'Самки', 'Самки'])}</p>
+                                       </div>
+                                   </div>
+                               </Form.Group>
                        }
                        <Form.Group>
                            <Form.Label>Детальные фото:</Form.Label>

@@ -24,6 +24,10 @@ export interface IStateProps {
             name: string,
             price: number|string,
             sex: boolean|string,
+            group: {
+                male: number|null,
+                female: number|null
+            }|null
             cb: string,
             is_active: boolean,
             ask_price: boolean,
