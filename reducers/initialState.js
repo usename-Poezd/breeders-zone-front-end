@@ -93,6 +93,7 @@ const initialState = {
             price: '',
             currency: 'RUB',
             sex: true,
+            group: null,
             cb: null,
             is_active: true,
             ask_price: false,

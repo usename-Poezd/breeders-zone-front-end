@@ -5,7 +5,7 @@ import Spinner from "../../../components/spinner";
 import Carousel, {Modal as ImageModal, ModalGateway} from "react-images";
 import Chat from "../../../components/chat";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBan, faCheck, faMars, faRubleSign, faVenus} from "@fortawesome/free-solid-svg-icons";
+import {faBan, faCheck, faGenderless, faMars, faRubleSign, faVenus} from "@fortawesome/free-solid-svg-icons";
 import Slider from "react-slick";
 import {withErrorBoundry, withGetData} from "../../../components/hoc-helpers";
 import {withRouter} from "next/router";
@@ -82,6 +82,7 @@ class ProductPage extends Component  {
             price,
             ask_price,
             sex,
+            group: groupSex,
             cb,
             morphs,
             guards,
@@ -229,12 +230,19 @@ class ProductPage extends Component  {
                                     <li className="product-card-info-item flex-row align-items-center">
                                         <h3 className={"title" + (sex !== null ? ' title-sex' : '')}>Пол:</h3>
                                         {
-                                            sex !== null ?
-                                                <div className="info d-flex align-items-center">
-                                                    <FontAwesomeIcon icon={ sex ? faMars : faVenus } size="2x" className={`sex-` + (sex ? 'male' : 'female')} />&nbsp;
-                                                    {sex ? "Самец (Male)" : "Самка (Female)"}
-                                                </div>
-                                                : <h3 className="info info-text">Не определён</h3>
+                                            groupSex !== null &&
+                                            <p className="info info-text">{groupSex.male}.{groupSex.female}</p>
+                                        }
+                                        {
+                                            sex === null && groupSex === null &&
+                                            <h3 className="info info-text">Не определён</h3>
+                                        }
+                                        {
+                                            sex !== null && groupSex === null &&
+                                            <div className="info d-flex align-items-center">
+                                                <FontAwesomeIcon icon={ sex ? faMars : faVenus } size="2x" className={`sex-` + (sex ? 'male' : 'female')} />&nbsp;
+                                                {sex ? "Самец (Male)" : "Самка (Female)"}
+                                            </div>
                                         }
 
                                     </li>

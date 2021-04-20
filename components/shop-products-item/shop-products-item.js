@@ -30,6 +30,7 @@ const ShopProductsItem = (props) => {
         is_active,
         ask_price,
         morphs,
+        group,
         price,
         kind,
         subcategory,
@@ -113,9 +114,16 @@ const ShopProductsItem = (props) => {
                                 <li className="product-card-info-item flex-row align-items-center">
                                     <h3 className="title-sex">Пол:</h3>
                                     {
-                                        sex === null ?
+                                        group !== null &&
+                                            <p className="info info-text">{group.male}.{group.female}</p>
+                                    }
+                                    {
+                                        sex === null && group === null &&
                                             <FontAwesomeIcon icon={faGenderless} className="info" size="lg"/>
-                                            : <FontAwesomeIcon icon={sex ? faMars : faVenus} size="lg" className={"info sex-" + (sex ? 'male' : 'female') } />
+                                    }
+                                    {
+                                        sex !== null && group === null &&
+                                            <FontAwesomeIcon icon={sex ? faMars : faVenus} size="lg" className={"info sex-" + (sex ? 'male' : 'female') } />
                                     }
                                 </li>
                                 <li className="product-card-info-item">
