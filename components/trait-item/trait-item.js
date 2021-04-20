@@ -133,10 +133,16 @@ const TraitItem = (props) => {
                                 !only_text &&
                                 <div className="cb-and-raiting">
                                     <div className="cb">
-                                        <div className="sex">
+                                        <div className="d-flex sex">
                                             {
                                                 groupSex !== null &&
-                                                <span>{groupSex.male}.{groupSex.female}</span>
+                                                    <div className="d-flex align-items-center">
+                                                        <span className="ml-0 mr-1">{groupSex.male}</span>
+                                                        <FontAwesomeIcon icon={faMars} size="lg" className="sex-male"/>
+                                                        <span className="ml-0">.</span>
+                                                        <span className="ml-0 mr-1">{groupSex.female}</span>
+                                                        <FontAwesomeIcon icon={faVenus} size="lg" className="sex-female"/>
+                                                    </div>
                                             }
                                             {
                                                 sex === null && groupSex === null &&
@@ -146,7 +152,7 @@ const TraitItem = (props) => {
                                                 sex !== null && groupSex === null &&
                                                 <FontAwesomeIcon icon={ sex ? faMars : faVenus} size="lg" className={'sex-' + (sex ? 'male' : 'female')}/>
                                             }
-                                            <span>'{transformCb(cb)}</span>
+                                            <div className="ml-1">'{transformCb(cb)}</div>
                                         </div>
                                     </div>
                                     <div className="rating"></div>

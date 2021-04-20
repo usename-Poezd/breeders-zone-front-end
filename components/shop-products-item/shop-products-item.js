@@ -115,7 +115,13 @@ const ShopProductsItem = (props) => {
                                     <h3 className="title-sex">Пол:</h3>
                                     {
                                         group !== null &&
-                                            <p className="info info-text">{group.male}.{group.female}</p>
+                                            <div className="info d-flex align-items-center">
+                                                <span className="ml-0 mr-1">{group.male}</span>
+                                                <FontAwesomeIcon icon={faMars} size="lg" className="sex-male"/>
+                                                <span className="ml-0">.</span>
+                                                <span className="ml-0 mr-1">{group.female}</span>
+                                                <FontAwesomeIcon icon={faVenus} size="lg" className="sex-female"/>
+                                            </div>
                                     }
                                     {
                                         sex === null && group === null &&
