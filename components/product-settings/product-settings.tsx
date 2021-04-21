@@ -512,6 +512,7 @@ const ProductSettings = ({
                                                className="mr-2"
                                                id="group_male"
                                                type="number"
+                                               min="0"
                                                name="group_male"
                                                ref={
                                                    register({
@@ -526,6 +527,7 @@ const ProductSettings = ({
                                                className="mr-2"
                                                id="group_female"
                                                type="number"
+                                               min="0"
                                                name="group_female"
                                                ref={
                                                    register({
