@@ -2,6 +2,9 @@ import {ProductPage} from "../../../components/pages";
 import {DataService} from "../../../services";
 import Error from '../../_error';
 import React from "react";
+import {prepareSeo} from "../../../utils";
+import {setSeo} from "../../../actions";
+import wrapper from "../../../store";
 
 export default ({product, statusCode}) => {
     if (statusCode && statusCode !== 200) {
@@ -11,10 +14,11 @@ export default ({product, statusCode}) => {
     return <ProductPage product={product}/>
 };
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     try {
         const dataService = await new DataService();
         const product = await dataService.getProduct(ctx.query.id);
+        ctx.store.dispatch(setSeo(prepareSeo(product.seo)));
 
         return {
             props: {
@@ -30,4 +34,4 @@ export const getServerSideProps = async (ctx) => {
             }
         };
     }
-};
+});

@@ -5,19 +5,19 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCar, faHelicopter, faTruck} from "@fortawesome/free-solid-svg-icons";
 import {faFacebookF, faVk, faYoutube} from "@fortawesome/free-brands-svg-icons";
 import ShopTextContainer from "../../components/shop-text-container";
-import {formatDate} from "react-day-picker/moment";
 import Slider from "react-slick";
 import {Col, Container, Row} from 'react-bootstrap';
 import {withRouter} from "next/router";
 import Link from "next/link";
 import ShopDivorcesItem from "../../components/shop-divorces-item";
 import ShopMorphs from "../../components/shop-morphs";
-import {setActiveKind} from "../../actions";
+import {setActiveKind, setSeo} from "../../actions";
 import {connect} from "react-redux";
-import Head from "next/head";
 import TraitItem from "../../components/trait-item/trait-item";
 import LazyImg from "../../components/lazy-img";
 import Error from "../_error";
+import wrapper from "../../store";
+import {prepareSeo} from "../../utils";
 
 class ShopPage extends Component {
     state = {
@@ -135,13 +135,10 @@ class ShopPage extends Component {
 
         return (
             <Container>
-                <Head>
-                    <title>{company_name} | Breeders Zone</title>
-                </Head>
                 <div className="shop">
                     <div className="shop-container d-flex flex-column flex-md-row justify-content-between">
                         <div className="shop-info">
-                            <h2 className="shop-name">{company_name}</h2>
+                            <h1 className="shop-name h2">{company_name}</h1>
                             <ul className="shop-info-list">
                                 <li className="shop-info-list-item">
                                     <h3 className="title">Владелец:</h3>
@@ -391,11 +388,13 @@ class ShopPage extends Component {
     }
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     try {
         const dataService = await new DataService();
         const {shopName} = await ctx.query;
         const shop = await dataService.getShop(shopName);
+
+        ctx.store.dispatch(setSeo(prepareSeo(shop.seo)));
 
 
         return {
@@ -412,7 +411,7 @@ export const getServerSideProps = async (ctx) => {
             }
         };
     }
-};
+});
 
 const mapMethodsToProps = (getData) => {
     return {
