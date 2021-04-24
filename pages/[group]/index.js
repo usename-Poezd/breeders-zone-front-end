@@ -34,7 +34,7 @@ export default withRouter(({ products = {selectedMorphs: []}, router, statusCode
                     }
                 />
             </Head>
-            <Container>
+            <Container as="section">
                 <TraitItems {...products}/>
             </Container>
         </React.Fragment>

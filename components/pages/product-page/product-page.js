@@ -127,9 +127,9 @@ class ProductPage extends Component  {
         }));
 
         return (
-            <Container>
+            <Container as="section">
                 <Head>
-                    <title>{name}</title>
+                    <title>{name} — купить в интернет-магазине Breeders Zone</title>
                 </Head>
                 <Row className="product-card">
 
@@ -159,7 +159,7 @@ class ProductPage extends Component  {
 
 
                     <Col xs={12} className="text-center position-relative">
-                        <h2 className="product-card-title"><span className="morph">{name}</span></h2>
+                        <h1 className="product-card-title h2">{name}</h1>
                         {
                             profile.user.is_guard && profile.user.guardians_kinds.find((item) => item.id === kindId) ?
                                 <div className="rate-block ml-auto" style={{
@@ -202,23 +202,23 @@ class ProductPage extends Component  {
                         <div className="product-card-body feather-shadow">
                             <ul className="product-card-info">
                                 <li className="product-card-info-item">
-                                    <h3 className="title">{article ? 'Уникальный идентификатор' : 'Номер в системе'}:</h3>
-                                    <h3 className="info info-text">{article ? article : id}</h3>
+                                    <div className="title text-base">{article ? 'Уникальный идентификатор' : 'Номер в системе'}:</div>
+                                    <div className="info info-text text-base">{article ? article : id}</div>
                                 </li>
                                 <li className="product-card-info-item">
-                                    <h3 className="title">Категория:</h3>
-                                    <h3 className="info info-text">
+                                    <div className="title text-base">Категория:</div>
+                                    <div className="info info-text text-base">
                                         {title_rus} ({title_eng})
-                                    </h3>
+                                    </div>
                                 </li>
                                 {
                                     subcategory !== null ?
                                         (
                                             <li className="product-card-info-item">
-                                                <h3 className="title">Подкатегория:</h3>
+                                                <div className="title text-base">Подкатегория:</div>
                                                 <Link href="/[group]/[kind]/subcategories/[subcategoryTitle]" as={`/${group}/${kind}/subcategories/${this.pipes.toUrl(subcategory.title)}`}>
                                                     <a className="subcategory-title">
-                                                        <h3 className="info info-text">{subcategory.title}</h3>
+                                                        <div className="info info-text text-base">{subcategory.title}</div>
                                                     </a>
                                                 </Link>
                                             </li>
@@ -228,7 +228,7 @@ class ProductPage extends Component  {
                                 {
                                     !only_text &&
                                     <li className="product-card-info-item flex-row align-items-center">
-                                        <h3 className={"title" + (sex !== null ? ' title-sex' : '')}>Пол:</h3>
+                                        <div className={"text-base title" + (sex !== null ? ' title-sex' : '')}>Пол:</div>
                                         {
                                             groupSex !== null &&
                                             <div className="info d-flex align-items-center">
@@ -241,7 +241,7 @@ class ProductPage extends Component  {
                                         }
                                         {
                                             sex === null && groupSex === null &&
-                                            <h3 className="info info-text">Не определён</h3>
+                                            <div className="info info-text text-base">Не определён</div>
                                         }
                                         {
                                             sex !== null && groupSex === null &&
@@ -257,7 +257,7 @@ class ProductPage extends Component  {
                                     morphs.length > 0 ?
                                         (
                                             <li className="product-card-info-item flex-row align-items-center">
-                                                <h3 className="title title-sex">Морфы:</h3>
+                                                <div className="title title-sex text-base">Морфы:</div>
                                                 <div className="info morphs">
                                                     {
                                                         morphs.map( ({gene: {title: geneTitle, type}, trait: {title: traitTitle, trait_group}}, idx) => (
@@ -277,7 +277,7 @@ class ProductPage extends Component  {
                                     locality ?
                                         (
                                             <li className="product-card-info-item">
-                                                <h3 className="title">Локалитет:</h3>
+                                                <div className="title text-base">Локалитет:</div>
                                                 <div className="info morphs">
                                                     <Link href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
                                                         <a className="morph-indicator morph-other-normal">
@@ -294,18 +294,18 @@ class ProductPage extends Component  {
                                     (
                                         <React.Fragment>
                                             <li className="product-card-info-item">
-                                                <h3 className="title">Дата рождения:</h3>
-                                                <h3 className="info info-text">{moment(cb).format('DD.MM.YYYY')}</h3>
+                                                <div className="title text-base">Дата рождения:</div>
+                                                <div className="info info-text text-base">{moment(cb).format('DD.MM.YYYY')}</div>
                                             </li>
                                             <li className="product-card-info-item">
-                                                <h3 className="title">Возраст:</h3>
-                                                <h3 className="info info-text">{age.title}</h3>
+                                                <div className="title text-base">Возраст:</div>
+                                                <div className="info info-text text-base">{age.title}</div>
                                             </li>
                                             {
                                                 guards.length > 0 ?
                                                     (
                                                         <li className="product-card-info-item align-items-sm-center flex-sm-row">
-                                                            <h3 className="title">Рейтинг у хранителей:</h3>
+                                                            <div className="title text-base">Рейтинг у хранителей:</div>
                                                             <div className="info rate d-flex align-items-center">
                                                                 <div className="rating">
                                                                     {
@@ -327,10 +327,10 @@ class ProductPage extends Component  {
 
                                 <li className="product-card-info-item shop flex-column">
                                     <div className="shop-title mt-0 d-flex">
-                                        <h3 className="title">Производитель:</h3>
+                                        <div className="title text-base">Производитель:</div>
                                         <Link href="/shops/[shopName]" as={'/shops/' + company_name}>
                                             <a>
-                                                <h3 className="info info-text">{company_name}</h3>
+                                                <div className="info info-text text-base">{company_name}</div>
                                             </a>
                                         </Link>
                                     </div>
@@ -345,8 +345,8 @@ class ProductPage extends Component  {
                                     }
                                 </li>
                                 <li className="product-card-info-item flex-row align-items-center">
-                                    <h3 className="title">Локация:</h3>
-                                    <h3 className="info info-text">{location}</h3>
+                                    <div className="title text-base">Локация:</div>
+                                    <div className="info info-text text-base">{location}</div>
                                     <div className={`country-flag flag flag-${country?.iso_3166_2.toLowerCase()}`}></div>
                                 </li>
                             </ul>
@@ -354,14 +354,14 @@ class ProductPage extends Component  {
 
                         <div className="in-cart-container feather-shadow">
                             <div className="price-container">
-                                <h2 className={`price mr-sm-4 mr-0 ${ask_price && 'text-center w-100'}`}>
+                                <div className={`h2 price mr-sm-4 mr-0 ${ask_price && 'text-center w-100'}`}>
                                     {
                                         !ask_price ?
                                             `${currency(price.find((item) => item.type === 'main').amount, currencyOptions).format()} ${getSymbolFromCurrency(price.find((item) => item.type === 'main').currency)}`
                                             : 'Цена по запросу'
                                     }
 
-                                </h2>
+                                </div>
                                 {
                                     !ask_price &&
                                         <div>
@@ -393,8 +393,8 @@ class ProductPage extends Component  {
                                     </div>
                                 }
                             </div>
-                            <div className="btn btn-main btn-in-cart m-0" onClick={() => this.sendMessage()}>
-                                <h3>Написать о покупке</h3>
+                            <div className="text-base btn btn-main btn-in-cart m-0" onClick={() => this.sendMessage()}>
+                                Написать о покупке
                             </div>
                             {/*<div className="btn-second-bn btn-in-cart feather-shadow">*/}
                             {/*    <h3>Забронировать</h3>*/}

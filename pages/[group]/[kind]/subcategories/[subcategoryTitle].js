@@ -19,7 +19,7 @@ export default connect(mapStateToProps)(
                 <Head>
                     <title>Животные в подкатегории {products.selectedSubcategory ? products.selectedSubcategory.title : null} | {activeKind.title_rus}  ({activeKind.title_eng}) | Breeders Zone</title>
                 </Head>
-                <Container>
+                <Container as="section">
                     <TraitItems {...products}/>
                 </Container>
             </React.Fragment>
