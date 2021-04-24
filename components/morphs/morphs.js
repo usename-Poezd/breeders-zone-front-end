@@ -128,7 +128,7 @@ class Morphs extends Component {
                                                                        item.localities.map( (locality) => {
                                                                            if (locality.products_count) {
                                                                                return (
-                                                                                   <li className="localities-item">
+                                                                                   <li className="localities-item" key={"locality-morph-" + locality.id}>
                                                                                        <Link key={locality.title} href="/[group]/[kind]" as={`/${group}/${kind}?locality=${locality.id}`} >
                                                                                            <a className="d-flex justify-content-between align-items-center">
                                                                                                <p className="font-bold w-75 text-right" style={{fontSize: "16px", fontFamily: "Roboto, sans-serif"}}>({locality.title})</p>
