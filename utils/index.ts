@@ -12,6 +12,7 @@ import toUrl from "./to-url";
 import checkMobile from "./check-mobile";
 import currencyOptions from "./currency-options";
 import { parseDate, formatDate } from "./date-utils";
+import { prepareSeo } from "./prepareSeo";
 export {
     compose,
     isLogin,
@@ -27,5 +28,6 @@ export {
     checkMobile,
     currencyOptions,
     parseDate,
-    formatDate
+    formatDate,
+    prepareSeo
 };

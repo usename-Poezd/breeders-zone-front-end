@@ -8,6 +8,9 @@ import {withRouter} from "next/router";
 import {connect} from "react-redux";
 import Pagination from "../../components/pagination";
 import Head from "next/head";
+import {prepareSeo} from "../../utils";
+import {setSeo} from "../../actions";
+import wrapper from "../../store";
 const qs = require('qs');
 
 class ShopsPage extends Component {
@@ -56,14 +59,14 @@ class ShopsPage extends Component {
 
         return (
             <React.Fragment>
-                <Head>
-                    <title>Заводчики {activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ''} | Breeders Zone</title>
-                    <meta
-                        name="description"
-                        content={`Более сотни заводчиков рептилий ${activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ''} в России | Breeders Zone`}
-                    />
-                </Head>
                 <Container>
+                    <Row className="my-5">
+                        <Col className="d-flex">
+                            <h1 className="m-auto">
+                                {!activeKind.title_rus && 'Все'} {!activeKind.title_rus ? 'п' : 'П'}родавцы {activeKind.title_rus ? ` в категории ${activeKind.title_rus} (${activeKind.title_eng})` : ' на Breeders Zone'}
+                            </h1>
+                        </Col>
+                    </Row>
                     <Form onSubmit={this.onSubmit} className="dashboard-filter d-flex justify-content-center">
                         <div className="dashboard-search-container">
                             <Form.Control
@@ -157,15 +160,18 @@ const mapStateToProps = ({router: {location: {search, pathname}}, kinds: {active
     activeKind
 });
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     const  dataService = await new DataService();
-    const shops = await dataService.getShops(ctx.query);
+    ctx.query.withSeo = 'true';
+    const {shops, seo} = await dataService.getShops(ctx.query);
+
+    ctx.store.dispatch(setSeo(prepareSeo(seo)));
 
     return {
         props: {
             shops
         }
     }
-};
+});
 
 export default connect(mapStateToProps)(withRouter(ShopsPage));

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import Head from 'next/head'
+import Head from 'next/head';
+import { DefaultSeo } from 'next-seo';
 import {connect} from "react-redux";
 import "../sass/app.scss";
 import 'react-day-picker/lib/style.css';
@@ -11,7 +12,7 @@ import {
     setKinds, setRoomsCountWithNewMessages,
     receivedMessage,
     updateCheckMessage,
-    addNotification, logout, setIsMobile, setCurrencies
+    addNotification, logout, setIsMobile, setCurrencies, setSeo
 } from "../actions";
 import {GetDataProvider} from "../components/data-service-context";
 import {DataService} from "../services";
@@ -31,8 +32,9 @@ import nookies from "nookies";
 import withYM from "next-ym";
 import Footer from "../components/footer";
 import NextNProgress from "../components/progress-bar";
-import {toUrl, checkMobile} from "../utils";
+import {toUrl, checkMobile, prepareSeo} from "../utils";
 import {setSocials} from "../actions/socials";
+import {SEO} from "../next-seo.config";
 library.add(fab);
 config.autoAddCss = false;
 const dataService = new DataService();
@@ -78,8 +80,11 @@ class MyApp extends Component {
             } else if (ctx.query.kindId) {
                 const state = await ctx.store.getState();
                 const activeKind = await state.kinds.all.find((item) => item.id === Number(ctx.query.kindId));
-                if (activeKind)
+                if (activeKind) {
                     ctx.store.dispatch(setActiveKind(activeKind));
+                }
+
+
             } else {
                 ctx.store.dispatch(setActiveKind({
                     title_rus: '',
@@ -116,6 +121,19 @@ class MyApp extends Component {
 
         if (typeof window !== 'undefined' && !nookies.get().token) {
             ctx.store.dispatch(logout())
+        }
+
+        if (SEO[ctx.pathname]) {
+            ctx.store.dispatch(setSeo(SEO[ctx.pathname]))
+        }
+
+        switch (ctx.pathname) {
+            case '/[group]/[kind]':
+                ctx.store.dispatch(setSeo(prepareSeo(ctx.store.getState().kinds.activeKind.seo.kind)));
+                break;
+            case '/[group]/[kind]/morphs':
+                ctx.store.dispatch(setSeo(prepareSeo(ctx.store.getState().kinds.activeKind.seo.kind)));
+                break;
         }
 
         return {store: ctx.store, isLogin: ctx.store.getState().auth.isLogin, user: ctx.store.getState().profile.user, isSecondHeader: ctx.pathname.match(regExp) === null};
@@ -174,12 +192,15 @@ class MyApp extends Component {
 
     render() {
         const { isSecondHeader } = this.state;
-        const { Component, pageProps, deleteToken, router } = this.props;
+        const { Component, pageProps, deleteToken, router, seo } = this.props;
         return (
             <ConnectedRouter>
                 <GetDataProvider value={dataService}>
+                    <DefaultSeo
+                        {...seo}
+                    />
                     <Head>
-                        <title>Breeders-zone</title>
+                        <meta httpEquiv="origin-trial" content="AmUOTjUx4xBjILn58BdSYRp4w+DXucr7UJxGV/HKVRZLSd6uGn5zEIS/6kIgn8aNFnRwAU6tP7QP309ckntJoQoAAAB6eyJvcmlnaW4iOiJodHRwczovL2JyZWVkZXJzem9uZS5jb206NDQzIiwiZmVhdHVyZSI6IlVucmVzdHJpY3RlZFNoYXJlZEFycmF5QnVmZmVyIiwiZXhwaXJ5IjoxNjMzNDc4Mzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZX0="/>
                         <meta charSet="utf-8"/>
                         <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
                         <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -205,7 +226,9 @@ class MyApp extends Component {
                             <SecondHeader/>
                             : null
                     }
-                    <Component {...pageProps}/>
+                   <main>
+                       <Component {...pageProps}/>
+                   </main>
                     {
                         router.pathname !== '/documents'
                         && router.pathname !== '/documents/[label]' ?
@@ -223,7 +246,7 @@ export default wrapper.withRedux(
         process.env.NEXT_PUBLIC_YM_ACCOUNT,
         Router
     )(
-        connect(null, {
+        connect(({seo}) => ({seo}), {
             receivedMessage,
             updateCheckMessage,
             addNotification,

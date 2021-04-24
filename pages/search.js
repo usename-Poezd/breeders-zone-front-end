@@ -7,7 +7,7 @@ const qs = require('qs');
 
 const SearchPage = (props) => {
     return (
-        <Container>
+        <Container as="section">
             <Head>
                 <title>Поиск | Breeders Zone</title>
                 <meta name="description" content="Breeders Zone это маркетплейс где вы можете бысто найти и продать животное, больше никаних групп и форумов, все в одном месте"/>

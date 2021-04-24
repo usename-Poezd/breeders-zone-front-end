@@ -1,5 +1,5 @@
 import Axios from "axios";
-import {toFormData} from "../utils";
+import {prepareSeo, toFormData} from "../utils";
 import nookies from "nookies";
 import {ISocial} from "../reducers/socials/types";
 import {OutgoingHttpHeaders} from "http";
@@ -798,5 +798,17 @@ export default class  DataService {
         })
             .then((res) => res.data.country_code2);
     };
+
+    // SEO
+
+    getDefaultSeo = () => {
+        return Axios.get((typeof window === 'undefined' ? process.env.API_URL : process.env.API_PUBLIC_URL ) + '/api/seo-options/default?formatted=true', {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            }
+        })
+            .then((res) => prepareSeo(res.data));
+    }
 }
 

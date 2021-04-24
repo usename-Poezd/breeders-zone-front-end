@@ -16,7 +16,7 @@ export default (props) => {
                     }
                 </title>
             </Head>
-            <Container>
+            <Container as="section">
                 <TraitItems {...props}/>
             </Container>
         </React.Fragment>

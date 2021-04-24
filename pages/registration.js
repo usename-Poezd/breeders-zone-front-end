@@ -66,7 +66,7 @@ const Registration = ({ postRegister, setRegError, isLogin, regError, router: {q
 
     if (registerRequest) {
         return (
-            <Container className="body-second-container">
+            <Container as="section" className="body-second-container">
                 <Row>
                     <Col xs={12} md={8} className="m-auto">
                         <Spinner/>
@@ -78,7 +78,7 @@ const Registration = ({ postRegister, setRegError, isLogin, regError, router: {q
 
 
     return (
-            <Container className="body-second-container">
+            <Container as="section" className="body-second-container">
                 <Head>
                     <title>Регистрация | Breeders Zone</title>
                     <meta name="description" content="Breeders Zone это маркетплейс где вы можете бысто найти и продать животное, больше никаних групп и форумов, все в одном месте"/>

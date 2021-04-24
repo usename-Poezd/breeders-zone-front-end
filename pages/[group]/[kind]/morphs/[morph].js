@@ -3,25 +3,35 @@ import TraitItems from "../../../../components/traits-list";
 import {DataService} from "../../../../services";
 import React from "react";
 import Head from "next/head";
+import {useSelector} from "react-redux";
 const qs = require('qs');
 
-export default (props) => {
+const MorphsPage = (props) => {
+    const activeKind = useSelector(state => state.kinds.activeKind);
     return (
         <React.Fragment>
             <Head>
                 <title>
-                    Животные с морофой
                     {
-                        props.selectedMorphs.map( ({geneTitle, traitTitle}) => ` ${traitTitle && (traitTitle !== 'Normal' || traitTitle !== 'Visual') ? traitTitle + ' ' : ''}${geneTitle}`)
+                        activeKind ?
+                            activeKind.title_rus
+                            : 'Животные'
                     }
+                    {' с морофой'}
+                    {
+                        props.selectedMorphs.map( ({geneTitle, traitTitle}) => ` ${traitTitle && traitTitle !== 'Normal' && traitTitle !== 'Visual' ? traitTitle + ' ' : ''}${geneTitle}`)
+                    }
+                    {' — купить в интернет-магазине Breeders Zone'}
                 </title>
             </Head>
-            <Container>
+            <Container as="section">
                 <TraitItems {...props}/>
             </Container>
         </React.Fragment>
     )
 };
+
+export default MorphsPage;
 
 export const getServerSideProps = async (ctx) => {
     const dataService = await new DataService();

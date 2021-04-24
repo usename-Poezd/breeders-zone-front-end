@@ -109,14 +109,28 @@ class SecondHeader extends Component {
         return (
             <nav className="nav flex-column">
                 <div className="titles">
-                    <h1 className="title">{activeKind.title_rus  ? activeKind.title_rus : query.group ? ucFirst(query.group) : 'Рептилии'}</h1>
-                    <h1 className="title_latina">{activeKind.title_eng ? activeKind.title_eng : `${query.group ? `${ucFirst(query.group)} в продаже` : ''}`}</h1>
+                    {
+                        pathname === '/shops'
+                        || pathname === '/shops/[shopName]'
+                        || pathname === '/'
+                        || pathname === '/[group]/[kind]/[id]' ?
+                            <React.Fragment>
+                                <h2 className="h1 title">{activeKind.title_rus  ? activeKind.title_rus : query.group ? ucFirst(query.group) : 'Рептилии'}</h2>
+                                <h2 className="h1 title_latina">{activeKind.title_eng ? activeKind.title_eng : `${query.group ? `${ucFirst(query.group)} в продаже` : ''}`}</h2>
+                            </React.Fragment>
+                            : <React.Fragment>
+                                <h1 className="title">{activeKind.title_rus  ? activeKind.title_rus : query.group ? ucFirst(query.group) : 'Рептилии'}</h1>
+                                <h2 className="title_latina">{activeKind.title_eng ? activeKind.title_eng : `${query.group ? `${ucFirst(query.group)} в продаже` : ''}`}</h2>
+                            </React.Fragment>
+                    }
+
                 </div>
 
                 <Container>
                     <Row className="nav-container flex-column">
                         <Col xs={12} sm={8} md={6} className="select-block mx-auto">
                             <Dropdown
+                                as="nav"
                                 label={
                                     activeKind.title_rus ?
                                         activeKind.title_rus
@@ -180,7 +194,9 @@ class SecondHeader extends Component {
                     </Row>
                 </Container>
 
-                <div className="bg">
+                <div className="bg" style={{
+                    background: "url('https://breeders-zone.s3.us-east-2.amazonaws.com/static/images/header.jpg')"
+                }}>
                     <div className="bg-img">
                         <img src={activeKind.logo_header ? activeKind.logo_header : 'https://breeders-zone.s3.us-east-2.amazonaws.com/static/images/header.jpg'} alt={activeKind.title_rus}/>
                     </div>

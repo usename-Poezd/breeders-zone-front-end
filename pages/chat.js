@@ -6,7 +6,7 @@ import Head from "next/head";
 
 const ChatPage = (props) => {
     return (
-        <Container>
+        <Container as="section">
             <Head>
                 <title>Чат | Breeders Zone</title>
             </Head>

@@ -16,6 +16,7 @@ import documents from "./documents";
 import stats from "./stats/stats";
 import socials from "./socials/socials";
 import currencies from "./currencies/currencies";
+import seo from "./seo/seo";
 const createRootReducer = () => combineReducers({
     currencies,
     socials,
@@ -32,6 +33,7 @@ const createRootReducer = () => combineReducers({
     search,
     countries,
     documents,
+    seo,
     router: routerReducer
 });
 
