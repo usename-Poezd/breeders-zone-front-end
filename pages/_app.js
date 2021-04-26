@@ -198,6 +198,7 @@ class MyApp extends Component {
                 <GetDataProvider value={dataService}>
                     <DefaultSeo
                         {...seo}
+                        canonical={seo.canonical ? seo.canonical : `https://breederszone.com${router.asPath !== '/' ? router.asPath : ''}`.toLowerCase()}
                     />
                     <Head>
                         <meta httpEquiv="origin-trial" content="AmUOTjUx4xBjILn58BdSYRp4w+DXucr7UJxGV/HKVRZLSd6uGn5zEIS/6kIgn8aNFnRwAU6tP7QP309ckntJoQoAAAB6eyJvcmlnaW4iOiJodHRwczovL2JyZWVkZXJzem9uZS5jb206NDQzIiwiZmVhdHVyZSI6IlVucmVzdHJpY3RlZFNoYXJlZEFycmF5QnVmZmVyIiwiZXhwaXJ5IjoxNjMzNDc4Mzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZX0="/>
