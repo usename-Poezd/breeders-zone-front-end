@@ -506,8 +506,8 @@ const ProductSettings = ({
                            values.sex === 'group' &&
                                <Form.Group>
                                    <Form.Label>Укажите количество животных:</Form.Label>
-                                   <div>
-                                       <div className="d-flex align-items-center w-25 mb-2">
+                                   <div className="row flex-column">
+                                       <div className="d-flex align-items-center col-md-4 col mb-2">
                                            <Form.Control
                                                className="mr-2"
                                                id="group_male"
@@ -522,7 +522,7 @@ const ProductSettings = ({
                                            />
                                            <p>{num2str(values.group_male, ['Самец', 'Самца', 'Самцов'])}</p>
                                        </div>
-                                       <div className="d-flex align-items-center w-25">
+                                       <div className="d-flex align-items-center col-md-4 col">
                                            <Form.Control
                                                className="mr-2"
                                                id="group_female"
